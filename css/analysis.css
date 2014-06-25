@@ -1,0 +1,57 @@
+@CHARSET "UTF-8";
+
+.submenu_hr {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background-color: #FFFFFF;
+	border-color: -moz-use-text-color -moz-use-text-color #333333;
+	border-image: none;
+	border-style: none none dashed;
+	border-width: 0 0 1px;
+	clear: both;
+	color: #FFFFFF;
+	padding-top: 10px;
+}
+
+#mesType label {
+	font-size: 12px !important;
+}
+
+#mesType input[type='radio'] {
+	display: none;
+}
+
+#mesType label {
+	cursor: pointer;
+	display: inline-block;
+}
+
+#mesType input[type='radio']:checked+label {
+	color: #399BCC;
+	font-weight: bold;
+	text-decoration: underline;
+	font-size: 12px !important;
+}
+
+.content_title {
+    font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+    font-size: 12px !important;
+    font-weight: bold;
+    padding-left: 3px;
+    color: #FFFFFF;
+}
+
+.methodology {
+	font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+	font-size: 12px;
+}
+
+.methodology.bold {
+	font-weight: bold;
+}
+
+.methodology.link {
+	cursor: pointer;
+}
