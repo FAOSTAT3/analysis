@@ -123,14 +123,14 @@ var GHG_OVERVIEW = (function() {
 
     function updateView() {
         var json = CONFIG.resources_json;
+
         // update views
-        updateWorldBox(json)
+//        updateWorldBox(json)
         updateContinentBox(json)
-        updateRegionBox(json)
+//        updateRegionBox(json)
         updateCountryBox(json)
 
-        updateTableWorld(json)
-
+        updateTableWorld(json, 5)
     }
 
     function updateWorldBox(json) {
@@ -163,20 +163,27 @@ var GHG_OVERVIEW = (function() {
     function updateContinentBox(json) {
         // TODO: get the Continent code
         updateAreasBox(json, "fx_continent", "'5100'")
+
+        /** TODO: the numerber of rows are made by the number of continets *5) **/
+        updateAreasTable(json, "fx_continent_table", "'5100','5200'", 2*5)
     }
 
     function updateRegionBox(json) {
         // TODO: get the Region code
         updateAreasBox(json, "fx_region", "'5101'")
+       // updateAreasTable(json, "fx_region_table", "'5101'", *5)
     }
 
     function updateCountryBox(json) {
         var codes = ""
+        var areacodeCount = 0;
         if (typeof CONFIG.selected_areacodes == "object") {
             for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
                 codes += "'" + CONFIG.selected_areacodes[i] + "'"
                 if (i < CONFIG.selected_areacodes.length - 1)
                     codes += ","
+
+                areacodeCount+=1;
             }
         }
         else
@@ -184,6 +191,7 @@ var GHG_OVERVIEW = (function() {
 
         // Update the Country Box
         updateAreasBox(json, "fx_country", codes)
+        updateAreasTable(json, "fx_country_table",codes, areacodeCount*5)
     }
 
     function updateAreasBox(json, id, areacode) {
@@ -208,7 +216,6 @@ var GHG_OVERVIEW = (function() {
         var chart_obj = obj;
         chart_obj.areacode = areacode
         json_chart =  $.parseJSON(replaceValues(json_chart, chart_obj))
-
 
         createTitle(id + "_total", json_total.sql)
         createChart(id + "_chart", json_chart.sql)
@@ -253,7 +260,7 @@ var GHG_OVERVIEW = (function() {
         });
     }
 
-    function updateTableWorld(json, years) {
+    function updateTableWorld(json, rows) {
         var years = []
         if ( typeof CONFIG.selected_from_year == 'object') {
             years.push(CONFIG.selected_from_year[0])
@@ -284,42 +291,97 @@ var GHG_OVERVIEW = (function() {
        var total_obj = obj;
        json_total = $.parseJSON(replaceValues(json_total, total_obj))
 
-        createTable("fx_table_world", json_total.sql, years)
+        var config = {
+            placeholder : "fx_world_table",
+            title: "World",
+            header: {
+                column_0: "",
+                column_1: "Continent"
+            },
+            content: {
+                column_0: "World"
+            },
+            total: {
+                column_0: "World",
+                column_1: "Grand Total"
+            },
+            rows_content : rows,
+            add_first_column: false
 
+        }
+       createTable(json_total.sql, years, config)
     }
 
-    function createTable(id, sql, years) {
+    function updateAreasTable(json, id, areacode, rows) {
+        var years = []
+        if ( typeof CONFIG.selected_from_year == 'object') {
+            years.push(CONFIG.selected_from_year[0])
+            for ( var i = CONFIG.selected_from_year[0]+1; i <= CONFIG.selected_to_year[0]; i++) {
+                years.push(i)
+            }
+
+        }
+        else{
+            years.push(parseInt(CONFIG.selected_from_year))
+            for ( var i = parseInt(CONFIG.selected_from_year)+1; i <= parseInt(CONFIG.selected_to_year); i++) {
+                years.push(i)
+            }
+        }
+        var obj = {
+            lang : CONFIG.lang,
+            elementcode: "'" + CONFIG.elementcode + "'",
+            itemcode: CONFIG.itemcode,
+            fromyear: CONFIG.selected_from_year,
+            toyear : CONFIG.selected_to_year,
+            domaincode : "'" + CONFIG.domaincode + "'",
+            aggregation : CONFIG.selected_aggregation
+        }
+
+        // Create Title
+        var json_total = json.byarea_table;
+        var total_obj = obj;
+        total_obj.areacode = areacode
+        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+
+        var config = {
+            placeholder : id,
+            title: "World",
+            header: {
+                column_0: "",
+                column_1: "Continent"
+            },
+            content: {
+                column_0: "World"
+            },
+            total: {
+                column_0: "World",
+                column_1: "Grand Total"
+            },
+            rows_content : rows,
+            add_first_column: true
+
+        }
+        createTable(json_total.sql, years, config)
+    }
+
+
+    function createTable(sql, years, config) {
         var data = {};
         data.datasource = CONFIG.datasource;
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
+
+        var table = new F3_GHG_TABLE();
         $.ajax({
             type : 'POST',
             url : CONFIG.baseurl + CONFIG.baseurl_data,
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
-                $("#" + id).empty();
-                var config = {
-                    placeholder : id,
-                    title: "World",
-                    header: {
-                        column_0: "",
-                        column_1: "Continent"
-                    },
-                    content: {
-                        column_0: "World"
-                    },
-                    total: {
-                        column_0: "World",
-                        column_1: "Grand Total"
-                    },
-                    rows_content : 5
-
-                }
-                F3_GHG_TABLE.initWorld(config, years, response)
+                $("#" + config.placeholder).empty();
+                table.init(config, years, response)
             },
             error : function(err, b, c) {}
         });
