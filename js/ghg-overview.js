@@ -36,9 +36,9 @@ var GHG_OVERVIEW = (function() {
         selector_country_list : "fx_country_list",
         selector_from_year_list : "fx_from_year_list",
         selector_to_year_list : "fx_to_year_list"
+
+
     };
-
-
 
     function init(config) {
 
@@ -48,14 +48,31 @@ var GHG_OVERVIEW = (function() {
         // Load interface
         $('#' + CONFIG.placeholder).load(CONFIG.html_structure, function () {
 
+            // Default View
+            var url = CONFIG.prefix + CONFIG.baseurl_resources_ghg_overview;
+            CONFIG.selected_areacodes = CONFIG.default_country;
+            CONFIG.selected_from_year = CONFIG.default_from_year;
+            CONFIG.selected_to_year = CONFIG.default_to_year;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (response) {
+                    CONFIG.resources_json = (typeof response == 'string')? $.parseJSON(response): response;
+                    updateView()
+                },
+                error: function (a, b, c) {}
+            });
+
+            // Populate DropDowns
             var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
-
             populateView(CONFIG.selector_country_list,url_country, CONFIG.default_country, "200px", true, {disable_search_threshold: 10});
             populateView(CONFIG.selector_from_year_list, url_years, CONFIG.default_from_year, "100px", false, {disable_search_threshold: 10});
             populateView(CONFIG.selector_to_year_list, url_years, CONFIG.default_to_year, "100px", false, {disable_search_threshold: 10});
+
         });
     };
+
 
     function populateView(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
         $.ajax({
@@ -91,7 +108,10 @@ var GHG_OVERVIEW = (function() {
                 $('#' + id).html(html);
 
                 $('#' + id).on('change', function() {
-                    getView();
+                    CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
+                    CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
+                    CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
+                    updateView();
                 });
 
                 $('#' + ddID).chosen(chosen_parameters);
@@ -100,33 +120,16 @@ var GHG_OVERVIEW = (function() {
         });
     };
 
-    function getView() {
-        // Get AreaCode
-        var url = CONFIG.prefix + "/" + CONFIG.baseurl_resources_ghg_overview;
-        $.ajax({
-            url: url,
-            type: 'GET',
-            success: function (response) {
-                updateView(response)
-            },
-            error: function (a, b, c) {}
-        });
 
-    };
+    function updateView() {
+        var json = CONFIG.resources_json;
+        // update views
+        updateWorldBox(json)
+        updateContinentBox(json)
+        updateRegionBox(json)
+        updateCountryBox(json)
 
-    function updateView(response) {
-        // Getting the selected values
-        CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
-        CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
-        CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
-
-        response = (typeof data == 'string')? $.parseJSON(response): response;
-
-        // WORLD
-        updateWorldBox(response)
-        updateContinentBox(response)
-        updateRegionBox(response)
-        updateCountryBox(response)
+        updateTableWorld(json)
 
     }
 
@@ -169,11 +172,16 @@ var GHG_OVERVIEW = (function() {
 
     function updateCountryBox(json) {
         var codes = ""
-        for ( var i =0; i < CONFIG.selected_areacodes.length; i++) {
-            codes += "'" + CONFIG.selected_areacodes[i] + "'"
-            if ( i < CONFIG.selected_areacodes.length - 1)
-                codes += ","
+        if (typeof CONFIG.selected_areacodes == "object") {
+            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
+                codes += "'" + CONFIG.selected_areacodes[i] + "'"
+                if (i < CONFIG.selected_areacodes.length - 1)
+                    codes += ","
+            }
         }
+        else
+            codes = CONFIG.selected_areacodes
+
         // Update the Country Box
         updateAreasBox(json, "fx_country", codes)
     }
@@ -240,6 +248,78 @@ var GHG_OVERVIEW = (function() {
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
                 F3_CHART.createPie({ renderTo : id, title: "title"}, response)
+            },
+            error : function(err, b, c) {}
+        });
+    }
+
+    function updateTableWorld(json, years) {
+        var years = []
+        if ( typeof CONFIG.selected_from_year == 'object') {
+            years.push(CONFIG.selected_from_year[0])
+            for ( var i = CONFIG.selected_from_year[0]+1; i <= CONFIG.selected_to_year[0]; i++) {
+                years.push(i)
+            }
+
+        }
+        else{
+            years.push(parseInt(CONFIG.selected_from_year))
+            for ( var i = parseInt(CONFIG.selected_from_year)+1; i <= parseInt(CONFIG.selected_to_year); i++) {
+                years.push(i)
+            }
+        }
+        var obj = {
+            lang : CONFIG.lang,
+            elementcode: "'" + CONFIG.elementcode + "'",
+            itemcode: CONFIG.itemcode,
+            fromyear: CONFIG.selected_from_year,
+            toyear : CONFIG.selected_to_year,
+            domaincode : "'" + CONFIG.domaincode + "'",
+            aggregation : CONFIG.selected_aggregation
+        }
+
+        var json_total = json.world_table;
+        // TODO: Modify the JSON with the right attributes
+
+       var total_obj = obj;
+       json_total = $.parseJSON(replaceValues(json_total, total_obj))
+
+        createTable("fx_table_world", json_total.sql, years)
+
+    }
+
+    function createTable(id, sql, years) {
+        var data = {};
+        data.datasource = CONFIG.datasource;
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = '2';
+        data.json = JSON.stringify(sql);
+        $.ajax({
+            type : 'POST',
+            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            data : data,
+            success : function(response) {
+                response = (typeof data == 'string')? $.parseJSON(response): response;
+                $("#" + id).empty();
+                var config = {
+                    placeholder : id,
+                    title: "World",
+                    header: {
+                        column_0: "",
+                        column_1: "Continent"
+                    },
+                    content: {
+                        column_0: "World"
+                    },
+                    total: {
+                        column_0: "World",
+                        column_1: "Grand Total"
+                    },
+                    rows_content : 5
+
+                }
+                F3_GHG_TABLE.initWorld(config, years, response)
             },
             error : function(err, b, c) {}
         });

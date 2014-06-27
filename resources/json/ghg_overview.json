@@ -4,13 +4,13 @@
 
     "world_total" : {
         "sql" : {
-            "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY E.UnitName{{LANG}} "
+            "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ('1711') AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY E.UnitName{{LANG}} "
         }
     },
 
     "world_chart" : {
         "sql" : {
-            "query" : " SELECT A.AreaName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Area A WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.AreaCode = A.AreaCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY A.AreaName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY A.AreaName{{LANG}}"
+            "query" : " SELECT A.AreaName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Area A WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ('1711') AND D.AreaCode = A.AreaCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY A.AreaName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY A.AreaName{{LANG}}"
         }
     },
 
@@ -24,7 +24,12 @@
         "sql" : {
             "query" : " SELECT I.ItemName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND I.ItemLevel = 5 GROUP BY I.ItemName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}}"
         }
-    }
+    },
 
+    "world_table": {
+        "sql" : {
+            "query" : "SELECT A.AreaName{{LANG}}, D.Year, D.Value FROM Data D, Area A WHERE D.DomainCode = 'GT' AND D.AreaCode IN ('5100', '5200', '5300', '5400', '5500') AND D.ElementCode IN ('7231') AND D.ItemCode IN ('1711') AND D.AreaCode = A.AreaCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}}  ORDER BY A.AreaName{{LANG}} ASC, D.Year ASC"
+        }
+    }
 
 }

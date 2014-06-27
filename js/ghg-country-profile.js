@@ -38,8 +38,6 @@ var GHG_COUNTRY_PROFILE = (function() {
         selector_to_year_list : "fx_to_year_list"
     };
 
-
-
     function init(config) {
 
         // get configuration changes
@@ -57,7 +55,7 @@ var GHG_COUNTRY_PROFILE = (function() {
                 url: url,
                 type: 'GET',
                 success: function (response) {
-                   CONFIG.baseurl_resources_ghg_country_profile_json = (typeof response == 'string')? $.parseJSON(response): response;
+                   CONFIG.resources_json = (typeof response == 'string')? $.parseJSON(response): response;
                    updateView()
                 },
                 error: function (a, b, c) {}
@@ -121,7 +119,7 @@ var GHG_COUNTRY_PROFILE = (function() {
 
 
     function updateView() {
-        var json = CONFIG.baseurl_resources_ghg_country_profile_json;
+        var json = CONFIG.resources_json;
         updateChart(json, "first")
         updateChart(json, "second")
         updateChart(json, "third")
@@ -146,11 +144,17 @@ var GHG_COUNTRY_PROFILE = (function() {
         }
 
         var codes = ""
-        for ( var i =0; i < CONFIG.selected_areacodes.length; i++) {
-            codes += "'" + CONFIG.selected_areacodes[i] + "'"
-            if ( i < CONFIG.selected_areacodes.length - 1)
-                codes += ","
+        console.log(typeof CONFIG.selected_areacodes );
+        if ( typeof CONFIG.selected_areacodes == "object") {
+            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
+                codes += "'" + CONFIG.selected_areacodes[i] + "'"
+                if (i < CONFIG.selected_areacodes.length - 1)
+                    codes += ","
+            }
         }
+        else
+            codes = CONFIG.selected_areacodes;
+
 
         var json_obj = json[id];
         var total_obj = obj;
