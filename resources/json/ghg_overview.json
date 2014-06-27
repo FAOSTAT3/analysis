@@ -1,0 +1,30 @@
+{
+
+    "query_items" : "1711,1709,5066,5067,5058,5059,5060",
+
+    "world_total" : {
+        "sql" : {
+            "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY E.UnitName{{LANG}} "
+        }
+    },
+
+    "world_chart" : {
+        "sql" : {
+            "query" : " SELECT A.AreaName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Area A WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.AreaCode = A.AreaCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY A.AreaName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY A.AreaName{{LANG}}"
+        }
+    },
+
+    "byarea_total" : {
+        "sql" : {
+            "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY E.UnitName{{LANG}} "
+        }
+    },
+
+    "byarea_chart" : {
+        "sql" : {
+            "query" : " SELECT I.ItemName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND I.ItemLevel = 5 GROUP BY I.ItemName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}}"
+        }
+    }
+
+
+}

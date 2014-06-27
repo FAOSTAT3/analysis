@@ -1,30 +1,47 @@
 {
 
-    "query_items" : "1711,1709,5066,5067,5058,5059,5060",
-
-    "world_total" : {
+    "first" : {
+        "title" : {
+            "E" : "<div>Agriculture Total</div>",
+            "F" : "<div>Agriculture Total</div>",
+            "S" : "<div>Agriculture Total</div>"
+        },
         "sql" : {
-            "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY E.UnitName{{LANG}} "
+            "query": "SELECT D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} FROM Data AS D, Element E, Item I, Domain DO WHERE D.DomainCode IN ('GT', 'GE') AND D.DomainCode = DO.DomainCode AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ('7231', '72314') AND D.ItemCode IN ('1711', '1126') AND D.ElementCode = E.ElementCode AND D.ItemCode = I.ItemCode AND D.Year >= {{FROMYEAR}} AND D.Year <= {{TOYEAR}}  GROUP BY D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Year, E.UnitName{{LANG}} "
         }
     },
 
-    "world_chart" : {
+    "second" : {
+        "title" : {
+            "E" : "<div>Enteric Fermentation and Manure Management</div>",
+            "F" : "<div>Enteric Fermentation and Manure Management</div>",
+            "S" : "<div>Enteric Fermentation and Manure Management</div>"
+        },
         "sql" : {
-            "query" : " SELECT A.AreaName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Area A WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.AreaCode = A.AreaCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY A.AreaName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY A.AreaName{{LANG}}"
+            "query": "SELECT D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} FROM Data AS D, Element E, Item I, Domain DO WHERE D.DomainCode IN ('GT', 'GE') AND D.DomainCode = DO.DomainCode AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ('7231', '72314') AND D.ItemCode IN ('1711', '1126') AND D.ElementCode = E.ElementCode AND D.ItemCode = I.ItemCode AND D.Year >= {{FROMYEAR}} AND D.Year <= {{TOYEAR}}  GROUP BY D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Year, E.UnitName{{LANG}} "
         }
     },
 
-    "byarea_total" : {
+    "third" : {
+        "title" : {
+            "E" : "<div>Rice and Agricultural Soild</div>",
+            "F" : "<div>Rice and Agricultural Soild</div>",
+            "S" : "<div>Rice and Agricultural Soild</div>"
+        },
         "sql" : {
-            "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY E.UnitName{{LANG}} "
+            "query": "SELECT D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} FROM Data AS D, Element E, Item I, Domain DO WHERE D.DomainCode IN ('GT', 'GE') AND D.DomainCode = DO.DomainCode AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ('7231', '72314') AND D.ItemCode IN ('1711', '1126') AND D.ElementCode = E.ElementCode AND D.ItemCode = I.ItemCode AND D.Year >= {{FROMYEAR}} AND D.Year <= {{TOYEAR}}  GROUP BY D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Year, E.UnitName{{LANG}} "
         }
     },
 
-    "byarea_chart" : {
+    "fourth" : {
+        "title" : {
+            "E" : "<div>Burning of savanna and Burning of crop residues</div>",
+            "F" : "<div>Burning of savanna and Burning of crop residues</div>",
+            "S" : "<div>Burning of savanna and Burning of crop residues</div>"
+        },
         "sql" : {
-            "query" : " SELECT I.ItemName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND I.ItemLevel = 5 GROUP BY I.ItemName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}}"
+            "query": "SELECT D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} FROM Data AS D, Element E, Item I, Domain DO WHERE D.DomainCode IN ('GT', 'GE') AND D.DomainCode = DO.DomainCode AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ('7231', '72314') AND D.ItemCode IN ('1711', '1126') AND D.ElementCode = E.ElementCode AND D.ItemCode = I.ItemCode AND D.Year >= {{FROMYEAR}} AND D.Year <= {{TOYEAR}}  GROUP BY D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Year, E.UnitName{{LANG}} "
         }
     }
-
 
 }

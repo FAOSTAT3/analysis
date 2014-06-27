@@ -1,0 +1,43 @@
+{
+    "objects" : [
+        {
+            "sqls" : [
+
+                { "sql" : {
+                    "selects" : [
+                        {"aggregation" : "NONE", "column" : "D.Year", "alias" : "Year"},
+                        {"aggregation" : "NONE", "column" : "A.AreaName_$LANG + '-' + I.ItemName_$LANG + '-' + E.ElementListName_$LANG", "alias" : "Area"},
+                        {"aggregation" : "AVG",  "column" : "D.Value", "alias" : "Value"},
+                        {"aggregation" : "NONE", "column" : "E.UnitName_$LANG", "alias" : "Unit"}
+                    ],
+                    "froms" : [
+                        {"column" : "Data", "alias" : "D"},
+                        {"column" : "Area", "alias" : "A"},
+                        {"column" : "Element", "alias" : "E"},
+                        {"column" : "Item", "alias" : "I"}
+                    ],
+                    "wheres" : [
+                        {"datatype" : "DATE", "column" : "D.AreaCode", "operator" : "=", "value" : "A.AreaCode", "ins" : []},
+                        {"datatype" : "DATE", "column" : "D.ItemCode", "operator" : "=", "value" : "I.ItemCode", "ins" : []},
+                        {"datatype" : "DATE", "column" : "D.ElementCode", "operator" : "=", "value" : "E.ElementCode", "ins" : []}
+                    ],
+                    "groupBys" : [
+                        {"column" : "D.Year"},
+                        {"column" : "A.AreaName_$LANG + '-' + I.ItemName_$LANG + '-' + E.ElementListName_$LANG"},
+                        {"column" : "E.UnitName_$LANG"}
+                    ],
+                    "orderBys" : [
+                        {"column" : "A.AreaName_$LANG + '-' + I.ItemName_$LANG + '-' + E.ElementListName_$LANG", "direction" : "ASC"},
+                        {"column" : "D.Year", "direction" : "ASC"}
+                    ],
+                    "limit" : null,
+                    "query" : null,
+                    "frequency" : null
+                }
+                }
+            ],
+            "export_parameters" : {
+            }
+        }
+    ]
+}
