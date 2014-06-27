@@ -125,12 +125,12 @@ var GHG_OVERVIEW = (function() {
         var json = CONFIG.resources_json;
 
         // update views
-//        updateWorldBox(json)
+        updateWorldBox(json)
         updateContinentBox(json)
-//        updateRegionBox(json)
+       updateRegionBox(json)
         updateCountryBox(json)
 
-        updateTableWorld(json, 5)
+        updateTableWorld(json)
     }
 
     function updateWorldBox(json) {
@@ -163,9 +163,7 @@ var GHG_OVERVIEW = (function() {
     function updateContinentBox(json) {
         // TODO: get the Continent code
         updateAreasBox(json, "fx_continent", "'5100'")
-
-        /** TODO: the numerber of rows are made by the number of continets *5) **/
-        updateAreasTable(json, "fx_continent_table", "'5100','5200'", 2*5)
+        updateAreasTable(json, "fx_continent_table", "'5100','5200'")
     }
 
     function updateRegionBox(json) {
@@ -260,7 +258,7 @@ var GHG_OVERVIEW = (function() {
         });
     }
 
-    function updateTableWorld(json, rows) {
+    function updateTableWorld(json) {
         var years = []
         if ( typeof CONFIG.selected_from_year == 'object') {
             years.push(CONFIG.selected_from_year[0])
@@ -305,14 +303,13 @@ var GHG_OVERVIEW = (function() {
                 column_0: "World",
                 column_1: "Grand Total"
             },
-            rows_content : rows,
             add_first_column: false
 
         }
        createTable(json_total.sql, years, config)
     }
 
-    function updateAreasTable(json, id, areacode, rows) {
+    function updateAreasTable(json, id, areacode) {
         var years = []
         if ( typeof CONFIG.selected_from_year == 'object') {
             years.push(CONFIG.selected_from_year[0])
@@ -357,7 +354,6 @@ var GHG_OVERVIEW = (function() {
                 column_0: "World",
                 column_1: "Grand Total"
             },
-            rows_content : rows,
             add_first_column: true
 
         }
