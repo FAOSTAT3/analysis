@@ -181,6 +181,7 @@
 
             }
         }
+        rows++;
         return rows;
     }
 
