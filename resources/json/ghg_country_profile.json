@@ -42,6 +42,53 @@
         "sql" : {
             "query": "SELECT D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} FROM Data AS D, Element E, Item I, Domain DO WHERE D.DomainCode IN ('GT', 'GE') AND D.DomainCode = DO.DomainCode AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ('7231', '72314') AND D.ItemCode IN ('1711', '1126') AND D.ElementCode = E.ElementCode AND D.ItemCode = I.ItemCode AND D.Year >= {{FROMYEAR}} AND D.Year <= {{TOYEAR}}  GROUP BY D.Year, I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Value, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}} + ' (' + DO.DomainName{{LANG}} + ')', D.Year, E.UnitName{{LANG}} "
         }
+    ,
+
+    "table" :
+        [
+            {
+                "unfccc_code": "4",
+                "code": "1171",
+                "label": {
+                    "E" : "Agriculture Total"
+                }
+            },
+            {
+                "unfccc_code": "4.A",
+                "code": "5058",
+                "label": {
+                    "E": "Enteric Fermentation"
+                }
+            },
+            {
+                "unfccc_code": "4.C",
+                "code": "5060",
+                "label": {
+                    "E" : "Rice Cultivation"
+                }
+            },
+            {
+                "unfccc_code": "4.C",
+                "code": "1709",
+                "label": {
+                    "E": "Agricultural Soils"
+                }
+            },
+            {
+                "unfccc_code": "4.E",
+                "code": "5067",
+                "label": {
+                    "E": "Burning - Savanna"
+                }
+            },
+            {
+                "unfccc_code": "4.F",
+                "code": "5066",
+                "label": {
+                    "E": "Burning - Crop residues"
+                }
+            }
+        ]
     }
 
 }

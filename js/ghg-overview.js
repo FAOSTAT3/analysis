@@ -10,7 +10,7 @@ var GHG_OVERVIEW = (function() {
 
         // Values used in the queries
         domaincode: 'GT',
-        itemcode: "'1711','1709','5066','5067','5058','5059','5060'",
+        itemcode: "'1709','5066','5067','5058','5059','5060'",
         elementcode: '7231',
         selected_aggregation : "AVG",
 
@@ -36,8 +36,6 @@ var GHG_OVERVIEW = (function() {
         selector_country_list : "fx_country_list",
         selector_from_year_list : "fx_from_year_list",
         selector_to_year_list : "fx_to_year_list"
-
-
     };
 
     function init(config) {
@@ -66,9 +64,9 @@ var GHG_OVERVIEW = (function() {
             // Populate DropDowns
             var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
-            populateView(CONFIG.selector_country_list,url_country, CONFIG.default_country, "200px", true, {disable_search_threshold: 10});
-            populateView(CONFIG.selector_from_year_list, url_years, CONFIG.default_from_year, "100px", false, {disable_search_threshold: 10});
-            populateView(CONFIG.selector_to_year_list, url_years, CONFIG.default_to_year, "100px", false, {disable_search_threshold: 10});
+            populateView(CONFIG.selector_country_list,url_country, CONFIG.default_country, "100%", true, {disable_search_threshold: 10});
+            populateView(CONFIG.selector_from_year_list, url_years, CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
+            populateView(CONFIG.selector_to_year_list, url_years, CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
 
         });
     };
@@ -127,7 +125,7 @@ var GHG_OVERVIEW = (function() {
         // update views
         updateWorldBox(json)
         updateContinentBox(json)
-       updateRegionBox(json)
+        updateRegionBox(json)
         updateCountryBox(json)
 
         updateTableWorld(json)
@@ -162,14 +160,54 @@ var GHG_OVERVIEW = (function() {
 
     function updateContinentBox(json) {
         // TODO: get the Continent code
-        updateAreasBox(json, "fx_continent", "'5100'")
-        updateAreasTable(json, "fx_continent_table", "'5100','5200'")
+        var code =  "'5400'"
+        updateAreasBox(json, "fx_continent", code)
+
+        var id = "fx_continent_table"
+        var config = {
+            placeholder : id,
+            title: "By Continent",
+            header: {
+                column_0: "Continent",
+                column_1: "Category"
+            },
+            content: {
+                column_0: ""
+            },
+            total: {
+                column_0: "Total",
+                column_1: "Agriculture Total"
+            },
+            add_first_column: true
+        }
+        updateAreasTable(json, code, config)
     }
 
     function updateRegionBox(json) {
         // TODO: get the Region code
-        updateAreasBox(json, "fx_region", "'5101'")
-       // updateAreasTable(json, "fx_region_table", "'5101'", *5)
+        var code =  "'5402'"
+
+        updateAreasBox(json, "fx_region", code)
+
+        var id = "fx_region_table";
+        var config = {
+            placeholder : id,
+            title: "By Region",
+            header: {
+                column_0: "Region",
+                column_1: "Category"
+            },
+            content: {
+                column_0: ""
+            },
+            total: {
+                column_0: "Total",
+                column_1: "Agriculture Total"
+            },
+            add_first_column: true
+        }
+        console.log("Update region");
+        updateAreasTable(json, code, config)
     }
 
     function updateCountryBox(json) {
@@ -189,7 +227,25 @@ var GHG_OVERVIEW = (function() {
 
         // Update the Country Box
         updateAreasBox(json, "fx_country", codes)
-        updateAreasTable(json, "fx_country_table",codes, areacodeCount*5)
+
+        var id = "fx_country_table"
+        var config = {
+            placeholder : id,
+            title: "By Country",
+            header: {
+                column_0: "Country",
+                column_1: "Category"
+            },
+            content: {
+                column_0: ""
+            },
+            total: {
+                column_0: "Total",
+                column_1: "Agriculture Total"
+            },
+            add_first_column: true
+        }
+        updateAreasTable(json, codes, config)
     }
 
     function updateAreasBox(json, id, areacode) {
@@ -304,12 +360,11 @@ var GHG_OVERVIEW = (function() {
                 column_1: "Grand Total"
             },
             add_first_column: false
-
         }
        createTable(json_total.sql, years, config)
     }
 
-    function updateAreasTable(json, id, areacode) {
+    function updateAreasTable(json, areacode, config) {
         var years = []
         if ( typeof CONFIG.selected_from_year == 'object') {
             years.push(CONFIG.selected_from_year[0])
@@ -340,23 +395,6 @@ var GHG_OVERVIEW = (function() {
         total_obj.areacode = areacode
         json_total = $.parseJSON(replaceValues(json_total, total_obj))
 
-        var config = {
-            placeholder : id,
-            title: "World",
-            header: {
-                column_0: "",
-                column_1: "Continent"
-            },
-            content: {
-                column_0: "World"
-            },
-            total: {
-                column_0: "World",
-                column_1: "Grand Total"
-            },
-            add_first_column: true
-
-        }
         createTable(json_total.sql, years, config)
     }
 

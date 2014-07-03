@@ -22,7 +22,7 @@
 
     "byarea_chart" : {
         "sql" : {
-            "query" : " SELECT I.ItemName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND I.ItemLevel = 5 GROUP BY I.ItemName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}}"
+            "query" : " SELECT I.ItemName{{LANG}}, {{AGGREGATION}}(D.Value), E.ElementName{{LANG}}, E.UnitName{{LANG}} FROM Data D, Element E, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} GROUP BY I.ItemName{{LANG}}, E.ElementName{{LANG}}, E.UnitName{{LANG}} ORDER BY I.ItemName{{LANG}}"
         }
     },
 
@@ -34,7 +34,7 @@
 
     "byarea_table": {
         "sql" : {
-            "query" : " SELECT A.AreaName{{LANG}}, I.ItemName{{LANG}}, D.Year, D.Value FROM Data D, Area A, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND A.AreaCode = D.AreaCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND I.ItemLevel = 5 ORDER BY A.AreaName{{LANG}} ASC, I.ItemName{{LANG}} ASC, D.Year ASC"
+            "query" : " SELECT A.AreaName{{LANG}}, I.ItemName{{LANG}}, D.Year, D.Value FROM Data D, Area A, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND A.AreaCode = D.AreaCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} ORDER BY A.AreaName{{LANG}} ASC, I.ItemName{{LANG}} ASC, D.Year ASC"
         }
     }
 
