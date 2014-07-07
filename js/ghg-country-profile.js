@@ -36,6 +36,7 @@ var GHG_COUNTRY_PROFILE = (function() {
         selector_country_list : "fx_country_list",
         selector_from_year_list : "fx_from_year_list",
         selector_to_year_list : "fx_to_year_list"
+
     };
 
     function init(config) {
