@@ -1,7 +1,11 @@
 var GHGEDITOR = (function() {
 
     var CONFIG = {
-        data: null
+        data            :   null,
+        base_url        :   'http://168.202.28.210:8080',
+        url_templates   :   'ghg-editor/html/templates.html',
+        url_procedures  :   'http://localhost:8080/wds/rest/procedures/countries/faostat/GT/E',
+        url_data        :   'http://faostat3.fao.org/wds/rest/table/json'
     };
 
     function init() {
@@ -23,9 +27,9 @@ var GHGEDITOR = (function() {
 
         $.ajax({
 
-            type: 'GET',
-            url: 'http://localhost:8080/wds/rest/procedures/countries/faostat/GT/E',
-            dataType: 'json',
+            type        :   'GET',
+            dataType    :    'json',
+            url         :    GHGEDITOR.CONFIG.url_procedures,
 
             success: function (response) {
 
@@ -58,10 +62,92 @@ var GHGEDITOR = (function() {
 
     };
 
+    function init_country_profile(config) {
+
+        GHGEDITOR.CONFIG = $.extend(true, CONFIG, config);
+
+        /* Initiate tables. */
+        createTable('emissions_db_nc', false, 'Emissions Database - National Communication', 1990, 2012, 'emissions_db_nc');
+        createTable('emissions_db_faostat', false, 'Emissions Database - FAOSTAT', 1990, 2012, 'emissions_db_faostat');
+        createTable('cnd_fs_difference', false, '% Difference (FAOSTAT)', 1990, 2012, 'cnd_fs_difference');
+        createTable('normalised_cnd_fs_difference', false, 'Normalised % difference (FAOSTAT)', 1990, 2012, 'normalised_cnd_fs_difference');
+
+        /* Initiate Chosen. */
+        $('.selector').chosen({
+            disable_search_threshold: 10,
+            allow_single_deselect: true
+        });
+
+        $.ajax({
+
+            type        :   'GET',
+            dataType    :    'json',
+            url         :    GHGEDITOR.CONFIG.url_procedures,
+
+            success: function (response) {
+
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                var s = '<option selected>Please Select a Country...</option>';
+                for (var i = 0 ; i < json.length ; i++)
+                    s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                document.getElementById('country_selector').innerHTML = s;
+                $('#country_selector').trigger('chosen:updated');
+
+            },
+
+            error: function (err, b, c) {
+
+            }
+
+        });
+
+        /* Create charts and load tables on country selection change. */
+        $('#country_selector').on('change', function() {
+            var country_code = $('#country_selector').find(":selected").val();
+            createChartsAndPopulateTable(country_code);
+        });
+
+        /* Load configuration files. */
+        try {
+            document.getElementById('files').addEventListener('change', handlefilescatter, false);
+        } catch (e) {
+
+        }
+
+    };
+
     function createChartsAndPopulateTable(country_code) {
         createCharts(country_code);
         populateTable_EmissionsDatabaseFAOSTAT(country_code);
-        populateTable_EmissionsDatabaseNC(country_code);
+        populateTable_EmissionsDatabaseNC(country_code, updateTables);
+    }
+
+    function updateTables() {
+        setTimeout(function() {
+            $('#emissions_db_nc_right_table tr > th > div').each(function() {
+                var k = $(this).attr('id');
+                try {
+                    var year = k.substring(1 + k.lastIndexOf('_'));
+                    var nc = parseFloat(document.getElementById(k).innerHTML);
+                    var crf_code = k.substring('emissions_db_nc_'.length, k.lastIndexOf('_'));
+                    var faostat = parseFloat(document.getElementById('emissions_db_faostat_' + crf_code + '_' + year).innerHTML);
+                    var perc_diff = ((nc - faostat) / faostat * 100).toFixed(2);
+                    var perc_diff_col = (perc_diff >= 0) ? 'green' : 'red';
+                    document.getElementById('cnd_fs_difference_' + crf_code + '_' + year).innerHTML = perc_diff + '%';
+                    $('#cnd_fs_difference_' + crf_code + '_' + year).css('color', perc_diff_col);
+                    var tot = parseFloat(document.getElementById('emissions_db_faostat_4_' + year).innerHTML);
+                    var norm_diff = ((nc - faostat) / tot * 100).toFixed(2);
+                    var norm_diff_col = (norm_diff >= 0) ? 'green' : 'red';
+                    document.getElementById('normalised_cnd_fs_difference_' + crf_code + '_' + year).innerHTML = norm_diff + '%';
+                    $('#normalised_cnd_fs_difference_' + crf_code + '_' + year).css('color', norm_diff_col);
+                } catch (e) {
+
+                }
+            });
+        }, 1000);
     }
 
     function createCharts(country) {
@@ -288,7 +374,7 @@ var GHGEDITOR = (function() {
     function createTable(render_id, is_editable, title, start_year, end_year, id_prefix, callback) {
 
         /* Load template. */
-        $.get('html/templates.html', function (templates) {
+        $.get(GHGEDITOR.CONFIG.base_url + '/' + GHGEDITOR.CONFIG.url_templates, function (templates) {
 
             /* Create time-range and inputs. */
             var years = [];
@@ -401,7 +487,6 @@ var GHGEDITOR = (function() {
                     var crf = this.id.substring('country_new_data_'.length, this.id.lastIndexOf('_'));
                     var faostat = parseFloat(document.getElementById('emissions_db_faostat_' + crf + '_' + year).innerHTML);
                     var nc = parseFloat(document.getElementById('emissions_db_nc_' + crf + '_' + year).innerHTML);
-                    console.log('faostat: ' + faostat + ', nc: ' + nc);
                     var diff = (100 * (value - faostat) / faostat).toFixed(2);
                     var color = (diff >= 0) ? 'green' : 'red';
                     document.getElementById('cnd_fs_difference_' + crf + '_' + year).innerHTML = diff + '%';
@@ -420,14 +505,13 @@ var GHGEDITOR = (function() {
                     color = (norm >= 0) ? 'green' : 'red';
                     document.getElementById('normalised_cnd_nc_difference_' + crf + '_' + year).innerHTML = norm + '%';
                     $('#normalised_cnd_nc_difference_' + crf + '_' + year).css('color', color);
-
                 }
 
             });
         }
     };
 
-    function populateTable_EmissionsDatabaseNC(country_code) {
+    function populateTable_EmissionsDatabaseNC(country_code, callback) {
         var sql = {
             'query' : 'select * from UNFCCC_Comparison where areacode = ' + country_code
         };
@@ -441,9 +525,9 @@ var GHGEDITOR = (function() {
         data.nowrap = false;
         data.valuesIndex = 0;
         $.ajax({
-            type : 'POST',
-            url : 'http://faostat3.fao.org/wds/rest/table/json',
-            data : data,
+            type    :   'POST',
+            url     :   GHGEDITOR.CONFIG.url_data,
+            data    :   data,
             success : function(response) {
                 var json = response;
                 if (typeof json == 'string')
@@ -456,44 +540,48 @@ var GHGEDITOR = (function() {
 
                     }
                 }
+                callback();
             },
             error : function(err, b, c) { }
         });
     }
 
     function populateTable_EmissionsDatabaseFAOSTAT(country_code) {
-        var p = {};
-        p.datasource = 'faostat';
-        p.domainCode = 'GT';
-        p.lang = 'E';
-        p.nullValues = true;
-        p.thousand = ',';
-        p.decimal = '.';
-        p.decPlaces = 2;
-        p.limit = -1;
-        p['list1Codes'] = ['\'' + country_code + '\''];
-        p['list2Codes'] = ['\'7231\''];
-        p['list3Codes'] = ['\'5058\'', '\'5059\'', '\'5060\'', '\'5066\'', '\'5067\'', '\'1709\'', '\'1711\''];
-        p['list4Codes'] = ['\'1990\'', '\'1991\'', '\'1992\'', '\'1993\'', '\'1994\'', '\'1995\'', '\'1996\'', '\'1997\'', '\'1998\'', '\'1999\'',
-                           '\'2000\'', '\'2001\'', '\'2002\'', '\'2003\'', '\'2004\'', '\'2005\'', '\'2006\'', '\'2007\'', '\'2008\'', '\'2009\'',
-                           '\'2010\'', '\'2011\'', '\'2012\'', '\'2013\'', '\'2014\'', '\'2015\''];
-        p['list5Codes'] = [];
-        p['list6Codes'] = [];
-        p['list7Codes'] = [];
+        var sql = {
+            'query' : "SELECT A.AreaNameE, E.ElementListNameE, I.ItemNameE, I.ItemCode, D.Year, D.value " +
+                      "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                      "WHERE D.DomainCode = 'GT' AND D.AreaCode = '" + country_code + "' " +
+                      "AND D.ElementListCode = '7231' " +
+                      "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
+                      "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                                     "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                     "2010, 2011, 2012) " +
+                      "AND D.AreaCode = A.AreaCode " +
+                      "AND D.ElementListCode = E.ElementListCode " +
+                      "AND D.ItemCode = I.ItemCode " +
+                      "GROUP BY A.AreaNameE, E.ElementListNameE, I.ItemNameE, I.ItemCode, D.Year, D.value"
+        }
         var data = {};
-        data.payload = JSON.stringify(p);
+        data.datasource = 'faostat',
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
         $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/wds/rest/procedures/data',
-            data: data,
-            success: function (response) {
+            type    :   'POST',
+            url     :   GHGEDITOR.CONFIG.url_data,
+            data    :   data,
+            success : function(response) {
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
-                for (var i = 1 ; i < json.length ; i++) {
-                    var item = json[i][8];
-                    var y = json[i][10];
-                    var v = json[i][13];
+                for (var i = 0 ; i < json.length ; i++) {
+                    var item = json[i][3];
+                    var y = json[i][4];
+                    var v = json[i][5];
                     var crf = null;
                     switch (item) {
                         case '1711': crf = '4';  break;
@@ -504,7 +592,6 @@ var GHGEDITOR = (function() {
                         case '5067': crf = '4E'; break;
                         case '5066': crf = '4F'; break;
                     }
-//                    $('#emissions_db_faostat_' + crf + '_' + y).val(parseFloat(v));
                     document.getElementById('emissions_db_faostat_' + crf + '_' + y).innerHTML = v;
                 }
             },
@@ -552,12 +639,13 @@ var GHGEDITOR = (function() {
 
 
     return {
-        CONFIG              :   CONFIG,
-        init                :   init,
-        showHideTable       :   showHideTable,
-        showHideCharts      :   showHideCharts,
-        exportData          :   exportData,
-        handlefilescatter   :   handlefilescatter
+        CONFIG                  :   CONFIG,
+        init                    :   init,
+        showHideTable           :   showHideTable,
+        showHideCharts          :   showHideCharts,
+        exportData              :   exportData,
+        handlefilescatter       :   handlefilescatter,
+        init_country_profile    :   init_country_profile
     };
 
 })();

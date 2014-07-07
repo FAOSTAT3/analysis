@@ -1,38 +1,39 @@
 var GHG_COUNTRY_PROFILE = (function() {
 
     var CONFIG = {
+
         placeholder: 'container_view',
         lang: 'E',
-        prefix: 'http://168.202.28.214:8080/analysis/',
+        prefix: 'http://168.202.28.210:8080/analysis/',
 
-        // DATASOURCE
+        /* DATASOURCE */
         datasource: 'faostat',
 
-        // Values used in the queries
+        /* Values used in the queries */
         domaincode: 'GT',
         itemcode: "'1711','1709','5066','5067','5058','5059','5060'",
         elementcode: '7231',
         selected_aggregation : "AVG",
 
-        // SP URLs
-        baseurl: 'http://faostat3.fao.org',
+        /* SP URLs */
+        baseurl: 'http://168.202.28.210:8080',
         baseurl_data: '/wds/rest/table/json',
         baseurl_countries: '/wds/rest/procedures/countries',
         baseurl_years: '/wds/rest/procedures/years',
 
-        // Structures and Labels
-        html_structure: 'http://168.202.28.214:8080/analysis/ghg-country-profile-structure.html',
-        I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
+        /* Structures and Labels */
+        html_structure: 'http://168.202.28.210:8080/analysis/ghg-country-profile-structure.html',
+        I18N_URL: 'http://168.202.28.210:8080/faostat-gateway/static/faostat/I18N/',
 
-        // Default Values of the comboboxes
+        /* Default Values of the comboboxes */
         default_country : [2],
         default_from_year : [1990],
         default_to_year : [2010],
 
-        // JSON resources
+        /* JSON resources */
         baseurl_resources_ghg_country_profile: '/resources/json/ghg_country_profile.json',
 
-        // selectors IDs
+        /* selectors IDs */
         selector_country_list : "fx_country_list",
         selector_from_year_list : "fx_from_year_list",
         selector_to_year_list : "fx_to_year_list"
@@ -41,33 +42,17 @@ var GHG_COUNTRY_PROFILE = (function() {
 
     function init(config) {
 
-        // get configuration changes
+        /* Get configuration changes */
         CONFIG = $.extend(true, CONFIG, config);
 
-        // Load interface
+        /* Load interface */
         $('#' + CONFIG.placeholder).load(CONFIG.html_structure, function () {
 
-            // Default View
-            var url = CONFIG.prefix + CONFIG.baseurl_resources_ghg_country_profile;
-            CONFIG.selected_areacodes = CONFIG.default_country;
-            CONFIG.selected_from_year = CONFIG.default_from_year;
-            CONFIG.selected_to_year = CONFIG.default_to_year;
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (response) {
-                   CONFIG.resources_json = (typeof response == 'string')? $.parseJSON(response): response;
-                   updateView()
-                },
-                error: function (a, b, c) {}
+            /* Overwrite default settings. */
+            GHGEDITOR.init_country_profile({
+                base_url: 'http://168.202.28.210:8080',
+                url_templates: 'ghg-editor/html/country_profile_templates.html'
             });
-
-            // Populate DropDowns
-            var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
-            var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
-            populateView(CONFIG.selector_country_list,url_country, CONFIG.default_country, "200px", false, {disable_search_threshold: 10});
-            populateView(CONFIG.selector_from_year_list, url_years, CONFIG.default_from_year, "100px", false, {disable_search_threshold: 10});
-            populateView(CONFIG.selector_to_year_list, url_years, CONFIG.default_to_year, "100px", false, {disable_search_threshold: 10});
 
         });
     };
