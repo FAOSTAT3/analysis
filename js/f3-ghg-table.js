@@ -50,7 +50,7 @@
             s += "<th>Code</th>"
             s += "<th>Sector</th>"
             years.forEach(function(y) {
-                console.log( y);
+//                console.log( y);
                 s += "<th>"+ y+" </th>"
             });
             s += "</thead>"
@@ -59,12 +59,12 @@
             // Rows
             s += "<tbody>"
             for( var i=0; i < table.length; i++) {
-                console.log( table[i].code);
+//                console.log( table[i].code);
                 s += "<tr>"
                 s += "<td>"+ table[i].unfccc_code +"</td>"
                 s += "<td>"+ table[i].label +"</td>"
                 years.forEach(function(y) {
-                    console.log( y);
+//                    console.log( y);
                     s += "<td id='" + CONFIG.prefix + "_"+ table[i].code +"_"+ y+"'></td>"
                 });
                 s += "</tr>"
@@ -216,8 +216,8 @@
         }
 
         function addTotals(columnsValues, totalAvg) {
-            console.log(columnsValues);
-            console.log(totalAvg);
+//            console.log(columnsValues);
+//            console.log(totalAvg);
 
             // Add Yearly Totals
             var sum = 0.0

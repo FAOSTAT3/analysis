@@ -66,8 +66,8 @@ var GHG_OVERVIEW = (function() {
             var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             populateView(CONFIG.selector_country_list,url_country, CONFIG.default_country, "100%", true, {disable_search_threshold: 10});
-            populateView(CONFIG.selector_from_year_list, url_years, CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
-            populateView(CONFIG.selector_to_year_list, url_years, CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
+            populateViewYears(CONFIG.selector_from_year_list, 1990, 2012, CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
+            populateViewYears(CONFIG.selector_to_year_list, 1990, 2012, CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
 
         });
     };
@@ -118,6 +118,45 @@ var GHG_OVERVIEW = (function() {
             },
             error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
+    };
+
+    function populateViewYears(id, fromyear, toyear, default_code, dropdown_width, multiselection, chosen_parameters) {
+
+                $('#' + id).empty();
+
+                var ddID = id + "_dd";
+                // TODO: dynamic width
+                var html = '<select ';
+                html += (multiselection)? 'multiple': '';
+                html += ' id="'+ ddID+'" style="width:' + dropdown_width +'"  class="">';
+                for(var i=toyear; i >= fromyear; i--) {
+                    var selected = false;
+                    for (var j = 0; j < default_code.length; j++) {
+                        if (default_code[j] == i) {
+                            // TODO: set default
+                            html += '<option selected="selected" value="' + i + '">' + i + '</option>';
+                            selected = true
+                            break;
+                        }
+                    }
+
+                    if (!selected)
+                        html += '<option value="' + i + '">' + i + '</option>';
+                }
+                html += '</select>';
+
+                // add html
+                $('#' + id).html(html);
+
+                $('#' + id).on('change', function() {
+                    CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
+                    CONFIG.selected_areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected").text()
+                    CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
+                    CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
+                    updateView();
+                });
+
+                $('#' + ddID).chosen(chosen_parameters);
     };
 
 
@@ -230,17 +269,10 @@ var GHG_OVERVIEW = (function() {
                     },
                     add_first_column: true
                 }
-                console.log("Update Contrinet");
-
-                console.log("ARENAMSEL: " + areanames);
                 updateAreasBox(json, id, code, areanames)
                 updateAreasTable(json, code, config)
             },
-            error : function(err, b, c) {
-                console.log(err);
-                console.log(b);
-                console.log(c);
-            }
+            error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
     }
 
@@ -314,15 +346,10 @@ var GHG_OVERVIEW = (function() {
                     },
                     add_first_column: true
                 }
-                console.log("Update region");
                 updateAreasBox(json, id, code, areanames)
                 updateAreasTable(json, code, config)
             },
-            error : function(err, b, c) {
-                console.log(err);
-                console.log(b);
-                console.log(c);
-            }
+            error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
 
 
