@@ -1,3 +1,26 @@
+<style>
+
+.overview_title {
+    font-size:13px;
+    font-weight: bold;
+}
+
+.overview_subtitle {
+    font-size:11px;
+}
+
+.overview_value {
+    font-size:24px;
+    font-weight: bold;
+}
+
+.overview_mu {
+    font-size:10px;
+    font-style: italic;
+}
+
+</style>
+
 <div class="fs-row">
     <div class="fs_column_12">
         <div>OVERVIEW</div>
@@ -22,48 +45,51 @@
 </div>
 
 <div style="clear:both;"></div>
+<div style="margin-top:20px;"></div>
 
 <div class="fs-row">
     <div class="fs_column_6">
         <div id="fx_world_total">
-            <h1>World</h1>
-            <span id="fx_world_total_item">Agriculture total</span>
-            <span id="fx_world_total_value"></span>
-            <span id="fx_world_total_element"></span>
+            <div class="overview_title" >World</div>
+            <div class="overview_subtitle" id="fx_world_total_item">Agriculture total</div>
+            <span class="overview_value" id="fx_world_total_value"></span>
+            <!--<i><span id="fx_world_total_element"></span></i>-->
+            <span class="overview_mu"> Gg CO2eq</span>
         </div>
         <div id="fx_world_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
     </div>
 
     <div class="fs_column_6">
         <div id="fx_continent_total">
-            <h1>Continent</h1>
-            <span id="fx_continent_total_name"></span>
-            <span id="fx_continent_total_value"></span>
-            <span>Gg CO2eq</span>
+            <div class="overview_title">Continent</div>
+            <div class="overview_subtitle" id="fx_continent_total_name"></div>
+            <span class="overview_value" id="fx_continent_total_value"></span>
+            <span class="overview_mu">Gg CO2eq</span>
         </div>
         <div id="fx_continent_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
     </div>
 </div>
 
 <div style="clear:both;"></div>
+<div style="margin-top:10px;"></div>
 
 <div class="fs-row">
     <div class="fs_column_6">
         <div id="fx_region_total">
-            <h1>Region</h1>
-            <span id="fx_region_total_name"></span>
-            <span id="fx_region_total_value"></span>
-            <span>Gg CO2eq</span>
+            <div class="overview_title">Region</div>
+            <div class="overview_subtitle" id="fx_region_total_name"></div>
+            <span class="overview_value" id="fx_region_total_value"></span>
+            <span class="overview_mu">Gg CO2eq</span>
         </div>
         <div id="fx_region_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
     </div>
 
     <div class="fs_column_6">
         <div id="fx_country_total">
-            <h1>Country/Group</h1>
-            <span id="fx_country_total_name">Selected Countries</span>
-            <span id="fx_country_total_value"></span>
-            <span>Gg CO2eq</span>
+            <div class="overview_title">Country/Group</div>
+            <div class="overview_subtitle" id="fx_country_total_name">Selected Countries</div>
+            <span class="overview_value" id="fx_country_total_value"></span>
+            <span class="overview_mu">Gg CO2eq</span>
         </div>
         <div id="fx_country_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
     </div>
@@ -71,6 +97,7 @@
 
 
 <div style="clear:both;"></div>
+<div style="margin-top:20px;"></div>
 
 <div class="fs-row">
     <div class="fs_column_12" id="fx_world_table">
@@ -79,6 +106,8 @@
 </div>
 
 <div style="clear:both;"></div>
+<div style="margin-top:20px;"></div>
+
 
 <div class="fs-row">
     <div class="fs_column_12" id="fx_continent_table">
@@ -87,6 +116,7 @@
 </div>
 
 <div style="clear:both;"></div>
+<div style="margin-top:20px;"></div>
 
 <div class="fs-row">
     <div class="fs_column_12" id="fx_region_table">
@@ -95,6 +125,7 @@
 </div>
 
 <div style="clear:both;"></div>
+<div style="margin-top:20px;"></div>
 
 <div class="fs-row">
     <div class="fs_column_12" id="fx_country_table">
@@ -102,5 +133,6 @@
     </div>
 </div>
 
-
 <div style="clear:both;"></div>
+<div style="margin-top:20px;"></div>
+
