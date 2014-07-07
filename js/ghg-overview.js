@@ -35,7 +35,8 @@ var GHG_OVERVIEW = (function() {
         // selectors IDs
         selector_country_list : "fx_country_list",
         selector_from_year_list : "fx_from_year_list",
-        selector_to_year_list : "fx_to_year_list"
+        selector_to_year_list : "fx_to_year_list",
+        decimal_values : 0
     };
 
     function init(config) {
@@ -405,7 +406,8 @@ var GHG_OVERVIEW = (function() {
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
                 $("#" + id + "_element").html(response[0][0])
-                $("#" + id + "_value").html(response[0][1])
+                var value = Number(parseFloat(response[0][1]).toFixed(CONFIG.decimal_values));
+                $("#" + id + "_value").html(value)
             },
             error : function(err, b, c) {}
         });
