@@ -36,7 +36,18 @@
         "sql" : {
             "query" : " SELECT A.AreaName{{LANG}}, I.ItemName{{LANG}}, D.Year, D.Value FROM Data D, Area A, Item I WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode = I.ItemCode AND A.AreaCode = D.AreaCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} ORDER BY A.AreaName{{LANG}} ASC, I.ItemName{{LANG}} ASC, D.Year ASC"
         }
+    },
+
+    "query_regions" : {
+        "sql" : {
+            "query" : " SELECT A.AreaGroupCode AS Code, A.AreaGroupName{{LANG}} AS Name FROM DomainAreaGroupArea AS A WHERE A.DomainCode = {{DOMAINCODE}} AND A.AreaCode IN ({{AREACODE}}) AND A.AreaGroupCode NOT IN ('5000') AND A.AreaGroupCode IN ('5100', '5200', '5300', '5400', '5500') GROUP BY A.AreaGroupCode, A.AreaGroupName{{LANG}} ORDER BY A.AreaGroupName{{LANG}} ASC "         }
+    },
+
+    "query_sub_regions" : {
+        "sql" : {
+            "query" : " SELECT A.AreaGroupCode AS Code, A.AreaGroupName{{LANG}} AS Name FROM DomainAreaGroupArea AS A WHERE A.DomainCode = {{DOMAINCODE}} AND A.AreaCode IN ({{AREACODE}}) AND A.AreaGroupCode NOT IN ('5000','5100', '5200', '5300', '5400', '5500') AND ( A.AreaGroupCode LIKE '51%' OR A.AreaGroupCode LIKE '52%' OR A.AreaGroupCode LIKE '53%' OR A.AreaGroupCode LIKE '54%' OR A.AreaGroupCode LIKE '55%' ) GROUP BY A.AreaGroupCode, A.AreaGroupName{{LANG}} ORDER BY A.AreaGroupName{{LANG}} ASC " }
     }
+
 
 
 }

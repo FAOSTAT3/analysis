@@ -107,6 +107,7 @@ var GHG_OVERVIEW = (function() {
 
                 $('#' + id).on('change', function() {
                     CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
+                    CONFIG.selected_areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected").text()
                     CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
                     CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
                     updateView();
@@ -125,7 +126,7 @@ var GHG_OVERVIEW = (function() {
         // update views
         updateWorldBox(json)
         updateContinentBox(json)
-        updateRegionBox(json)
+        updateSubRegionBox(json)
         updateCountryBox(json)
 
         updateTableWorld(json)
@@ -159,78 +160,190 @@ var GHG_OVERVIEW = (function() {
     }
 
     function updateContinentBox(json) {
-        // TODO: get the Continent code
-        var code =  "'5400'"
-        updateAreasBox(json, "fx_continent", code)
-
-        var id = "fx_continent_table"
-        var config = {
-            placeholder : id,
-            title: "By Continent",
-            header: {
-                column_0: "Continent",
-                column_1: "Category"
-            },
-            content: {
-                column_0: ""
-            },
-            total: {
-                column_0: "Total",
-                column_1: "Agriculture Total"
-            },
-            add_first_column: true
+        var obj = {
+            lang : CONFIG.lang,
+            elementcode: "'" + CONFIG.elementcode + "'",
+            itemcode: CONFIG.itemcode,
+            fromyear: CONFIG.selected_from_year,
+            toyear : CONFIG.selected_to_year,
+            domaincode : "'" + CONFIG.domaincode + "'",
+            aggregation : CONFIG.selected_aggregation
         }
-        updateAreasTable(json, code, config)
-    }
 
-    function updateRegionBox(json) {
-        // TODO: get the Region code
-        var code =  "'5402'"
-
-        updateAreasBox(json, "fx_region", code)
-
-        var id = "fx_region_table";
-        var config = {
-            placeholder : id,
-            title: "By Region",
-            header: {
-                column_0: "Region",
-                column_1: "Category"
-            },
-            content: {
-                column_0: ""
-            },
-            total: {
-                column_0: "Total",
-                column_1: "Agriculture Total"
-            },
-            add_first_column: true
-        }
-        console.log("Update region");
-        updateAreasTable(json, code, config)
-    }
-
-    function updateCountryBox(json) {
+        // Getting Area Codes
         var codes = ""
-        var areacodeCount = 0;
         if (typeof CONFIG.selected_areacodes == "object") {
             for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
                 codes += "'" + CONFIG.selected_areacodes[i] + "'"
                 if (i < CONFIG.selected_areacodes.length - 1)
                     codes += ","
-
-                areacodeCount+=1;
             }
         }
         else
             codes = CONFIG.selected_areacodes
 
-        // Update the Country Box
-        updateAreasBox(json, "fx_country", codes)
+        // Replacing Query Object
+        var json_total = json.query_regions;
+        var total_obj = obj;
+        total_obj.areacode = codes
+        json_total = $.parseJSON(replaceValues(json_total, total_obj))
 
-        var id = "fx_country_table"
+        var data = {};
+        data.datasource = CONFIG.datasource;
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = '2';
+        data.json = JSON.stringify(json_total.sql);
+        $.ajax({
+            type : 'POST',
+            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            data : data,
+            success : function(response) {
+                response = (typeof data == 'string')? $.parseJSON(response): response;
+                var code = ""
+                var areanames = ""
+                for ( var i=0; i < response.length; i++) {
+                    code += "'"+ response[i][0] +"'"
+                    areanames += response[i][1]
+                    if ( i < response.length -1) {
+                        code += ","
+                        areanames += ", "
+                    }
+                }
+
+                var id = "fx_continent";
+                var id_table = "fx_continent_table";
+                var config = {
+                    placeholder : id_table,
+                    title: "By Continent",
+                    header: {
+                        column_0: "Region",
+                        column_1: "Category"
+                    },
+                    content: {
+                        column_0: ""
+                    },
+                    total: {
+                        column_0: "Total",
+                        column_1: "Agriculture Total"
+                    },
+                    add_first_column: true
+                }
+                console.log("Update Contrinet");
+
+                console.log("ARENAMSEL: " + areanames);
+                updateAreasBox(json, id, code, areanames)
+                updateAreasTable(json, code, config)
+            },
+            error : function(err, b, c) {
+                console.log(err);
+                console.log(b);
+                console.log(c);
+            }
+        });
+    }
+
+    function updateSubRegionBox(json) {
+        var obj = {
+            lang : CONFIG.lang,
+            elementcode: "'" + CONFIG.elementcode + "'",
+            itemcode: CONFIG.itemcode,
+            fromyear: CONFIG.selected_from_year,
+            toyear : CONFIG.selected_to_year,
+            domaincode : "'" + CONFIG.domaincode + "'",
+            aggregation : CONFIG.selected_aggregation
+        }
+
+        // Getting Area Codes
+        var codes = ""
+        if (typeof CONFIG.selected_areacodes == "object") {
+            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
+                codes += "'" + CONFIG.selected_areacodes[i] + "'"
+                if (i < CONFIG.selected_areacodes.length - 1)
+                    codes += ","
+            }
+        }
+        else
+            codes = CONFIG.selected_areacodes
+
+        // Replacing Query Object
+        var json_total = json.query_sub_regions;
+        var total_obj = obj;
+        total_obj.areacode = codes
+        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+
+        var data = {};
+        data.datasource = CONFIG.datasource;
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = '2';
+        data.json = JSON.stringify(json_total.sql);
+        $.ajax({
+            type : 'POST',
+            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            data : data,
+            success : function(response) {
+                response = (typeof data == 'string')? $.parseJSON(response): response;
+                var code = ""
+                var areanames = ""
+                for ( var i=0; i < response.length; i++) {
+                    code += "'"+ response[i][0] +"'"
+                    areanames += response[i][1]
+                    if ( i < response.length -1) {
+                        code += ","
+                        areanames += ", "
+                    }
+                }
+
+                var id = "fx_region";
+                var id_table = id + "_table";
+                var config = {
+                    placeholder : id_table,
+                    title: "By Region",
+                    header: {
+                        column_0: "Region",
+                        column_1: "Category"
+                    },
+                    content: {
+                        column_0: ""
+                    },
+                    total: {
+                        column_0: "Total",
+                        column_1: "Agriculture Total"
+                    },
+                    add_first_column: true
+                }
+                console.log("Update region");
+                updateAreasBox(json, id, code, areanames)
+                updateAreasTable(json, code, config)
+            },
+            error : function(err, b, c) {
+                console.log(err);
+                console.log(b);
+                console.log(c);
+            }
+        });
+
+
+
+    }
+
+    function updateCountryBox(json) {
+        var codes = ""
+        if (typeof CONFIG.selected_areacodes == "object") {
+            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
+                codes += "'" + CONFIG.selected_areacodes[i] + "'"
+                if (i < CONFIG.selected_areacodes.length - 1)
+                    codes += ","
+            }
+        }
+        else
+            codes = CONFIG.selected_areacodes
+
+        var id = "fx_country"
+        var id_table = id + "_table"
         var config = {
-            placeholder : id,
+            placeholder : id_table,
             title: "By Country",
             header: {
                 column_0: "Country",
@@ -245,10 +358,13 @@ var GHG_OVERVIEW = (function() {
             },
             add_first_column: true
         }
+        updateAreasBox(json, id, codes, CONFIG.selected_areanames)
         updateAreasTable(json, codes, config)
     }
 
-    function updateAreasBox(json, id, areacode) {
+    function updateAreasBox(json, id, areacode, areanames) {
+        $("#" + id + "_total_name").html(areanames)
+
         var obj = {
             lang : CONFIG.lang,
             elementcode: "'" + CONFIG.elementcode + "'",
