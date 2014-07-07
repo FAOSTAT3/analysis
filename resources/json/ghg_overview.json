@@ -48,5 +48,4 @@
             "query" : " SELECT A.AreaGroupCode AS Code, A.AreaGroupName{{LANG}} AS Name FROM DomainAreaGroupArea AS A WHERE A.DomainCode = {{DOMAINCODE}} AND A.AreaCode IN ({{AREACODE}}) AND A.AreaGroupCode NOT IN ('5000','5100', '5200', '5300', '5400', '5500') AND ( A.AreaGroupCode LIKE '51%' OR A.AreaGroupCode LIKE '52%' OR A.AreaGroupCode LIKE '53%' OR A.AreaGroupCode LIKE '54%' OR A.AreaGroupCode LIKE '55%' ) GROUP BY A.AreaGroupCode, A.AreaGroupName{{LANG}} ORDER BY A.AreaGroupName{{LANG}} ASC " }
     }
 
-
 }

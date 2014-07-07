@@ -363,6 +363,7 @@ var GHG_OVERVIEW = (function() {
         updateAreasTable(json, codes, config)
     }
 
+
     function updateAreasBox(json, id, areacode, areanames) {
         if ( areanames )
             $("#" + id + "_total_name").html(areanames)
