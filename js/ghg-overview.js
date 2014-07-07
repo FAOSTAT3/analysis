@@ -359,7 +359,6 @@ var GHG_OVERVIEW = (function() {
             },
             add_first_column: true
         }
-
         updateAreasBox(json, id, codes, null)
         updateAreasTable(json, codes, config)
     }
