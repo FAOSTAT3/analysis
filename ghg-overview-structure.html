@@ -19,13 +19,22 @@
     font-style: italic;
 }
 
-</style>
+.overview_chart_title {
+    font-size: 24px;
+    font-weight: bold;
+}
 
-<div style="clear:both;"></div>
+
+.overview_show_table {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+</style>
 
 <div style="margin-top:20px;"></div>
 
-<div class="fs-row">
+<div class="fs_row">
     <div class="fs_column_6">
         <div>Select a Country</div>
         <div style="margin-top:5px;"></div>
@@ -43,10 +52,9 @@
     </div>
 </div>
 
-<div style="clear:both;"></div>
 <div style="margin-top:30px;"></div>
 
-<div class="fs-row">
+<div class="fs_row">
     <div class="fs_column_6">
         <div id="fx_world_total">
             <div class="overview_title" >World</div>
@@ -69,10 +77,7 @@
     </div>
 </div>
 
-<div style="clear:both;"></div>
-
-
-<div class="fs-row">
+<div class="fs_row">
     <div class="fs_column_12">
         <div style="margin-top:10px;"></div>
         <hr class="standard-hr">
@@ -81,7 +86,7 @@
 </div>
 
 
-<div class="fs-row">
+<div class="fs_row">
     <div class="fs_column_6">
         <div id="fx_region_total">
             <div class="overview_title">Region</div>
@@ -104,43 +109,87 @@
 </div>
 
 
+<div class="fs_row">
+    <div class="fs_column_6">
+        <div class="overview_chart_title">Agriculture Total (Countries/Regions)</div>
+        <div style="margin-top: 10px; height: 350px;" id="fx_agriculture_total_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+    </div>
+
+    <div class="fs_column_6">
+        <div class="overview_chart_title">Countries/Regions (SUM)</div>
+        <div style="margin-top: 10px; height: 350px;" id="fx_second_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+    </div>
+</div>
+
+
+<div class="fs_row">
+    <div class="fs_column_6">
+        <div class="overview_chart_title">Countries/Regions (SUM)</div>
+        <div style="margin-top: 10px; height: 350px;" id="fx_third_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+    </div>
+
+    <div class="fs_column_6">
+        <div class="overview_chart_title">Countries/Regions (SUM)</div>
+        <div style="margin-top: 10px; height: 350px;" id="fx_fourth_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+    </div>
+</div>
+
+
 <div style="clear:both;"></div>
 <div style="margin-top:20px;"></div>
 
-<div class="fs-row">
-    <div class="fs_column_12" id="fx_world_table">
-        <i class='fa fa-refresh fa-spin fa-5x'></i>
+<div class="fs_row">
+    <div class="fs_column_12">
+        <div id="fs-overview-tables-button" class="overview_show_table">Show/Hide Table Breakdown ></div>
     </div>
 </div>
 
 <div style="clear:both;"></div>
 <div style="margin-top:20px;"></div>
 
-
-<div class="fs-row">
-    <div class="fs_column_12" id="fx_continent_table">
-        <i class='fa fa-refresh fa-spin fa-5x'></i>
+<div id="fs-overview-tables">
+    <div class="fs_row">
+        <div class="fs_column_12" id="fx_world_table">
+            <i class='fa fa-refresh fa-spin fa-5x'></i>
+        </div>
     </div>
+
+    <div style="clear:both;"></div>
+    <div style="margin-top:20px;"></div>
+
+
+    <div class="fs_row">
+        <div class="fs_column_12" id="fx_continent_table">
+            <i class='fa fa-refresh fa-spin fa-5x'></i>
+        </div>
+    </div>
+
+    <div style="clear:both;"></div>
+    <div style="margin-top:20px;"></div>
+
+    <div class="fs_row">
+        <div class="fs_column_12" id="fx_region_table">
+            <i class='fa fa-refresh fa-spin fa-5x'></i>
+        </div>
+    </div>
+
+    <div style="clear:both;"></div>
+    <div style="margin-top:20px;"></div>
+
+    <div class="fs_row">
+        <div class="fs_column_12" id="fx_country_table">
+            <i class='fa fa-refresh fa-spin fa-5x'></i>
+        </div>
+    </div>
+
+    <div style="clear:both;"></div>
+    <div style="margin-top:30px;"></div>
 </div>
 
-<div style="clear:both;"></div>
-<div style="margin-top:20px;"></div>
-
-<div class="fs-row">
-    <div class="fs_column_12" id="fx_region_table">
-        <i class='fa fa-refresh fa-spin fa-5x'></i>
-    </div>
-</div>
-
-<div style="clear:both;"></div>
-<div style="margin-top:20px;"></div>
-
-<div class="fs-row">
-    <div class="fs_column_12" id="fx_country_table">
-        <i class='fa fa-refresh fa-spin fa-5x'></i>
-    </div>
-</div>
-
-<div style="clear:both;"></div>
-<div style="margin-top:30px;"></div>
+<script>
+    $('#fs-overview-tables').hide();
+    $('#fs-overview-tables-button').click(function() {
+        $('#fs-overview-tables').toggle();
+    });
+</script>
 

@@ -66,9 +66,8 @@ var GHG_OVERVIEW = (function() {
             var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             populateView(CONFIG.selector_country_list,url_country, CONFIG.default_country, "100%", true, {disable_search_threshold: 10});
-            populateViewYears(CONFIG.selector_from_year_list, 1990, 2012, CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
-            populateViewYears(CONFIG.selector_to_year_list, 1990, 2012, CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
-
+            populateViewYears(CONFIG.selector_from_year_list, 1990, 2010, CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
+            populateViewYears(CONFIG.selector_to_year_list, 1990, 2010, CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
         });
     };
 
@@ -108,13 +107,16 @@ var GHG_OVERVIEW = (function() {
 
                 $('#' + id).on('change', function() {
                     CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
-                    CONFIG.selected_areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected").text()
                     CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
                     CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
                     updateView();
                 });
 
                 $('#' + ddID).chosen(chosen_parameters);
+
+                /** update countries list **/
+                updateCountryListNames()
+
             },
             error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
@@ -150,7 +152,7 @@ var GHG_OVERVIEW = (function() {
 
                 $('#' + id).on('change', function() {
                     CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
-                    CONFIG.selected_areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected").text()
+                    CONFIG.selected_areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected")
                     CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
                     CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
                     updateView();
@@ -170,6 +172,11 @@ var GHG_OVERVIEW = (function() {
         updateCountryBox(json)
 
         updateTableWorld(json)
+
+        updateChartsByCountries(json);
+
+        // this changes the div with the names of the countries
+        updateCountryListNames();
     }
 
     function updateWorldBox(json) {
@@ -200,27 +207,10 @@ var GHG_OVERVIEW = (function() {
     }
 
     function updateContinentBox(json) {
-        var obj = {
-            lang : CONFIG.lang,
-            elementcode: "'" + CONFIG.elementcode + "'",
-            itemcode: CONFIG.itemcode,
-            fromyear: CONFIG.selected_from_year,
-            toyear : CONFIG.selected_to_year,
-            domaincode : "'" + CONFIG.domaincode + "'",
-            aggregation : CONFIG.selected_aggregation
-        }
+        var obj = getconfugirationObject()
 
         // Getting Area Codes
-        var codes = ""
-        if (typeof CONFIG.selected_areacodes == "object") {
-            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
-                codes += "'" + CONFIG.selected_areacodes[i] + "'"
-                if (i < CONFIG.selected_areacodes.length - 1)
-                    codes += ","
-            }
-        }
-        else
-            codes = CONFIG.selected_areacodes
+        var codes = getQueryAreaCodes()
 
         // Replacing Query Object
         var json_total = json.query_regions;
@@ -277,27 +267,10 @@ var GHG_OVERVIEW = (function() {
     }
 
     function updateSubRegionBox(json) {
-        var obj = {
-            lang : CONFIG.lang,
-            elementcode: "'" + CONFIG.elementcode + "'",
-            itemcode: CONFIG.itemcode,
-            fromyear: CONFIG.selected_from_year,
-            toyear : CONFIG.selected_to_year,
-            domaincode : "'" + CONFIG.domaincode + "'",
-            aggregation : CONFIG.selected_aggregation
-        }
+        var obj = getconfugirationObject();
 
         // Getting Area Codes
-        var codes = ""
-        if (typeof CONFIG.selected_areacodes == "object") {
-            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
-                codes += "'" + CONFIG.selected_areacodes[i] + "'"
-                if (i < CONFIG.selected_areacodes.length - 1)
-                    codes += ","
-            }
-        }
-        else
-            codes = CONFIG.selected_areacodes
+        var codes = getQueryAreaCodes()
 
         // Replacing Query Object
         var json_total = json.query_sub_regions;
@@ -348,25 +321,58 @@ var GHG_OVERVIEW = (function() {
                 }
                 updateAreasBox(json, id, code, areanames)
                 updateAreasTable(json, code, config)
+
+                updateTimeserieAgricultureTotal(json, code)
             },
             error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
-
-
-
     }
 
-    function updateCountryBox(json) {
-        var codes = ""
-        if (typeof CONFIG.selected_areacodes == "object") {
-            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
-                codes += "'" + CONFIG.selected_areacodes[i] + "'"
-                if (i < CONFIG.selected_areacodes.length - 1)
-                    codes += ","
+    function updateChartsByCountries(json) {
+        var obj = getconfugirationObject();
+        var areacodes = getQueryAreaCodes();
+
+        // Create Second Chart
+        var json_total = json.byitem_chart
+        var total_obj = obj;
+        total_obj.areacode = areacodes
+        total_obj.itemcode = "'5058', '5059'"
+        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        createChart("fx_second_chart", json_total.sql, 'timeserie')
+
+        var json_total = json.byitem_chart
+        var total_obj = obj;
+        total_obj.areacode = areacodes
+        total_obj.itemcode = "'1709', '5060'"
+        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        createChart("fx_third_chart", json_total.sql, 'timeserie')
+
+        var json_total = json.byitem_chart
+        var total_obj = obj;
+        total_obj.areacode = areacodes
+        total_obj.itemcode = "'5066', '5067'"
+        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        createChart("fx_fourth_chart", json_total.sql, 'timeserie')
+    }
+
+    /** TODO: not hardcoded **/
+    function updateCountryListNames() {
+        var areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected")
+        var label = ""
+        if ( typeof areanames == "object") {
+            for (var i = 0; i < areanames.length; i++) {
+                label +=  areanames[i].text
+                if (i < areanames.length - 1)
+                    label += ", "
             }
         }
         else
-            codes = CONFIG.selected_areacodes
+            label = CONFIG.selected_areacodes;
+        $('#fx_country_total_name').html(label)
+    }
+
+    function updateCountryBox(json) {
+        var codes = getQueryAreaCodes()
 
         var id = "fx_country"
         var id_table = id + "_table"
@@ -395,15 +401,7 @@ var GHG_OVERVIEW = (function() {
         if ( areanames )
             $("#" + id + "_total_name").html(areanames)
 
-        var obj = {
-            lang : CONFIG.lang,
-            elementcode: "'" + CONFIG.elementcode + "'",
-            itemcode: CONFIG.itemcode,
-            fromyear: CONFIG.selected_from_year,
-            toyear : CONFIG.selected_to_year,
-            domaincode : "'" + CONFIG.domaincode + "'",
-            aggregation : CONFIG.selected_aggregation
-        }
+        var obj = getconfugirationObject();
 
         // Create Title
         var json_total = json.byarea_total;
@@ -419,6 +417,20 @@ var GHG_OVERVIEW = (function() {
 
         createTitle(id + "_total", json_total.sql)
         createChart(id + "_chart", json_chart.sql)
+    }
+
+    function updateTimeserieAgricultureTotal(json, regions) {
+        var obj = getconfugirationObject();
+        var areacodes = getQueryAreaCodes();
+
+        var areas_query = areacodes + ',' + regions;
+
+        // Create Title
+        var json_total = json.agriculture_total_chart
+        var total_obj = obj;
+        total_obj.areacode = areas_query
+        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+       createChart("fx_agriculture_total_chart", json_total.sql, 'timeserie')
     }
 
     function createTitle(id, sql) {
@@ -442,20 +454,30 @@ var GHG_OVERVIEW = (function() {
         });
     }
 
-    function createChart(id, sql) {
+    function createChart(id, sql, type) {
         var data = {};
         data.datasource = CONFIG.datasource;
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
+        console.log(JSON.stringify(sql));
         $.ajax({
             type : 'POST',
             url : CONFIG.baseurl + CONFIG.baseurl_data,
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
-                F3_CHART.createPie({ renderTo : id, title: "title"}, response)
+                switch(type) {
+                    case "pie" :  F3_CHART.createPie({ renderTo : id, title: "title"}, response); break;
+                    case "timeserie" :
+                        // FIX for the chart engine
+                        var chart = []
+                        chart.push(response)
+                        F3_CHART.createTimeserie({ renderTo : id, title: "title"}, 'line', chart); break;
+                    default: F3_CHART.createPie({ renderTo : id, title: "title"}, response); break;
+                }
+
             },
             error : function(err, b, c) {}
         });
@@ -476,15 +498,7 @@ var GHG_OVERVIEW = (function() {
                 years.push(i)
             }
         }
-        var obj = {
-            lang : CONFIG.lang,
-            elementcode: "'" + CONFIG.elementcode + "'",
-            itemcode: CONFIG.itemcode,
-            fromyear: CONFIG.selected_from_year,
-            toyear : CONFIG.selected_to_year,
-            domaincode : "'" + CONFIG.domaincode + "'",
-            aggregation : CONFIG.selected_aggregation
-        }
+        var obj = getconfugirationObject();
 
         var json_total = json.world_table;
         // TODO: Modify the JSON with the right attributes
@@ -526,15 +540,7 @@ var GHG_OVERVIEW = (function() {
                 years.push(i)
             }
         }
-        var obj = {
-            lang : CONFIG.lang,
-            elementcode: "'" + CONFIG.elementcode + "'",
-            itemcode: CONFIG.itemcode,
-            fromyear: CONFIG.selected_from_year,
-            toyear : CONFIG.selected_to_year,
-            domaincode : "'" + CONFIG.domaincode + "'",
-            aggregation : CONFIG.selected_aggregation
-        }
+        var obj = getconfugirationObject();
 
         // Create Title
         var json_total = json.byarea_table;
@@ -566,6 +572,47 @@ var GHG_OVERVIEW = (function() {
             },
             error : function(err, b, c) {}
         });
+    }
+
+    function createTimeserieAgricultureTotal(json) {
+        var obj = getconfugirationObject();
+        var codes = getQueryAreaCodes();
+
+
+        var json_obj = json[id];
+        var total_obj = obj;
+        total_obj.areacode = codes
+        json_obj = $.parseJSON(replaceValues(json_obj, total_obj))
+
+        $('#' + id + "_title").html(json_obj.title[CONFIG.lang.toUpperCase()]);
+        createChart(id + "_chart", json_obj.sql)
+    }
+
+    function getconfugirationObject() {
+        var obj = {
+            lang : CONFIG.lang.toUpperCase(),
+            elementcode: "'" + CONFIG.elementcode + "'",
+            itemcode: CONFIG.itemcode,
+            fromyear: CONFIG.selected_from_year,
+            toyear : CONFIG.selected_to_year,
+            domaincode : "'" + CONFIG.domaincode + "'",
+            aggregation : CONFIG.selected_aggregation
+        }
+        return obj;
+    }
+
+    function getQueryAreaCodes() {
+        var codes = ""
+        if ( typeof CONFIG.selected_areacodes == "object") {
+            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
+                codes += "'" + CONFIG.selected_areacodes[i] + "'"
+                if (i < CONFIG.selected_areacodes.length - 1)
+                    codes += ","
+            }
+        }
+        else
+            codes = CONFIG.selected_areacodes;
+        return codes;
     }
 
     function replaceValues(response, obj) {

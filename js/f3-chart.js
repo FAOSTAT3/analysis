@@ -42,6 +42,7 @@ var F3_CHART = (function() {
      * @param s series
      */
     function createTimeserie(chart, type, s) {
+        s = (typeof s == 'string')? $.parseJSON(s): s;
 
         var data = [];
         for (var i=0; i < s.length; i++) {
@@ -49,14 +50,13 @@ var F3_CHART = (function() {
             if (typeof s[i] == 'string')    {
                 obj = $.parseJSON(s[i]);
             }
-            //var obj = jQuery.parseJSON(s[i]);
             for (var j=0; j < obj.length; j++) {
                 data.push(obj[j]);
             }
         }
         if ( data.length <=0 ) {
             // no series found.
-            FAOSTATCompareUIUtils.noValuesFoundPanel( chart.renderTo)
+            //FAOSTATCompareUIUtils.noValuesFoundPanel( chart.renderTo)
         }
         else {
             var series = [];
@@ -81,7 +81,6 @@ var F3_CHART = (function() {
 
             /** Create a vector for each indicator */
             for (var i = 0 ; i < data.length ; i++) {
-               // console.log("data[i][1]: " + data[i][1] + " " + ind);
                 if (data[i][1] == ind) {
                     count++;
                     vectors[ind].dates.push(data[i][0]);
@@ -106,19 +105,12 @@ var F3_CHART = (function() {
                 }
             }
             check.push(count);
-//                console.log("END DATA");
-//                console.log("count: " + count);
-//                console.log("maxLengthIND: " + maxLengthIND);
-//                console.log("---- VECTORS ----");
-//                console.log(vectors);
 
             /** Collect all the years */
             var y = new Hashtable();
             var yearsList = [];
-            for(key in vectors) {
-//                    console.log(key);
+            for(var key in vectors) {
                 for (var i = 0 ; i < vectors[key].dates.length ; i++) {
-//                        console.log(vectors[key]);
                     // if the year still is not in the hashmap, add it
                     if (y.get(vectors[key].dates[i]) == null ) {
                         y.put(vectors[key].dates[i], vectors[key].dates[i]);
@@ -136,9 +128,6 @@ var F3_CHART = (function() {
 
             // check if it's just one year (X-axis), in that case force to bar chart (if it's not column/bar)
             if ( years.length <= 1 && type != 'bar' && type != 'column') {
-//                $("#" + chart.renderTo + "_area").hide();
-//                $("#" + chart.renderTo + "_line").hide();
-//                $("#" + chart.renderTo + "_spline").hide();
                 type = 'column';
             }
 
@@ -150,8 +139,6 @@ var F3_CHART = (function() {
 
             $.each(vectors, function(k, v) {
                 var s = {};
-                // s.name = k;
-                // s.name = CompareUtils.replaceAll(k, '_', '<br>');
                 s.name = k;
                 s.type = type;
                 s.yAxis = $.inArray(vectors[k].mus[0], mus);
@@ -168,10 +155,6 @@ var F3_CHART = (function() {
                 }
                 series.push(s);
             });
-
-            /*
-             console.log("---- SERIES ----");
-             console.log(series);*/
 
             /** Create a Y-Axis for each measurement unit */
             for (var i = 0 ; i < mus.length ; i++) {
@@ -211,7 +194,6 @@ var F3_CHART = (function() {
                 console.log(e);
             }
         }
-
     }
 
     return {
