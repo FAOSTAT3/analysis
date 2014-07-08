@@ -51,7 +51,7 @@ var GHG_COUNTRY_PROFILE = (function() {
             /* Overwrite default settings. */
             GHGEDITOR.init_country_profile({
                 base_url: 'http://168.202.28.210:8080',
-                url_templates: 'ghg-editor/html/country_profile_templates.html'
+                url_templates: 'analysis/html/country_profile_templates.html'
             });
 
         });

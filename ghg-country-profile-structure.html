@@ -1,66 +1,48 @@
-<div class='container'>
+<div class='container-fluid'>
 
     <!-- Page title. -->
     <div class='row'>
         <div class='page-header'>
-            <h1>
-                <i class='fa fa-info-circle'></i> GHG Editor
+            <h1 style='margin-left: 20px;'>
+                <i class='fa fa-info-circle' style='font-size: 35px;'></i> GHG Editor
             </h1>
         </div>
     </div>
 
     <!-- Country selector. -->
-    <div class='row' style='margin-top: -15px;'>
-        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+    <div class='row' style='margin-top: -15px; margin-left: -10px;'>
+        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
             <div class='ghg_editor_title'>
                 Select a Country
             </div>
         </div>
-        <!--<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>-->
-            <!--<div class='ghg_editor_title'>-->
-                <!--Download Data-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>-->
-            <!--<div class='ghg_editor_title'>-->
-                <!--Upload Data-->
-            <!--</div>-->
-        <!--</div>-->
     </div>
-    <div class='row'>
+    <div class='row' style='margin-left: -10px; margin-top: 4px;'>
         <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
             <select id='country_selector' style='width: 100%;' id='country-list' data-placeholder='Please select a source...' class='selector'>
 
             </select>
         </div>
-        <!--<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>-->
-            <!--<button style='width: 100%;' class='btn btn-default' onclick='GHGEDITOR.exportData();'>-->
-                <!--<i class='fa fa-download'></i> Download-->
-            <!--</button>-->
-        <!--</div>-->
-        <!--<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>-->
-            <!--<input style='width: 100%;' class='form-control' type='file' id='files' name='files[]' name='file_source'>-->
-        <!--</div>-->
     </div>
 
     <!-- Charts. -->
     <div class='row'>
         <div class='page-header'>
-            <h1>
+            <h1 style='margin-left: 20px;'>
                 <a name='charts' style='cursor: pointer;' onclick='GHGEDITOR.showHideCharts();'>
-                    <i id='charts_collapse_button' class='fa fa-compress fa-border'></i>
+                    <i id='charts_collapse_button' class='fa fa-compress fa-border' style='font-size: 35px;'></i>
                 </a>
-                Charts <i class='fa fa-refresh fa-spin'></i>
+                Charts
             </h1>
         </div>
     </div>
-    <div class='row'>
+    <div class='row' style='margin-left: -22px;'>
         <div id='charts_container'>
             <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
                 <div style='width: 100%;' id='chart_1'>
                 </div>
             </div>
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6' style='margin-left: -10px;'>
                 <div style='width: 100%;' id='chart_2'>
                 </div>
             </div>
@@ -68,7 +50,7 @@
                 <div style='width: 100%;' id='chart_3'>
                 </div>
             </div>
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6' style='margin-left: -10px;'>
                 <div style='width: 100%;' id='chart_4'>
                 </div>
             </div>
@@ -78,28 +60,28 @@
     <!-- Emissions Database - National Communication -->
     <div class='row'>
         <div id='emissions_db_nc'>
-            <i class='fa fa-refresh fa-spin fa-5x'></i>
+
         </div>
     </div>
 
     <!-- Emissions Database - FAOSTAT -->
     <div class='row'>
         <div id='emissions_db_faostat'>
-            <i class='fa fa-refresh fa-spin fa-5x'></i>
+
         </div>
     </div>
 
     <!-- % Difference (CountryNewData - FAOSTAT) / FAOSTAT -->
     <div class='row'>
         <div id='cnd_fs_difference'>
-            <i class='fa fa-refresh fa-spin fa-5x'></i>
+
         </div>
     </div>
 
     <!-- Normalised % difference (CountryNewData - FAOSTAT) / FAOSTAT -->
     <div class='row'>
         <div id='normalised_cnd_fs_difference'>
-            <i class='fa fa-refresh fa-spin fa-5x'></i>
+
         </div>
     </div>
 
