@@ -77,9 +77,11 @@ var F3_ANALYSIS = (function() {
 
         switch(view) {
             case 'ghg-overview':
+                $("#" + CONFIG.placeholder_tiles).hide();
                 GHG_OVERVIEW.init(view_config);
                 break;
             case 'ghg-country-profile':
+                $("#" + CONFIG.placeholder_tiles).hide();
                 GHG_COUNTRY_PROFILE.init(view_config)
                 break;;
         }
