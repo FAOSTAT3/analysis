@@ -127,22 +127,24 @@ var GHGEDITOR = (function() {
 
     function updateTables() {
         setTimeout(function() {
-            $('#emissions_db_nc_right_table tr > th > div').each(function() {
+            $('#emissions_db_faostat_right_table tr > th > div').each(function() {
                 var k = $(this).attr('id');
                 try {
                     var year = k.substring(1 + k.lastIndexOf('_'));
-                    var nc = parseFloat(document.getElementById(k).innerHTML);
-                    var crf_code = k.substring('emissions_db_nc_'.length, k.lastIndexOf('_'));
+                    var crf_code = k.substring('emissions_db_faostat_'.length, k.lastIndexOf('_'));
                     var faostat = parseFloat(document.getElementById('emissions_db_faostat_' + crf_code + '_' + year).innerHTML);
-                    var perc_diff = ((nc - faostat) / faostat * 100).toFixed(2);
-                    var perc_diff_col = (perc_diff >= 0) ? 'green' : 'red';
-                    document.getElementById('cnd_fs_difference_' + crf_code + '_' + year).innerHTML = perc_diff + '%';
-                    $('#cnd_fs_difference_' + crf_code + '_' + year).css('color', perc_diff_col);
-                    var tot = parseFloat(document.getElementById('emissions_db_faostat_4_' + year).innerHTML);
-                    var norm_diff = ((nc - faostat) / tot * 100).toFixed(2);
-                    var norm_diff_col = (norm_diff >= 0) ? 'green' : 'red';
-                    document.getElementById('normalised_cnd_fs_difference_' + crf_code + '_' + year).innerHTML = norm_diff + '%';
-                    $('#normalised_cnd_fs_difference_' + crf_code + '_' + year).css('color', norm_diff_col);
+                    var nc = parseFloat(document.getElementById('emissions_db_nc_' + crf_code + '_' + year).innerHTML);
+                    if (!isNaN(faostat) && !isNaN(nc)) {
+                        var perc_diff = ((nc - faostat) / faostat * 100).toFixed(2);
+                        var perc_diff_col = (perc_diff >= 0) ? 'green' : 'red';
+                        document.getElementById('cnd_fs_difference_' + crf_code + '_' + year).innerHTML = perc_diff + '%';
+                        $('#cnd_fs_difference_' + crf_code + '_' + year).css('color', perc_diff_col);
+                        var tot = parseFloat(document.getElementById('emissions_db_faostat_4_' + year).innerHTML);
+                        var norm_diff = ((nc - faostat) / tot * 100).toFixed(2);
+                        var norm_diff_col = (norm_diff >= 0) ? 'green' : 'red';
+                        document.getElementById('normalised_cnd_fs_difference_' + crf_code + '_' + year).innerHTML = norm_diff + '%';
+                        $('#normalised_cnd_fs_difference_' + crf_code + '_' + year).css('color', norm_diff_col);
+                    }
                 } catch (e) {
 
                 }
@@ -489,7 +491,7 @@ var GHGEDITOR = (function() {
                     var nc = parseFloat(document.getElementById('emissions_db_nc_' + crf + '_' + year).innerHTML);
                     var diff = (100 * (value - faostat) / faostat).toFixed(2);
                     var color = (diff >= 0) ? 'green' : 'red';
-                    document.getElementById('cnd_fs_difference_' + crf + '_' + year).innerHTML = diff + '%';
+                    document.getElementById('cnd_fs_difference_' + crf + '_' + year).innerHTML = isNaN(diff) ? '' : diff + '%';
                     $('#cnd_fs_difference_' + crf + '_' + year).css('color', color);
                     var tot = parseFloat(document.getElementById('emissions_db_faostat_4_' + year).innerHTML);
                     var norm = (100 * (value - faostat) / tot).toFixed(2);
@@ -513,7 +515,7 @@ var GHGEDITOR = (function() {
 
     function populateTable_EmissionsDatabaseNC(country_code, callback) {
         var sql = {
-            'query' : 'select * from UNFCCC_Comparison where areacode = ' + country_code
+            'query' : 'select code, year, gunfvalue from UNFCCC_Comparison where areacode = ' + country_code
         };
         var data = {};
         data.datasource = 'faostat',
@@ -533,9 +535,10 @@ var GHGEDITOR = (function() {
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
                 for (var i = 0 ; i < json.length ; i++) {
-                    var id = 'emissions_db_nc_' + json[i][3].replace('.', '') + '_' + json[i][2];
+                    var id = 'emissions_db_nc_' + json[i][0].replace('.', '') + '_' + json[i][1];
                     try {
-                        document.getElementById(id).innerHTML = json[i][6];
+
+                        document.getElementById(id).innerHTML = (json[i].length > 2) ? json[i][2] : '';
                     } catch (e) {
 
                     }
