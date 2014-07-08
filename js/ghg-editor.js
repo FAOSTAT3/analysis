@@ -161,7 +161,16 @@ var GHGEDITOR = (function() {
                 domain: 'GT',
                 country: country,
                 item: '1711',
-                element: '7231'
+                element: '7231',
+                datasource: 'faostat'
+            },
+            {
+                name: 'Agricultural Total (NC)',
+                domain: 'GT',
+                country: country,
+                item: '4',
+                element: null,
+                datasource: 'nc'
             }
         ];
         createChart('chart_1', 'Agricultural Total', series_1);
@@ -173,14 +182,32 @@ var GHGEDITOR = (function() {
                 domain: 'GT',
                 country: country,
                 item: '5058',
-                element: '7231'
+                element: '7231',
+                datasource: 'faostat'
             },
             {
                 name: 'Manure Management (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5059',
-                element: '7231'
+                element: '7231',
+                datasource: 'faostat'
+            },
+            {
+                name: 'Enteric Fermentation (NC)',
+                domain: 'GT',
+                country: country,
+                item: '4.A',
+                element: null,
+                datasource: 'nc'
+            },
+            {
+                name: 'Manure Management (NC)',
+                domain: 'GT',
+                country: country,
+                item: '4.B',
+                element: null,
+                datasource: 'nc'
             }
         ];
         createChart('chart_2', 'Enteric Fermentation and Manure Management', series_2);
@@ -192,36 +219,77 @@ var GHGEDITOR = (function() {
                 domain: 'GT',
                 country: country,
                 item: '5060',
-                element: '7231'
+                element: '7231',
+                datasource: 'faostat'
             },
+            {
+                name: 'Rice Cultivation (NC)',
+                domain: 'GT',
+                country: country,
+                item: '4.C',
+                element: null,
+                datasource: 'nc'
+            }
+        ];
+        createChart('chart_3', 'Rice Cultivation', series_3);
+
+        /* Chart 4 Definition. */
+        var series_4 = [
             {
                 name: 'Agricultural Soils (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '1709',
-                element: '7231'
+                element: '7231',
+                datasource: 'faostat'
+            },
+            {
+                name: 'Agricultural Soils (NC)',
+                domain: 'GT',
+                country: country,
+                item: '4.D',
+                element: null,
+                datasource: 'nc'
             }
         ];
-        createChart('chart_3', 'Rice Cultivation and Agricultural Soils', series_3);
+        createChart('chart_4', 'Agricultural Soils', series_4);
 
-        /* Chart 4 Definition. */
-        var series_4 = [
+        /* Chart 5 Definition. */
+        var series_5 = [
             {
                 name: 'Burning of Savanna (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5067',
-                element: '7231'
+                element: '7231',
+                datasource: 'faostat'
             },
             {
                 name: 'Burning of Crop Residues (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5066',
-                element: '7231'
+                element: '7231',
+                datasource: 'faostat'
+            },
+            {
+                name: 'Burning of Savanna (NC)',
+                domain: 'GT',
+                country: country,
+                item: '4.E',
+                element: null,
+                datasource: 'faostat'
+            },
+            {
+                name: 'Burning of Crop Residues (NC)',
+                domain: 'GT',
+                country: country,
+                item: '4.F',
+                element: null,
+                datasource: 'faostat'
             }
         ];
-        createChart('chart_4', 'Burning of Savanna and Burning of Crop Residues', series_4);
+        createChart('chart_5', 'Burning of Savanna and Burning of Crop Residues', series_5);
 
     };
 
@@ -233,17 +301,13 @@ var GHGEDITOR = (function() {
                     load: function() {
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
-                            plotSeries(chart_series, series[i].domain, series[i].country, series[i].item, series[i].element);
+                            plotSeries(chart_series, series[i].datasource, series[i].domain, series[i].country, series[i].item, series[i].element);
                         }
                     }
                 }
             },
             title: {
                 text: title,
-                x: -20
-            },
-            subtitle: {
-                text: 'Source: FAOSTAT',
                 x: -20
             },
             xAxis: {
@@ -278,60 +342,90 @@ var GHGEDITOR = (function() {
             p.series[i].name = series[i].name;
         }
         $('#' + chart_id).highcharts(p);
-        var chart = $('#' + chart_id).highcharts();
-        for (var i = 0 ; i < series.length ; i++) {
-            chart.addSeries({
-                name: chart.series[i].name.replace('(FAOSTAT)', '(User Data)')
-            });
-        }
+//        var chart = $('#' + chart_id).highcharts();
+//        for (var i = 0 ; i < series.length ; i++) {
+//            chart.addSeries({
+//                name: chart.series[i].name.replace('(FAOSTAT)', '(User Data)')
+//            });
+//        }
     };
 
     /* Query DB and prepare the payload for the charts. */
-    function plotSeries(series, domain_code, country, item, element) {
-        var p = {};
-        p.datasource = 'faostat';
-        p.domainCode = domain_code;
-        p.lang = 'E';
-        p.nullValues = true;
-        p.thousand = '.';
-        p.decimal = ',';
-        p.decPlaces = 2;
-        p.limit = -1;
-        p['list1Codes'] = ['\'' + country + '\''];
-        p['list3Codes'] = ['\'' + item + '\''];
-        p['list2Codes'] = ['\'' + element + '\''];
-        p['list4Codes'] = ['\'1990\'', '\'1991\'', '\'1992\'', '\'1993\'', '\'1994\'', '\'1995\'', '\'1996\'', '\'1997\'', '\'1998\'', '\'1999\'',
-                           '\'2000\'', '\'2001\'', '\'2002\'', '\'2003\'', '\'2004\'', '\'2005\'', '\'2006\'', '\'2007\'', '\'2008\'', '\'2009\'',
-                           '\'2010\'', '\'2011\'', '\'2012\'', '\'2013\'', '\'2014\'', '\'2015\''];
-        p['list5Codes'] = [];
-        p['list6Codes'] = [];
-        p['list7Codes'] = [];
+    function plotSeries(series, datasource, domain_code, country, item, element) {
+        var sql = {};
+        switch (datasource) {
+            case 'faostat':
+                sql['query'] = "SELECT A.AreaNameE, E.ElementListNameE, I.ItemNameE, I.ItemCode, D.Year, D.value " +
+                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                               "WHERE D.DomainCode = '" + domain_code + "' AND D.AreaCode = '" + country + "' " +
+                               "AND D.ElementListCode = '" + element + "' " +
+                               "AND D.ItemCode IN ('" + item + "') " +
+                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                                              "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                              "2010, 2011, 2012) " +
+                               "AND D.AreaCode = A.AreaCode " +
+                               "AND D.ElementListCode = E.ElementListCode " +
+                               "AND D.ItemCode = I.ItemCode " +
+                               "GROUP BY A.AreaNameE, E.ElementListNameE, I.ItemNameE, I.ItemCode, D.Year, D.value";
+                break;
+            case 'nc':
+                    sql['query'] = "SELECT year, GUNFValue FROM UNFCCC_Comparison WHERE areacode = " + country + " AND code = '" + item + "' ";
+                break;
+        }
         var data = {};
-        data.payload = JSON.stringify(p);
+        data.datasource = 'faostat',
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
         $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/wds/rest/procedures/data',
-            data: data,
+            type    :   'POST',
+            url     :   GHGEDITOR.CONFIG.url_data,
+            data    :   data,
             success: function (response) {
-                var json = response;
-                if (typeof json == 'string')
-                    json = $.parseJSON(response);
-                var data = [];
-                for (var i = json.length - 1 ; i >= 0 ; i--) {
-                    var tmp = [];
-                    tmp.push(Date.UTC(parseInt(json[i][10])));
-                    tmp.push(parseFloat(json[i][13]));
-                    data.push(tmp);
-                }
-                series.setData(data);
+                prepare_chart_data(series, response, datasource);
             },
             error: function (e, b, c) {
-                console.log(e);
-                console.log(b);
-                console.log(c);
+//                console.log(e);
+//                console.log(b);
+//                console.log(c);
             }
         });
     };
+
+    function prepare_chart_data(series, db_data, datasource) {
+        var json = db_data;
+        if (typeof json == 'string')
+            json = $.parseJSON(db_data);
+        var data = [];
+        switch (datasource) {
+            case 'faostat':
+                for (var i = json.length - 1 ; i >= 0 ; i--) {
+                    var tmp = [];
+                    tmp.push(Date.UTC(parseInt(json[i][4])));
+                    tmp.push(parseFloat(json[i][5]));
+                    data.push(tmp);
+                }
+                break;
+            case 'nc':
+                for (var i = json.length - 1 ; i >= 0 ; i--) {
+                    var tmp = [];
+                    if (json[i].length > 1) {
+                        tmp.push(Date.UTC(parseInt(json[i][0])));
+                        tmp.push(parseFloat(json[i][1]));
+                    } else {
+                        tmp.push(Date.UTC(parseInt(json[i][0])));
+                        tmp.push(null);
+                    }
+                    data.push(tmp);
+                }
+                break;
+        }
+        series.setData(data);
+    }
 
     /* Show or hide a section. */
     function showHideTable(left_table_id, right_table_id, label_id) {
