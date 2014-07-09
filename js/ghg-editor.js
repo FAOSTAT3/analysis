@@ -73,6 +73,7 @@ var GHGEDITOR = (function() {
                 document.getElementById(ids[i]).innerHTML = $.i18n.prop(ids[i]);
             } catch (e) {
 
+
             }
         }
     }
