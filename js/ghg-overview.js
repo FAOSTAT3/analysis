@@ -529,7 +529,7 @@ var GHG_OVERVIEW = (function() {
 
         var config = {
             placeholder : "fx_world_table",
-            title: "World",
+            title: $.i18n.prop('_world'),
             header: {
                 column_0: "",
                 column_1: $.i18n.prop('_continent')
