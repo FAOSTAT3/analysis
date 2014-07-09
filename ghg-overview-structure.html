@@ -140,14 +140,19 @@
 
 <div class="fs_row">
     <div class="fs_column_12">
-        <div id="fs-overview-tables-button" class="overview_show_table">Show/Hide Table Breakdown ></div>
+        <div style='cursor: pointer;'>
+        <a onclick='GHG_OVERVIEW.showHideTables();'>
+            <i class='fa fa-compress fa-border' style='font-size: 35px;'></i>
+        </a>
+            <span onclick='GHG_OVERVIEW.showHideTables();' class='overview_chart_title' id="fs-overview-tables-button"></span>
+        </div>
     </div>
 </div>
 
 <div style="clear:both;"></div>
 <div style="margin-top:20px;"></div>
 
-<div id="fs-overview-tables">
+<div id="fs-overview-tables" style="display:none">
     <div class="fs_row">
         <div class="fs_column_12" id="fx_world_table">
             <i class='fa fa-refresh fa-spin fa-5x'></i>
@@ -185,11 +190,4 @@
     <div style="clear:both;"></div>
     <div style="margin-top:30px;"></div>
 </div>
-
-<script>
-    $('#fs-overview-tables').hide();
-    $('#fs-overview-tables-button').click(function() {
-        $('#fs-overview-tables').toggle();
-    });
-</script>
 

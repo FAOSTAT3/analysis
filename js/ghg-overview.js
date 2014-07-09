@@ -89,6 +89,9 @@ var GHG_OVERVIEW = (function() {
         $("#fx_world_total_item").html($.i18n.prop('_agriculture_total'));
     }
 
+    function showHideTables() {
+        $('#fs-overview-tables').toggle();
+    }
 
     function populateView(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
         $.ajax({
@@ -656,7 +659,8 @@ var GHG_OVERVIEW = (function() {
     }
 
     return {
-        init: init
+        init: init,
+        showHideTables: showHideTables
     };
 
 })();
