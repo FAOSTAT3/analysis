@@ -36,17 +36,17 @@
 
 <div class="fs_row">
     <div class="fs_column_6">
-        <div>Select a Country</div>
+        <div id="fs_label_area"></div>
         <div style="margin-top:5px;"></div>
         <div id="fx_country_list"></div>
     </div>
     <div class="fs_column_3" >
-        <div>From Year</div>
+        <div id="fs_label_fromyear"></div>
         <div style="margin-top:5px;"></div>
         <div id="fx_from_year_list"></div>
     </div>
     <div class="fs_column_3">
-        <div>To Year</div>
+        <div id="fs_label_toyear"></div>
         <div style="margin-top:5px;"></div>
         <div id="fx_to_year_list"></div>
     </div>
@@ -57,8 +57,8 @@
 <div class="fs_row">
     <div class="fs_column_6">
         <div id="fx_world_total">
-            <div class="overview_title" >World</div>
-            <div class="overview_subtitle" id="fx_world_total_item">Agriculture total</div>
+            <div id="fs_label_world" class="overview_title" >World</div>
+            <div class="overview_subtitle" id="fx_world_total_item"></div>
             <span class="overview_value" id="fx_world_total_value"></span>
             <!--<i><span id="fx_world_total_element"></span></i>-->
             <span class="overview_mu"> Gg CO2eq</span>
@@ -68,7 +68,7 @@
 
     <div class="fs_column_6">
         <div id="fx_continent_total">
-            <div class="overview_title">Continent</div>
+            <div class="overview_title"  id="fs_label_continent"></div>
             <div class="overview_subtitle" id="fx_continent_total_name"></div>
             <span class="overview_value" id="fx_continent_total_value"></span>
             <span class="overview_mu">Gg CO2eq</span>
@@ -89,7 +89,7 @@
 <div class="fs_row">
     <div class="fs_column_6">
         <div id="fx_region_total">
-            <div class="overview_title">Region</div>
+            <div class="overview_title" id="fs_label_region"></div>
             <div class="overview_subtitle" id="fx_region_total_name"></div>
             <span class="overview_value" id="fx_region_total_value"></span>
             <span class="overview_mu">Gg CO2eq</span>
@@ -99,8 +99,8 @@
 
     <div class="fs_column_6">
         <div id="fx_country_total">
-            <div class="overview_title">Country/Group</div>
-            <div class="overview_subtitle" id="fx_country_total_name">Selected Countries</div>
+            <div class="overview_title" id="fs_label_country"></div>
+            <div class="overview_subtitle" id="fx_country_total_name"></div>
             <span class="overview_value" id="fx_country_total_value"></span>
             <span class="overview_mu">Gg CO2eq</span>
         </div>

@@ -105,7 +105,7 @@
                 s += "<th>" + CONFIG.header.column_0 + "</th>"
             s += "<th>" + CONFIG.header.column_1 + "</th>"
             // Average
-            s += "<th>Average " + years[0] + "-" + years[years.length-1] + "</th>"
+            s += "<th>" + $.i18n.prop('_avg') + " "+ years[0] + "-" + years[years.length-1] + "</th>"
             years.forEach(function(y) {
                 s += "<th>" + y + "</th>"
             });

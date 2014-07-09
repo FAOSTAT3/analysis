@@ -47,6 +47,9 @@ var GHG_OVERVIEW = (function() {
         // Load interface
         $('#' + CONFIG.placeholder).load(CONFIG.html_structure, function () {
 
+            // Multilanguage
+            loadLabels()
+
             // Default View
             var url = CONFIG.prefix + CONFIG.baseurl_resources_ghg_overview;
             CONFIG.selected_areacodes = CONFIG.default_country;
@@ -62,6 +65,8 @@ var GHG_OVERVIEW = (function() {
                 error: function (a, b, c) {}
             });
 
+
+
             // Populate DropDowns
             var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
@@ -70,6 +75,19 @@ var GHG_OVERVIEW = (function() {
             populateViewYears(CONFIG.selector_to_year_list, 1990, 2010, CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
         });
     };
+
+    function loadLabels() {
+        $("#fs_label_area").html($.i18n.prop('_area'));
+        $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
+        $("#fs_label_toyear").html($.i18n.prop('_toyear'));
+        $("#fs_label_world").html($.i18n.prop('_world'));
+        $("#fs_label_continent").html($.i18n.prop('_continents'));
+        $("#fs_label_region").html($.i18n.prop('_regions'));
+        $("#fs_label_agriculture_total").html($.i18n.prop('_agriculture_total'));
+        $("#fs_label_country").html($.i18n.prop('_countries'));
+        $("#fs-overview-tables-button").html($.i18n.prop('_show_hide_table_breakdown'));
+        $("#fx_world_total_item").html($.i18n.prop('_agriculture_total'));
+    }
 
 
     function populateView(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
@@ -245,17 +263,17 @@ var GHG_OVERVIEW = (function() {
                 var id_table = "fx_continent_table";
                 var config = {
                     placeholder : id_table,
-                    title: "By Continent",
+                    title: $.i18n.prop('_by_continent'),
                     header: {
-                        column_0: "Region",
-                        column_1: "Category"
+                        column_0: $.i18n.prop('_region'),
+                        column_1: $.i18n.prop('_category')
                     },
                     content: {
                         column_0: ""
                     },
                     total: {
-                        column_0: "Total",
-                        column_1: "Agriculture Total"
+                        column_0: $.i18n.prop('_total'),
+                        column_1:  $.i18n.prop('_agriculture_total')
                     },
                     add_first_column: true
                 }
@@ -307,15 +325,15 @@ var GHG_OVERVIEW = (function() {
                     placeholder : id_table,
                     title: "By Region",
                     header: {
-                        column_0: "Region",
-                        column_1: "Category"
+                        column_0: $.i18n.prop('_region'),
+                        column_1: $.i18n.prop('_category')
                     },
                     content: {
                         column_0: ""
                     },
                     total: {
-                        column_0: "Total",
-                        column_1: "Agriculture Total"
+                        column_0:$.i18n.prop('_total'),
+                        column_1: $.i18n.prop('_agriculture_total')
                     },
                     add_first_column: true
                 }
@@ -378,17 +396,17 @@ var GHG_OVERVIEW = (function() {
         var id_table = id + "_table"
         var config = {
             placeholder : id_table,
-            title: "By Country",
+            title: $.i18n.prop('_by_country'),
             header: {
-                column_0: "Country",
-                column_1: "Category"
+                column_0: $.i18n.prop('_country'),
+                column_1: $.i18n.prop('_category')
             },
             content: {
                 column_0: ""
             },
             total: {
-                column_0: "Total",
-                column_1: "Agriculture Total"
+                column_0:$.i18n.prop('_total'),
+                column_1: $.i18n.prop('_agriculture_total')
             },
             add_first_column: true
         }
@@ -511,14 +529,14 @@ var GHG_OVERVIEW = (function() {
             title: "World",
             header: {
                 column_0: "",
-                column_1: "Continent"
+                column_1: $.i18n.prop('_continent')
             },
             content: {
-                column_0: "World"
+                column_0: $.i18n.prop('_world')
             },
             total: {
-                column_0: "World",
-                column_1: "Grand Total"
+                column_0: $.i18n.prop('_world'),
+                column_1: $.i18n.prop('_grand_total')
             },
             add_first_column: false
         }

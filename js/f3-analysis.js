@@ -36,7 +36,6 @@ var F3_ANALYSIS = (function() {
         /* Store user preferences. */
         CONFIG = $.extend(true, CONFIG, config);
 
-
         /**
          * Read and store settings for web-services
          */
