@@ -106,7 +106,7 @@ var GHGEDITOR = (function() {
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
 
-                var s = '<option selected>Please Select a Country...</option>';
+                var s = '<option selected>' + $.i18n.prop('_please_select') + '</option>';
                 for (var i = 0 ; i < json.length ; i++)
                     s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
                 document.getElementById('country_selector').innerHTML = s;
@@ -181,7 +181,7 @@ var GHGEDITOR = (function() {
         /* Chart 1 Definition. */
         var series_1 = [
             {
-                name: 'Agricultural Total (FAOSTAT)',
+                name: $.i18n.prop('_agriculture_total') + ' (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '1711',
@@ -189,7 +189,7 @@ var GHGEDITOR = (function() {
                 datasource: 'faostat'
             },
             {
-                name: 'Agricultural Total (NC)',
+                name: $.i18n.prop('_agriculture_total') + ' (NC)',
                 domain: 'GT',
                 country: country,
                 item: '4',
@@ -197,12 +197,12 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_1', 'Agricultural Total', series_1);
+        createChart('chart_1', $.i18n.prop('_agriculture_total'), series_1);
 
         /* Chart 2 Definition. */
         var series_2 = [
             {
-                name: 'Enteric Fermentation (FAOSTAT)',
+                name: $.i18n.prop('_enteric_fermentation') + ' (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5058',
@@ -210,7 +210,7 @@ var GHGEDITOR = (function() {
                 datasource: 'faostat'
             },
             {
-                name: 'Manure Management (FAOSTAT)',
+                name: $.i18n.prop('_manure_management') + ' (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5059',
@@ -218,7 +218,7 @@ var GHGEDITOR = (function() {
                 datasource: 'faostat'
             },
             {
-                name: 'Enteric Fermentation (NC)',
+                name: $.i18n.prop('_enteric_fermentation') + ' (NC)',
                 domain: 'GT',
                 country: country,
                 item: '4.A',
@@ -226,7 +226,7 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             },
             {
-                name: 'Manure Management (NC)',
+                name: $.i18n.prop('_manure_management') + ' (NC)',
                 domain: 'GT',
                 country: country,
                 item: '4.B',
@@ -234,12 +234,12 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_2', 'Enteric Fermentation and Manure Management', series_2);
+        createChart('chart_2', $.i18n.prop('_enteric_fermentation') + ' y ' + $.i18n.prop('_manure_management'), series_2);
 
         /* Chart 3 Definition. */
         var series_3 = [
             {
-                name: 'Rice Cultivation (FAOSTAT)',
+                name: $.i18n.prop('_rice_cultivation') + ' (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5060',
@@ -247,7 +247,7 @@ var GHGEDITOR = (function() {
                 datasource: 'faostat'
             },
             {
-                name: 'Rice Cultivation (NC)',
+                name: $.i18n.prop('_rice_cultivation') + ' (NC)',
                 domain: 'GT',
                 country: country,
                 item: '4.C',
@@ -255,12 +255,12 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_3', 'Rice Cultivation', series_3);
+        createChart('chart_3', $.i18n.prop('_rice_cultivation'), series_3);
 
         /* Chart 4 Definition. */
         var series_4 = [
             {
-                name: 'Agricultural Soils (FAOSTAT)',
+                name: $.i18n.prop('_agricultural_soils') + ' (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '1709',
@@ -268,7 +268,7 @@ var GHGEDITOR = (function() {
                 datasource: 'faostat'
             },
             {
-                name: 'Agricultural Soils (NC)',
+                name: $.i18n.prop('_agricultural_soils')  + ' (NC)',
                 domain: 'GT',
                 country: country,
                 item: '4.D',
@@ -276,12 +276,12 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_4', 'Agricultural Soils', series_4);
+        createChart('chart_4', $.i18n.prop('_agricultural_soils'), series_4);
 
         /* Chart 5 Definition. */
         var series_5 = [
             {
-                name: 'Burning of Savanna (FAOSTAT)',
+                name: $.i18n.prop('_prescribed_burning_of_savannas')  + ' (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5067',
@@ -289,7 +289,7 @@ var GHGEDITOR = (function() {
                 datasource: 'faostat'
             },
             {
-                name: 'Burning of Crop Residues (FAOSTAT)',
+                name: $.i18n.prop('_field_burning_of_agricultural_residues')  + ' (FAOSTAT)',
                 domain: 'GT',
                 country: country,
                 item: '5066',
@@ -297,7 +297,7 @@ var GHGEDITOR = (function() {
                 datasource: 'faostat'
             },
             {
-                name: 'Burning of Savanna (NC)',
+                name: $.i18n.prop('_prescribed_burning_of_savannas')  + ' (NC)',
                 domain: 'GT',
                 country: country,
                 item: '4.E',
@@ -305,7 +305,7 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             },
             {
-                name: 'Burning of Crop Residues (NC)',
+                name: $.i18n.prop('_field_burning_of_agricultural_residues')  + ' (NC)',
                 domain: 'GT',
                 country: country,
                 item: '4.F',
@@ -313,7 +313,7 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_5', 'Burning of Savanna and Burning of Crop Residues', series_5);
+        createChart('chart_5', $.i18n.prop('_prescribed_burning_of_savannas') + ' y ' + $.i18n.prop('_field_burning_of_agricultural_residues'), series_5);
 
     };
 
