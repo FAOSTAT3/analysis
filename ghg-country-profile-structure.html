@@ -3,17 +3,22 @@
     <!-- Page title. -->
     <div class='row'>
         <div class='page-header'>
-            <h1 style='margin-left: 20px;'>
-                <i class='fa fa-info-circle' style='font-size: 35px;'></i> GHG Editor
+            <h1 style='margin-left: 20px;' id='_ghg_country_profile_label'>
+                GHG Quality Assurance Tool
             </h1>
         </div>
     </div>
 
     <!-- Country selector. -->
     <div class='row' style='margin-top: -15px; margin-left: -10px;'>
-        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-            <div class='ghg_editor_title'>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+            <div class='ghg_editor_title' id='_select_a_country_label'>
                 Select a Country
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+            <div class='ghg_editor_title' id='_ghg_editor_label'>
+                GHG Editor
             </div>
         </div>
     </div>
@@ -22,6 +27,11 @@
             <select id='country_selector' style='width: 100%;' id='country-list' data-placeholder='Please select a source...' class='selector'>
 
             </select>
+        </div>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+            <button id='_ghg_editor_button' target='_blank' class='btn btn-default' style='width: 100%; height: 35px;'>
+                Go To The Editor
+            </button>
         </div>
     </div>
 
@@ -32,7 +42,9 @@
                 <a name='charts' style='cursor: pointer;' onclick='GHGEDITOR.showHideCharts();'>
                     <i id='charts_collapse_button' class='fa fa-compress fa-border' style='font-size: 35px;'></i>
                 </a>
-                Charts
+                <span id='_charts_label' style='font-size: 36px; margin-bottom: 10px; margin-top: 20px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: 500; line-height: 1.1;'>
+                    Charts
+                </span>
             </h1>
         </div>
     </div>
