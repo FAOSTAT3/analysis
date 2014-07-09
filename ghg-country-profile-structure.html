@@ -1,104 +1,109 @@
-<div class='container-fluid'>
+<div class="fs_row">
+    <div class="fs_column_12">
 
-    <!-- Page title. -->
-    <div class='row'>
-        <div class='page-header'>
-            <h1 style='margin-left: 20px;' id='_ghg_country_profile_label'>
-                GHG Quality Assurance Tool
-            </h1>
-        </div>
-    </div>
+        <div class='container-fluid'>
 
-    <!-- Country selector. -->
-    <div class='row' style='margin-top: -15px; margin-left: -10px;'>
-        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
-            <div class='ghg_editor_title' id='_select_a_country_label'>
-                Select a Country
-            </div>
-        </div>
-        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
-            <div class='ghg_editor_title' id='_ghg_editor_label'>
-                GHG Editor
-            </div>
-        </div>
-    </div>
-    <div class='row' style='margin-left: -10px; margin-top: 4px;'>
-        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
-            <select id='country_selector' style='width: 100%;' id='country-list' data-placeholder='Please select a source...' class='selector'>
-
-            </select>
-        </div>
-        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
-            <button id='_ghg_editor_button' target='_blank' class='btn btn-default' style='width: 100%; height: 35px;'>
-                Go To The Editor
-            </button>
-        </div>
-    </div>
-
-    <!-- Charts. -->
-    <div class='row'>
-        <div class='page-header'>
-            <h1 style='margin-left: 20px;'>
-                <a name='charts' style='cursor: pointer;' onclick='GHGEDITOR.showHideCharts();'>
-                    <i id='charts_collapse_button' class='fa fa-compress fa-border' style='font-size: 35px;'></i>
-                </a>
-                <span id='_charts_label' style='font-size: 36px; margin-bottom: 10px; margin-top: 20px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: 500; line-height: 1.1;'>
-                    Charts
-                </span>
-            </h1>
-        </div>
-    </div>
-    <div class='row' style='margin-left: -22px;'>
-        <div id='charts_container'>
-            <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                <div style='width: 100%;' id='chart_1'>
+            <!-- Page title. -->
+            <div class='row'>
+                <div class='page-header'>
+                    <h1 style='margin-left: 20px;' id='_ghg_country_profile_label'>
+                        GHG Quality Assurance Tool
+                    </h1>
                 </div>
             </div>
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div style='width: 100%;' id='chart_2'>
+
+            <!-- Country selector. -->
+            <div class='row' style='margin-top: -15px; margin-left: -10px;'>
+                <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                    <div class='ghg_editor_title' id='_select_a_country_label'>
+                        Select a Country
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                    <div class='ghg_editor_title' id='_ghg_editor_label'>
+                        GHG Editor
+                    </div>
                 </div>
             </div>
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div style='width: 100%;' id='chart_3'>
+            <div class='row' style='margin-left: -10px; margin-top: 4px;'>
+                <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                    <select id='country_selector' style='width: 100%;' id='country-list' data-placeholder='Please select a source...' class='selector'>
+
+                    </select>
+                </div>
+                <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                    <button id='_ghg_editor_button' target='_blank' class='btn btn-default' style='width: 100%; height: 35px;'>
+                        Go To The Editor
+                    </button>
                 </div>
             </div>
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div style='width: 100%;' id='chart_4'>
+
+            <!-- Charts. -->
+            <div class='row'>
+                <div class='page-header'>
+                    <h1 style='margin-left: 20px;'>
+                        <a name='charts' style='cursor: pointer;' onclick='GHGEDITOR.showHideCharts();'>
+                            <i id='charts_collapse_button' class='fa fa-compress fa-border' style='font-size: 35px;'></i>
+                        </a>
+                        <span id='_charts_label' style='font-size: 36px; margin-bottom: 10px; margin-top: 20px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: 500; line-height: 1.1;'>
+                            Charts
+                        </span>
+                    </h1>
                 </div>
             </div>
-            <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                <div style='width: 100%;' id='chart_5'>
+            <div class='row' style='margin-left: -22px;'>
+                <div id='charts_container'>
+                    <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                        <div style='width: 100%;' id='chart_1'>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                        <div style='width: 100%;' id='chart_2'>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                        <div style='width: 100%;' id='chart_3'>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                        <div style='width: 100%;' id='chart_4'>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                        <div style='width: 100%;' id='chart_5'>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Emissions Database - National Communication -->
+            <div class='row'>
+                <div id='emissions_db_nc'>
+
+                </div>
+            </div>
+
+            <!-- Emissions Database - FAOSTAT -->
+            <div class='row'>
+                <div id='emissions_db_faostat'>
+
+                </div>
+            </div>
+
+            <!-- % Difference (CountryNewData - FAOSTAT) / FAOSTAT -->
+            <div class='row'>
+                <div id='cnd_fs_difference'>
+
+                </div>
+            </div>
+
+            <!-- Normalised % difference (CountryNewData - FAOSTAT) / FAOSTAT -->
+            <div class='row'>
+                <div id='normalised_cnd_fs_difference'>
+
+                </div>
+            </div>
+
         </div>
     </div>
-
-    <!-- Emissions Database - National Communication -->
-    <div class='row'>
-        <div id='emissions_db_nc'>
-
-        </div>
-    </div>
-
-    <!-- Emissions Database - FAOSTAT -->
-    <div class='row'>
-        <div id='emissions_db_faostat'>
-
-        </div>
-    </div>
-
-    <!-- % Difference (CountryNewData - FAOSTAT) / FAOSTAT -->
-    <div class='row'>
-        <div id='cnd_fs_difference'>
-
-        </div>
-    </div>
-
-    <!-- Normalised % difference (CountryNewData - FAOSTAT) / FAOSTAT -->
-    <div class='row'>
-        <div id='normalised_cnd_fs_difference'>
-
-        </div>
-    </div>
-
 </div>

@@ -65,8 +65,6 @@ var GHG_OVERVIEW = (function() {
                 error: function (a, b, c) {}
             });
 
-
-
             // Populate DropDowns
             var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
             var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
@@ -117,7 +115,6 @@ var GHG_OVERVIEW = (function() {
                             break;
                         }
                     }
-
                     if (!selected)
                         html += '<option value="' + response[i][0] + '">' + response[i][1] + '</option>';
                 }
@@ -137,7 +134,6 @@ var GHG_OVERVIEW = (function() {
 
                 /** update countries list **/
                 updateCountryListNames()
-
             },
             error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
@@ -201,15 +197,7 @@ var GHG_OVERVIEW = (function() {
     }
 
     function updateWorldBox(json) {
-        var obj = {
-            lang : CONFIG.lang,
-            elementcode: "'" + CONFIG.elementcode + "'",
-            itemcode: CONFIG.itemcode,
-            fromyear: CONFIG.selected_from_year,
-            toyear : CONFIG.selected_to_year,
-            domaincode : "'" + CONFIG.domaincode + "'",
-            aggregation : CONFIG.selected_aggregation
-        }
+        var obj = getconfugirationObject()
 
         // Create Title
         var json_total = json.world_total;
@@ -461,6 +449,7 @@ var GHG_OVERVIEW = (function() {
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
+        console.log(JSON.stringify(sql));
         $.ajax({
             type : 'POST',
             url : CONFIG.baseurl + CONFIG.baseurl_data,
@@ -482,7 +471,7 @@ var GHG_OVERVIEW = (function() {
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
-//        console.log(JSON.stringify(sql));
+        //console.log(JSON.stringify(sql));
         $.ajax({
             type : 'POST',
             url : CONFIG.baseurl + CONFIG.baseurl_data,
@@ -580,7 +569,7 @@ var GHG_OVERVIEW = (function() {
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
-
+        console.log(JSON.stringify(sql));
         var table = new F3_GHG_TABLE();
         $.ajax({
             type : 'POST',
@@ -599,7 +588,7 @@ var GHG_OVERVIEW = (function() {
         var obj = getconfugirationObject();
         var codes = getQueryAreaCodes();
 
-
+        /** TODO: **/
         var json_obj = json[id];
         var total_obj = obj;
         total_obj.areacode = codes

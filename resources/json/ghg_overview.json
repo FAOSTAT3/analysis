@@ -1,7 +1,5 @@
 {
 
-    "query_items" : "1711,1709,5066,5067,5058,5059,5060",
-
     "world_total" : {
         "sql" : {
             "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ('1711') AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND D.Value > 0 GROUP BY E.UnitName{{LANG}} "
@@ -16,7 +14,7 @@
 
     "byarea_total" : {
         "sql" : {
-            "query" : " SELECT E.UnitName{{LANG}}, {{AGGREGATION}}(D.Value) FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND D.Value > 0 GROUP BY E.UnitName{{LANG}} "
+            "query" : " SELECT unitname, SUM(v) FROM (SELECT D.AreaCode, D.ItemCode, E.UnitName{{LANG}} AS unitname, AVG(D.value) AS v FROM Data AS D, Element E WHERE D.DomainCode = {{DOMAINCODE}} AND D.AreaCode IN ({{AREACODE}}) AND D.ElementCode IN ({{ELEMENTCODE}}) AND D.ItemCode IN ({{ITEMCODE}}) AND D.ElementCode = E.ElementCode AND D.Year >= {{FROMYEAR}} AND D.YEAR <= {{TOYEAR}} AND D.Value > 0 GROUP BY  D.AreaCode, D.ItemCode, E.UnitName{{LANG}} ) inner_query GROUP BY unitname "
         }
     },
 

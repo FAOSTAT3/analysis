@@ -23,7 +23,7 @@
 //            column_0: "World",
 //            column_1: "Grand Total"
 //        },
-//        rows_content : 5,
+
           decimal_values: 0,
 
           add_first_column: true

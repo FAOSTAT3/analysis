@@ -182,10 +182,7 @@ var F3_CHART = (function() {
             payload.yaxis = {};
             payload.yaxis = yAxis;
             payload.xaxis = {};
-            if (chart.xaxis != null) {
-                payload.xaxis.rotation = chart.xaxis.rotation;
-                payload.xaxis.fontSize = chart.xaxis.fontSize;
-            }
+            payload.xaxis.rotation = -45;
 
             payload.series = series;
             try {
