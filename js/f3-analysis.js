@@ -73,9 +73,6 @@ var F3_ANALYSIS = (function() {
     }
 
     function loadLabels() {
-
-        console.log("here");
-        console.log( $.i18n.prop('_analysis'));
         $("#pageTitle").html($.i18n.prop('_analysis'));
     }
 

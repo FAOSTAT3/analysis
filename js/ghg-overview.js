@@ -25,7 +25,7 @@ var GHG_OVERVIEW = (function() {
         I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
 
         // Default Values of the comboboxes
-        default_country : [2],
+        default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
         default_from_year : [1990],
         default_to_year : [2010],
 
@@ -468,7 +468,7 @@ var GHG_OVERVIEW = (function() {
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
                 $("#" + id + "_element").html(response[0][0])
-                var value = Number(parseFloat(response[0][1]).toFixed(CONFIG.decimal_values));
+                var value = Number(parseFloat(response[0][1]).toFixed(CONFIG.decimal_values)).toLocaleString();
                 $("#" + id + "_value").html(value)
             },
             error : function(err, b, c) {}
@@ -482,7 +482,7 @@ var GHG_OVERVIEW = (function() {
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
-        console.log(JSON.stringify(sql));
+//        console.log(JSON.stringify(sql));
         $.ajax({
             type : 'POST',
             url : CONFIG.baseurl + CONFIG.baseurl_data,
