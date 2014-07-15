@@ -2,23 +2,32 @@ var GHGEDITOR = (function() {
 
     var CONFIG = {
         data            :   null,
-        base_url        :   'http://168.202.28.214:8080',
+        base_url        :   'http://168.202.28.210:8080',
         url_templates   :   'ghg-editor/html/templates.html',
         url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT/E',
         url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
-        url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/'
+        url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
+        url_i18n        :   'http://168.202.28.210:8080/ghg-editor/I18N/'
     };
 
     function init() {
 
+        /* Load i18n for the editor outside the Gateway. */
+        $.i18n.properties({
+            name: 'I18N',
+            path: GHGEDITOR.CONFIG.url_i18n,
+            mode: 'both',
+            language: 'es'
+        });
+
         /* Initiate tables. */
         createTable('country_new_data', true, 'Country New Data', 1990, 2012, 'country_new_data', addDataToCharts);
-        createTable('emissions_db_nc', false, 'Emissions Database - National Communication', 1990, 2012, 'emissions_db_nc');
-        createTable('emissions_db_faostat', false, 'Emissions Database - FAOSTAT', 1990, 2012, 'emissions_db_faostat');
-        createTable('cnd_fs_difference', false, '% Difference (FAOSTAT)', 1990, 2012, 'cnd_fs_difference');
-        createTable('normalised_cnd_fs_difference', false, 'Normalised % difference (FAOSTAT)', 1990, 2012, 'normalised_cnd_fs_difference');
-        createTable('cnd_nc_difference', false, '% Difference (NC)', 1990, 2012, 'cnd_nc_difference');
-        createTable('normalised_cnd_nc_difference', false, 'Normalised % Difference (NC)', 1990, 2012, 'normalised_cnd_nc_difference');
+        createTable('emissions_db_nc', false, 'Base de datos de Emisiones - NC', 1990, 2012, 'emissions_db_nc');
+        createTable('emissions_db_faostat', false, 'Base de datos de Emisiones - FAOSTAT ', 1990, 2012, 'emissions_db_faostat');
+        createTable('cnd_fs_difference', false, '% Diferencia (FAOSTAT)', 1990, 2012, 'cnd_fs_difference');
+        createTable('normalised_cnd_fs_difference', false, 'Diferencia normalizada % (FAOSTAT)', 1990, 2012, 'normalised_cnd_fs_difference');
+        createTable('cnd_nc_difference', false, '% Diferencia (NC)', 1990, 2012, 'cnd_nc_difference');
+        createTable('normalised_cnd_nc_difference', false, 'Diferencia normalizada % (NC)', 1990, 2012, 'normalised_cnd_nc_difference');
 
         /* Initiate Chosen. */
         $('.selector').chosen({
@@ -29,8 +38,8 @@ var GHGEDITOR = (function() {
         $.ajax({
 
             type        :   'GET',
-            dataType    :    'json',
-            url         :    GHGEDITOR.CONFIG.url_procedures,
+            dataType    :   'json',
+            url         :   GHGEDITOR.CONFIG.url_procedures,
 
             success: function (response) {
 
@@ -55,7 +64,7 @@ var GHGEDITOR = (function() {
         /* Create charts and load tables on country selection change. */
         $('#country_selector').on('change', function() {
             var country_code = $('#country_selector').find(":selected").val();
-            createChartsAndPopulateTable(country_code);
+            createChartsAndPopulateTable(country_code, false, true);
         });
 
         /* Load configuration files. */
@@ -123,7 +132,7 @@ var GHGEDITOR = (function() {
         /* Create charts and load tables on country selection change. */
         $('#country_selector').on('change', function() {
             var country_code = $('#country_selector').find(":selected").val();
-            createChartsAndPopulateTable(country_code);
+            createChartsAndPopulateTable(country_code, true, false);
         });
 
         /* Load configuration files. */
@@ -143,10 +152,13 @@ var GHGEDITOR = (function() {
 
     };
 
-    function createChartsAndPopulateTable(country_code) {
-        createCharts(country_code);
+    function createChartsAndPopulateTable(country_code, update_tables, add_user_data) {
+        createCharts(country_code, add_user_data);
         populateTable_EmissionsDatabaseFAOSTAT(country_code);
-        populateTable_EmissionsDatabaseNC(country_code, updateTables);
+        if (update_tables)
+            populateTable_EmissionsDatabaseNC(country_code, updateTables);
+        else
+            populateTable_EmissionsDatabaseNC(country_code);
     }
 
     function updateTables() {
@@ -176,7 +188,7 @@ var GHGEDITOR = (function() {
         }, 1000);
     }
 
-    function createCharts(country) {
+    function createCharts(country, add_user_data) {
 
         /* Chart 1 Definition. */
         var series_1 = [
@@ -197,7 +209,7 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_1', $.i18n.prop('_agriculture_total'), series_1);
+        createChart('chart_1', $.i18n.prop('_agriculture_total'), series_1, add_user_data);
 
         /* Chart 2 Definition. */
         var series_2 = [
@@ -234,7 +246,7 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_2', $.i18n.prop('_enteric_fermentation') + ' y ' + $.i18n.prop('_manure_management'), series_2);
+        createChart('chart_2', $.i18n.prop('_enteric_fermentation') + ' y ' + $.i18n.prop('_manure_management'), series_2, add_user_data);
 
         /* Chart 3 Definition. */
         var series_3 = [
@@ -255,7 +267,7 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_3', $.i18n.prop('_rice_cultivation'), series_3);
+        createChart('chart_3', $.i18n.prop('_rice_cultivation'), series_3, add_user_data);
 
         /* Chart 4 Definition. */
         var series_4 = [
@@ -276,7 +288,7 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_4', $.i18n.prop('_agricultural_soils'), series_4);
+        createChart('chart_4', $.i18n.prop('_agricultural_soils'), series_4, add_user_data);
 
         /* Chart 5 Definition. */
         var series_5 = [
@@ -313,12 +325,12 @@ var GHGEDITOR = (function() {
                 datasource: 'nc'
             }
         ];
-        createChart('chart_5', $.i18n.prop('_prescribed_burning_of_savannas') + ' y ' + $.i18n.prop('_field_burning_of_agricultural_residues'), series_5);
+        createChart('chart_5', $.i18n.prop('_prescribed_burning_of_savannas') + ' y ' + $.i18n.prop('_field_burning_of_agricultural_residues'), series_5, add_user_data);
 
     };
 
     /* Charts template. */
-    function createChart(chart_id, title, series) {
+    function createChart(chart_id, title, series, add_user_data) {
         var p = {
             chart: {
                 events: {
@@ -348,7 +360,10 @@ var GHGEDITOR = (function() {
                     value: 0,
                     width: 1,
                     color: '#808080'
-                }]
+                }],
+                labels: {
+                    format: '{value}'
+                }
             },
             tooltip: {
                 valueSuffix: ' Gg'
@@ -366,12 +381,14 @@ var GHGEDITOR = (function() {
             p.series[i].name = series[i].name;
         }
         $('#' + chart_id).highcharts(p);
-//        var chart = $('#' + chart_id).highcharts();
-//        for (var i = 0 ; i < series.length ; i++) {
-//            chart.addSeries({
-//                name: chart.series[i].name.replace('(FAOSTAT)', '(User Data)')
-//            });
-//        }
+        if (add_user_data) {
+            var chart = $('#' + chart_id).highcharts();
+            for (var i = 0; i < series.length; i++) {
+                chart.addSeries({
+                    name: chart.series[i].name.replace('(FAOSTAT)', '(User Data)')
+                });
+            }
+        }
     };
 
     /* Query DB and prepare the payload for the charts. */
@@ -615,28 +632,34 @@ var GHGEDITOR = (function() {
                 /* Update Tables. */
                 var value = parseFloat($(this).val());
                 if (!isNaN(value)) {
+
                     var year = this.id.substring(1 + this.id.lastIndexOf('_'));
                     var crf = this.id.substring('country_new_data_'.length, this.id.lastIndexOf('_'));
                     var faostat = parseFloat(document.getElementById('emissions_db_faostat_' + crf + '_' + year).innerHTML);
                     var nc = parseFloat(document.getElementById('emissions_db_nc_' + crf + '_' + year).innerHTML);
+                    var tot = parseFloat(document.getElementById('emissions_db_faostat_4_' + year).innerHTML);
+
                     var diff = (100 * (value - faostat) / faostat).toFixed(2);
                     var color = (diff >= 0) ? 'green' : 'red';
                     document.getElementById('cnd_fs_difference_' + crf + '_' + year).innerHTML = isNaN(diff) ? '' : diff + '%';
                     $('#cnd_fs_difference_' + crf + '_' + year).css('color', color);
-                    var tot = parseFloat(document.getElementById('emissions_db_faostat_4_' + year).innerHTML);
+
                     var norm = (100 * (value - faostat) / tot).toFixed(2);
                     color = (norm >= 0) ? 'green' : 'red';
                     document.getElementById('normalised_cnd_fs_difference_' + crf + '_' + year).innerHTML = norm + '%';
                     $('#normalised_cnd_fs_difference_' + crf + '_' + year).css('color', color);
+
                     diff = (100 * (value - nc) / nc).toFixed(2);
                     color = (diff >= 0) ? 'green' : 'red';
                     document.getElementById('cnd_nc_difference_' + crf + '_' + year).innerHTML = diff + '%';
                     $('#cnd_nc_difference_' + crf + '_' + year).css('color', color);
+
                     tot = parseFloat(document.getElementById('emissions_db_faostat_4_' + year).innerHTML);
                     norm = (100 * (value - nc) / tot).toFixed(2);
                     color = (norm >= 0) ? 'green' : 'red';
                     document.getElementById('normalised_cnd_nc_difference_' + crf + '_' + year).innerHTML = norm + '%';
                     $('#normalised_cnd_nc_difference_' + crf + '_' + year).css('color', color);
+
                 }
 
             });
@@ -673,7 +696,8 @@ var GHGEDITOR = (function() {
 
                     }
                 }
-                callback();
+                if (callback != null)
+                    callback();
             },
             error : function(err, b, c) { }
         });

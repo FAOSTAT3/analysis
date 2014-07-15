@@ -3,7 +3,7 @@ var GHG_OVERVIEW = (function() {
     var CONFIG = {
         placeholder: 'container_view',
         lang: 'E',
-        prefix: 'http://168.202.28.214:8080/analysis/',
+        prefix: 'http://168.202.28.210:8080/analysis/',
 
         // DATASOURCE
         datasource: 'faostat',
@@ -15,14 +15,14 @@ var GHG_OVERVIEW = (function() {
         selected_aggregation : "AVG",
 
         // SP URLs
-        baseurl: 'http://faostat3.fao.org',
+        baseurl: 'http://168.202.28.210:8080',
         baseurl_data: '/wds/rest/table/json',
         baseurl_countries: '/wds/rest/procedures/countries',
         baseurl_years: '/wds/rest/procedures/years',
 
         // Structures and Labels
-        html_structure: 'http://168.202.28.214:8080/analysis/ghg-overview-structure.html',
-        I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
+        html_structure: 'http://168.202.28.210:8080/analysis/ghg-overview-structure.html',
+        I18N_URL: 'http://168.202.28.210:8080/faostat-gateway/static/faostat/I18N/',
 
         // Default Values of the comboboxes
         default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
