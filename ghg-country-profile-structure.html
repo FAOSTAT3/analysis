@@ -5,31 +5,22 @@
 
             <!-- Tabs -->
             <div class='row'>
-                <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
-                    <div id='_ghg_country_profile_label' style='font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 36px; font-weight: 500; line-height: 1.1; margin-bottom: 10px; margin-top: 20px; color: #666;'>
-                        Garantía de calidad
+
+
+                <div class="search-categories ghg-tab">
+                    <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
+                        <div id='_ghg_country_profile_label' class="ghg-title">
+                            Garantía de calidad
+                        </div>
                     </div>
+                    <span class="search-categories-label search-categories-label-selected" id="search-items" style="display: inline-block;" onclick='
+                    $("#main_content_emissions").css("display", "none");
+                    $("#main_content_data").css("display", "block");'>Emissiones</span>
+                    <span class="search-categories-label" id="search-elements" style="display: inline-block;" onclick='
+                    $("#main_content_emissions").css("display", "none");
+                    $("#main_content_data").css("display", "block");'>Datos de Activitad</span>
                 </div>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                    <div id='emissions_button' class='ghg-tab selected' onclick='
-                        $("#main_content_emissions").css("display", "block");
-                        $("#main_content_data").css("display", "none");
-                        $("#data_button").removeClass("ghg-tab selected").addClass("ghg-tab");
-                        $("#emissions_button").removeClass("ghg-tab").addClass("ghg-tab selected");
-                    '>
-                        Emissiones
-                    </div>
-                </div>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                    <div id='data_button' class='ghg-tab'onclick='
-                        $("#main_content_emissions").css("display", "none");
-                        $("#main_content_data").css("display", "block");
-                        $("#emissions_button").removeClass("ghg-tab selected").addClass("ghg-tab");
-                        $("#data_button").removeClass("ghg-tab").addClass("ghg-tab selected");
-                    '>
-                        Datos de Activitad
-                    </div>
-                </div>
+
             </div>
 
             <br>
@@ -68,12 +59,8 @@
                     <div class='page-header'>
                         <h1 style='margin-left: 20px;'>
                             <a name='charts' style='cursor: pointer;' onclick='GHGEDITOR.showHideCharts();'>
-                                <i id='charts_collapse_button' class='fa fa-compress fa-border' style='font-size: 35px;'></i>
-                            </a>
-                            <span id='_charts_label' style='font-size: 36px; margin-bottom: 10px; margin-top: 20px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: 500; line-height: 1.1;'>
-                                Charts
-                            </span>
-                        </h1>
+                                <i id='charts_collapse_button' class='fa fa-compress fa-border'></i>
+                            </a>Graficos</h1>
                     </div>
                 </div>
                 <div id='charts_container'>

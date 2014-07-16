@@ -82,6 +82,7 @@ var F3_ANALYSIS = (function() {
         $('#' + CONFIG.placeholder_tiles).load(CONFIG.html_structure_tiles, function () {
             $("#ghg-overview").click(function() { loadView("ghg-overview") });
             $("#ghg-country-profile").click(function() {  loadView("ghg-country-profile") } );
+            $("#ghg-indicators").click(function() { loadView("ghg-indicators") });
         });
     };
 
@@ -98,6 +99,10 @@ var F3_ANALYSIS = (function() {
             case 'ghg-overview':
                 $("#" + CONFIG.placeholder_tiles).hide();
                 GHG_OVERVIEW.init(view_config);
+                break;
+            case 'ghg-indicators':
+                $("#" + CONFIG.placeholder_tiles).hide();
+//                GHG_OVERVIEW.init(view_config);
                 break;
             case 'ghg-country-profile':
                 $("#" + CONFIG.placeholder_tiles).hide();

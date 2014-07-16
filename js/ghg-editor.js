@@ -361,6 +361,8 @@ var GHGEDITOR = (function() {
     function createChart(chart_id, title, series, add_user_data) {
         var p = {
             chart: {
+                height: 400,
+                spacingBottom: 50,
                 zoomType: 'xy',
                 events: {
                     load: function() {
@@ -411,11 +413,13 @@ var GHGEDITOR = (function() {
                 align: 'center',
                 verticalAlign: 'bottom',
                 borderWidth: 0,
-                width: 400,
-                itemWidth: 200,
+                width: 500,
+                itemWidth: 250,
                 itemStyle: {
-                    width: 180
-                }
+                    width: 230
+                },
+                floating: true,
+                y : 50
             },
             plotOptions: {
                 series: {

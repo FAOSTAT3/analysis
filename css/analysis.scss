@@ -1,0 +1,142 @@
+@CHARSET "UTF-8";
+
+h1#pageTitle  {
+  margin: 0;
+}
+
+.submenu_hr {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background-color: #FFFFFF;
+	border-color: -moz-use-text-color -moz-use-text-color #333333;
+	border-image: none;
+	border-style: none none dashed;
+	border-width: 0 0 1px;
+	clear: both;
+	color: #FFFFFF;
+	padding-top: 10px;
+}
+
+#mesType label {
+	font-size: 12px !important;
+}
+
+#mesType input[type='radio'] {
+	display: none;
+}
+
+#mesType label {
+	cursor: pointer;
+	display: inline-block;
+}
+
+#mesType input[type='radio']:checked+label {
+	color: #399BCC;
+	font-weight: bold;
+	text-decoration: underline;
+	font-size: 12px !important;
+}
+
+.content_title {
+    font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+    font-size: 12px !important;
+    font-weight: bold;
+    padding-left: 3px;
+    color: #FFFFFF;
+}
+
+.methodology {
+	font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+	font-size: 12px;
+}
+
+.methodology.bold {
+	font-weight: bold;
+}
+
+.methodology.link {
+	cursor: pointer;
+}
+
+/* GHG Editor CSS */
+.spacer {
+    height: 16px;
+}
+
+.table_cell {
+    line-height: 30px;
+}
+
+.table_cell.year {
+    text-align: center;
+}
+
+.ghg_editor_title {
+    padding: 4px;
+    color: #777777;
+}
+
+.chosen-single {
+    height: 34px !important;
+    line-height: 34px !important;
+}
+
+.ghg-tab {
+    border-bottom: 1px solid #eee;
+    background-color: transparent !important;
+}
+
+.ghg-title {
+  font: 400 22px 'Roboto Condensed',sans-serif !important;
+  color: #174c74;
+  padding-top: 5px;
+}
+
+.ghg-tile{
+  cursor: pointer;
+}
+
+.ghg-max-img {
+    width: 100%;
+    height: auto;
+}
+
+h1 {
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  i{
+    font-size: 18px !important;
+  }
+  font: 400 18px 'Roboto Condensed',sans-serif !important;
+  color: #379bce;
+}
+
+.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
+  border: 1px solid #ddd !important;
+}
+
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+  border-bottom-width : 1px;
+}
+
+#main_content_emissions {
+  .page-header {
+    border: none;
+    padding-bottom: 0;
+    margin: 40px 0 0 0;
+  }
+  .col-lg-9{
+    padding-left: 0;
+    padding-right: 0;
+    left: -16px;
+    .form-control{
+      border: 0;
+      box-shadow: none;
+    }
+  }
+}
