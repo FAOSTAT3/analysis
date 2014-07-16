@@ -78,3 +78,19 @@
     height: 34px !important;
     line-height: 34px !important;
 }
+
+.ghg-tab {
+    width: 100%;
+    border: 1px solid #000000;
+    cursor: pointer;
+}
+
+.ghg-tab:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.ghg-tab.selected {
+    background-color: #000000;
+    color: #FFFFFF;
+}
