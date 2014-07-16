@@ -2,12 +2,12 @@ var GHGEDITOR = (function() {
 
     var CONFIG = {
         data            :   null,
-        base_url        :   'http://168.202.28.210:8080',
+        base_url        :   'http://localhost:8080',
         url_templates   :   'ghg-editor/html/templates.html',
-        url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT/E',
+        url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT/S',
         url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
-        url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
-        url_i18n        :   'http://168.202.28.210:8080/ghg-editor/I18N/'
+        url_editor      :   'http://localhost:8080/ghg-editor/',
+        url_i18n        :   'http://localhost:8080/ghg-editor/I18N/'
     };
 
     function init() {
@@ -154,11 +154,11 @@ var GHGEDITOR = (function() {
 
     function createChartsAndPopulateTable(country_code, update_tables, add_user_data) {
         createCharts(country_code, add_user_data);
-        populateTable_EmissionsDatabaseFAOSTAT(country_code);
-        if (update_tables)
-            populateTable_EmissionsDatabaseNC(country_code, updateTables);
-        else
-            populateTable_EmissionsDatabaseNC(country_code);
+        if (update_tables) {
+            populate_tables(country_code, updateTables);
+        } else {
+            populate_tables(country_code);
+        }
     }
 
     function updateTables() {
@@ -198,7 +198,9 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '1711',
                 element: '7231',
-                datasource: 'faostat'
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false
             },
             {
                 name: $.i18n.prop('_agriculture_total') + ' (NC)',
@@ -206,10 +208,12 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '4',
                 element: null,
-                datasource: 'nc'
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true
             }
         ];
-        createChart('chart_1', $.i18n.prop('_agriculture_total'), series_1, add_user_data);
+        createChart('chart_1', '<b>' + $.i18n.prop('_agriculture_total') + '</b>', series_1, add_user_data);
 
         /* Chart 2 Definition. */
         var series_2 = [
@@ -219,15 +223,9 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '5058',
                 element: '7231',
-                datasource: 'faostat'
-            },
-            {
-                name: $.i18n.prop('_manure_management') + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '5059',
-                element: '7231',
-                datasource: 'faostat'
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false
             },
             {
                 name: $.i18n.prop('_enteric_fermentation') + ' (NC)',
@@ -235,7 +233,19 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '4.A',
                 element: null,
-                datasource: 'nc'
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true
+            },
+            {
+                name: $.i18n.prop('_manure_management') + ' (FAOSTAT)',
+                domain: 'GT',
+                country: country,
+                item: '5059',
+                element: '7231',
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false
             },
             {
                 name: $.i18n.prop('_manure_management') + ' (NC)',
@@ -243,10 +253,12 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '4.B',
                 element: null,
-                datasource: 'nc'
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true
             }
         ];
-        createChart('chart_2', $.i18n.prop('_enteric_fermentation') + ' y ' + $.i18n.prop('_manure_management'), series_2, add_user_data);
+        createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' y ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data);
 
         /* Chart 3 Definition. */
         var series_3 = [
@@ -256,7 +268,9 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '5060',
                 element: '7231',
-                datasource: 'faostat'
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false
             },
             {
                 name: $.i18n.prop('_rice_cultivation') + ' (NC)',
@@ -264,10 +278,12 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '4.C',
                 element: null,
-                datasource: 'nc'
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true
             }
         ];
-        createChart('chart_3', $.i18n.prop('_rice_cultivation'), series_3, add_user_data);
+        createChart('chart_3', '<b>' + $.i18n.prop('_rice_cultivation') + '</b>', series_3, add_user_data);
 
         /* Chart 4 Definition. */
         var series_4 = [
@@ -277,7 +293,9 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '1709',
                 element: '7231',
-                datasource: 'faostat'
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false
             },
             {
                 name: $.i18n.prop('_agricultural_soils')  + ' (NC)',
@@ -285,10 +303,12 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '4.D',
                 element: null,
-                datasource: 'nc'
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true
             }
         ];
-        createChart('chart_4', $.i18n.prop('_agricultural_soils'), series_4, add_user_data);
+        createChart('chart_4', '<b>' + $.i18n.prop('_agricultural_soils') + '</b>', series_4, add_user_data);
 
         /* Chart 5 Definition. */
         var series_5 = [
@@ -298,15 +318,9 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '5067',
                 element: '7231',
-                datasource: 'faostat'
-            },
-            {
-                name: $.i18n.prop('_field_burning_of_agricultural_residues')  + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '5066',
-                element: '7231',
-                datasource: 'faostat'
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false
             },
             {
                 name: $.i18n.prop('_prescribed_burning_of_savannas')  + ' (NC)',
@@ -314,7 +328,19 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '4.E',
                 element: null,
-                datasource: 'nc'
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true
+            },
+            {
+                name: $.i18n.prop('_field_burning_of_agricultural_residues')  + ' (FAOSTAT)',
+                domain: 'GT',
+                country: country,
+                item: '5066',
+                element: '7231',
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false
             },
             {
                 name: $.i18n.prop('_field_burning_of_agricultural_residues')  + ' (NC)',
@@ -322,10 +348,12 @@ var GHGEDITOR = (function() {
                 country: country,
                 item: '4.F',
                 element: null,
-                datasource: 'nc'
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true
             }
         ];
-        createChart('chart_5', $.i18n.prop('_prescribed_burning_of_savannas') + ' y ' + $.i18n.prop('_field_burning_of_agricultural_residues'), series_5, add_user_data);
+        createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' y ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data);
 
     };
 
@@ -333,6 +361,7 @@ var GHGEDITOR = (function() {
     function createChart(chart_id, title, series, add_user_data) {
         var p = {
             chart: {
+                zoomType: 'xy',
                 events: {
                     load: function() {
                         for (var i = 0 ; i < series.length ; i++) {
@@ -341,6 +370,10 @@ var GHGEDITOR = (function() {
                         }
                     }
                 }
+            },
+            colors: ['#1f678a', '#1f678a', '#92a8b7', '#92a8b7'],
+            credits: {
+                enabled: false
             },
             title: {
                 text: title,
@@ -354,7 +387,7 @@ var GHGEDITOR = (function() {
             },
             yAxis: {
                 title: {
-                    text: 'CO2Eq (Gg)'
+                    text: 'CO<sub>2</sub>Eq (Gg)'
                 },
                 plotLines: [{
                     value: 0,
@@ -366,13 +399,30 @@ var GHGEDITOR = (function() {
                 }
             },
             tooltip: {
-                valueSuffix: ' Gg'
+                valueSuffix: ' Gg',
+                year: '%Y',
+                crosshairs: [true, true],
+                formatter: function() {
+                    return '<b>' + this.series.name + '</b><br>' + (new Date(this.x)).getFullYear() + ': ' + this.y + ' Gg'
+                }
             },
             legend: {
                 layout: 'horizontal',
                 align: 'center',
                 verticalAlign: 'bottom',
-                borderWidth: 0
+                borderWidth: 0,
+                width: 400,
+                itemWidth: 200,
+                itemStyle: {
+                    width: 180
+                }
+            },
+            plotOptions: {
+                series: {
+                    marker: {
+                        symbol: 'circle'
+                    }
+                }
             }
         };
         p.series = [];
@@ -381,9 +431,31 @@ var GHGEDITOR = (function() {
             p.series[i].name = series[i].name;
         }
         $('#' + chart_id).highcharts(p);
+
+        var chart = $('#' + chart_id).highcharts();
+        for (var i = 0; i < series.length; i++) {
+            if (chart.series[i].name.indexOf('NC') > -1) {
+                chart.series[i].update({
+                    marker: {
+                        enabled: true
+                    },
+                    type: 'scatter'
+                });
+            } else if (chart.series[i].name.indexOf('FAOSTAT') > -1) {
+                chart.series[i].update({
+                    marker: {
+                        enabled: false
+                    },
+                    type: 'line'
+                });
+            }
+        }
+
         if (add_user_data) {
             var chart = $('#' + chart_id).highcharts();
-            for (var i = 0; i < series.length; i++) {
+            var number_of_series = series.length;
+            var user_series = number_of_series / 2;
+            for (var i = 0; i < user_series; i++) {
                 chart.addSeries({
                     name: chart.series[i].name.replace('(FAOSTAT)', '(User Data)')
                 });
@@ -402,18 +474,20 @@ var GHGEDITOR = (function() {
                                "AND D.ElementListCode = '" + element + "' " +
                                "AND D.ItemCode IN ('" + item + "') " +
                                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                              "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                              "2010, 2011, 2012) " +
+                               "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                               "2010, 2011, 2012) " +
                                "AND D.AreaCode = A.AreaCode " +
                                "AND D.ElementListCode = E.ElementListCode " +
                                "AND D.ItemCode = I.ItemCode " +
-                               "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value";
+                               "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                               "ORDER BY D.Year DESC ";
                 break;
             case 'nc':
-                    sql['query'] = "SELECT year, GUNFValue FROM UNFCCC_Comparison WHERE areacode = " + country + " AND code = '" + item + "' " +
-                                   "AND year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                                "2010, 2011, 2012)";
+                sql['query'] = "SELECT year, GUNFValue FROM UNFCCC_Comparison WHERE areacode = " + country + " AND code = '" + item + "' " +
+                    "AND year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                    "2010, 2011, 2012) " +
+                    "ORDER BY year DESC ";
                 break;
         }
         var data = {};
@@ -433,9 +507,7 @@ var GHGEDITOR = (function() {
                 prepare_chart_data(series, response, datasource);
             },
             error: function (e, b, c) {
-//                console.log(e);
-//                console.log(b);
-//                console.log(c);
+
             }
         });
     };
@@ -458,10 +530,10 @@ var GHGEDITOR = (function() {
                 for (var i = json.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
                     if (json[i].length > 1) {
-                        tmp.push(Date.UTC(parseInt(json[i][0])));
+                        tmp.push(Date.UTC(parseInt(json[i][0]), 0, 1));
                         tmp.push(parseFloat(json[i][1]));
                     } else {
-                        tmp.push(Date.UTC(parseInt(json[i][0])));
+                        tmp.push(Date.UTC(parseInt(json[i][0]), 0, 1));
                         tmp.push(null);
                     }
                     data.push(tmp);
@@ -590,10 +662,11 @@ var GHGEDITOR = (function() {
     };
 
     function addDataToCharts() {
-        addDataToSingleChart(['country_new_data_4_'], [1], 'chart_1');
-        addDataToSingleChart(['country_new_data_4A_', 'country_new_data_4B_'], [2, 3], 'chart_2');
-        addDataToSingleChart(['country_new_data_4C_', 'country_new_data_4D_'], [2, 3], 'chart_3');
-        addDataToSingleChart(['country_new_data_4E_', 'country_new_data_4F_'], [2, 3], 'chart_4');
+        addDataToSingleChart(['country_new_data_4_'], [2], 'chart_1');
+        addDataToSingleChart(['country_new_data_4A_', 'country_new_data_4B_'], [4, 5], 'chart_2');
+        addDataToSingleChart(['country_new_data_4C_'], [2], 'chart_3');
+        addDataToSingleChart(['country_new_data_4D_'], [2], 'chart_4');
+        addDataToSingleChart(['country_new_data_4E_', 'country_new_data_4F_'], [4, 5], 'chart_5');
     };
 
     function addDataToSingleChart(input_prefixes, series_indices, chart_id) {
@@ -626,7 +699,7 @@ var GHGEDITOR = (function() {
                 try {
                     chart.series[$.data(this, 'series_idx')].update({data: data});
                 } catch (e) {
-                    alert('Please Select a Country');
+                    alert('Please select a country.')
                 }
 
                 /* Update Tables. */
@@ -672,7 +745,7 @@ var GHGEDITOR = (function() {
         };
         var data = {};
         data.datasource = 'faostat',
-        data.thousandSeparator = ',';
+            data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = 2;
         data.json = JSON.stringify(sql);
@@ -690,7 +763,6 @@ var GHGEDITOR = (function() {
                 for (var i = 0 ; i < json.length ; i++) {
                     var id = 'emissions_db_nc_' + json[i][0].replace('.', '') + '_' + json[i][1];
                     try {
-
                         document.getElementById(id).innerHTML = (json[i].length > 2) ? json[i][2] : '';
                     } catch (e) {
 
@@ -703,24 +775,130 @@ var GHGEDITOR = (function() {
         });
     }
 
-    function populateTable_EmissionsDatabaseFAOSTAT(country_code) {
+    function populate_tables(country_code, callback) {
+
         var sql = {
             'query' : "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                      "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                      "WHERE D.DomainCode = 'GT' AND D.AreaCode = '" + country_code + "' " +
-                      "AND D.ElementListCode = '7231' " +
-                      "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
-                      "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                     "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                     "2010, 2011, 2012) " +
-                      "AND D.AreaCode = A.AreaCode " +
-                      "AND D.ElementListCode = E.ElementListCode " +
-                      "AND D.ItemCode = I.ItemCode " +
-                      "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
+                "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                "WHERE D.DomainCode = 'GT' AND D.AreaCode = '" + country_code + "' " +
+                "AND D.ElementListCode = '7231' " +
+                "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
+                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                "2010, 2011, 2012) " +
+                "AND D.AreaCode = A.AreaCode " +
+                "AND D.ElementListCode = E.ElementListCode " +
+                "AND D.ItemCode = I.ItemCode " +
+                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
         }
         var data = {};
         data.datasource = 'faostat',
-        data.thousandSeparator = ',';
+            data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+
+        $.ajax({
+
+            type    :   'POST',
+            url     :   GHGEDITOR.CONFIG.url_data,
+            data    :   data,
+
+            success : function(response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0 ; i < json.length ; i++) {
+                    var item = json[i][3];
+                    var y = json[i][4];
+                    var v = json[i][5];
+                    var crf = null;
+                    switch (item) {
+                        case '1711': crf = '4';  break;
+                        case '5058': crf = '4A'; break;
+                        case '5059': crf = '4B'; break;
+                        case '5060': crf = '4C'; break;
+                        case '1709': crf = '4D'; break;
+                        case '5067': crf = '4E'; break;
+                        case '5066': crf = '4F'; break;
+                    }
+                    document.getElementById('emissions_db_faostat_' + crf + '_' + y).innerHTML = v;
+                }
+
+                var sql = {
+                    'query' : 'select code, year, gunfvalue from UNFCCC_Comparison where areacode = ' + country_code
+                };
+                var data = {};
+                data.datasource = 'faostat',
+                    data.thousandSeparator = ',';
+                data.decimalSeparator = '.';
+                data.decimalNumbers = 2;
+                data.json = JSON.stringify(sql);
+                data.cssFilename = '';
+                data.nowrap = false;
+                data.valuesIndex = 0;
+
+                $.ajax({
+
+                    type    :   'POST',
+                    url     :   GHGEDITOR.CONFIG.url_data,
+                    data    :   data,
+
+                    success : function(response) {
+                        var json = response;
+                        if (typeof json == 'string')
+                            json = $.parseJSON(response);
+                        for (var i = 0 ; i < json.length ; i++) {
+                            var id = 'emissions_db_nc_' + json[i][0].replace('.', '') + '_' + json[i][1];
+                            try {
+                                document.getElementById(id).innerHTML = (json[i].length > 2) ? json[i][2] : '';
+                            } catch (e) {
+
+                            }
+                        }
+                        if (callback != null)
+                            callback();
+                    },
+
+                    error : function(err, b, c) {
+
+                    }
+
+                });
+
+            },
+
+            error: function (e, b, c) {
+                console.log(e);
+                console.log(b);
+                console.log(c);
+            }
+
+        });
+
+    }
+
+    function populateTable_EmissionsDatabaseFAOSTAT(country_code) {
+        var sql = {
+            'query' : "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                "WHERE D.DomainCode = 'GT' AND D.AreaCode = '" + country_code + "' " +
+                "AND D.ElementListCode = '7231' " +
+                "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
+                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                "2010, 2011, 2012) " +
+                "AND D.AreaCode = A.AreaCode " +
+                "AND D.ElementListCode = E.ElementListCode " +
+                "AND D.ItemCode = I.ItemCode " +
+                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
+        }
+        var data = {};
+        data.datasource = 'faostat',
+            data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = 2;
         data.json = JSON.stringify(sql);
