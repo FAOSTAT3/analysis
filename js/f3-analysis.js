@@ -83,6 +83,7 @@ var F3_ANALYSIS = (function() {
             $("#ghg-overview").click(function() { loadView("ghg-overview") });
             $("#ghg-country-profile").click(function() {  loadView("ghg-country-profile") } );
             $("#ghg-indicators").click(function() { loadView("ghg-indicators") });
+            $("#ghg-geo-referenced-data").click(function() { loadView("ghg-geo-referenced-data") });
         });
     };
 
@@ -102,12 +103,16 @@ var F3_ANALYSIS = (function() {
                 break;
             case 'ghg-indicators':
                 $("#" + CONFIG.placeholder_tiles).hide();
-//                GHG_OVERVIEW.init(view_config);
+                GHG_COUNTRY_PROFILE.init_indicators(view_config)
                 break;
             case 'ghg-country-profile':
                 $("#" + CONFIG.placeholder_tiles).hide();
                 GHG_COUNTRY_PROFILE.init(view_config)
-                break;;
+                break;
+            case 'ghg-geo-referenced-data':
+                $("#" + CONFIG.placeholder_tiles).hide();
+                GHG_COUNTRY_PROFILE.init_geo_referenced(view_config)
+                break;
         }
     };
 

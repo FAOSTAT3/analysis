@@ -23,6 +23,8 @@ var GHG_COUNTRY_PROFILE = (function() {
 
         /* Structures and Labels */
         html_structure: 'http://168.202.28.210:8080/analysis/ghg-country-profile-structure.html',
+        html_structure_indicators: 'http://168.202.28.210:8080/analysis/ghg-indicators-structure.html',
+        html_structure_geo_referenced: 'http://168.202.28.210:8080/analysis/ghg-geo-referenced-structure.html',
         I18N_URL: 'http://168.202.28.210:8080/faostat-gateway/static/faostat/I18N/',
 
         /* Default Values of the comboboxes */
@@ -55,6 +57,16 @@ var GHG_COUNTRY_PROFILE = (function() {
             });
 
         });
+    };
+
+    function init_indicators(config) {
+        CONFIG = $.extend(true, CONFIG, config);
+        $('#' + CONFIG.placeholder).load(CONFIG.html_structure_indicators, function () {});
+    };
+
+    function init_geo_referenced(config) {
+        CONFIG = $.extend(true, CONFIG, config);
+        $('#' + CONFIG.placeholder).load(CONFIG.html_structure_geo_referenced, function () {});
     };
 
     function populateView(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
@@ -197,7 +209,9 @@ var GHG_COUNTRY_PROFILE = (function() {
     }
 
     return {
-        init: init
+        init                :   init,
+        init_indicators     :   init_indicators,
+        init_geo_referenced :   init_geo_referenced
     };
 
 })();
