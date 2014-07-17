@@ -2,12 +2,12 @@ var GHGEDITOR = (function() {
 
     var CONFIG = {
         data            :   null,
-        base_url        :   'http://localhost:8080',
+        base_url        :   'http://168.202.28.210:8080',
         url_templates   :   'ghg-editor/html/templates.html',
         url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT/S',
         url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
-        url_editor      :   'http://localhost:8080/ghg-editor/',
-        url_i18n        :   'http://localhost:8080/ghg-editor/I18N/'
+        url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
+        url_i18n        :   'http://168.202.28.210:8080/ghg-editor/I18N/'
     };
 
     function init() {
@@ -143,7 +143,7 @@ var GHGEDITOR = (function() {
         }
 
         /* Bind GHG Editor button. */
-        $('#ghg_editor_button').bind('click', function() {
+        $('#_ghg_editor_button').bind('click', function() {
             window.open(GHGEDITOR.CONFIG.url_editor, '_blank');
         });
 
