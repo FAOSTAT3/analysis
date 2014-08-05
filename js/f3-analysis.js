@@ -84,6 +84,10 @@ var F3_ANALYSIS = (function() {
             $("#ghg-country-profile").click(function() {  loadView("ghg-country-profile") } );
             $("#ghg-indicators").click(function() { loadView("ghg-indicators") });
             $("#ghg-geo-referenced-data").click(function() { loadView("ghg-geo-referenced-data") });
+            $('#_overview_image').attr('src', $.i18n.prop('_overview_image'));
+            $('#_quality_image').attr('src', $.i18n.prop('_quality_image'));
+            $('#_indicators_image').attr('src', $.i18n.prop('_indicators_image'));
+            $('#_data_image').attr('src', $.i18n.prop('_data_image'));
         });
     };
 

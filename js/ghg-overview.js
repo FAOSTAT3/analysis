@@ -88,12 +88,14 @@ var GHG_OVERVIEW = (function() {
 
         $("#overview_chart_ag_total").html($.i18n.prop('_agriculture_total'));
         $("#overview_chart_ag_total").append(" (" + $.i18n.prop('_country_region') + ")");
-        $("#overview_chart_ef_mm").html($.i18n.prop('_enteric_fermentation') + " y " + $.i18n.prop('_manure_management'));
-        $("#overview_chart_ef_mm").append(" ("  + $.i18n.prop('_sum').toLocaleLowerCase() + " de los "+ $.i18n.prop('_countries').toLocaleLowerCase() + ")");
-        $("#overview_chart_ag_rc").html($.i18n.prop('_agricultural_soils') + " y " + $.i18n.prop('_rice_cultivation'));
-        $("#overview_chart_ag_rc").append(" ("  + $.i18n.prop('_sum').toLocaleLowerCase() + " de los "+ $.i18n.prop('_countries').toLocaleLowerCase() + ")");
-        $("#overview_chart_bc_bs").html($.i18n.prop('_burning_crops_residues') + " y " + $.i18n.prop('_burning_savanna'));
-        $("#overview_chart_bc_bs").append(" ("  + $.i18n.prop('_sum').toLocaleLowerCase() + " de los "+ $.i18n.prop('_countries').toLocaleLowerCase() + ")");
+        $("#overview_chart_ef_mm").html($.i18n.prop('_enteric_fermentation') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_manure_management'));
+        $("#overview_chart_ef_mm").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_ag_rc").html($.i18n.prop('_agricultural_soils') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_rice_cultivation'));
+        $("#overview_chart_ag_rc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_bc_bs").html($.i18n.prop('_burning_crops_residues') + " " + $.i18n.prop('_and') + " " +  $.i18n.prop('_burning_savanna'));
+        $("#overview_chart_bc_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+
+        $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
 
 
     }

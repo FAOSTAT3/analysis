@@ -2,12 +2,12 @@ var GHGEDITOR = (function() {
 
     var CONFIG = {
         data            :   null,
-        base_url        :   'http://168.202.28.210:8080',
+        base_url        :   'http://fenixapps2.fao.org/ghg',
         url_templates   :   'ghg-editor/html/templates.html',
         url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT/S',
         url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
         url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
-        url_i18n        :   'http://168.202.28.210:8080/ghg-editor/I18N/'
+        url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/'
     };
 
     function init() {
@@ -82,7 +82,6 @@ var GHGEDITOR = (function() {
                 document.getElementById(ids[i]).innerHTML = $.i18n.prop(ids[i]);
             } catch (e) {
 
-
             }
         }
     }
@@ -120,6 +119,11 @@ var GHGEDITOR = (function() {
                     s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
                 document.getElementById('country_selector').innerHTML = s;
                 $('#country_selector').trigger('chosen:updated');
+
+                $('#_ghg_country_profile_label').html($.i18n.prop('_ghg_country_profile_label'));
+                $('#search-items').html($.i18n.prop('_emissions'));
+                $('#search-elements').html($.i18n.prop('_activity_data'));
+                $('#_charts').html($.i18n.prop('_charts'));
 
             },
 
@@ -258,7 +262,7 @@ var GHGEDITOR = (function() {
                 enableMarker: true
             }
         ];
-        createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' y ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data);
+        createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data);
 
         /* Chart 3 Definition. */
         var series_3 = [
@@ -353,7 +357,7 @@ var GHGEDITOR = (function() {
                 enableMarker: true
             }
         ];
-        createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' y ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data);
+        createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data);
 
     };
 
