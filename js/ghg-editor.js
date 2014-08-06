@@ -469,6 +469,12 @@ var GHGEDITOR = (function() {
                 });
             }
         }
+
+        try {
+            chart.redraw();
+        } catch(e) {
+            console.log(e);
+        }
     };
 
     /* Query DB and prepare the payload for the charts. */
@@ -477,18 +483,18 @@ var GHGEDITOR = (function() {
         switch (datasource) {
             case 'faostat':
                 sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                               "WHERE D.DomainCode = '" + domain_code + "' AND D.AreaCode = '" + country + "' " +
-                               "AND D.ElementListCode = '" + element + "' " +
-                               "AND D.ItemCode IN ('" + item + "') " +
-                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                               "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                               "2010, 2011, 2012) " +
-                               "AND D.AreaCode = A.AreaCode " +
-                               "AND D.ElementListCode = E.ElementListCode " +
-                               "AND D.ItemCode = I.ItemCode " +
-                               "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                               "ORDER BY D.Year DESC ";
+                    "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                    "WHERE D.DomainCode = '" + domain_code + "' AND D.AreaCode = '" + country + "' " +
+                    "AND D.ElementListCode = '" + element + "' " +
+                    "AND D.ItemCode IN ('" + item + "') " +
+                    "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                    "2010, 2011, 2012) " +
+                    "AND D.AreaCode = A.AreaCode " +
+                    "AND D.ElementListCode = E.ElementListCode " +
+                    "AND D.ItemCode = I.ItemCode " +
+                    "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                    "ORDER BY D.Year DESC ";
                 break;
             case 'nc':
                 sql['query'] = "SELECT year, GUNFValue FROM UNFCCC_Comparison WHERE areacode = " + country + " AND code = '" + item + "' " +
@@ -500,7 +506,7 @@ var GHGEDITOR = (function() {
         }
         var data = {};
         data.datasource = 'faostat',
-        data.thousandSeparator = ',';
+            data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = 2;
         data.json = JSON.stringify(sql);
@@ -529,7 +535,8 @@ var GHGEDITOR = (function() {
             case 'faostat':
                 for (var i = json.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
-                    tmp.push(Date.UTC(parseInt(json[i][4])));
+                    var year = new Date(parseInt(json[i][4]) + '-01-01');
+                    tmp.push(year);
                     tmp.push(parseFloat(json[i][5]));
                     data.push(tmp);
                 }
@@ -538,10 +545,12 @@ var GHGEDITOR = (function() {
                 for (var i = json.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
                     if (json[i].length > 1) {
-                        tmp.push(Date.UTC(parseInt(json[i][0]), 0, 1));
+                        var year = new Date(parseInt(json[i][0]) + '-01-01');
+                        tmp.push(year);
                         tmp.push(parseFloat(json[i][1]));
                     } else {
-                        tmp.push(Date.UTC(parseInt(json[i][0]), 0, 1));
+                        var year = new Date(parseInt(json[i][0]) + '-01-01');
+                        tmp.push(year);
                         tmp.push(null);
                     }
                     data.push(tmp);
