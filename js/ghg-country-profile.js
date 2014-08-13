@@ -66,7 +66,9 @@ var GHG_COUNTRY_PROFILE = (function() {
 
     function init_geo_referenced(config) {
         CONFIG = $.extend(true, CONFIG, config);
-        $('#' + CONFIG.placeholder).load(CONFIG.html_structure_geo_referenced, function () {});
+          //$('#' + CONFIG.placeholder).load(CONFIG.html_structure_geo_referenced, function () {});
+	    $('#' + CONFIG.placeholder).html('<iframe style="margin-left:-124px" width="1200" height="840" scrolling="no" frameBorder="0" src="http://fenixapps.fao.org/repository/fenix/view_ghg.html?lang=EN&tab=ghg_burned_areas_savanna&sec=null"></iframe>') 
+	//window.open ('http://fenixapps.fao.org/repository/fenix/view.html?lang=EN&tab=ghg_burned_areas_savanna&sec=null','_self',false)
     };
 
     function populateView(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
