@@ -2,12 +2,19 @@ var GHGEDITOR = (function() {
 
     var CONFIG = {
         data            :   null,
-        base_url        :   'http://fenixapps2.fao.org/ghg',
+        base_url        :   'http://168.202.28.57:8080',
         url_templates   :   'ghg-editor/html/templates.html',
-        url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT/S',
+        url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT',
         url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
         url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
-        url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/'
+        url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
+        colors: {
+            chart_1 : ['green', 'green'],
+            chart_2 : ['red', 'red', 'brown', 'brown'],
+            chart_3 : ['yellow', 'yellow'],
+            chart_4 : ['blue', 'blue'],
+            chart_5 : ['red', 'red', 'green', 'green']
+        }
     };
 
     function init() {
@@ -39,7 +46,7 @@ var GHGEDITOR = (function() {
 
             type        :   'GET',
             dataType    :   'json',
-            url         :   GHGEDITOR.CONFIG.url_procedures,
+            url         :   GHGEDITOR.CONFIG.url_procedures + '/' + F3_ANALYSIS.CONFIG.lang,
 
             success: function (response) {
 
@@ -106,7 +113,7 @@ var GHGEDITOR = (function() {
 
             type        :   'GET',
             dataType    :    'json',
-            url         :    GHGEDITOR.CONFIG.url_procedures,
+            url         :    GHGEDITOR.CONFIG.url_procedures + '/' + F3_ANALYSIS.CONFIG.lang,
 
             success: function (response) {
 
@@ -217,7 +224,8 @@ var GHGEDITOR = (function() {
                 enableMarker: true
             }
         ];
-        createChart('chart_1', '<b>' + $.i18n.prop('_agriculture_total') + '</b>', series_1, add_user_data);
+        var colors = GHGEDITOR.CONFIG.colors.chart_1;
+        createChart('chart_1', '<b>' + $.i18n.prop('_agriculture_total') + '</b>', series_1, add_user_data, colors);
 
         /* Chart 2 Definition. */
         var series_2 = [
@@ -262,7 +270,8 @@ var GHGEDITOR = (function() {
                 enableMarker: true
             }
         ];
-        createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data);
+        var colors = GHGEDITOR.CONFIG.colors.chart_2;
+        createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data, colors);
 
         /* Chart 3 Definition. */
         var series_3 = [
@@ -287,7 +296,8 @@ var GHGEDITOR = (function() {
                 enableMarker: true
             }
         ];
-        createChart('chart_3', '<b>' + $.i18n.prop('_rice_cultivation') + '</b>', series_3, add_user_data);
+        var colors = GHGEDITOR.CONFIG.colors.chart_3;
+        createChart('chart_3', '<b>' + $.i18n.prop('_rice_cultivation') + '</b>', series_3, add_user_data, colors);
 
         /* Chart 4 Definition. */
         var series_4 = [
@@ -312,7 +322,8 @@ var GHGEDITOR = (function() {
                 enableMarker: true
             }
         ];
-        createChart('chart_4', '<b>' + $.i18n.prop('_agricultural_soils') + '</b>', series_4, add_user_data);
+        var colors = GHGEDITOR.CONFIG.colors.chart_4;
+        createChart('chart_4', '<b>' + $.i18n.prop('_agricultural_soils') + '</b>', series_4, add_user_data, colors);
 
         /* Chart 5 Definition. */
         var series_5 = [
@@ -357,12 +368,13 @@ var GHGEDITOR = (function() {
                 enableMarker: true
             }
         ];
-        createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data);
+        var colors = GHGEDITOR.CONFIG.colors.chart_5;
+        createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data, colors);
 
     };
 
     /* Charts template. */
-    function createChart(chart_id, title, series, add_user_data) {
+    function createChart(chart_id, title, series, add_user_data, colors) {
         var p = {
             chart: {
                 height: 400,
@@ -377,7 +389,7 @@ var GHGEDITOR = (function() {
                     }
                 }
             },
-            colors: ['#1f678a', '#1f678a', '#92a8b7', '#92a8b7'],
+            colors: colors,
             credits: {
                 enabled: false
             },
@@ -386,7 +398,7 @@ var GHGEDITOR = (function() {
                 x: -20
             },
             xAxis: {
-                type: 'datetime',
+                type: 'category',
                 labels: {
                     rotation: -45
                 }
@@ -409,7 +421,7 @@ var GHGEDITOR = (function() {
                 year: '%Y',
                 crosshairs: [true, true],
                 formatter: function() {
-                    return '<b>' + this.series.name + '</b><br>' + (new Date(this.x)).getFullYear() + ': ' + this.y + ' Gg'
+                    return '<b>' + this.series.name + '</b><br>' + this.x + ': ' + this.y + ' Gg'
                 }
             },
             legend: {
@@ -506,7 +518,7 @@ var GHGEDITOR = (function() {
         }
         var data = {};
         data.datasource = 'faostat',
-            data.thousandSeparator = ',';
+        data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = 2;
         data.json = JSON.stringify(sql);
@@ -535,7 +547,8 @@ var GHGEDITOR = (function() {
             case 'faostat':
                 for (var i = json.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
-                    var year = new Date(parseInt(json[i][4]) + '-01-01');
+//                    var year = new Date(parseInt(json[i][4]) + '-01-01');
+                    var year = parseInt(json[i][4]);
                     tmp.push(year);
                     tmp.push(parseFloat(json[i][5]));
                     data.push(tmp);
@@ -545,11 +558,13 @@ var GHGEDITOR = (function() {
                 for (var i = json.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
                     if (json[i].length > 1) {
-                        var year = new Date(parseInt(json[i][0]) + '-01-01');
+//                        var year = new Date(parseInt(json[i][0]) + '-01-01');
+                        var year = parseInt(json[i][0]);
                         tmp.push(year);
                         tmp.push(parseFloat(json[i][1]));
                     } else {
-                        var year = new Date(parseInt(json[i][0]) + '-01-01');
+//                        var year = new Date(parseInt(json[i][0]) + '-01-01');
+                        var year = parseInt(json[i][0]);
                         tmp.push(year);
                         tmp.push(null);
                     }
@@ -603,6 +618,9 @@ var GHGEDITOR = (function() {
     function createTable(render_id, is_editable, title, start_year, end_year, id_prefix, callback) {
 
         /* Load template. */
+        console.log(GHGEDITOR.CONFIG.base_url);
+        console.log(GHGEDITOR.CONFIG.url_templates);
+        console.log(GHGEDITOR.CONFIG.base_url + '/' + GHGEDITOR.CONFIG.url_templates);
         $.get(GHGEDITOR.CONFIG.base_url + '/' + GHGEDITOR.CONFIG.url_templates, function (templates) {
 
             /* Create time-range and inputs. */
