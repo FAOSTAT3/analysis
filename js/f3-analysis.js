@@ -77,7 +77,6 @@ var F3_ANALYSIS = (function() {
     }
 
     function loadTilesGUI() {
-        console.log("load Title");
         $("#" + CONFIG.placeholder_view).hide();
         $("#" + CONFIG.placeholder_tiles).show();
         // TODO: tiles
