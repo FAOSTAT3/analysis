@@ -3,28 +3,28 @@ var F3_ANALYSIS = (function() {
     var CONFIG = {
         placeholder: 'container',
         lang: 'E',
-        prefix: 'http://168.202.28.210:8080/analysis/',
+        prefix: 'http://168.202.28.214:8080/analysis/',
 
         datasource: 'faostat2',
 
-        baseurl: 'http://168.202.28.210:8080',
+        baseurl: 'http://168.202.28.214:8080',
 
         domain: 'IG',
         baseurl_country: '/wds/rest/procedures/countries',
         baseurl_dates: '/wds/rest/procedures/years',
 
         theme: 'faostat',
-        html_structure: 'http://168.202.28.210:8080/analysis/analysis.html',
+        html_structure: 'http://168.202.28.214:8080/analysis/analysis.html',
 
         // Tiles
         placeholder_tiles: 'container_tiles',
-        html_structure_tiles: 'http://168.202.28.210:8080/analysis/analysis-tiles.html',
+        html_structure_tiles: 'http://168.202.28.214:8080/analysis/analysis-tiles.html',
 
         // Views
         placeholder_view: 'container_views',
 
         // I18N
-        I18N_URL: "http://168.202.28.210:8080/faostat-gateway/static/faostat/I18N/",
+        I18N_URL: "http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/",
 
         // IF null create tiles
         default_view: null,
@@ -77,7 +77,9 @@ var F3_ANALYSIS = (function() {
     }
 
     function loadTilesGUI() {
+        console.log("load Title");
         $("#" + CONFIG.placeholder_view).hide();
+        $("#" + CONFIG.placeholder_tiles).show();
         // TODO: tiles
         $('#' + CONFIG.placeholder_tiles).load(CONFIG.html_structure_tiles, function () {
             $("#ghg-overview").click(function() { loadView("ghg-overview") });
@@ -91,9 +93,22 @@ var F3_ANALYSIS = (function() {
         });
     };
 
+    function upgradeURL(section, subsection) {
+        var section = (section == 'null') ? '*' : section;
+        var subsection = (subsection == 'null') ? '*' : subsection;
+        // Upgrade the URL
+        if (CORE != null) {
+            CORE.upgradeURL('analysis', section, subsection, CONFIG.lang);
+        }
+    }
+
     function loadView(view) {
         // Hide Tiles container TODO: check hide
         $("#" + CONFIG.placeholder_tiles).hide();
+        $("#" + CONFIG.placeholder_view).show();
+
+       // upgrading the url
+        upgradeURL(view, "*")
 
 
         // creating the configuration object for the different modules
@@ -116,6 +131,10 @@ var F3_ANALYSIS = (function() {
             case 'ghg-geo-referenced-data':
                 $("#" + CONFIG.placeholder_tiles).hide();
                 GHG_COUNTRY_PROFILE.init_geo_referenced(view_config)
+                break;
+
+            default:
+                loadTilesGUI()
                 break;
         }
     };

@@ -3,7 +3,7 @@ var GHG_OVERVIEW = (function() {
     var CONFIG = {
         placeholder: 'container_view',
         lang: 'E',
-        prefix: 'http://168.202.28.210:8080/analysis/',
+        prefix: 'http://168.202.28.214:8080/analysis/',
 
         // DATASOURCE
         datasource: 'faostat',
@@ -15,17 +15,18 @@ var GHG_OVERVIEW = (function() {
         selected_aggregation : "AVG",
 
         // SP URLs
-        baseurl: 'http://168.202.28.210:8080',
+        baseurl: 'http://faostat3.fao.org',
         baseurl_data: '/wds/rest/table/json',
         baseurl_countries: '/wds/rest/procedures/countries',
         baseurl_years: '/wds/rest/procedures/years',
 
         // Structures and Labels
-        html_structure: 'http://168.202.28.210:8080/analysis/ghg-overview-structure.html',
-        I18N_URL: 'http://168.202.28.210:8080/faostat-gateway/static/faostat/I18N/',
+        html_structure: 'http://168.202.28.214:8080/analysis/ghg-overview-structure.html',
+        I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
 
         // Default Values of the comboboxes
-        default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
+        default_country : [49,60,138],
+//        default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
         default_from_year : [1990],
         default_to_year : [2010],
 
@@ -75,7 +76,8 @@ var GHG_OVERVIEW = (function() {
     };
 
     function loadLabels() {
-        $("#fs_label_area").html($.i18n.prop('_area'));
+//        $("#fs_label_area").html($.i18n.prop('_area'));
+        $("#fs_label_area").html($.i18n.prop('_select_a_country'));
         $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
         $("#fs_label_toyear").html($.i18n.prop('_toyear'));
         $("#fs_label_world").html($.i18n.prop('_world'));
@@ -88,15 +90,12 @@ var GHG_OVERVIEW = (function() {
 
         $("#overview_chart_ag_total").html($.i18n.prop('_agriculture_total'));
         $("#overview_chart_ag_total").append(" (" + $.i18n.prop('_country_region') + ")");
-        $("#overview_chart_ef_mm").html($.i18n.prop('_enteric_fermentation') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_manure_management'));
-        $("#overview_chart_ef_mm").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_ag_rc").html($.i18n.prop('_agricultural_soils') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_rice_cultivation'));
-        $("#overview_chart_ag_rc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_bc_bs").html($.i18n.prop('_burning_crops_residues') + " " + $.i18n.prop('_and') + " " +  $.i18n.prop('_burning_savanna'));
-        $("#overview_chart_bc_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-
-        $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
-
+        $("#overview_chart_ef_mm").html($.i18n.prop('_enteric_fermentation') + " and " + $.i18n.prop('_manure_management'));
+        $("#overview_chart_ef_mm").append(" ("  + $.i18n.prop('_sum').toLocaleLowerCase() + " of the "+ $.i18n.prop('_countries').toLocaleLowerCase() + ")");
+        $("#overview_chart_ag_rc").html($.i18n.prop('_agricultural_soils') + " and " + $.i18n.prop('_rice_cultivation'));
+        $("#overview_chart_ag_rc").append(" ("  + $.i18n.prop('_sum').toLocaleLowerCase() + " of the  "+ $.i18n.prop('_countries').toLocaleLowerCase() + ")");
+        $("#overview_chart_bc_bs").html($.i18n.prop('_burning_crops_residues') + " and " + $.i18n.prop('_burning_savanna'));
+        $("#overview_chart_bc_bs").append(" ("  + $.i18n.prop('_sum').toLocaleLowerCase() + " of the  "+ $.i18n.prop('_countries').toLocaleLowerCase() + ")");
 
     }
 
@@ -212,16 +211,23 @@ var GHG_OVERVIEW = (function() {
     function updateWorldBox(json) {
         var obj = getconfugirationObject()
 
+        var arecode = "'5000'"
+
         // Create Title
         var json_total = json.world_total;
         var total_obj = obj;
-        total_obj.areacode = "'5000'"
+        total_obj.areacode = arecode
         json_total = $.parseJSON(replaceValues(json_total, total_obj))
 
         // Create Pie
-        var json_chart = json.world_chart;
+//        var json_chart = json.world_chart;
+//        var chart_obj = obj;
+//        chart_obj.areacode = "'5100', '5200', '5300', '5400', '5500'"
+//        json_chart =  $.parseJSON(replaceValues(json_chart, chart_obj))
+
+        var json_chart = json.byarea_chart;
         var chart_obj = obj;
-        chart_obj.areacode = "'5100', '5200', '5300', '5400', '5500'"
+        chart_obj.areacode = arecode
         json_chart =  $.parseJSON(replaceValues(json_chart, chart_obj))
 
         createTitle("fx_world_total", json_total.sql)
