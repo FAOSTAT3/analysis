@@ -49,7 +49,9 @@ define(['jquery',
 
         var show_module = function(tile_code) {
             $('#tiles_container').empty();
-            GHGEDITOR().init();
+            require(["GHGEDITOR"], function() {
+                GHGEDITOR().init();
+            });
         };
 
         var show_section = function(tile_code) {

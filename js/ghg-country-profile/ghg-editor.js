@@ -30,7 +30,7 @@ define(['jquery',
             /* Load i18n for the editor outside the Gateway. */
             $.i18n.properties({
                 name: 'I18N',
-                path: GHGEDITOR.CONFIG.url_i18n,
+                path: CONFIG.url_i18n,
                 mode: 'both',
                 language: 'es'
             });
@@ -54,7 +54,7 @@ define(['jquery',
 
                 type        :   'GET',
                 dataType    :   'json',
-                url         :   GHGEDITOR.CONFIG.url_procedures + '/' + F3_ANALYSIS.CONFIG.lang,
+                url         :   CONFIG.url_procedures + '/' + F3_ANALYSIS.CONFIG.lang,
 
                 success: function (response) {
 
@@ -103,7 +103,7 @@ define(['jquery',
 
         var init_country_profile = function(config) {
 
-            GHGEDITOR.CONFIG = $.extend(true, CONFIG, config);
+            CONFIG = $.extend(true, CONFIG, config);
 
             /* Initiate tables. */
             createTable('emissions_db_nc', false, $.i18n.prop('_emissions_database_national_communication'), 1990, 2012, 'emissions_db_nc');
@@ -121,7 +121,7 @@ define(['jquery',
 
                 type        :   'GET',
                 dataType    :    'json',
-                url         :    GHGEDITOR.CONFIG.url_procedures + '/' + F3_ANALYSIS.CONFIG.lang,
+                url         :    CONFIG.url_procedures + '/' + F3_ANALYSIS.CONFIG.lang,
 
                 success: function (response) {
 
@@ -163,7 +163,7 @@ define(['jquery',
 
             /* Bind GHG Editor button. */
             $('#_ghg_editor_button').bind('click', function() {
-                window.open(GHGEDITOR.CONFIG.url_editor, '_blank');
+                window.open(CONFIG.url_editor, '_blank');
             });
 
             /* Translate ther UI. */
@@ -232,7 +232,7 @@ define(['jquery',
                     enableMarker: true
                 }
             ];
-            var colors = GHGEDITOR.CONFIG.colors.chart_1;
+            var colors = CONFIG.colors.chart_1;
             createChart('chart_1', '<b>' + $.i18n.prop('_agriculture_total') + '</b>', series_1, add_user_data, colors);
 
             /* Chart 2 Definition. */
@@ -278,7 +278,7 @@ define(['jquery',
                     enableMarker: true
                 }
             ];
-            var colors = GHGEDITOR.CONFIG.colors.chart_2;
+            var colors = colors.chart_2;
             createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data, colors);
 
             /* Chart 3 Definition. */
@@ -304,7 +304,7 @@ define(['jquery',
                     enableMarker: true
                 }
             ];
-            var colors = GHGEDITOR.CONFIG.colors.chart_3;
+            var colors = CONFIG.colors.chart_3;
             createChart('chart_3', '<b>' + $.i18n.prop('_rice_cultivation') + '</b>', series_3, add_user_data, colors);
 
             /* Chart 4 Definition. */
@@ -330,7 +330,7 @@ define(['jquery',
                     enableMarker: true
                 }
             ];
-            var colors = GHGEDITOR.CONFIG.colors.chart_4;
+            var colors = CONFIG.colors.chart_4;
             createChart('chart_4', '<b>' + $.i18n.prop('_agricultural_soils') + '</b>', series_4, add_user_data, colors);
 
             /* Chart 5 Definition. */
@@ -376,7 +376,7 @@ define(['jquery',
                     enableMarker: true
                 }
             ];
-            var colors = GHGEDITOR.CONFIG.colors.chart_5;
+            var colors = CONFIG.colors.chart_5;
             createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data, colors);
 
         };
@@ -535,7 +535,7 @@ define(['jquery',
             data.valuesIndex = 0;
             $.ajax({
                 type    :   'POST',
-                url     :   GHGEDITOR.CONFIG.url_data,
+                url     :   CONFIG.url_data,
                 data    :   data,
                 success: function (response) {
                     prepare_chart_data(series, response, datasource);
@@ -623,7 +623,7 @@ define(['jquery',
         var createTable = function(render_id, is_editable, title, start_year, end_year, id_prefix, callback) {
 
             /* Load template. */
-            $.get(GHGEDITOR.CONFIG.base_url + '/' + GHGEDITOR.CONFIG.url_templates, function (templates) {
+            $.get(CONFIG.base_url + '/' + CONFIG.url_templates, function (templates) {
 
                 /* Create time-range and inputs. */
                 var years = [];
@@ -687,7 +687,7 @@ define(['jquery',
 
                 /* Bind show/hide function. */
                 $('#' + id_prefix + '_collapse_button').on('click', function() {
-                    GHGEDITOR.showHideTable(id_prefix + '_left_table', id_prefix + '_right_table', id_prefix + '_collapse_button');
+                    showHideTable(id_prefix + '_left_table', id_prefix + '_right_table', id_prefix + '_collapse_button');
                 });
 
                 /* Bind callback (if any) */
@@ -791,7 +791,7 @@ define(['jquery',
             data.valuesIndex = 0;
             $.ajax({
                 type    :   'POST',
-                url     :   GHGEDITOR.CONFIG.url_data,
+                url     :   CONFIG.url_data,
                 data    :   data,
                 success : function(response) {
                     var json = response;
@@ -841,7 +841,7 @@ define(['jquery',
             $.ajax({
 
                 type    :   'POST',
-                url     :   GHGEDITOR.CONFIG.url_data,
+                url     :   CONFIG.url_data,
                 data    :   data,
 
                 success : function(response) {
@@ -881,7 +881,7 @@ define(['jquery',
                     $.ajax({
 
                         type    :   'POST',
-                        url     :   GHGEDITOR.CONFIG.url_data,
+                        url     :   CONFIG.url_data,
                         data    :   data,
 
                         success : function(response) {
@@ -944,7 +944,7 @@ define(['jquery',
             data.valuesIndex = 0;
             $.ajax({
                 type    :   'POST',
-                url     :   GHGEDITOR.CONFIG.url_data,
+                url     :   CONFIG.url_data,
                 data    :   data,
                 success : function(response) {
                     var json = response;
