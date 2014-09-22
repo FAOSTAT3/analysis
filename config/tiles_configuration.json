@@ -30,29 +30,14 @@
     },
     "ghg_quality": {
         "id": "ghg_quality",
-        "type": "module",
-        "img": "/quality.jpg",
-        "label": {
-            "E": "Quality Control"
-        },
-        "tiles": []
+        "type": "module"
     },
     "ghg_indicators": {
         "id": "ghg_indicators",
-        "type": "module",
-        "img": "/indicators.jpg",
-        "label": {
-            "E": "Regional Overview"
-        },
-        "tiles": []
+        "type": "module"
     },
     "ghg_data": {
         "id": "ghg_data",
-        "type": "module",
-        "img": "/data.jpg",
-        "label": {
-            "E": "Quality Control"
-        },
-        "tiles": []
+        "type": "module"
     }
 }
