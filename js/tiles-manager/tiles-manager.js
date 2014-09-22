@@ -37,34 +37,39 @@ define(['jquery',
         };
 
         var show_tiles = function(tile_code) {
-            $('#tiles_container').empty();
-            for (var i = 0 ; i < tiles_configuration[tile_code].length ; i += 2) {
-                var view = {};
-                var template = null;
-                var render = null;
-                if (i + 1 < tiles_configuration[tile_code].length) {
-                    view = {
-                        tile_img_src_1: CONFIG.url_images + CONFIG.lang + tiles_configuration[tile_code][i]['img'],
-                        tile_img_src_2: CONFIG.url_images + CONFIG.lang + tiles_configuration[tile_code][1 + i]['img'],
-                        tile_2_id: tiles_configuration[tile_code][i]['tile'],
-                        tile_3_id: tiles_configuration[tile_code][1 + i]['tile']
-                    };
-                    var template = $(templates).filter('#tile_double_row_structure').html();
-                    var render = Mustache.render(template, view);
-                } else {
-                    view = {
-                        tile_img_src_1: CONFIG.url_images + CONFIG.lang + tiles_configuration[tile_code][i]['img'],
-                        tile_1_id: tiles_configuration[tile_code][i]['tile']
-                    };
-                    var template = $(templates).filter('#tile_single_row_structure').html();
-                    var render = Mustache.render(template, view);
+            if (tiles_configuration[tile_code]['type'] == 'section') {
+                $('#tiles_container').empty();
+                for (var i = 0; i < tiles_configuration[tile_code]['tiles'].length; i += 2) {
+                    var child_1 = tiles_configuration[tiles_configuration[tile_code]['tiles'][i]];
+                    var view = {};
+                    var template = null;
+                    var render = null;
+                    if (i + 1 < tiles_configuration[tile_code]['tiles'].length) {
+                        var child_2 = tiles_configuration[tiles_configuration[tile_code]['tiles'][i + 1]];
+                        view = {
+                            tile_img_src_1: CONFIG.url_images + CONFIG.lang + child_1.img,
+                            tile_img_src_2: CONFIG.url_images + CONFIG.lang + child_2.img,
+                            tile_2_id: child_1.id,
+                            tile_3_id: child_2.id
+                        };
+                        template = $(templates).filter('#tile_double_row_structure').html();
+                        render = Mustache.render(template, view);
+                    } else {
+                        view = {
+                            tile_img_src_1: CONFIG.url_images + CONFIG.lang + child_1.img,
+                            tile_1_id: child_1.id
+                        };
+                        template = $(templates).filter('#tile_single_row_structure').html();
+                        render = Mustache.render(template, view);
+                    }
+                    $('#tiles_container').append(render);
                 }
-                $('#tiles_container').append(render);
-            }
-            for (var i = 0 ; i < tiles_configuration[tile_code].length ; i++) {
-                $('#' + tiles_configuration[tile_code][i]['tile']).click(function() {
-                    show_tiles(this.id);
-                });
+                for (var i = 0; i < tiles_configuration[tile_code]['tiles'].length; i++) {
+                    var child = tiles_configuration[tiles_configuration[tile_code]['tiles'][i]];
+                    $('#' + child.id).click(function () {
+                        show_tiles(this.id);
+                    });
+                }
             }
         };
 

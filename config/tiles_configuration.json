@@ -1,41 +1,58 @@
 {
-    "main": [
-        {
-            "tile": "ghg",
-            "img": "/main_ghg.jpg",
-            "label": {
-                "E": "Green House Gases"
-            }
-        }
-    ],
-    "ghg": [
-        {
-            "tile": "ghg_overview",
-            "img": "/overview.jpg",
-            "label": {
-                "E": "Regional Overview"
-            }
+    "main": {
+        "type": "section",
+        "tiles": [
+            "ghg"
+        ]
+    },
+    "ghg": {
+        "id": "ghg",
+        "type": "section",
+        "img": "/main_ghg.jpg",
+        "label": {
+            "E": "Regional Overview"
         },
-        {
-            "tile": "ghg_quality",
-            "img": "/quality.jpg",
-            "label": {
-                "E": "Quality Assurance"
-            }
+        "tiles": [
+            "ghg_overview",
+            "ghg_quality",
+            "ghg_indicators",
+            "ghg_data"
+        ]
+    },
+    "ghg_overview": {
+        "id": "ghg_overview",
+        "type": "module",
+        "img": "/overview.jpg",
+        "label": {
+            "E": "Regional Overview"
         },
-        {
-            "tile": "ghg_indicators",
-            "img": "/indicators.jpg",
-            "label": {
-                "E": "Indicators"
-            }
+        "tiles": []
+    },
+    "ghg_quality": {
+        "id": "ghg_quality",
+        "type": "module",
+        "img": "/quality.jpg",
+        "label": {
+            "E": "Quality Control"
         },
-        {
-            "tile": "ghg_data",
-            "img": "/data.jpg",
-            "label": {
-                "E": "Georeferenced Data"
-            }
-        }
-    ]
+        "tiles": []
+    },
+    "ghg_indicators": {
+        "id": "ghg_indicators",
+        "type": "module",
+        "img": "/indicators.jpg",
+        "label": {
+            "E": "Regional Overview"
+        },
+        "tiles": []
+    },
+    "ghg_data": {
+        "id": "ghg_data",
+        "type": "module",
+        "img": "/data.jpg",
+        "label": {
+            "E": "Quality Control"
+        },
+        "tiles": []
+    }
 }
