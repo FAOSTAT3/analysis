@@ -3,28 +3,28 @@ var F3_ANALYSIS = (function() {
     var CONFIG = {
         placeholder: 'container',
         lang: 'E',
-        prefix: 'http://168.202.28.214:8080/analysis/',
+        prefix: 'http://fenixapps2.fao.org/ghg/analysis/',
 
         datasource: 'faostat2',
 
-        baseurl: 'http://168.202.28.214:8080',
+        baseurl: 'http://fenixapps2.fao.org/ghg',
 
         domain: 'IG',
         baseurl_country: '/wds/rest/procedures/countries',
         baseurl_dates: '/wds/rest/procedures/years',
 
         theme: 'faostat',
-        html_structure: 'http://168.202.28.214:8080/analysis/analysis.html',
+        html_structure: 'http://fenixapps2.fao.org/ghg/analysis/analysis.html',
 
         // Tiles
         placeholder_tiles: 'container_tiles',
-        html_structure_tiles: 'http://168.202.28.214:8080/analysis/analysis-tiles.html',
+        html_structure_tiles: 'http://fenixapps2.fao.org/ghg/analysis/analysis-tiles.html',
 
         // Views
         placeholder_view: 'container_views',
 
         // I18N
-        I18N_URL: "http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/",
+        I18N_URL: "http://fenixapps2.fao.org/ghg/faostat-gateway/static/faostat/I18N/",
 
         // IF null create tiles
         default_view: null,
@@ -139,7 +139,8 @@ var F3_ANALYSIS = (function() {
     };
 
     return {
-        init: init
+        init: init,
+        CONFIG: CONFIG
     };
 
 })();

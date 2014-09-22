@@ -1,6 +1,6 @@
 {
 	"datasource": "faostat2",
-	"baseurl": "168.202.28.210:8080",
-    "I18N_URL" :  "http://168.202.28.210:8080/faostat-gateway/static/faostat/I18N/"
+	"baseurl": "fenixapps2.fao.org/ghg",
+    "I18N_URL" :  "http://fenixapps2.fao.org/ghg/faostat-gateway/static/faostat/I18N/"
 
 }

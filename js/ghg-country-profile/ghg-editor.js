@@ -2,7 +2,7 @@ var GHGEDITOR = (function() {
 
     var CONFIG = {
         data            :   null,
-        base_url        :   'http://168.202.28.57:8080',
+        base_url        :   'http://fenixapps2.fao.org/ghg',
         url_templates   :   'ghg-editor/html/templates.html',
         url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT',
         url_data        :   'http://faostat3.fao.org/wds/rest/table/json',

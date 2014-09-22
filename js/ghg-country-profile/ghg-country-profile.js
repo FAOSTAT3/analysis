@@ -4,7 +4,7 @@ var GHG_COUNTRY_PROFILE = (function() {
 
         placeholder: 'container_view',
         lang: 'E',
-        prefix: 'http://168.202.28.210:8080/analysis/',
+        prefix: 'http://fenixapps2.fao.org/ghg/analysis/',
 
         /* DATASOURCE */
         datasource: 'faostat',
@@ -16,16 +16,16 @@ var GHG_COUNTRY_PROFILE = (function() {
         selected_aggregation : "AVG",
 
         /* SP URLs */
-        baseurl: 'http://168.202.28.210:8080',
+        baseurl: 'http://fenixapps2.fao.org/ghg',
         baseurl_data: '/wds/rest/table/json',
         baseurl_countries: '/wds/rest/procedures/countries',
         baseurl_years: '/wds/rest/procedures/years',
 
         /* Structures and Labels */
-        html_structure: 'http://168.202.28.210:8080/analysis/ghg-country-profile-structure.html',
-        html_structure_indicators: 'http://168.202.28.210:8080/analysis/ghg-indicators-structure.html',
-        html_structure_geo_referenced: 'http://168.202.28.210:8080/analysis/ghg-geo-referenced-structure.html',
-        I18N_URL: 'http://168.202.28.210:8080/faostat-gateway/static/faostat/I18N/',
+        html_structure: 'http://fenixapps2.fao.org/ghg/analysis/ghg-country-profile-structure.html',
+        html_structure_indicators: 'http://fenixapps2.fao.org/ghg/analysis/ghg-indicators-structure.html',
+        html_structure_geo_referenced: 'http://fenixapps2.fao.org/ghg/analysis/ghg-geo-referenced-structure.html',
+        I18N_URL: 'http://fenixapps2.fao.org/ghg/faostat-gateway/static/faostat/I18N/',
 
         /* Default Values of the comboboxes */
         default_country : [2],
@@ -52,7 +52,7 @@ var GHG_COUNTRY_PROFILE = (function() {
 
             /* Overwrite default settings. */
             GHGEDITOR.init_country_profile({
-                base_url: 'http://168.202.28.210:8080',
+                base_url: 'http://fenixapps2.fao.org/ghg',
                 url_templates: 'analysis/html/country_profile_templates.html'
             });
 

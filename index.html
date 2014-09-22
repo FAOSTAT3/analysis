@@ -1,282 +1,36 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html>
 
-<meta http-equiv="X-UA-Compatible" content="IE=edge"><meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <head>
 
-<head>
+        <title>Analysis</title>
 
-    <title>FAOSTAT Gateway</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
-    <link rel='icon' type='image/png' href='http://fenixapps.fao.org/repository/favicon/faostat.png'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
 
+        <!-- Fenix-Map-Js -->
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- JQuery -->
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.9.1/jquery-1.9.1.min.js'></script>
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.0.9/jquery.i18n.properties-min.js'></script>
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery/1.8.0/jquery.url.js'></script>
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery.number/2.1.0/jquery.number.js'></script>
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/jquery-ui/1.10.3/jquery-ui-1.10.3.custom.min.js'></script>
+        <link rel='icon' type='image/png' href='http://fenixapps.fao.org/repository/favicon/faostat.png'>
+        <link href='http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css' rel='stylesheet'>
+        <link href='http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' rel='stylesheet'>
+        <link href='http://fenixapps.fao.org/repository/js/chosen/1.0.0/chosen.min.css' rel='stylesheet'>
 
-    <!-- START BOOTSTRAP -->
-    <!--<meta name='viewport' content='width=device-width, initial-scale=1.0'>-->
-    <!--<script type='text/javascript' src='http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js'></script>-->
-    <!--<link href='http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css' rel='stylesheet'>-->
-    <!-- END BOOTSTRAP -->
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script src='js/libs/require.js'></script>
 
-    <!-- Highcharts -->
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/highcharts/4.0.1/js/highcharts.js'></script>
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/FENIXChartsLibrary/0.4/FENIXChartsLibrary.js'></script>
+    </head>
 
-    <!-- JQWidgets -->
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxcore.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxtabs.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxscrollbar.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxpanel.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxtree.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxexpander.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxbuttons.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxlistbox.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxdropdownlist.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxcheckbox.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxcombobox.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxmenu.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxradiobutton.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jqwidgets/2.8.3/jqxnumberinput.js"></script>
-
-    <!-- StickyJS -->
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/stickyjs/1.0/jquery.sticky.js"></script>
-
-    <!-- Core JS -->
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-gateway/static/faostat/faostat-gateway-js/faostat-gateway-js.js"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-gateway/static/faostat/faostat-gateway-js/core.js"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-gateway/static/faostat/faostat-gateway-js/crf.js"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-gateway/static/faostat/faostat-gateway-js/UIUtils.js"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-gateway/static/faostat/faostat-gateway-js/fullscreen.js"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-gateway/static/faostat/faostat-gateway-js/faostat-ga.js"></script>
-
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/chosen/1.0.0/chosen.jquery.min.js'></script>
-    <link href='http://fenixapps.fao.org/repository/js/chosen/1.0.0/chosen.min.css' rel='stylesheet'>
-
-    <!-- FAOSTAT Home -->
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-gateway/static/faostat/faostat-home-js/faostat-home.js'></script>
-
-    <!-- Databaste updates div -->
-    <link href="http://fenixapps.fao.org/repository/js/jquery.news.ticker/styles/ticker-style.css" rel="stylesheet" type="text/css" />
-    <script src="http://fenixapps.fao.org/repository/js/jquery.news.ticker/includes/jquery.ticker.js" type="text/javascript"></script>
-    <script src="http://$_BASE_URL/faostat-gateway/static/faostat/faostat-home-js/database-updates.js" type="text/javascript"></script>
-
-
-    <!-- JQuery Scrollpane -->
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jquery.scrollpane/1.0/mwheelIntent.js"></script>
-    <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jquery.scrollpane/1.0/jquery.jscrollpane.min.js"></script>
-    <link rel="stylesheet" href="http://fenixapps.fao.org/repository/js/jquery.scrollpane/1.0/jquery.jscrollpane.css" type="text/css" />
-
-    <!-- FAOSTAT Download -->
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/faostat-download.js'></script>
-    <!--<script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/F3DWLD.js'></script>-->
-
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/chromatable/jquery.chromatable.js'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/lib/jquery.mousewheel-3.0.6.pack.js'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/source/jquery.fancybox.js?v=2.1.4'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/source/jquery.fancybox.css?v=2.1.4'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/js/fanzybox/source/helpers/jquery.fancybox-media.js?v=1.0.5'></script>
-    <link type="text/css" rel="stylesheet" href="/faostat-download-js/css/myPivot.css" />
-    <link type="text/css" rel="stylesheet" href="/faostat-download-js/js/fanzybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
-    <link type="text/css" rel="stylesheet" href="/faostat-download-js/js/fanzybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
-    <link type="text/css" rel="stylesheet" href="/faostat-download-js/js/fanzybox/source/jquery.fancybox.css?v=2.1.4" />
-
-    <!--<script type='text/javascript' src='http://$_BASE_URL/faostat-download-js/FBSN.js'></script>-->
-
-
-
-
-    <link rel="stylesheet" type="text/css" href="http://$_BASE_URL/faostat-download-js/pivotAgg/pivot.css">
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-download-js/pivotAgg/pivot.js"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-download-js/pivotAgg/countriesAgg.js"></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-download-js/pivotAgg/gchart_renderers.js"></script>
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-download-js/pivotAgg/configuration.js"></script>
-
-
-
-    <!-- FAOSTAT Browse -->
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-browse-js/js/faostat-browse.js'></script>
-
-    <!-- FAOSTAT Analysis -->
-    <script type='text/javascript' src='http://$_BASE_URL/faostat-analysis-js/js/faostat-analysis.js'></script>
-
-    <!-- FAOSTAT Methods & Standards -->
-    <script type='text/javascript' src='http://$_BASE_URL/mes/js/analysis.js'></script>
-    <script type='text/javascript' src='http://$_BASE_URL/mes/js/google-analytics-manager.js'></script>
-
-
-    <!-- FAOSTAT Search -->
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-search-js/js/faostat-search.js"></script>
-
-    <!-- FAOSTAT Compare -->
-    <script type="text/javascript" src="http://$_BASE_URL/faostat-compare-js/js/faostat-compare.js"></script>
-
-    <!-- Homepage charts -->
-    <script type='text/javascript' src='http://fenixapps.fao.org/repository/js/faostat-home-charts/1.1/faostat-home-charts.js'></script>
-
-    <!-- Slider -->
-    <!-- <script type="text/javascript" src="http://fenixapps.fao.org/repository/js/jquery.rangeslider/5.1.1/jQRangeSlider-min.js"></script>
-    <link rel="stylesheet" href="http://fenixapps.fao.org/repository/js/jquery.rangeslider/5.1.1/css-custom/iThing_custom.css" type="text/css" /> -->
-
-    <!-- Power Tooltip -->
-    <link rel="stylesheet" href="http://fenixapps.fao.org/repository/css/jquery.power.tip/1.1.0/jquery.powertip.css" type="text/css" />
-    <script src="http://fenixapps.fao.org/repository/js/jquery.power.tip/1.1.0/jquery.powertip.min.js"></script>
-
-    <!-- JQWidgets CSS -->
-    <link type='text/css' rel='stylesheet' href='http://fenixapps.fao.org/repository/css/jqwidgets/2.8.3/styles/jqx.base.css' />
-
-    <!-- FAOSTAT Gateway's CSS -->
-    <!-- TODO REMOVE -->
-    <link type="text/css" rel="stylesheet" href="http://$_BASE_URL/faostat-gateway/static/faostat/search.css" />
-
-    <link type="text/css" rel="stylesheet" href="http://$_BASE_URL/faostat-gateway/static/faostat/faostat.css" />
-    <!--<link type="text/css" rel="stylesheet" href="http://$_BASE_URL/faostat-gateway/static/faostat/font-awesome.min.css" />-->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
-
-
-
-    <!-- JQUERY-UI CSS -->
-    <!-- <link rel="stylesheet" href="http://fenixapps.fao.org/repository/css/jquery-ui/1.9.2/smoothness/jquery-ui.custom_faostat.css" /> -->
-
-
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-
-    <!-- connection-utils -->
-    <script src="http://fenixapps.fao.org/repository/js/FENIX/utils/import-dependencies-1.0.js"></script>
-
-    <!-- Google Analytics -->
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-29534670-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+    <body>
+    <script>
+    require(["js/main"], function (common) {
+        require(["TILESMGR"], function () {
+            TILESMGR().init()
+        });
+    });
     </script>
 
-
-
-</head>
-
-<body onload="GHG-OVERVIEW.init();">
-
-<div class="siteContainer">
-    <div id="headBg"  class="headBg">
-        <div class="headWrapper">
-
-            <div id="headerBtns">
-
-                <form method="get" id="searchFS" style="display:$_DISPLAY_SEARCH">
-                    <input id="searchFStext" type="text" size="40" placeholder="Search..." />
-                </form>
-            </div>
-
-            <div class="logoFao">
-                <a target="_blank" href="http://www.fao.org/index_en.htm">
-                    <img width="358" height="50" alt="FAO" src="http://fenixapps.fao.org/repository/css/faostat-gateway/0.1/faostat-images/logo-Fao.png">
-                </a>
-            </div>
-            <div class="langCont">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td class="lan">
-                            <div id='langE'>english</div>
-                        </td>
-                        <td class="lan">
-                            <div>|</div>
-                        </td>
-                        <td class="lan">
-                            <div id='langF'>fran&ccedil;ais</div>
-                        </td>
-                        <td class="lan_underline">
-                            <div>|</div>
-                        </td>
-                        <td class="lan">
-                            <div id='langS'>espa&ntilde;ol</div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div>
-        <ul id="faostatMenu" class="faostatMenu">
-            <li onclick="CORE.loadModule('home');" id="home"></li>
-            <li id="browse"></li>
-            <li id="download"></li>
-            <li onclick="CORE.loadModule('compare', 'Q/QC');" id="compare"></li>
-            <li onclick="CORE.loadModule('search', '*');" id="search"></li>
-            <li onclick="CORE.loadModule('analysis', 'Q/QC');" id="analysis"></li>
-            <li onclick="CORE.loadModule('mes', 'methodology_list/*');" id="mes"></li>
-        </ul>
-
-
-        <div id='menu-dropdown-browse-box' class="menu-dropdown browse-dropdown">
-            <div id='menu-dropdown-browse' class="menu-dropdown-scroller">
-                <ul class="menu-dropdown-list">
-                    <li class="dropdown-element ico-pr" onclick="CORE.loadModule('browse', 'Q/*');"></li>
-                    <li class="dropdown-element ico-tr" onclick="CORE.loadModule('browse', 'T/*');"></li>
-                    <li class="dropdown-element ico-em" onclick="CORE.loadModule('browse', 'G1/*');"></li>
-                    <li class="dropdown-element ico-el" onclick="CORE.loadModule('browse', 'G2/*');"></li>
-                    <li class="dropdown-element ico-fs" onclick="CORE.loadModule('browse', 'C/*');"></li>
-                    <li class="dropdown-element ico-cb" onclick="CORE.loadModule('browse', 'B/*');"></li>
-                    <li class="dropdown-element ico-ae" onclick="CORE.loadModule('browse', 'E/*');"></li>
-                    <li class="dropdown-element ico-fb" onclick="CORE.loadModule('browse', 'FB/*');"></li>
-                    <li class="dropdown-element ico-pi" onclick="CORE.loadModule('browse', 'P/*');"></li>
-                    <li class="dropdown-element ico-re" onclick="CORE.loadModule('browse', 'R/*');"></li>
-                    <li class="dropdown-element ico-po" onclick="CORE.loadModule('browse', 'O/*');"></li>
-                    <li class="dropdown-element ico-in" onclick="CORE.loadModule('browse', 'I/*');"></li>
-                    <li class="dropdown-element ico-fo" onclick="CORE.loadModule('browse', 'F/*');"></li>
-                    <li class="dropdown-element ico-asti" onclick="CORE.loadModule('browse', 'AS/AA');"></li>
-                </ul>
-            </div>
-        </div>
-
-        <div id='menu-dropdown-download-box' class="menu-dropdown download-dropdown">
-            <div id='menu-dropdown-download' class="menu-dropdown-scroller menu-dropdown-box">
-                <ul class="menu-dropdown-list">
-                    <li class="dropdown-element ico-pr" onclick="CORE.loadModule('download', 'Q/*');"></li>
-                    <li class="dropdown-element ico-tr" onclick="CORE.loadModule('download', 'T/*');"></li>
-                    <li class="dropdown-element ico-em" onclick="CORE.loadModule('download', 'G1/*');"></li>
-                    <li class="dropdown-element ico-el" onclick="CORE.loadModule('download', 'G2/*');"></li>
-                    <li class="dropdown-element ico-fs" onclick="CORE.loadModule('download', 'C/*');"></li>
-                    <li class="dropdown-element ico-cb" onclick="CORE.loadModule('download', 'B/*');"></li>
-                    <li class="dropdown-element ico-ae" onclick="CORE.loadModule('download', 'E/*');"></li>
-                    <li class="dropdown-element ico-fb" onclick="CORE.loadModule('download', 'FB/*');"></li>
-                    <li class="dropdown-element ico-pi" onclick="CORE.loadModule('download', 'P/*');"></li>
-                    <li class="dropdown-element ico-re" onclick="CORE.loadModule('download', 'R/*');"></li>
-                    <li class="dropdown-element ico-po" onclick="CORE.loadModule('download', 'O/*');"></li>
-                    <li class="dropdown-element ico-in" onclick="CORE.loadModule('download', 'I/*');"></li>
-                    <li class="dropdown-element ico-fo" onclick="CORE.loadModule('download', 'F/*');"></li>
-                    <li class="dropdown-element ico-asti" onclick="CORE.loadModule('download', 'AS/*');"></li>
-
-                </ul>
-            </div>
-        </div>
-
-    </div>
-
-    <div class='clear'></div>
-
-    <div class="centralHolder">$_CONTENT</div>
-
-
-
-</div>
+    </body>
 
 </html>
