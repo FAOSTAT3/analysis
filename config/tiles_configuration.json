@@ -30,14 +30,17 @@
     },
     "ghg_quality": {
         "id": "ghg_quality",
-        "type": "module"
+        "type": "module",
+        "img": "/quality.jpg"
     },
     "ghg_indicators": {
         "id": "ghg_indicators",
-        "type": "module"
+        "type": "module",
+        "img": "/indicators.jpg"
     },
     "ghg_data": {
         "id": "ghg_data",
-        "type": "module"
+        "type": "module",
+        "img": "/data.jpg"
     }
 }

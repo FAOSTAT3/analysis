@@ -6,7 +6,7 @@ define(['jquery',
 
     var global = this;
 
-    global.TILESMGR = function() {
+    global.GHGEDITOR = function() {
 
         var CONFIG = {
             data            :   null,
@@ -1014,41 +1014,4 @@ define(['jquery',
 
     };
 
-
-
 });
-
-var GHGEDITOR = (function() {
-
-    var CONFIG = {
-        data            :   null,
-        base_url        :   'http://fenixapps2.fao.org/ghg',
-        url_templates   :   'ghg-editor/html/templates.html',
-        url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT',
-        url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
-        url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
-        url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
-        colors: {
-            chart_1 : ['green', 'green'],
-            chart_2 : ['red', 'red', 'brown', 'brown'],
-            chart_3 : ['yellow', 'yellow'],
-            chart_4 : ['blue', 'blue'],
-            chart_5 : ['red', 'red', 'green', 'green']
-        }
-    };
-
-
-
-
-
-    return {
-        CONFIG                  :   CONFIG,
-        init                    :   init,
-        showHideTable           :   showHideTable,
-        showHideCharts          :   showHideCharts,
-        exportData              :   exportData,
-        handlefilescatter       :   handlefilescatter,
-        init_country_profile    :   init_country_profile
-    };
-
-})();
