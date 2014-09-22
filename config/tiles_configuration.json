@@ -1,0 +1,41 @@
+{
+    "main": [
+        {
+            "tile": "ghg",
+            "img": "/main_ghg.jpg",
+            "label": {
+                "E": "Green House Gases"
+            }
+        }
+    ],
+    "ghg": [
+        {
+            "tile": "ghg_overview",
+            "img": "/overview.jpg",
+            "label": {
+                "E": "Regional Overview"
+            }
+        },
+        {
+            "tile": "ghg_quality",
+            "img": "/quality.jpg",
+            "label": {
+                "E": "Quality Assurance"
+            }
+        },
+        {
+            "tile": "ghg_indicators",
+            "img": "/indicators.jpg",
+            "label": {
+                "E": "Indicators"
+            }
+        },
+        {
+            "tile": "ghg_data",
+            "img": "/data.jpg",
+            "label": {
+                "E": "Georeferenced Data"
+            }
+        }
+    ]
+}
