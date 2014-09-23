@@ -1,17 +1,17 @@
 define(['jquery',
-    'mustache',
-    'text!analysis/html/templates.html',
-    'text!analysis/config/tiles_configuration.json',
-    'bootstrap'], function ($, Mustache, templates, tiles_configuration) {
+        'mustache',
+        'text!analysis/html/templates.html',
+        'chosen',
+        'bootstrap'], function ($, Mustache, templates, chosen) {
 
     var global = this;
 
-    global.GHGEDITOR = function() {
+    global.GHG_QA_QC = function() {
 
         var CONFIG = {
+            lang            :   'E',
             data            :   null,
-            base_url        :   'http://fenixapps2.fao.org/ghg',
-            url_templates   :   'ghg-editor/html/templates.html',
+            base_url        :   'http://168.202.28.57:8080/ghg',
             url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT',
             url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
             url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
@@ -25,71 +25,6 @@ define(['jquery',
             }
         };
 
-        var init = function() {
-
-            /* Load i18n for the editor outside the Gateway. */
-            $.i18n.properties({
-                name: 'I18N',
-                path: CONFIG.url_i18n,
-                mode: 'both',
-                language: 'es'
-            });
-
-            /* Initiate tables. */
-            createTable('country_new_data', true, 'Country New Data', 1990, 2012, 'country_new_data', addDataToCharts);
-            createTable('emissions_db_nc', false, 'Base de datos de Emisiones - NC', 1990, 2012, 'emissions_db_nc');
-            createTable('emissions_db_faostat', false, 'Base de datos de Emisiones - FAOSTAT ', 1990, 2012, 'emissions_db_faostat');
-            createTable('cnd_fs_difference', false, '% Diferencia (FAOSTAT)', 1990, 2012, 'cnd_fs_difference');
-            createTable('normalised_cnd_fs_difference', false, 'Diferencia normalizada % (FAOSTAT)', 1990, 2012, 'normalised_cnd_fs_difference');
-            createTable('cnd_nc_difference', false, '% Diferencia (NC)', 1990, 2012, 'cnd_nc_difference');
-            createTable('normalised_cnd_nc_difference', false, 'Diferencia normalizada % (NC)', 1990, 2012, 'normalised_cnd_nc_difference');
-
-            /* Initiate Chosen. */
-            $('.selector').chosen({
-                disable_search_threshold: 10,
-                allow_single_deselect: true
-            });
-
-            $.ajax({
-
-                type        :   'GET',
-                dataType    :   'json',
-                url         :   CONFIG.url_procedures + '/' + F3_ANALYSIS.CONFIG.lang,
-
-                success: function (response) {
-
-                    var json = response;
-                    if (typeof json == 'string')
-                        json = $.parseJSON(response);
-
-                    var s = '<option selected>Please Select a Country...</option>';
-                    for (var i = 0 ; i < json.length ; i++)
-                        s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
-                    document.getElementById('country_selector').innerHTML = s;
-                    $('#country_selector').trigger('chosen:updated');
-
-                },
-
-                error: function (err, b, c) {
-
-                }
-
-            });
-
-            /* Create charts and load tables on country selection change. */
-            $('#country_selector').on('change', function() {
-                var country_code = $('#country_selector').find(":selected").val();
-                createChartsAndPopulateTable(country_code, false, true);
-            });
-
-            /* Load configuration files. */
-            document.getElementById('files').addEventListener('change', handlefilescatter, false);
-
-            /* Translate ther UI. */
-            translate();
-
-        };
-
         var translate = function() {
             var ids = ['_ghg_country_profile_label', '_select_a_country_label', '_ghg_editor_label', '_ghg_editor_button', '_charts_label'];
             for (var i = 0 ; i < ids.length ; i++) {
@@ -101,9 +36,10 @@ define(['jquery',
             }
         };
 
-        var init_country_profile = function(config) {
+        var init = function(config) {
 
-            CONFIG = $.extend(true, CONFIG, config);
+            /* Extend default configuration. */
+            CONFIG = $.extend(true, {}, CONFIG, config);
 
             /* Initiate tables. */
             createTable('emissions_db_nc', false, $.i18n.prop('_emissions_database_national_communication'), 1990, 2012, 'emissions_db_nc');
@@ -165,6 +101,74 @@ define(['jquery',
             $('#_ghg_editor_button').bind('click', function() {
                 window.open(CONFIG.url_editor, '_blank');
             });
+
+            /* Translate ther UI. */
+            translate();
+
+        };
+
+        var init_ghg_editor = function(config) {
+
+            /* Extend default configuration. */
+            CONFIG = $.extend(true, {}, CONFIG, config);
+
+            /* Load i18n for the editor outside the Gateway. */
+            $.i18n.properties({
+                name: 'I18N',
+                path: CONFIG.url_i18n,
+                mode: 'both',
+                language: 'es'
+            });
+
+            /* Initiate tables. */
+            createTable('country_new_data', true, 'Country New Data', 1990, 2012, 'country_new_data', addDataToCharts);
+            createTable('emissions_db_nc', false, 'Base de datos de Emisiones - NC', 1990, 2012, 'emissions_db_nc');
+            createTable('emissions_db_faostat', false, 'Base de datos de Emisiones - FAOSTAT ', 1990, 2012, 'emissions_db_faostat');
+            createTable('cnd_fs_difference', false, '% Diferencia (FAOSTAT)', 1990, 2012, 'cnd_fs_difference');
+            createTable('normalised_cnd_fs_difference', false, 'Diferencia normalizada % (FAOSTAT)', 1990, 2012, 'normalised_cnd_fs_difference');
+            createTable('cnd_nc_difference', false, '% Diferencia (NC)', 1990, 2012, 'cnd_nc_difference');
+            createTable('normalised_cnd_nc_difference', false, 'Diferencia normalizada % (NC)', 1990, 2012, 'normalised_cnd_nc_difference');
+
+            /* Initiate Chosen. */
+            $('.selector').chosen({
+                disable_search_threshold: 10,
+                allow_single_deselect: true
+            });
+
+            $.ajax({
+
+                type        :   'GET',
+                dataType    :   'json',
+                url         :   CONFIG.url_procedures + '/' + CONFIG.lang,
+
+                success: function (response) {
+
+                    var json = response;
+                    if (typeof json == 'string')
+                        json = $.parseJSON(response);
+
+                    var s = '<option selected>Please Select a Country...</option>';
+                    for (var i = 0 ; i < json.length ; i++)
+                        s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                    document.getElementById('country_selector').innerHTML = s;
+                    $('#country_selector').trigger('chosen:updated');
+
+                },
+
+                error: function (err, b, c) {
+
+                }
+
+            });
+
+            /* Create charts and load tables on country selection change. */
+            $('#country_selector').on('change', function() {
+                var country_code = $('#country_selector').find(":selected").val();
+                createChartsAndPopulateTable(country_code, false, true);
+            });
+
+            /* Load configuration files. */
+            document.getElementById('files').addEventListener('change', handlefilescatter, false);
 
             /* Translate ther UI. */
             translate();
@@ -622,79 +626,75 @@ define(['jquery',
         /* Create the tables through Mustache templating. */
         var createTable = function(render_id, is_editable, title, start_year, end_year, id_prefix, callback) {
 
-            /* Load template. */
-            $.get(CONFIG.base_url + '/' + CONFIG.url_templates, function (templates) {
+            /* Create time-range and inputs. */
+            var years = [];
+            var inputs_4 = [];
+            var inputs_4A = [];
+            var inputs_4B = [];
+            var inputs_4C = [];
+            var inputs_4D = [];
+            var inputs_4E = [];
+            var inputs_4F = [];
+            for (var i = start_year; i <= end_year; i++) {
+                years.push({'year': i});
+                inputs_4.push({'input_id_4': id_prefix + '_4_' + i});
+                inputs_4A.push({'input_id_4A': id_prefix + '_4A_' + i});
+                inputs_4B.push({'input_id_4B': id_prefix + '_4B_' + i});
+                inputs_4C.push({'input_id_4C': id_prefix + '_4C_' + i});
+                inputs_4D.push({'input_id_4D': id_prefix + '_4D_' + i});
+                inputs_4E.push({'input_id_4E': id_prefix + '_4E_' + i});
+                inputs_4F.push({'input_id_4F': id_prefix + '_4F_' + i});
+            }
 
-                /* Create time-range and inputs. */
-                var years = [];
-                var inputs_4 = [];
-                var inputs_4A = [];
-                var inputs_4B = [];
-                var inputs_4C = [];
-                var inputs_4D = [];
-                var inputs_4E = [];
-                var inputs_4F = [];
-                for (var i = start_year ; i <= end_year ; i++) {
-                    years.push({'year': i});
-                    inputs_4.push({'input_id_4': id_prefix + '_4_' + i});
-                    inputs_4A.push({'input_id_4A': id_prefix + '_4A_' + i});
-                    inputs_4B.push({'input_id_4B': id_prefix + '_4B_' + i});
-                    inputs_4C.push({'input_id_4C': id_prefix + '_4C_' + i});
-                    inputs_4D.push({'input_id_4D': id_prefix + '_4D_' + i});
-                    inputs_4E.push({'input_id_4E': id_prefix + '_4E_' + i});
-                    inputs_4F.push({'input_id_4F': id_prefix + '_4F_' + i});
-                }
+            /* Define placeholders. */
+            var view = {
+                section_name: id_prefix,
+                spinning_id: id_prefix + '_spinning',
+                collapse_id: id_prefix + '_collapse_button',
+                title: title,
+                left_table_id: id_prefix + '_left_table',
+                right_table_id: id_prefix + '_right_table',
+                years: years,
+                inputs_4: inputs_4,
+                inputs_4A: inputs_4A,
+                inputs_4B: inputs_4B,
+                inputs_4C: inputs_4C,
+                inputs_4D: inputs_4D,
+                inputs_4E: inputs_4E,
+                inputs_4F: inputs_4F,
+                _code: $.i18n.prop('_code'),
+                _category: $.i18n.prop('_category'),
+                _agriculture: $.i18n.prop('_agriculture'),
+                _enteric_fermentation: $.i18n.prop('_enteric_fermentation'),
+                _manure_management: $.i18n.prop('_manure_management'),
+                _rice_cultivation: $.i18n.prop('_rice_cultivation'),
+                _agricultural_soils: $.i18n.prop('_agricultural_soils'),
+                _prescribed_burning_of_savannas: $.i18n.prop('_prescribed_burning_of_savannas'),
+                _field_burning_of_agricultural_residues: $.i18n.prop('_field_burning_of_agricultural_residues')
+            };
 
-                /* Define placeholders. */
-                var view = {
-                    section_name: id_prefix,
-                    spinning_id: id_prefix + '_spinning',
-                    collapse_id: id_prefix + '_collapse_button',
-                    title: title,
-                    left_table_id: id_prefix + '_left_table',
-                    right_table_id: id_prefix + '_right_table',
-                    years: years,
-                    inputs_4: inputs_4,
-                    inputs_4A: inputs_4A,
-                    inputs_4B: inputs_4B,
-                    inputs_4C: inputs_4C,
-                    inputs_4D: inputs_4D,
-                    inputs_4E: inputs_4E,
-                    inputs_4F: inputs_4F,
-                    _code: $.i18n.prop('_code'),
-                    _category: $.i18n.prop('_category'),
-                    _agriculture: $.i18n.prop('_agriculture'),
-                    _enteric_fermentation: $.i18n.prop('_enteric_fermentation'),
-                    _manure_management: $.i18n.prop('_manure_management'),
-                    _rice_cultivation: $.i18n.prop('_rice_cultivation'),
-                    _agricultural_soils: $.i18n.prop('_agricultural_soils'),
-                    _prescribed_burning_of_savannas: $.i18n.prop('_prescribed_burning_of_savannas'),
-                    _field_burning_of_agricultural_residues: $.i18n.prop('_field_burning_of_agricultural_residues')
-                };
+            /* Load the right template. */
+            var template = null;
+            if (is_editable)
+                template = $(templates).filter('#g1_table_editable').html();
+            else
+                template = $(templates).filter('#g1_table').html();
 
-                /* Load the right template. */
-                var template = null;
-                if (is_editable)
-                    template = $(templates).filter('#g1_table_editable').html();
-                else
-                    template = $(templates).filter('#g1_table').html();
+            /* Substitute placeholders. */
+            var render = render = Mustache.render(template, view);
 
-                /* Substitute placeholders. */
-                var render = render = Mustache.render(template, view);
+            /* Render the HTML. */
+            console.log(render_id);
+            document.getElementById(render_id).innerHTML = render;
 
-                /* Render the HTML. */
-                document.getElementById(render_id).innerHTML = render;
-
-                /* Bind show/hide function. */
-                $('#' + id_prefix + '_collapse_button').on('click', function() {
-                    showHideTable(id_prefix + '_left_table', id_prefix + '_right_table', id_prefix + '_collapse_button');
-                });
-
-                /* Bind callback (if any) */
-                if (callback != null)
-                    callback();
-
+            /* Bind show/hide function. */
+            $('#' + id_prefix + '_collapse_button').on('click', function () {
+                showHideTable(id_prefix + '_left_table', id_prefix + '_right_table', id_prefix + '_collapse_button');
             });
+
+            /* Bind callback (if any) */
+            if (callback != null)
+                callback();
 
         };
 

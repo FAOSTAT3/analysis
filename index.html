@@ -18,18 +18,12 @@
 
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
         <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-        <script src='js/libs/require.js'></script>
+        <script src='js/libs/require.js' data-main="js/main"></script>
 
     </head>
 
     <body>
-    <script>
-    require(["js/main"], function (common) {
-        require(["TILESMGR"], function () {
-            TILESMGR().init()
-        });
-    });
-    </script>
+
 
     </body>
 

@@ -9,12 +9,9 @@ require.config({
         jquery: '//code.jquery.com/jquery-1.10.1.min',
         mustache: '//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache',
         'jquery.power.tip': '//fenixapps.fao.org/repository/js/jquery.power.tip/1.1.0/jquery.powertip.min',
-
         'text': 'analysis/js/libs/text',
-
         F3_CHART: 'analysis/js/libs/commons/f3-chart',
-        GHG_COUNTRY_PROFILE: 'analysis/js//ghg-country-profile/ghg-country-profile',
-        GHGEDITOR: 'analysis/js//ghg-country-profile/ghg-editor',
+        GHG_QA_QC: 'analysis/js/ghg-qa-qc/ghg-qa-qc',
         GHG_OVERVIEW: 'analysis/js//ghg-overview/ghg-overview',
         TILESMGR: 'analysis/js/tiles-manager/tiles-manager'
 
@@ -30,4 +27,8 @@ require.config({
         'jquery.power.tip': ['jquery']
     }
 
+});
+
+require(["TILESMGR"], function () {
+    TILESMGR().init()
 });

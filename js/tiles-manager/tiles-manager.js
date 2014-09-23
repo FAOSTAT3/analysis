@@ -1,10 +1,11 @@
 define(['jquery',
+        'require',
         'mustache',
-        'text!analysis/html/templates.html',
-        'text!analysis/config/tiles_configuration.json',
-        'bootstrap'], function ($, Mustache, templates, tiles_configuration) {
+        'text!analysis/js/tiles-manager/html/templates.html',
+        'text!analysis/js/tiles-manager/config/tiles_configuration.json',
+        'bootstrap'], function ($, require, Mustache, templates, tiles_configuration) {
 
-    var global = this;
+    var global = window;
 
     global.TILESMGR = function() {
 
@@ -49,9 +50,16 @@ define(['jquery',
 
         var show_module = function(tile_code) {
             $('#tiles_container').empty();
-            require(["GHGEDITOR"], function() {
-                GHGEDITOR().init();
+
+            require(["ANALYSIS_GHG_QA_QC"], function() {
+                GHG_QA_QC().init();
             });
+
+//            require(["analysis/js/main"], function (common) {
+//                require(["GHG_QA_QC"], function () {
+//                    GHG_QA_QC().init()
+//                });
+//            });
         };
 
         var show_section = function(tile_code) {
