@@ -5,7 +5,9 @@ define(['jquery',
         'text!analysis/js/tiles-manager/config/tiles_configuration.json',
         'bootstrap'], function ($, require, Mustache, templates, tiles_configuration) {
 
-    function TILESMGR(config, tile_code) {
+    'use strict';
+
+    function TILESMGR() {
 
         this.CONFIG = {
             lang: 'E',
@@ -97,13 +99,14 @@ define(['jquery',
         }
 
         /* Add click listeners to the tiles. */
+        var _this = this;
         for (var i = 0; i < tiles_configuration[tile_code]['tiles'].length; i++) {
             var child = tiles_configuration[tiles_configuration[tile_code]['tiles'][i]];
             $('#' + child.id).click(function () {
-                new TILESMGR().show_tiles(this.id);
+                _this.show_tiles(this.id);
             });
         }
-        
+
     };
 
     return new TILESMGR();
