@@ -1,0 +1,310 @@
+<div id='ghg_qa_qc_structure'>
+
+    <div class='row'>
+
+        <div class="search-categories ghg-tab">
+
+            <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
+                <div id='_ghg_country_profile_label' class="ghg-title">
+                    Garantía de calidad
+                </div>
+            </div>
+            <span class="search-categories-label search-categories-label-selected" id="search-items"
+                  style="display: inline-block;"
+                  onclick='$("#main_content_emissions").css("display", "block");
+                                   $("#main_content_data").css("display", "none");
+                                   $("#search-elements").removeClass("search-categories-label search-categories-label-selected").addClass("search-categories-label");
+                                   $("#search-items").removeClass("search-categories-label").addClass("search-categories-label search-categories-label-selected");'
+                    >Emisiones
+            </span>
+            <span class="search-categories-label" id="search-elements"
+                  style="display: inline-block;"
+                  onclick='$("#main_content_emissions").css("display", "none");
+                                   $("#main_content_data").css("display", "block");
+                                   $("#search-items").removeClass("search-categories-label search-categories-label-selected").addClass("search-categories-label");
+                                   $("#search-elements").removeClass("search-categories-label").addClass("search-categories-label search-categories-label-selected");'
+                    >Datos de Activitad
+            </span>
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Main content for 'Emissions' tab. -->
+    <div id='main_content_emissions' style='display: block;'>
+
+        <!-- Country selector. -->
+        <div class='row' style='margin-top: -15px; margin-left: -10px;'>
+            <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                <div class='ghg_editor_title' id='_select_a_country_label'>
+                    Select a Country
+                </div>
+            </div>
+            <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                <div class='ghg_editor_title' id='_ghg_editor_label'>
+                    GHG Editor
+                </div>
+            </div>
+        </div>
+        <div class='row' style='margin-left: -10px; margin-top: 4px;'>
+            <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                <select id='country_selector' style='width: 100%;' id='country-list'
+                        data-placeholder='Please select a source...' class='selector'>
+
+                </select>
+            </div>
+            <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+                <button id='_ghg_editor_button' target='_blank' class='btn btn-default'
+                        style='width: 100%; height: 35px;'>
+                    Go To The Editor
+                </button>
+            </div>
+        </div>
+
+        <!-- Charts. -->
+        <div class='row'>
+            <div class='page-header'>
+                <h1 style='margin-left: 20px;'>
+                    <a name='charts' style='cursor: pointer;' onclick='GHG_QA_QC.showHideCharts();'>
+                        <i id='charts_collapse_button' class='fa fa-compress fa-border'></i>
+                    </a>
+                            <span id='_charts' style="font: 400 18px 'Roboto Condensed',sans-serif !important;">
+                                Graficos
+                            </span>
+                </h1>
+            </div>
+        </div>
+        <div id='charts_container'>
+            <div class='row' style='margin-left: -22px;'>
+                <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                    <div style='width: 100%;' id='chart_1'>
+                    </div>
+                </div>
+            </div>
+            <div class='row' style='margin-left: -22px; margin-top: 50px;'>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div style='width: 100%;' id='chart_2'>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div style='width: 100%;' id='chart_3'>
+                    </div>
+                </div>
+            </div>
+            <div class='row' style='margin-left: -22px; margin-top: 50px;'>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div style='width: 100%;' id='chart_4'>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div style='width: 100%;' id='chart_5'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emissions Database - National Communication. -->
+        <div class='row'>
+            <div id='emissions_db_nc'>
+
+            </div>
+        </div>
+
+        <!-- Emissions Database - FAOSTAT -->
+        <div class='row'>
+            <div id='emissions_db_faostat'>
+
+            </div>
+        </div>
+
+        <!-- % Difference (CountryNewData - FAOSTAT) / FAOSTAT -->
+        <div class='row'>
+            <div id='cnd_fs_difference'>
+
+            </div>
+        </div>
+
+        <!-- Normalised % difference (CountryNewData - FAOSTAT) / FAOSTAT -->
+        <div class='row'>
+            <div id='normalised_cnd_fs_difference'>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main content for 'Activity Data' tab. -->
+    <div id='main_content_data' style='display: none;'>
+        <div class='row'>
+            <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                Work in Progress
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id='g1_table'>
+    <div class='page-header'>
+        <h1 style='margin-left: 20px;'>
+            <a name='{{section_name}}' style='cursor: pointer;'>
+                <i id='{{collapse_id}}' class='fa fa-compress fa-border' style='font-size: 35px;'></i>
+            </a>
+            {{title}}
+        </h1>
+    </div>
+    <div class='col-xs-12 col-sm-3 col-md-3 col-lg-3'>
+        <div style='display: inline-block;'>
+            <table class='table table-bordered table-condensed table-hover' id='{{left_table_id}}'>
+                <thead>
+                <tr>
+                    <th>
+                        <div class='table_cell'>
+                            {{_code}}
+                        </div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_category}}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class='table_cell'>4</div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_agriculture}}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class='table_cell'>4.A</div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_enteric_fermentation}}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class='table_cell'>4.B</div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_manure_management}}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class='table_cell'>4.C</div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_rice_cultivation}}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class='table_cell'>4.D</div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_agricultural_soils}}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class='table_cell'>4.E</div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_prescribed_burning_of_savannas}}
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div class='table_cell'>4.F</div>
+                    </th>
+                    <th>
+                        <div class='table_cell'>
+                            {{_field_burning_of_agricultural_residues}}
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class='col-xs-12 col-sm-9 col-md-9 col-lg-9'>
+        <div style='display: inline-block; width: 100%; overflow: auto;'>
+            <table class='table table-bordered table-condensed table-hover' id='{{right_table_id}}'>
+                <thead>
+                <tr>
+                    <!--{{#years}}-->
+                    <th>
+                        <div class='table_cell year'>{{year}}</div>
+                    </th>
+                    <!--{{/years}}-->
+                </tr>
+                <tr>
+                    <!--{{#inputs_4}}-->
+                    <th>
+                        <div id='{{input_id_4}}' style='width: 100px;' class='form-control input-sm'></div>
+                    </th>
+                    <!--{{/inputs_4}}-->
+                </tr>
+                <tr>
+                    <!--{{#inputs_4A}}-->
+                    <th>
+                        <div id='{{input_id_4A}}' style='width: 100px;' class='form-control input-sm'></div>
+                    </th>
+                    <!--{{/inputs_4A}}-->
+                </tr>
+                <tr>
+                    <!--{{#inputs_4B}}-->
+                    <th>
+                        <div id='{{input_id_4B}}' style='width: 100px;' class='form-control input-sm'></div>
+                    </th>
+                    <!--{{/inputs_4B}}-->
+                </tr>
+                <tr>
+                    <!--{{#inputs_4C}}-->
+                    <th>
+                        <div id='{{input_id_4C}}' style='width: 100px;' class='form-control input-sm'></div>
+                    </th>
+                    <!--{{/inputs_4C}}-->
+                </tr>
+                <tr>
+                    <!--{{#inputs_4D}}-->
+                    <th>
+                        <div id='{{input_id_4D}}' style='width: 100px;' class='form-control input-sm'></div>
+                    </th>
+                    <!--{{/inputs_4D}}-->
+                </tr>
+                <tr>
+                    <!--{{#inputs_4E}}-->
+                    <th>
+                        <div id='{{input_id_4E}}' style='width: 100px;' class='form-control input-sm'></div>
+                    </th>
+                    <!--{{/inputs_4E}}-->
+                </tr>
+                <tr>
+                    <!--{{#inputs_4F}}-->
+                    <th>
+                        <div id='{{input_id_4F}}' style='width: 100px;' class='form-control input-sm'></div>
+                    </th>
+                    <!--{{/inputs_4F}}-->
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

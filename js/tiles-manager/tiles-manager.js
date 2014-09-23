@@ -53,8 +53,11 @@ define(['jquery',
 
     TILESMGR.prototype.show_module = function(tile_code) {
         $('#tiles_container').empty();
-        require(["ANALYSIS_GHG_QA_QC"], function() {
-            GHG_QA_QC().init();
+        var _this = this;
+        require(["ANALYSIS_GHG_QA_QC"], function(GHG_QA_QC) {
+            GHG_QA_QC.init({
+                'lang': _this.CONFIG.lang
+            });
         });
     };
 
