@@ -9,5 +9,6 @@ define({
     'ghg_overview': 'Aperçu Regional',
     'ghg_quality': 'AQ-CQ et Verification',
     'ghg_indicators': 'Indicateurs',
-    'ghg_data': 'Donnees Georeferencees'
+    'ghg_data': 'Donnees Georeferencees',
+    'please_select': 's\'il vous plait selectionnez...'
 });

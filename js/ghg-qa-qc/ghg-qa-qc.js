@@ -56,11 +56,15 @@ define(['jquery',
             allow_single_deselect: true
         });
 
+        /* Hide sub-domains. */
+        $('#ghg_verification_subdomains_label_col').css('display', 'none');
+        this.create_area_item_element_selector('GT', 1, 'ghg_verification_areas_list');
+
         /* Cast selectors configuration to JSON. */
         if (typeof selectors_configuration == 'string')
             selectors_configuration = $.parseJSON(selectors_configuration);
 
-        this.create_selector('groups', 'ghg_verification_groups_list', 'ghg_verification_domains_list');
+        this.create_selector('groups', 'ghg_verification_groups_list', selectors_configuration.groups[0].target);
 
         /* Initiate tables. */
         this.createTable('emissions_db_nc', false, $.i18n.prop('_emissions_database_national_communication'), 1990, 2012, 'emissions_db_nc');
@@ -130,37 +134,79 @@ define(['jquery',
 
     GHG_QA_QC.prototype.create_selector = function(selector_code, selector_id, target_selector_id) {
 
-        /* Empty drop-down. */
-        $('#' + selector_id).empty();
-
-        console.log(selectors_configuration);
-        console.log(selector_code);
-        console.log(selectors_configuration[selector_code]);
-        console.log(target_selector_id);
-
-        /* Populate drop-down. */
-        $('#' + selector_id).append('<option value="null">Please select...</option>');
-        for (var i = 0 ; i < selectors_configuration[selector_code].length ; i++) {
-            var s = '<option value="';
-            s += selectors_configuration[selector_code][i].code;
-            s += '">';
-            s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
-            s += '</option>';
-            $('#' + selector_id).append(s);
+        /* Populate areas, items and elements. */
+        if (selector_id == 'AREAS_ITEMS_ELEMENTS') {
+            console.log(selector_code);
+            this.create_area_item_element_selectors(selector_code);
         }
 
-        /* Initiate Chosen. */
-        $('#' + selector_id).chosen({
-            disable_search_threshold: 10,
-            allow_single_deselect: true
-        });
-        $('#' + selector_id).trigger('chosen:updated');
+        /* Populate given selector. */
+        else {
 
-        var _this = this;
-        $('#' + selector_id).change(function() {
-            var selector_code = $('#' + selector_id + ' option:selected').val();
-            if (selector_code != null)
-                _this.create_selector(selector_code, target_selector_id, null);
+            /* Empty drop-down. */
+            $('#' + selector_id).empty();
+
+            var _this = this;
+            var target = null;
+
+            /* Populate drop-down. */
+            $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
+            try {
+                for (var i = 0; i < selectors_configuration[selector_code].length; i++) {
+                    target = selectors_configuration[selector_code][i].target;
+                    var s = '<option value="';
+                    s += selectors_configuration[selector_code][i].code;
+                    s += '">';
+                    s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
+                    s += '</option>';
+                    $('#' + selector_id).append(s);
+                }
+            } catch(e) {
+                this.create_area_item_element_selectors(selector_code);
+            }
+
+            /* Initiate Chosen. */
+            $('#' + selector_id).trigger('chosen:updated');
+
+            $('#' + selector_id).change(function () {
+                var selector_code = $('#' + selector_id + ' option:selected').val();
+                if (selector_code == 'AGRI_SOILS') {
+                    $('#ghg_verification_subdomains_label_col').css('display', 'block');
+                    _this.create_selector(selector_code, 'ghg_verification_subdomains_list', target);
+                } else {
+                    // TODO: hide sub-domains when not needed
+                    // $('#ghg_verification_subdomains_label_col').css('display', 'none');
+                    if (selector_code != null)
+                        _this.create_selector(selector_code, target_selector_id, target);
+                }
+            });
+
+        }
+
+    };
+
+    GHG_QA_QC.prototype.create_area_item_element_selectors = function(domain_code) {
+        this.create_area_item_element_selector(domain_code, 3, 'ghg_verification_items_list');
+        this.create_area_item_element_selector(domain_code, 2, 'ghg_verification_elements_list');
+    };
+
+    GHG_QA_QC.prototype.create_area_item_element_selector = function(domain_code, listbox, selector_id) {
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/' + domain_code + '/' + listbox + '/1/' + this.CONFIG.lang,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                $('#' + selector_id).empty();
+                $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
+                for (var i = 0 ; i < json.length ; i++) {
+                    var s = '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                    $('#' + selector_id).append(s);
+                }
+                $('#' + selector_id).trigger('chosen:updated');
+            }
         });
 
     };

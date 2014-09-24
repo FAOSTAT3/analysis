@@ -9,5 +9,6 @@ define({
     'ghg_overview': 'Panorama Regional',
     'ghg_quality': 'GC-CC y Verificacion',
     'ghg_indicators': 'Indicadores',
-    'ghg_data': 'Datos Georreferenciados'
+    'ghg_data': 'Datos Georreferenciados',
+    'please_select': 'Por Favor Seleccione...'
 });

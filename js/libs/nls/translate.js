@@ -10,7 +10,8 @@ define({
         'ghg_overview': 'Regional Overview',
         'ghg_quality': 'QA-QC and Verification',
         'ghg_indicators': 'Indicators',
-        'ghg_data': 'Georeferenced Data'
+        'ghg_data': 'Georeferenced Data',
+        'please_select': 'Please Select...'
     },
     'F' : true,
     'S' : true
