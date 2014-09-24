@@ -10,7 +10,7 @@
         "type": "section",
         "img": "/main_ghg.jpg",
         "label": {
-            "E": "Regional Overview"
+            "E": "Green House Gases"
         },
         "tiles": [
             "ghg_overview",
@@ -34,7 +34,7 @@
         "type": "module",
         "img": "/quality.jpg",
         "label": {
-            "E": "Regional Overview"
+            "E": "QA-QC and Verification"
         },
         "require": "ANALYSIS_GHG_QA_QC"
     },
@@ -43,7 +43,7 @@
         "type": "module",
         "img": "/indicators.jpg",
         "label": {
-            "E": "Regional Overview"
+            "E": "Indicators"
         },
         "require": "ANALYSIS_GHG_INDICATORS"
     },
@@ -52,7 +52,7 @@
         "type": "module",
         "img": "/data.jpg",
         "label": {
-            "E": "Regional Overview"
+            "E": "Georeferenced Data"
         },
         "require": "ANALYSIS_GHG_DATA"
     }

@@ -40,7 +40,24 @@ define(['jquery',
     };
 
     TILESMGR.prototype.show_tiles = function(tile_code) {
+
+        /* Fix the tile code, if needed. */
         tile_code = tile_code == null ? 'main' : tile_code;
+        var _this = this;
+
+        /* Update the breadcrumb. */
+        try {
+            var s1 = '<li><a id="' + tile_code + '_breadcrumb">';
+            s1 += tiles_configuration[tile_code].label[this.CONFIG.lang] + '</a></li>';
+            $('#analysis_breadcrumb').append(s1);
+            $('#' + tile_code + '_breadcrumb').click(function () {
+                _this.show_tiles(tile_code);
+            });
+        } catch (e) {
+
+        }
+
+        /* */
         switch (tiles_configuration[tile_code]['type']) {
             case 'section':
                 this.show_section(tile_code);
@@ -49,6 +66,7 @@ define(['jquery',
                 this.show_module(tile_code);
                 break;
         }
+
     };
 
     TILESMGR.prototype.show_module = function(tile_code) {
@@ -69,11 +87,6 @@ define(['jquery',
 
         /* Clear the presentation area. */
         $('#tiles_container').empty();
-        try {
-            $('#analysis_breadcrumb').append('<li>' + tiles_configuration[tile_code].label.E + '</li>')
-        } catch(e) {
-            
-        }
 
         /* Create tiles reading the configuration file. */
         for (var i = 0; i < tiles_configuration[tile_code]['tiles'].length; i += 2) {
