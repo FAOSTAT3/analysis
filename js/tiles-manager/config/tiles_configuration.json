@@ -31,7 +31,8 @@
     "ghg_quality": {
         "id": "ghg_quality",
         "type": "module",
-        "img": "/quality.jpg"
+        "img": "/quality.jpg",
+        "require": "ANALYSIS_GHG_QA_QC"
     },
     "ghg_indicators": {
         "id": "ghg_indicators",

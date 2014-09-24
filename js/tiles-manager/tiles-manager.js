@@ -52,13 +52,17 @@ define(['jquery',
     };
 
     TILESMGR.prototype.show_module = function(tile_code) {
-        $('#tiles_container').empty();
         var _this = this;
-        require(["ANALYSIS_GHG_QA_QC"], function(GHG_QA_QC) {
-            GHG_QA_QC.init({
-                'lang': _this.CONFIG.lang
+        if (tiles_configuration[tile_code]['require'] != null) {
+            $('#tiles_container').empty();
+            require([tiles_configuration[tile_code]['require']], function (module) {
+                module.init({
+                    'lang': _this.CONFIG.lang
+                });
             });
-        });
+        } else {
+            alert('This module has not been implemented yet.');
+        }
     };
 
     TILESMGR.prototype.show_section = function(tile_code) {
