@@ -3,7 +3,8 @@ define(['jquery',
         'mustache',
         'text!analysis/js/tiles-manager/html/templates.html',
         'text!analysis/js/tiles-manager/config/tiles_configuration.json',
-        'bootstrap'], function ($, require, Mustache, templates, tiles_configuration) {
+        'i18n!analysis/js/libs/nls/translate',
+        'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
 
     'use strict';
 
@@ -46,15 +47,13 @@ define(['jquery',
         var _this = this;
 
         /* Update the breadcrumb. */
-        try {
+        if (tiles_configuration[tile_code].label_code != null) {
             var s1 = '<li><a id="' + tile_code + '_breadcrumb">';
-            s1 += tiles_configuration[tile_code].label[this.CONFIG.lang] + '</a></li>';
+            s1 += translate[tiles_configuration[tile_code].label_code] + '</a></li>';
             $('#analysis_breadcrumb').append(s1);
             $('#' + tile_code + '_breadcrumb').click(function () {
                 _this.show_tiles(tile_code);
             });
-        } catch (e) {
-
         }
 
         /* */

@@ -9,9 +9,7 @@
         "id": "ghg",
         "type": "section",
         "img": "/main_ghg.jpg",
-        "label": {
-            "E": "Green House Gases"
-        },
+        "label_code": "ghg",
         "tiles": [
             "ghg_overview",
             "ghg_quality",
@@ -23,9 +21,7 @@
         "id": "ghg_overview",
         "type": "module",
         "img": "/overview.jpg",
-        "label": {
-            "E": "Regional Overview"
-        },
+        "label_code": "ghg_overview",
         "tiles": [],
         "require": "ANALYSIS_GHG_OVERVIEW"
     },
@@ -33,27 +29,21 @@
         "id": "ghg_quality",
         "type": "module",
         "img": "/quality.jpg",
-        "label": {
-            "E": "QA-QC and Verification"
-        },
+        "label_code": "ghg_quality",
         "require": "ANALYSIS_GHG_QA_QC"
     },
     "ghg_indicators": {
         "id": "ghg_indicators",
         "type": "module",
         "img": "/indicators.jpg",
-        "label": {
-            "E": "Indicators"
-        },
+        "label_code": "ghg_indicators",
         "require": "ANALYSIS_GHG_INDICATORS"
     },
     "ghg_data": {
         "id": "ghg_data",
         "type": "module",
         "img": "/data.jpg",
-        "label": {
-            "E": "Georeferenced Data"
-        },
+        "label_code": "ghg_data",
         "require": "ANALYSIS_GHG_DATA"
     }
 }

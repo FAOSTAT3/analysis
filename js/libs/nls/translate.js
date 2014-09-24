@@ -1,30 +1,17 @@
 define({
     'root' : {
-        'company' : 'Home',
-        'browse': 'Browse',
-        'download': 'Download',
-        'scheduler': 'Scheduler',
-        'configuration': 'Configuration',
-        'login': 'Login',
-        'data_providers': 'Data Providers',
-        'please_select': 'Please Select...',
-        'download_label': 'Download Selected Layers',
-        'selectors_label': 'Selectors',
-        'progress_label': 'Progress',
-        'countries': 'Countries',
-        'jan': 'January',
-        'feb': 'February',
-        'mar': 'March',
-        'apr': 'April',
-        'may': 'May',
-        'jun': 'June',
-        'jul': 'July',
-        'aug': 'August',
-        'sep': 'September',
-        'oct': 'October',
-        'nov': 'November',
-        'dec': 'December'
+        'groups' : 'Groups',
+        'domains' : 'Domains',
+        'subdomains' : 'Sub-Domains',
+        'areas' : 'Geographic Areas',
+        'items' : 'Items',
+        'elements' : 'Elements',
+        'ghg': 'Green House Gases',
+        'ghg_overview': 'Regional Overview',
+        'ghg_quality': 'QA-QC and Verification',
+        'ghg_indicators': 'Indicators',
+        'ghg_data': 'Georeferenced Data'
     },
-    'it' : true,
-    'pt' : true
+    'F' : true,
+    'S' : true
 });

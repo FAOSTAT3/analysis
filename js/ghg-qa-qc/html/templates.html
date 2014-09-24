@@ -1,3 +1,51 @@
+<div id='ghg_qa_qc_verification_structure'>
+    <ul class='nav nav-tabs' role='tablist'>
+        <li class='active'>
+            <a href='#ghg_verification' role='tab' data-toggle='tab'>
+                Verification
+            </a>
+        </li>
+        <li>
+            <a href='#ghg_qa_qc' role='tab' data-toggle='tab'>
+                QA/QC
+            </a>
+        </li>
+    </ul>
+    <div class='tab-content'>
+        <div class='tab-pane active' id='ghg_verification'>
+            <div class='row' style='margin-top: 16px;'>
+                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
+                    <label for='ghg_verification_groups_list' id='ghg_verification_groups_label'></label>
+                    <select class='chosen' style='width: 100%;' id='ghg_verification_groups_list'></select>
+                </div>
+                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
+                    <label for='ghg_verification_groups_list' id='ghg_verification_domains_label'></label>
+                    <select class='chosen' style='width: 100%;' id='ghg_verification_domains_list'></select>
+                </div>
+                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2' id='ghg_verification_subdomains_label_col' style='display: none;'>
+                    <label for='ghg_verification_groups_list' id='ghg_verification_subdomains_label'></label>
+                    <select class='chosen' style='width: 100%;' id='ghg_verification_subdomains_list'></select>
+                </div>
+                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
+                    <label for='ghg_verification_groups_list' id='ghg_verification_areas_label'></label>
+                    <select class='chosen' style='width: 100%;' id='ghg_verification_areas_list'></select>
+                </div>
+                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
+                    <label for='ghg_verification_groups_list' id='ghg_verification_items_label'></label>
+                    <select class='chosen' style='width: 100%;' id='ghg_verification_items_list'></select>
+                </div>
+                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
+                    <label for='ghg_verification_groups_list' id='ghg_verification_elements_label'></label>
+                    <select class='chosen' style='width: 100%;' id='ghg_verification_elements_list'></select>
+                </div>
+            </div>
+        </div>
+        <div class='tab-pane' id='ghg_qa_qc'>
+
+        </div>
+    </div>
+</div>
+
 <div id='ghg_qa_qc_structure'>
 
     <div class='row'>
@@ -12,17 +60,17 @@
             <span class="search-categories-label search-categories-label-selected" id="search-items"
                   style="display: inline-block;"
                   onclick='$("#main_content_emissions").css("display", "block");
-                                   $("#main_content_data").css("display", "none");
-                                   $("#search-elements").removeClass("search-categories-label search-categories-label-selected").addClass("search-categories-label");
-                                   $("#search-items").removeClass("search-categories-label").addClass("search-categories-label search-categories-label-selected");'
+                           $("#main_content_data").css("display", "none");
+                           $("#search-elements").removeClass("search-categories-label search-categories-label-selected").addClass("search-categories-label");
+                           $("#search-items").removeClass("search-categories-label").addClass("search-categories-label search-categories-label-selected");'
                     >Emisiones
             </span>
             <span class="search-categories-label" id="search-elements"
                   style="display: inline-block;"
                   onclick='$("#main_content_emissions").css("display", "none");
-                                   $("#main_content_data").css("display", "block");
-                                   $("#search-items").removeClass("search-categories-label search-categories-label-selected").addClass("search-categories-label");
-                                   $("#search-elements").removeClass("search-categories-label").addClass("search-categories-label search-categories-label-selected");'
+                           $("#main_content_data").css("display", "block");
+                           $("#search-items").removeClass("search-categories-label search-categories-label-selected").addClass("search-categories-label");
+                           $("#search-elements").removeClass("search-categories-label").addClass("search-categories-label search-categories-label-selected");'
                     >Datos de Activitad
             </span>
         </div>

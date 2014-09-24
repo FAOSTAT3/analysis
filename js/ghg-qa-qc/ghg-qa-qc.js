@@ -1,9 +1,11 @@
 define(['jquery',
         'mustache',
         'text!analysis/js/ghg-qa-qc/html/templates.html',
+        'text!analysis/js/ghg-qa-qc/config/selectors.json',
+        'i18n!analysis/js/libs/nls/translate',
         'chosen',
         'highcharts',
-        'bootstrap'], function ($, Mustache, templates) {
+        'bootstrap'], function ($, Mustache, templates, selectors_configuration, translate) {
 
     'use strict';
 
@@ -36,9 +38,29 @@ define(['jquery',
 
         /* Load GHG-QA/QC structure. */
         var view = {};
-        var template = $(templates).filter('#ghg_qa_qc_structure').html();
+        var template = $(templates).filter('#ghg_qa_qc_verification_structure').html();
         var render = Mustache.render(template, view);
         $('#tiles_container').html(render);
+
+        /* Load multi-language plug-in. */
+        $('#ghg_verification_groups_label').html(translate.groups);
+        $('#ghg_verification_domains_label').html(translate.domains);
+        $('#ghg_verification_subdomains_label').html(translate.subdomains);
+        $('#ghg_verification_areas_label').html(translate.areas);
+        $('#ghg_verification_items_label').html(translate.items);
+        $('#ghg_verification_elements_label').html(translate.elements);
+
+        /* Initiate Chosen. */
+        $('.chosen').chosen({
+            disable_search_threshold: 10,
+            allow_single_deselect: true
+        });
+
+        /* Cast selectors configuration to JSON. */
+        if (typeof selectors_configuration == 'string')
+            selectors_configuration = $.parseJSON(selectors_configuration);
+
+        this.create_selector('groups', 'ghg_verification_groups_list', 'ghg_verification_domains_list');
 
         /* Initiate tables. */
         this.createTable('emissions_db_nc', false, $.i18n.prop('_emissions_database_national_communication'), 1990, 2012, 'emissions_db_nc');
@@ -103,6 +125,43 @@ define(['jquery',
 
         /* Translate ther UI. */
         this.translate();
+
+    };
+
+    GHG_QA_QC.prototype.create_selector = function(selector_code, selector_id, target_selector_id) {
+
+        /* Empty drop-down. */
+        $('#' + selector_id).empty();
+
+        console.log(selectors_configuration);
+        console.log(selector_code);
+        console.log(selectors_configuration[selector_code]);
+        console.log(target_selector_id);
+
+        /* Populate drop-down. */
+        $('#' + selector_id).append('<option value="null">Please select...</option>');
+        for (var i = 0 ; i < selectors_configuration[selector_code].length ; i++) {
+            var s = '<option value="';
+            s += selectors_configuration[selector_code][i].code;
+            s += '">';
+            s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
+            s += '</option>';
+            $('#' + selector_id).append(s);
+        }
+
+        /* Initiate Chosen. */
+        $('#' + selector_id).chosen({
+            disable_search_threshold: 10,
+            allow_single_deselect: true
+        });
+        $('#' + selector_id).trigger('chosen:updated');
+
+        var _this = this;
+        $('#' + selector_id).change(function() {
+            var selector_code = $('#' + selector_id + ' option:selected').val();
+            if (selector_code != null)
+                _this.create_selector(selector_code, target_selector_id, null);
+        });
 
     };
 

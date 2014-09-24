@@ -1,0 +1,56 @@
+{
+    "groups": [
+        {
+            "code": "G1",
+            "label": {
+                "E": "Emissions - Agriculture",
+                "S": "Emisiones - Agricoltura",
+                "F": "Emissions - Agriculture"
+            }
+        },
+        {
+            "code": "G2",
+            "label": {
+                "E": "Emissions - Land Use",
+                "S": "Emisiones - Uso de la Tierra",
+                "F": "Emissions - Utilisation des Terres"
+            }
+        }
+    ],
+    "G1": [
+        {
+            "code": "G1",
+            "label": {
+                "E": "Emissions - Agriculture",
+                "S": "Emisiones - Agricoltura",
+                "F": "Emissions - Agriculture"
+            }
+        },
+        {
+            "code": "G2",
+            "label": {
+                "E": "Emissions - Land Use",
+                "S": "Emisiones - Uso de la Tierra",
+                "F": "Emissions - Utilisation des Terres"
+            }
+        }
+    ],
+    "G2": [
+        {
+            "code": "G1",
+            "label": {
+                "E": "Emissions - Agriculture",
+                "S": "Emisiones - Agricoltura",
+                "F": "Emissions - Agriculture"
+            }
+        },
+        {
+            "code": "G2",
+            "label": {
+                "E": "Emissions - Land Use",
+                "S": "Emisiones - Uso de la Tierra",
+                "F": "Emissions - Utilisation des Terres"
+            }
+        }
+    ]
+}
