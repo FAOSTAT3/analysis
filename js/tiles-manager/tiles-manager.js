@@ -69,6 +69,11 @@ define(['jquery',
 
         /* Clear the presentation area. */
         $('#tiles_container').empty();
+        try {
+            $('#analysis_breadcrumb').append('<li>' + tiles_configuration[tile_code].label.E + '</li>')
+        } catch(e) {
+            
+        }
 
         /* Create tiles reading the configuration file. */
         for (var i = 0; i < tiles_configuration[tile_code]['tiles'].length; i += 2) {
