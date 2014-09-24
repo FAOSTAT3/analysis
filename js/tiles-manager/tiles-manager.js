@@ -74,9 +74,8 @@ define(['jquery',
         if (tiles_configuration[tile_code]['require'] != null) {
             $('#tiles_container').empty();
             require([tiles_configuration[tile_code]['require']], function (module) {
-                module.init({
-                    'lang': _this.CONFIG.lang
-                });
+                console.log(module);
+                module.init({'lang': _this.CONFIG.lang});
             });
         } else {
             alert('This module has not been implemented yet.');
