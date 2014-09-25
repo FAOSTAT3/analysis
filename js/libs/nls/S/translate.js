@@ -10,5 +10,19 @@ define({
     'ghg_quality': 'GC-CC y Verificacion',
     'ghg_indicators': 'Indicadores',
     'ghg_data': 'Datos Georreferenciados',
-    'please_select': 'Por Favor Seleccione...'
+    'please_select': 'Por Favor Seleccione...',
+    'verification': 'Verificación',
+    'qa_qc': 'SG/CQ',
+    'gt': 'Agricultura total',
+    'ge': 'Fermentación entérica',
+    'gm': 'Gestión del estiércol',
+    'gr': 'Cultivo del arroz',
+    'gy': 'Fertilizantes sintéticos',
+    'gu': 'Estiércol aplicado a los suelos',
+    'gp': 'Estiércol depositado en las pasturas',
+    'ga': 'Residuos agrícolas',
+    'gv': 'Cultivación de suelos orgánicos',
+    'gb': 'Combustión - residuos agrícolas',
+    'gh': 'Combustión - Sabana',
+    'gn': 'Use de energía'
 });

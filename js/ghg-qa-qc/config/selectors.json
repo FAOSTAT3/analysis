@@ -1,21 +1,30 @@
 {
     "groups": [
         {
-            "code": "G1",
+            "code": "G1_TOT",
             "target": "ghg_verification_domains_list",
             "label": {
-                "E": "Emissions - Agriculture",
-                "S": "Emisiones - Agricoltura",
-                "F": "Emissions - Agriculture"
+                "E": "Agriculture: Agriculture Total",
+                "S": "Agricoltura: Agricultura total",
+                "F": "Agriculture: Agriculture Total"
+            }
+        },
+        {
+            "code": "G1_SOILS",
+            "target": "ghg_verification_domains_list",
+            "label": {
+                "E": "Agriculture: Agricultural Soils",
+                "S": "Agricoltura: Suelos Agricolas",
+                "F": "Agriculture: Sols Agricoles"
             }
         },
         {
             "code": "G2",
             "target": "ghg_verification_domains_list",
             "label": {
-                "E": "Emissions - Land Use",
-                "S": "Emisiones - Uso de la Tierra",
-                "F": "Emissions - Utilisation des Terres"
+                "E": "Land Use",
+                "S": "Uso de la Tierra",
+                "F": "Utilisation des Terres"
             }
         }
     ],

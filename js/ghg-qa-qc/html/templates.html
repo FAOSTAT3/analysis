@@ -2,45 +2,143 @@
     <ul class='nav nav-tabs' role='tablist'>
         <li class='active'>
             <a href='#ghg_verification' role='tab' data-toggle='tab'>
-                Verification
+                {{tab_verification_label}}
             </a>
         </li>
         <li>
             <a href='#ghg_qa_qc' role='tab' data-toggle='tab'>
-                QA/QC
+                {{tab_qaqc_label}}
             </a>
         </li>
     </ul>
     <div class='tab-content'>
         <div class='tab-pane active' id='ghg_verification'>
             <div class='row' style='margin-top: 16px;'>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                    <label for='ghg_verification_groups_list' id='ghg_verification_areas_label'></label>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <label for='ghg_verification_groups_list'>
+                        {{ghg_verification_areas_label}}
+                    </label>
                     <select class='chosen' style='width: 100%;' id='ghg_verification_areas_list'></select>
                 </div>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                    <label for='ghg_verification_groups_list' id='ghg_verification_groups_label'></label>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <label for='ghg_verification_groups_list'>
+                        {{ghg_verification_groups_label}}
+                    </label>
                     <select class='chosen' style='width: 100%;' id='ghg_verification_groups_list'></select>
                 </div>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                    <label for='ghg_verification_groups_list' id='ghg_verification_domains_label'></label>
-                    <select class='chosen' style='width: 100%;' id='ghg_verification_domains_list'></select>
-                </div>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2' id='ghg_verification_subdomains_label_col' style='display: block;'>
-                    <label for='ghg_verification_groups_list' id='ghg_verification_subdomains_label'></label>
-                    <select class='chosen' style='width: 100%;' id='ghg_verification_subdomains_list'></select>
-                </div>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                    <label for='ghg_verification_groups_list' id='ghg_verification_items_label'></label>
-                    <select class='chosen' style='width: 100%;' id='ghg_verification_items_list'></select>
-                </div>
-                <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                    <label for='ghg_verification_groups_list' id='ghg_verification_elements_label'></label>
-                    <select class='chosen' style='width: 100%;' id='ghg_verification_elements_list'></select>
+            </div>
+            <div class='row' style='margin-top: 16px;'>
+                <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                    <div id='ghg_verification_content'></div>
                 </div>
             </div>
         </div>
         <div class='tab-pane' id='ghg_qa_qc'>
+
+        </div>
+    </div>
+</div>
+
+<div id='ghg_qa_qc_verification_agri_total_structure'>
+    <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;'>
+        <li class='active'>
+            <a href='#agri_total_gt' role='tab' data-toggle='tab' id='agri_total_gt_label'>
+                {{gt}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_ge' role='tab' data-toggle='tab' id='agri_total_ge_label'>
+                {{ge}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gm' role='tab' data-toggle='tab' id='agri_total_gm_label'>
+                {{gm}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gr' role='tab' data-toggle='tab' id='agri_total_gr_label'>
+                {{gr}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gy' role='tab' data-toggle='tab' id='agri_total_gy_label'>
+                {{gy}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gu' role='tab' data-toggle='tab' id='agri_total_gu_label'>
+                {{gu}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gp' role='tab' data-toggle='tab' id='agri_total_gp_label'>
+                {{gp}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_ga' role='tab' data-toggle='tab' id='agri_total_ga_label'>
+                {{ga}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gv' role='tab' data-toggle='tab' id='agri_total_gv_label'>
+                {{gv}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gb' role='tab' data-toggle='tab' id='agri_total_gb_label'>
+                {{gb}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gh' role='tab' data-toggle='tab' id='agri_total_gh_label'>
+                {{gh}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gn' role='tab' data-toggle='tab' id='agri_total_gn_label'>
+                {{gn}}
+            </a>
+        </li>
+    </ul>
+    <div class='tab-content'>
+        <div class='tab-pane active' id='agri_total_gt'>
+            <div class='row' style='margin-top: 16px;'>
+
+            </div>
+        </div>
+        <div class='tab-pane' id='agri_total_ge'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gm'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gr'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gy'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gu'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gp'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_ga'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gv'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gb'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gh'>
+
+        </div>
+        <div class='tab-pane' id='agri_total_gn'>
 
         </div>
     </div>

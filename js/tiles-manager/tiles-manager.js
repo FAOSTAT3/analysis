@@ -73,7 +73,6 @@ define(['jquery',
         if (tiles_configuration[tile_code]['require'] != null) {
             $('#tiles_container').empty();
             require([tiles_configuration[tile_code]['require']], function (module) {
-                console.log(module);
                 module.init({'lang': _this.CONFIG.lang});
             });
         } else {

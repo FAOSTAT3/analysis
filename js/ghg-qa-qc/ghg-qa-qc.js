@@ -37,18 +37,15 @@ define(['jquery',
         var _this = this;
 
         /* Load GHG-QA/QC structure. */
-        var view = {};
+        var view = {
+            'tab_verification_label': translate.verification,
+            'tab_qaqc_label': translate.qa_qc,
+            'ghg_verification_areas_label': translate.areas,
+            'ghg_verification_groups_label': translate.groups
+        };
         var template = $(templates).filter('#ghg_qa_qc_verification_structure').html();
         var render = Mustache.render(template, view);
         $('#tiles_container').html(render);
-
-        /* Load multi-language plug-in. */
-        $('#ghg_verification_groups_label').html(translate.groups);
-        $('#ghg_verification_domains_label').html(translate.domains);
-        $('#ghg_verification_subdomains_label').html(translate.subdomains);
-        $('#ghg_verification_areas_label').html(translate.areas);
-        $('#ghg_verification_items_label').html(translate.items);
-        $('#ghg_verification_elements_label').html(translate.elements);
 
         /* Initiate Chosen. */
         $('.chosen').chosen({
@@ -56,132 +53,128 @@ define(['jquery',
             allow_single_deselect: true
         });
 
-        /* Hide sub-domains. */
-        $('#ghg_verification_subdomains_label_col').css('display', 'none');
+        /* Populate areas. */
         this.create_area_item_element_selector('GT', 1, 'ghg_verification_areas_list');
 
         /* Cast selectors configuration to JSON. */
         if (typeof selectors_configuration == 'string')
             selectors_configuration = $.parseJSON(selectors_configuration);
 
-        this.create_selector('groups', 'ghg_verification_groups_list', selectors_configuration.groups[0].target);
+        /* Populate groups. */
+        this.create_groups_selector('groups', 'ghg_verification_groups_list', selectors_configuration.groups[0].target);
 
         /* Initiate tables. */
-        this.createTable('emissions_db_nc', false, $.i18n.prop('_emissions_database_national_communication'), 1990, 2012, 'emissions_db_nc');
-        this.createTable('emissions_db_faostat', false, $.i18n.prop('_emissions_database_faostat'), 1990, 2012, 'emissions_db_faostat');
-        this.createTable('cnd_fs_difference', false, $.i18n.prop('_difference_faostat'), 1990, 2012, 'cnd_fs_difference');
-        this.createTable('normalised_cnd_fs_difference', false, $.i18n.prop('_normalised_difference_faostat'), 1990, 2012, 'normalised_cnd_fs_difference');
+//        this.createTable('emissions_db_nc', false, $.i18n.prop('_emissions_database_national_communication'), 1990, 2012, 'emissions_db_nc');
+//        this.createTable('emissions_db_faostat', false, $.i18n.prop('_emissions_database_faostat'), 1990, 2012, 'emissions_db_faostat');
+//        this.createTable('cnd_fs_difference', false, $.i18n.prop('_difference_faostat'), 1990, 2012, 'cnd_fs_difference');
+//        this.createTable('normalised_cnd_fs_difference', false, $.i18n.prop('_normalised_difference_faostat'), 1990, 2012, 'normalised_cnd_fs_difference');
 
         /* Initiate Chosen. */
-        $('.selector').chosen({
-            disable_search_threshold: 10,
-            allow_single_deselect: true
-        });
+//        $('.selector').chosen({
+//            disable_search_threshold: 10,
+//            allow_single_deselect: true
+//        });
 
-        $.ajax({
-
-            type        :   'GET',
-            dataType    :    'json',
-            url         :    this.CONFIG.url_procedures + '/' + this.CONFIG.lang,
-
-            success: function (response) {
-
-                var json = response;
-                if (typeof json == 'string')
-                    json = $.parseJSON(response);
-
-                var s = '<option selected>' + $.i18n.prop('_please_select') + '</option>';
-                for (var i = 0 ; i < json.length ; i++)
-                    s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
-                document.getElementById('country_selector').innerHTML = s;
-                $('#country_selector').trigger('chosen:updated');
-
-                $('#_ghg_country_profile_label').html($.i18n.prop('_ghg_country_profile_label'));
-                $('#search-items').html($.i18n.prop('_emissions'));
-                $('#search-elements').html($.i18n.prop('_activity_data'));
-                $('#_charts').html($.i18n.prop('_charts'));
-
-            },
-
-            error: function (err, b, c) {
-
-            }
-
-        });
+//        $.ajax({
+//
+//            type        :   'GET',
+//            dataType    :    'json',
+//            url         :    this.CONFIG.url_procedures + '/' + this.CONFIG.lang,
+//
+//            success: function (response) {
+//
+//                var json = response;
+//                if (typeof json == 'string')
+//                    json = $.parseJSON(response);
+//
+//                var s = '<option selected>' + $.i18n.prop('_please_select') + '</option>';
+//                for (var i = 0 ; i < json.length ; i++)
+//                    s += '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+//                document.getElementById('country_selector').innerHTML = s;
+//                $('#country_selector').trigger('chosen:updated');
+//
+//                $('#_ghg_country_profile_label').html($.i18n.prop('_ghg_country_profile_label'));
+//                $('#search-items').html($.i18n.prop('_emissions'));
+//                $('#search-elements').html($.i18n.prop('_activity_data'));
+//                $('#_charts').html($.i18n.prop('_charts'));
+//
+//            },
+//
+//            error: function (err, b, c) {
+//
+//            }
+//
+//        });
 
         /* Create charts and load tables on country selection change. */
-        $('#country_selector').on('change', function() {
-            var country_code = $('#country_selector').find(":selected").val();
-            _this.createChartsAndPopulateTable(country_code, true, false);
-        });
+//        $('#country_selector').on('change', function() {
+//            var country_code = $('#country_selector').find(":selected").val();
+//            _this.createChartsAndPopulateTable(country_code, true, false);
+//        });
 
         /* Load configuration files. */
-        try {
-            document.getElementById('files').addEventListener('change', _this.handlefilescatter, false);
-        } catch (e) {
-
-        }
+//        try {
+//            document.getElementById('files').addEventListener('change', _this.handlefilescatter, false);
+//        } catch (e) {
+//
+//        }
 
         /* Bind GHG Editor button. */
-        $('#_ghg_editor_button').bind('click', function() {
-            window.open(_this.CONFIG.url_editor, '_blank');
-        });
+//        $('#_ghg_editor_button').bind('click', function() {
+//            window.open(_this.CONFIG.url_editor, '_blank');
+//        });
 
         /* Translate ther UI. */
-        this.translate();
+//        this.translate();
 
     };
 
-    GHG_QA_QC.prototype.create_selector = function(selector_code, selector_id, target_selector_id) {
+    GHG_QA_QC.prototype.create_groups_selector = function(selector_code, selector_id) {
 
-        /* Populate areas, items and elements. */
-        if (selector_id == 'AREAS_ITEMS_ELEMENTS') {
-            console.log(selector_code);
+        /* Variables. */
+        var _this = this;
+        var target = null;
+
+        /* Populate drop-down. */
+        $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
+        try {
+            for (var i = 0; i < selectors_configuration[selector_code].length; i++) {
+                target = selectors_configuration[selector_code][i].target;
+                var s = '<option value="';
+                s += selectors_configuration[selector_code][i].code;
+                s += '">';
+                s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
+                s += '</option>';
+                $('#' + selector_id).append(s);
+            }
+        } catch (e) {
             this.create_area_item_element_selectors(selector_code);
         }
 
-        /* Populate given selector. */
-        else {
+        /* Initiate Chosen. */
+        $('#' + selector_id).trigger('chosen:updated');
 
-            /* Empty drop-down. */
-            $('#' + selector_id).empty();
-
-            var _this = this;
-            var target = null;
-
-            /* Populate drop-down. */
-            $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
-            try {
-                for (var i = 0; i < selectors_configuration[selector_code].length; i++) {
-                    target = selectors_configuration[selector_code][i].target;
-                    var s = '<option value="';
-                    s += selectors_configuration[selector_code][i].code;
-                    s += '">';
-                    s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
-                    s += '</option>';
-                    $('#' + selector_id).append(s);
-                }
-            } catch(e) {
-                this.create_area_item_element_selectors(selector_code);
-            }
-
-            /* Initiate Chosen. */
-            $('#' + selector_id).trigger('chosen:updated');
-
-            $('#' + selector_id).change(function () {
-                var selector_code = $('#' + selector_id + ' option:selected').val();
-                if (selector_code == 'AGRI_SOILS') {
-                    $('#ghg_verification_subdomains_label_col').css('display', 'block');
-                    _this.create_selector(selector_code, 'ghg_verification_subdomains_list', target);
-                } else {
-                    // TODO: hide sub-domains when not needed
-                    // $('#ghg_verification_subdomains_label_col').css('display', 'none');
-                    if (selector_code != null)
-                        _this.create_selector(selector_code, target_selector_id, target);
-                }
-            });
-
-        }
+        /* On-change listener. */
+        $('#' + selector_id).change(function () {
+            $('#ghg_verification_content').empty();
+            var view = {
+                'gt': translate.gt,
+                'ge': translate.ge,
+                'gm': translate.gm,
+                'gr': translate.gr,
+                'gy': translate.gy,
+                'gu': translate.gu,
+                'gp': translate.gp,
+                'ga': translate.ga,
+                'gv': translate.gv,
+                'gb': translate.gb,
+                'gh': translate.gh,
+                'gn': translate.gn
+            };
+            var template = $(templates).filter('#ghg_qa_qc_verification_agri_total_structure').html();
+            var render = Mustache.render(template, view);
+            $('#ghg_verification_content').html(render);
+        });
 
     };
 
@@ -199,7 +192,6 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
-                $('#' + selector_id).empty();
                 $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
                 for (var i = 0 ; i < json.length ; i++) {
                     var s = '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
