@@ -24,5 +24,10 @@ define({
     'gv': 'Culture de sols organiques',
     'gb': 'Combustion - résidus de récoltes',
     'gh': 'Combustion - Savane',
-    'gn': 'Consommation d\'énergie'
+    'gn': 'Consommation d\'énergie',
+    'gl': 'Utilisation des terres total',
+    'gf': 'Terres forestières',
+    'gc': 'Terres cultivées',
+    'gg': 'Prairie',
+    'gi': 'Combustion - Biomasse'
 });

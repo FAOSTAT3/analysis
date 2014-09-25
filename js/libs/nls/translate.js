@@ -25,7 +25,12 @@ define({
         'gv': 'Cultivation of Organic Soils',
         'gb': 'Burning - Crop Residues',
         'gh': 'Burning - Savanna',
-        'gn': 'Energy Use'
+        'gn': 'Energy Use',
+        'gl': 'Land Use Total',
+        'gf': 'Forest Land',
+        'gc': 'Cropland',
+        'gg': 'Grassland',
+        'gi': 'Burning - Biomass'
     },
     'F' : true,
     'S' : true

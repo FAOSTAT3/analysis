@@ -156,6 +156,7 @@ define(['jquery',
 
         /* On-change listener. */
         $('#' + selector_id).change(function () {
+            var template_id = $('#' + selector_id + ' option:selected').val();
             $('#ghg_verification_content').empty();
             var view = {
                 'gt': translate.gt,
@@ -169,9 +170,13 @@ define(['jquery',
                 'gv': translate.gv,
                 'gb': translate.gb,
                 'gh': translate.gh,
-                'gn': translate.gn
+                'gl': translate.gl,
+                'gf': translate.gf,
+                'gc': translate.gc,
+                'gg': translate.gg,
+                'gi': translate.gi
             };
-            var template = $(templates).filter('#ghg_qa_qc_verification_agri_total_structure').html();
+            var template = $(templates).filter('#' + template_id).html();
             var render = Mustache.render(template, view);
             $('#ghg_verification_content').html(render);
         });

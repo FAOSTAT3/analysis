@@ -1,7 +1,7 @@
 {
     "groups": [
         {
-            "code": "G1_TOT",
+            "code": "ghg_qa_qc_verification_agri_total_structure",
             "target": "ghg_verification_domains_list",
             "label": {
                 "E": "Agriculture: Agriculture Total",
@@ -10,7 +10,7 @@
             }
         },
         {
-            "code": "G1_SOILS",
+            "code": "ghg_qa_qc_verification_agri_soils_structure",
             "target": "ghg_verification_domains_list",
             "label": {
                 "E": "Agriculture: Agricultural Soils",
@@ -19,7 +19,7 @@
             }
         },
         {
-            "code": "G2",
+            "code": "ghg_qa_qc_verification_land_use_structure",
             "target": "ghg_verification_domains_list",
             "label": {
                 "E": "Land Use",

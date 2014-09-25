@@ -24,5 +24,10 @@ define({
     'gv': 'Cultivación de suelos orgánicos',
     'gb': 'Combustión - residuos agrícolas',
     'gh': 'Combustión - Sabana',
-    'gn': 'Use de energía'
+    'gn': 'Use de energía',
+    'gl': 'Uso de la tierra total',
+    'gf': 'Tierras forestales',
+    'gc': 'Tierras de cultivo',
+    'gg': 'Pastizales',
+    'gi': 'Combustión de biomasa'
 });
