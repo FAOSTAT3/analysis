@@ -5,6 +5,7 @@ define({
         'subdomains' : 'Sub-Domains',
         'areas' : 'Geographic Areas',
         'items' : 'Items',
+        'item' : 'Item',
         'elements' : 'Elements',
         'ghg': 'Greenhouse Gases',
         'ghg_overview': 'Regional Overview',
@@ -32,7 +33,10 @@ define({
         'gg': 'Grassland',
         'gi': 'Burning - Biomass',
         'charts': 'Charts',
-        'tables': 'Tables'
+        'tables': 'Tables',
+        'emissions': 'Emissions',
+        'emissions_activity': 'Emissions Activity',
+        'emissions_factor': 'Emissions Factor'
     },
     'F' : true,
     'S' : true

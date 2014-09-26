@@ -4,6 +4,7 @@ define({
     'subdomains' : 'Sub-Dominios',
     'areas' : 'Areas',
     'items' : 'Articulos',
+    'item' : 'Articulo',
     'elements' : 'Elementos',
     'ghg': 'Gases de Efecto Invernadero',
     'ghg_overview': 'Panorama Regional',
@@ -31,5 +32,8 @@ define({
     'gg': 'Pastizales',
     'gi': 'Combustión de biomasa',
     'charts': 'Gráficos',
-    'tables': 'Tablas'
+    'tables': 'Tablas',
+    'emissions': 'Emissions',
+    'emissions_activity': 'Emissions Activity',
+    'emissions_factor': 'Emissions Factor'
 });

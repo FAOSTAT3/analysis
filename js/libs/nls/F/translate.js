@@ -4,6 +4,7 @@ define({
     'subdomains' : 'Sub-Domaine',
     'areas' : 'Zone Geographique',
     'items' : 'Articles',
+    'item' : 'Article',
     'elements' : 'Elements',
     'ghg': 'Gaz a Effet de Serre',
     'ghg_overview': 'Aperçu Regional',
@@ -31,5 +32,8 @@ define({
     'gg': 'Prairie',
     'gi': 'Combustion - Biomasse',
     'charts': 'Graphiques',
-    'tables': 'Tables'
+    'tables': 'Tables',
+    'emissions': 'Emissions',
+    'emissions_activity': 'Emissions Activity',
+    'emissions_factor': 'Emissions Factor'
 });

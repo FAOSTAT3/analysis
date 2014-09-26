@@ -308,15 +308,19 @@
             <div class='tab-content'>
                 <div class='tab-pane active' id='{{href_charts}}'>
                     <div class='row' style='margin-top: 16px;'>
-                        <div id='{{id_charts_content}}'>
+                        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                            <div id='{{id_charts_content}}'>
 
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class='tab-pane' id='{{href_tables}}'>
                     <div class='row' style='margin-top: 16px;'>
-                        <div id='{{id_tables_content}}'>
+                        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                            <div id='{{id_tables_content}}'>
 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -634,4 +638,41 @@
             </table>
         </div>
     </div>
+</div>
+
+<div id='charts_structure'>
+    <table class='table table-bordered table-condensed'>
+        <thead>
+            <tr>
+                <th>{{item}}</th>
+                <th>{{emissions}}</th>
+                <th>{{emissions_activity}}</th>
+                <th>{{emissions_factor}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--{{#items}}-->
+            <tr>
+                <td>
+                    {{item}}
+                </td>
+                <td>
+                    <div id='{{col2}}'>
+
+                    </div>
+                </td>
+                <td>
+                    <div id='{{col3}}'>
+
+                    </div>
+                </td>
+                <td>
+                    <div id='{{col4}}'>
+
+                    </div>
+                </td>
+            </tr>
+            <!--{{/items}}-->
+        </tbody>
+    </table>
 </div>

@@ -14,8 +14,9 @@ define(['jquery',
         this.CONFIG = {
             lang            :   'E',
             data            :   null,
+            datasource      :   'faostat2',
             base_url        :   'http://168.202.28.57:8080/ghg',
-            url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT',
+            url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat2/GT',
             url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
             url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
             url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
@@ -25,7 +26,8 @@ define(['jquery',
                 chart_3 : ['yellow', 'yellow'],
                 chart_4 : ['blue', 'blue'],
                 chart_5 : ['red', 'red', 'green', 'green']
-            }
+            },
+            url_listboxes: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/'
         };
 
     }
@@ -153,6 +155,42 @@ define(['jquery',
         var template = $(templates).filter('#charts_and_tables').html();
         var render = Mustache.render(template, view);
         $('#' + id).html(render);
+        this.create_charts(domain_code);
+    };
+
+    GHG_QA_QC.prototype.create_charts = function(domain_code) {
+
+        var url = this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/3/1/' + this.CONFIG.lang;
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: url,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                var items = [];
+                for (var i = 0 ; i < json.length ; i++) {
+                    items.push({
+                        'item': json[i][1],
+                        'col2': json[i][0] + '_col2',
+                        'col3': json[i][0] + '_col3',
+                        'col4': json[i][0] + '_col4'
+                    });
+                }
+                var view = {
+                    'item': translate.item,
+                    'emissions': translate.emissions,
+                    'emissions_activity': translate.emissions_activity,
+                    'emissions_factor': translate.emissions_factor,
+                    'items': items
+                };
+                var template = $(templates).filter('#charts_structure').html();
+                var render = Mustache.render(template, view);
+                $('#' + domain_code + '__charts_content').html(render);
+            }
+        });
     };
 
     GHG_QA_QC.prototype.create_area_item_element_selectors = function(domain_code) {
@@ -180,7 +218,6 @@ define(['jquery',
                 $('#' + selector_id).trigger('chosen:updated');
             }
         });
-
     };
 
     GHG_QA_QC.prototype.translate = function() {
