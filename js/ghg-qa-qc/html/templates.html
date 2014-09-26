@@ -104,9 +104,7 @@
     </ul>
     <div class='tab-content'>
         <div class='tab-pane active' id='agri_total_gt'>
-            <div class='row' style='margin-top: 16px;'>
 
-            </div>
         </div>
         <div class='tab-pane' id='agri_total_ge'>
 
@@ -203,12 +201,12 @@
 
 <div id='ghg_qa_qc_verification_land_use_structure'>
     <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;'>
-        <li>
+        <li class='active'>
             <a href='#land_use_gl' role='tab' data-toggle='tab'>
                 {{gl}}
             </a>
         </li>
-        <li class='active'>
+        <li>
             <a href='#land_use_gf' role='tab' data-toggle='tab'>
                 {{gf}}
             </a>
@@ -231,21 +229,64 @@
     </ul>
     <div class='tab-content'>
         <div class='tab-pane active' id='land_use_gl'>
-            <div class='row' style='margin-top: 16px;'>
+            <div id='land_use_gl_charts_and_tables'>
 
             </div>
         </div>
         <div class='tab-pane' id='land_use_gf'>
+            <div id='land_use_gf_charts_and_tables'>
 
+            </div>
         </div>
         <div class='tab-pane' id='land_use_gc'>
+            <div id='land_use_gc_charts_and_tables'>
 
+            </div>
         </div>
         <div class='tab-pane' id='land_use_gg'>
+            <div id='land_use_gg_charts_and_tables'>
 
+            </div>
         </div>
         <div class='tab-pane' id='land_use_gi'>
+            <div id='land_use_gi_charts_and_tables'>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='charts_and_tables'>
+    <div class='row' style='margin-top: 16px;'>
+        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+            <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;'>
+                <li class='active'>
+                    <a class='active' role='tab' data-toggle='tab' href='#{{href_charts}}'>
+                        {{charts_label}}
+                    </a>
+                </li>
+                <li>
+                    <a role='tab' data-toggle='tab' href='#{{href_tables}}'>
+                        {{tables_label}}
+                    </a>
+                </li>
+            </ul>
+            <div class='tab-content'>
+                <div class='tab-pane active' id='{{href_charts}}'>
+                    <div class='row' style='margin-top: 16px;'>
+                        <div id='{{id_charts_content}}'>
+
+                        </div>
+                    </div>
+                </div>
+                <div class='tab-pane' id='{{href_tables}}'>
+                    <div class='row' style='margin-top: 16px;'>
+                        <div id='{{id_tables_content}}'>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

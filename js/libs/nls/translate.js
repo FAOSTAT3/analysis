@@ -30,7 +30,9 @@ define({
         'gf': 'Forest Land',
         'gc': 'Cropland',
         'gg': 'Grassland',
-        'gi': 'Burning - Biomass'
+        'gi': 'Burning - Biomass',
+        'charts': 'Charts',
+        'tables': 'Tables'
     },
     'F' : true,
     'S' : true

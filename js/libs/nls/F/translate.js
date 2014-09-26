@@ -29,5 +29,7 @@ define({
     'gf': 'Terres forestières',
     'gc': 'Terres cultivées',
     'gg': 'Prairie',
-    'gi': 'Combustion - Biomasse'
+    'gi': 'Combustion - Biomasse',
+    'charts': 'Graphiques',
+    'tables': 'Tables'
 });

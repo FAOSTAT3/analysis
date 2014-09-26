@@ -29,5 +29,7 @@ define({
     'gf': 'Tierras forestales',
     'gc': 'Tierras de cultivo',
     'gg': 'Pastizales',
-    'gi': 'Combustión de biomasa'
+    'gi': 'Combustión de biomasa',
+    'charts': 'Gráficos',
+    'tables': 'Tablas'
 });
