@@ -2,10 +2,11 @@ define(['jquery',
         'mustache',
         'text!analysis/js/ghg-qa-qc/html/templates.html',
         'text!analysis/js/ghg-qa-qc/config/selectors.json',
+        'text!analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
         'i18n!analysis/js/libs/nls/translate',
         'chosen',
         'highcharts',
-        'bootstrap'], function ($, Mustache, templates, selectors_configuration, translate) {
+        'bootstrap'], function ($, Mustache, templates, selectors_configuration, chart_template, translate) {
 
     'use strict';
 
@@ -14,9 +15,9 @@ define(['jquery',
         this.CONFIG = {
             lang            :   'E',
             data            :   null,
-            datasource      :   'faostat2',
+            datasource      :   'faostat',
             base_url        :   'http://168.202.28.57:8080/ghg',
-            url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat2/GT',
+            url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT',
             url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
             url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
             url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
@@ -27,6 +28,16 @@ define(['jquery',
                 chart_4 : ['blue', 'blue'],
                 chart_5 : ['red', 'red', 'green', 'green']
             },
+            default_colors: [
+                '#379bcd',
+                '#76BE94',
+                '#744490',
+                '#E10079',
+                '#2D1706',
+                '#F1E300',
+                '#F7AE3C',
+                '#DF3328'
+            ],
             url_listboxes: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/'
         };
 
@@ -159,9 +170,8 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.create_charts = function(domain_code) {
-
         var url = this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/3/1/' + this.CONFIG.lang;
-
+        var _this = this;
         $.ajax({
             type: 'GET',
             dataType: 'json',
@@ -174,9 +184,10 @@ define(['jquery',
                 for (var i = 0 ; i < json.length ; i++) {
                     items.push({
                         'item': json[i][1],
-                        'col2': json[i][0] + '_col2',
-                        'col3': json[i][0] + '_col3',
-                        'col4': json[i][0] + '_col4'
+                        'col2': domain_code + '_' + json[i][0] + '_' + 0,
+                        'col3': domain_code + '_' + json[i][0] + '_' + 1,
+                        'col4': domain_code + '_' + json[i][0] + '_' + 2,
+                        'data_not_available': translate.data_not_available
                     });
                 }
                 var view = {
@@ -189,6 +200,85 @@ define(['jquery',
                 var template = $(templates).filter('#charts_structure').html();
                 var render = Mustache.render(template, view);
                 $('#' + domain_code + '__charts_content').html(render);
+                for (var z = 0 ; z < json.length ; z++)
+                    _this.query_db_for_charts(_this.CONFIG.datasource, domain_code, json[z][0]);
+            }
+        });
+    };
+
+    GHG_QA_QC.prototype.query_db_for_charts = function(datasource, domain_code, item_code) {
+        var sql = {};
+        var country_code = 138;
+        var _this = this;
+        switch (datasource) {
+            case this.CONFIG.datasource:
+                sql['query'] = "SELECT D.Year, D.value, D.ElementListCode " +
+                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                               "WHERE D.DomainCode = '" + domain_code + "' AND D.AreaCode = '" + country_code + "' " +
+                               "AND D.ItemCode IN ('" + item_code + "') " +
+                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                                              "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                              "2010, 2011, 2012) " +
+                               "AND D.AreaCode = A.AreaCode " +
+                               "AND D.ElementListCode = E.ElementListCode " +
+                               "AND D.ItemCode = I.ItemCode " +
+                               "GROUP BY D.Year, D.value, D.ElementListCode " +
+                               "ORDER BY D.Year ASC ";
+                break;
+            case 'nc':
+                sql['query'] = "SELECT year, GUNFValue FROM UNFCCC_Comparison WHERE areacode = " + country_code + " " +
+                               "AND code = '" + item_code + "' " +
+                               "AND year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                                            "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                            "2010, 2011, 2012) " +
+                               "ORDER BY year ASC ";
+                break;
+        }
+        var data = {};
+        data.datasource = this.CONFIG.datasource;
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type    :   'POST',
+            url     :   this.CONFIG.url_data,
+            data    :   data,
+            success: function (response) {
+                var json = response;
+                var elements = []
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0 ; i < json.length ; i++)
+                    if ($.inArray(json[i][2], elements) < 0)
+                        elements.push(json[i][2]);
+                var p = $.parseJSON(chart_template);
+                for (var z = 0 ; z < elements.length ; z++) {
+                    p.colors = _this.CONFIG.default_colors;
+                    p.series = [];
+                    p.plotOptions.series.marker = {};
+                    p.plotOptions.series.marker.enabled = false;
+                    var series = {};
+                    series.data = [];
+                    for (var i = 0; i < json.length; i++) {
+                        if (json[i][2] == elements[z]) {
+                            var tmp = [];
+                            tmp.push(parseInt(json[i][0]));
+                            tmp.push(parseFloat(json[i][1]));
+                            series.data.push(tmp);
+                        }
+                    }
+                    p.series.push(series);
+                    var placeholder = '#' + domain_code + '_' + item_code + '_' + z;
+                    $(placeholder).highcharts(p);
+                }
+
+            },
+            error: function (e, b, c) {
+
             }
         });
     };
