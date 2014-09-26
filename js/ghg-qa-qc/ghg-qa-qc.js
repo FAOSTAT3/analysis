@@ -259,8 +259,6 @@ define(['jquery',
                 for (var z = 0 ; z < elements.length ; z++) {
                     p.colors = _this.CONFIG.default_colors;
                     p.series = [];
-                    p.plotOptions.series.marker = {};
-                    p.plotOptions.series.marker.enabled = false;
                     var series = {};
                     series.data = [];
                     for (var i = 0; i < json.length; i++) {

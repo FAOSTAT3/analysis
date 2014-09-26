@@ -1,6 +1,7 @@
 var F3_CHART = (function() {
 
-    var COLORS = [ //Colori delle charts
+    var
+        COLORS = [ //Colori delle charts
         '#379bcd',
         '#76BE94',
         '#744490',
