@@ -54,7 +54,7 @@ define(['jquery',
         });
 
         /* Populate areas. */
-        this.create_area_item_element_selector('GT', 1, 'ghg_verification_areas_list');
+        this.create_area_item_element_selector('GT', 1, 'ghg_verification_areas_list', 138);
 
         /* Cast selectors configuration to JSON. */
         if (typeof selectors_configuration == 'string')
@@ -124,12 +124,20 @@ define(['jquery',
         var render = Mustache.render(template, view);
         $('#ghg_verification_content').html(render);
 
-        /* Render charts and tables tabs. */
-        this.create_charts_and_tables_tabs('land_use_gl_charts_and_tables', 'gl');
-        this.create_charts_and_tables_tabs('land_use_gf_charts_and_tables', 'gf');
-        this.create_charts_and_tables_tabs('land_use_gc_charts_and_tables', 'gc');
-        this.create_charts_and_tables_tabs('land_use_gg_charts_and_tables', 'gg');
-        this.create_charts_and_tables_tabs('land_use_gi_charts_and_tables', 'gi');
+        /* Render charts and tables tabs: Land Use */
+        var lu = ['gl', 'gf', 'gc', 'gg', 'gi'];
+        for (var i = 0 ; i < lu.length; i++)
+            this.create_charts_and_tables_tabs('land_use_' + lu[i] + '_charts_and_tables', lu[i]);
+
+        /* Render charts and tables tabs: Agricultural Soils */
+        var as = ['gt', 'gy', 'gu', 'gp', 'ga', 'gv'];
+        for (var i = 0 ; i < as.length; i++)
+            this.create_charts_and_tables_tabs('agri_soils_' + as[i] + '_charts_and_tables', as[i]);
+
+        /* Render charts and tables tabs: Agricultural Total */
+        var at = ['gt', 'ge', 'gm', 'gr', 'gy', 'gu', 'gp', 'ga', 'gv', 'gb', 'gh', 'gn'];
+        for (var i = 0 ; i < at.length; i++)
+            this.create_charts_and_tables_tabs('agri_total_' + at[i] + '_charts_and_tables', at[i]);
 
     };
 
@@ -152,7 +160,7 @@ define(['jquery',
         this.create_area_item_element_selector(domain_code, 2, 'ghg_verification_elements_list');
     };
 
-    GHG_QA_QC.prototype.create_area_item_element_selector = function(domain_code, listbox, selector_id) {
+    GHG_QA_QC.prototype.create_area_item_element_selector = function(domain_code, listbox, selector_id, default_code) {
         $.ajax({
             type: 'GET',
             dataType: 'json',
@@ -163,7 +171,10 @@ define(['jquery',
                     json = $.parseJSON(response);
                 $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
                 for (var i = 0 ; i < json.length ; i++) {
-                    var s = '<option value="' + json[i][0] + '">' + json[i][1] + '</option>';
+                    var s = '<option value="' + json[i][0] + '" ';
+                    if (json[i][0] == default_code)
+                        s += 'selected ';
+                    s += '>' + json[i][1] + '</option>';
                     $('#' + selector_id).append(s);
                 }
                 $('#' + selector_id).trigger('chosen:updated');
