@@ -202,6 +202,11 @@ define(['jquery',
                 $('#' + domain_code + '__charts_content').html(render);
                 for (var z = 0 ; z < json.length ; z++)
                     _this.query_db_for_charts(_this.CONFIG.datasource, domain_code, json[z][0]);
+
+                // TODO: 1 - Get Elements
+                // TODO: 2 - Get Items
+                // TODO: 3 - Init Charts
+                // TODO: 4 - Get Data
             }
         });
     };
@@ -249,7 +254,7 @@ define(['jquery',
             data    :   data,
             success: function (response) {
                 var json = response;
-                var elements = []
+                var elements = [];
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
                 for (var i = 0 ; i < json.length ; i++)
@@ -279,6 +284,11 @@ define(['jquery',
 
             }
         });
+
+    };
+
+    GHG_QA_QC.prototype.populate_chart = function(series) {
+
     };
 
     GHG_QA_QC.prototype.create_area_item_element_selectors = function(domain_code) {

@@ -10,7 +10,7 @@
         "plotBorderColor": "#ffffff",
         "plotBorderWidth": 0,
         "style": {
-            "fontFamily": fontFamily,
+            "fontFamily": "Roboto",
             "fontSize": "12px",
             "fontWeight": 300
         },
