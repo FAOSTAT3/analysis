@@ -33,8 +33,8 @@ define({
     'gi': 'Combustión de biomasa',
     'charts': 'Gráficos',
     'tables': 'Tablas',
-    'emissions': 'Emissions',
-    'emissions_activity': 'Emissions Activity',
-    'emissions_factor': 'Emissions Factor',
+    'emissions': 'Emisiones',
+    'emissions_activity': 'Dato de actividad',
+    'emissions_factor': 'Factor de emisión',
     'data_not_available': 'Datos No Disponible'
 });

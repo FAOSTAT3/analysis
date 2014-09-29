@@ -35,8 +35,8 @@ define({
         'charts': 'Charts',
         'tables': 'Tables',
         'emissions': 'Emissions',
-        'emissions_activity': 'Emissions Activity',
-        'emissions_factor': 'Emissions Factor',
+        'emissions_activity': 'Activity data',
+        'emissions_factor': 'Emission factor',
         'data_not_available': 'Data Not Available'
     },
     'F' : true,

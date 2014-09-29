@@ -3,7 +3,6 @@
         "height": 75,
         "width": 275,
         "spacingBottom": 5,
-        "type": "line",
         "alignTicks": false,
         "backgroundColor": "#FFFFFF",
         "spacing": [20, 1, 1, 1],
