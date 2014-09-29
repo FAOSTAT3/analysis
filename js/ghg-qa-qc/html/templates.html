@@ -40,7 +40,7 @@
 </div>
 
 <div id='ghg_qa_qc_verification_agri_total_structure'>
-    <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;'>
+    <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;' id='agri_total_tab'>
         <li class='active'>
             <a href='#agri_total_gt' role='tab' data-toggle='tab' id='agri_total_gt_label'>
                 {{gt}}
@@ -194,7 +194,7 @@
 </div>
 
 <div id='ghg_qa_qc_verification_land_use_structure'>
-    <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;'>
+    <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;' id='land_use_tab'>
         <li class='active'>
             <a href='#land_use_gl' role='tab' data-toggle='tab'>
                 {{gl}}
@@ -603,36 +603,40 @@
 <div id='charts_structure'>
     <table class='table table-bordered table-condensed'>
         <thead>
-            <tr>
-                <th>{{item}}</th>
-                <th>{{emissions}}</th>
-                <th>{{emissions_activity}}</th>
-                <th>{{emissions_factor}}</th>
-            </tr>
+        <tr>
+            <th>
+                {{item}}
+            </th>
+            <th>{{emissions}}</th>
+            <th>{{emissions_activity}}</th>
+            <th>{{emissions_factor}}</th>
+        </tr>
         </thead>
         <tbody>
-            <!--{{#items}}-->
-            <tr>
-                <th style='vertical-align: middle !important;'>
+        <!--{{#items}}-->
+        <tr>
+            <th style='vertical-align: middle !important;'>
+                <a id='{{tab_link}}' style='cursor: pointer;'>
                     {{item}}
-                </th>
-                <td style='vertical-align: middle !important; width: 275px;'>
-                    <div id='{{col0}}'>
-                        {{data_not_available}}
-                    </div>
-                </td>
-                <td style='vertical-align: middle !important; width: 275px;'>
-                    <div id='{{col1}}'>
-                        {{data_not_available}}
-                    </div>
-                </td>
-                <td style='vertical-align: middle !important; width: 275px;'>
-                    <div id='{{col2}}'>
-                        {{data_not_available}}
-                    </div>
-                </td>
-            </tr>
-            <!--{{/items}}-->
+                </a>
+            </th>
+            <td style='vertical-align: middle !important; width: 275px;'>
+                <div id='{{col0}}'>
+                    {{data_not_available}}
+                </div>
+            </td>
+            <td style='vertical-align: middle !important; width: 275px;'>
+                <div id='{{col1}}'>
+                    {{data_not_available}}
+                </div>
+            </td>
+            <td style='vertical-align: middle !important; width: 275px;'>
+                <div id='{{col2}}'>
+                    {{data_not_available}}
+                </div>
+            </td>
+        </tr>
+        <!--{{/items}}-->
         </tbody>
     </table>
 </div>

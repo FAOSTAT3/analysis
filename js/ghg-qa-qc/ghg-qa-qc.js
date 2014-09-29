@@ -254,6 +254,7 @@ define(['jquery',
             var tmp = {};
             tmp.item = items[i][1];
             tmp['data_not_available'] = translate.data_not_available;
+            tmp['tab_link'] = items[i][0] + '_anchor';
             try {
                 for (var j = 0; j < elements.length; j++) {
                     tmp['col' + j] = domain_code + '_' + items[i][0] + '_' + elements[j];
@@ -280,6 +281,14 @@ define(['jquery',
         } catch(e) {
 
         }
+
+        for (var i = 0; i < items.length; i++) {
+            $('#' + items[i][0] + '_anchor').click(function() {
+//                alert('hallo from ' + this.id);
+                $('#agri_total_tab a[href="#agri_total_ag_soils"]').tab('show');
+            });
+        }
+
     };
 
     GHG_QA_QC.prototype.query_db_for_charts = function(datasource, domain_code, item_code, element_code) {
