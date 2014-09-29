@@ -1,13 +1,21 @@
 define(['jquery',
         'mustache',
-        'text!analysis/js/ghg-qa-qc/html/templates.html',
-        'text!analysis/js/ghg-qa-qc/config/selectors.json',
-        'text!analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
-        'text!analysis/js/ghg-qa-qc/config/domain_elements_map.json',
-        'i18n!analysis/js/libs/nls/translate',
+        'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
+        'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/domain_elements_map.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/domain_items_map.json',
+        'i18n!tiled-analysis/js/libs/nls/translate',
         'chosen',
         'highcharts',
-        'bootstrap'], function ($, Mustache, templates, selectors_configuration, chart_template, domain_elements_map, translate) {
+        'bootstrap'], function ($,
+                                Mustache,
+                                templates,
+                                selectors_configuration,
+                                chart_template,
+                                domain_elements_map,
+                                domain_items_map,
+                                translate) {
 
     'use strict';
 
@@ -135,7 +143,8 @@ define(['jquery',
             'gf': translate.gf,
             'gc': translate.gc,
             'gg': translate.gg,
-            'gi': translate.gi
+            'gi': translate.gi,
+            'ag_soils': translate.ag_soils
         };
         var template = $(templates).filter('#' + template_id).html();
         var render = Mustache.render(template, view);
@@ -157,8 +166,7 @@ define(['jquery',
 
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
-            var at = ['gt', 'ge', 'gm', 'gr', 'gy', 'gu', 'gp', 'ga', 'gv', 'gb', 'gh', 'gn'];
-//            var at = ['ge'];
+            var at = ['gt', 'ag_soils', 'ge', 'gm', 'gr', 'gy', 'gu', 'gp', 'ga', 'gv', 'gb', 'gh', 'gn'];
             for (var i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs('agri_total_' + at[i] + '_charts_and_tables', at[i]);
         }
@@ -177,7 +185,46 @@ define(['jquery',
         var template = $(templates).filter('#charts_and_tables').html();
         var render = Mustache.render(template, view);
         $('#' + id).html(render);
-        this.create_charts_get_elements(domain_code);
+        if (domain_code == 'ag_soils') {
+            this.create_charts_and_tables_ag_soils();
+        } else {
+            this.create_charts_get_elements(domain_code);
+        }
+    };
+
+    GHG_QA_QC.prototype.create_charts_and_tables_ag_soils = function() {
+        var items = [
+            ['1709', translate.ag_soils],
+            ['5061', translate.gy],
+            ['5062', translate.gu],
+            ['5063', translate.gp],
+            ['5064', translate.ga],
+            ['6759', translate.gv]
+        ];
+        var elements = ['7231', '7143'];
+        var mustache_items = [];
+        for (var i = 0; i < items.length; i++) {
+            var tmp = {};
+            tmp.item = items[i][1];
+            tmp['data_not_available'] = translate.data_not_available;
+            for (var j = 0; j < elements.length; j++) {
+                tmp['col' + j] = 'ag_soils' + '_' + items[i][0] + '_' + elements[j];
+            }
+            mustache_items.push(tmp);
+        }
+        var view = {
+            'item': translate.item,
+            'emissions': translate.emissions,
+            'emissions_activity': translate.emissions_activity,
+            'emissions_factor': translate.emissions_factor,
+            'items': mustache_items
+        };
+        var template = $(templates).filter('#charts_structure').html();
+        var render = Mustache.render(template, view);
+        $('#ag_soils__charts_content').html(render);
+        for (var q = 0 ; q < elements.length ; q++)
+            for (var z = 0; z < items.length; z++)
+                this.query_db_for_charts(this.CONFIG.datasource, 'ag_soils', items[z][0], elements[q]);
     };
 
     GHG_QA_QC.prototype.create_charts_get_elements = function (domain_code) {
@@ -194,6 +241,8 @@ define(['jquery',
                 var items = response;
                 if (typeof items == 'string')
                     items = $.parseJSON(response);
+                if (domain_code == 'gt')
+                    items.splice(0, 0, ["1711", translate.gt, "80", "+"]);
                 _this.create_charts(domain_code, elements, items);
             }
         });
@@ -205,8 +254,12 @@ define(['jquery',
             var tmp = {};
             tmp.item = items[i][1];
             tmp['data_not_available'] = translate.data_not_available;
-            for (var j = 0; j < elements.length; j++) {
-                tmp['col' + j] = domain_code + '_' + items[i][0] + '_' + elements[j];
+            try {
+                for (var j = 0; j < elements.length; j++) {
+                    tmp['col' + j] = domain_code + '_' + items[i][0] + '_' + elements[j];
+                }
+            } catch(e) {
+
             }
             mustache_items.push(tmp);
         }
@@ -220,27 +273,34 @@ define(['jquery',
         var template = $(templates).filter('#charts_structure').html();
         var render = Mustache.render(template, view);
         $('#' + domain_code + '__charts_content').html(render);
-        for (var q = 0 ; q < elements.length ; q++)
-            for (var z = 0 ; z < items.length ; z++)
-                this.query_db_for_charts(this.CONFIG.datasource, domain_code, items[z][0], elements[q]);
+        try {
+            for (var q = 0; q < elements.length; q++)
+                for (var z = 0; z < items.length; z++)
+                    this.query_db_for_charts(this.CONFIG.datasource, domain_code, items[z][0], elements[q]);
+        } catch(e) {
+
+        }
     };
 
     GHG_QA_QC.prototype.query_db_for_charts = function(datasource, domain_code, item_code, element_code) {
 
         var add_user_data = false;
+        var gunf_code = $.parseJSON(domain_items_map)[domain_code];
 
-        var series_1 = [
-            {
-                name: $.i18n.prop('_agriculture_total') + ' (FAOSTAT)',
-                domain: domain_code,
-                country: this.CONFIG.country_code,
-                item: item_code,
-                element: element_code,
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
+        var series_1 = [];
+        series_1.push({
+            name: $.i18n.prop('_agriculture_total') + ' (FAOSTAT)',
+            domain: domain_code,
+            country: this.CONFIG.country_code,
+            item: item_code,
+            element: element_code,
+            datasource: 'faostat',
+            type: 'line',
+            enableMarker: false,
+            gunf_code: gunf_code
+        });
+        if (domain_code == 'gt' || domain_code == 'gl' || domain_code == 'ag_soils') {
+            series_1.push({
                 name: $.i18n.prop('_agriculture_total') + ' (NC)',
                 domain: 'GT',
                 country: this.CONFIG.country_code,
@@ -248,76 +308,12 @@ define(['jquery',
                 element: null,
                 datasource: 'nc',
                 type: 'scatter',
-                enableMarker: true
-            }
-        ];
+                enableMarker: true,
+                gunf_code: gunf_code
+            });
+        }
         var colors = this.CONFIG.colors.chart_1;
-//        this.createChart('chart_1', '<b>That is my title</b>', series_1, add_user_data, colors);
         this.createChart(domain_code + '_' + item_code + '_' + element_code, '<b>That is my title</b>', series_1, add_user_data, colors);
-
-//        var sql = {};
-//        var country_code = 138;
-//        var _this = this;
-//        switch (datasource) {
-//            case this.CONFIG.datasource:
-//                sql['query'] = "SELECT D.Year, D.value, D.ElementListCode " +
-//                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
-//                               "WHERE D.DomainCode = '" + domain_code + "' " +
-//                               "AND D.AreaCode = '" + country_code + "' " +
-//                               "AND D.ElementListCode = '" + element_code + "' " +
-//                               "AND D.ItemCode IN ('" + item_code + "') " +
-//                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-//                                              "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-//                                              "2010, 2011, 2012) " +
-//                               "AND D.AreaCode = A.AreaCode " +
-//                               "AND D.ElementListCode = E.ElementListCode " +
-//                               "AND D.ItemCode = I.ItemCode " +
-//                               "GROUP BY D.Year, D.value, D.ElementListCode " +
-//                               "ORDER BY D.Year ASC ";
-//                break;
-//            case 'nc':
-//                sql['query'] = "SELECT year, GUNFValue FROM UNFCCC_Comparison WHERE areacode = " + country_code + " " +
-//                               "AND code = '" + item_code + "' " +
-//                               "AND year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-//                                            "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-//                                            "2010, 2011, 2012) " +
-//                               "ORDER BY year ASC ";
-//                break;
-//        }
-//        var data = {};
-//        data.datasource = this.CONFIG.datasource;
-//        data.thousandSeparator = ',';
-//        data.decimalSeparator = '.';
-//        data.decimalNumbers = 2;
-//        data.json = JSON.stringify(sql);
-//        data.cssFilename = '';
-//        data.nowrap = false;
-//        data.valuesIndex = 0;
-//        $.ajax({
-//            type: 'POST',
-//            url: this.CONFIG.url_data,
-//            data: data,
-//            success: function (response) {
-//                var json = response;
-//                if (typeof json == 'string')
-//                    json = $.parseJSON(response);
-//                var p = $.parseJSON(chart_template);
-//                p.colors = _this.CONFIG.default_colors;
-//                p.series = [];
-//                var series = {};
-//                series.data = [];
-//                for (var i = 0; i < json.length; i++) {
-//                    var tmp = [];
-//                    tmp.push(parseInt(json[i][0]));
-//                    tmp.push(parseFloat(json[i][1]));
-//                    series.data.push(tmp);
-//                }
-//                p.series.push(series);
-//                var placeholder = '#' + domain_code + '_' + item_code + '_' + element_code;
-//                $(placeholder).highcharts(p);
-//
-//            }
-//        });
 
     };
 
@@ -655,7 +651,7 @@ define(['jquery',
                     load: function() {
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
-                            _this.plotSeries(chart_series, series[i].datasource, series[i].domain, series[i].country, series[i].item, series[i].element);
+                            _this.plotSeries(chart_series, series[i].datasource, series[i].domain, series[i].country, series[i].item, series[i].element, series[i].gunf_code);
                         }
                     }
                 }
@@ -711,14 +707,17 @@ define(['jquery',
     };
 
     /* Query DB and prepare the payload for the charts. */
-    GHG_QA_QC.prototype.plotSeries = function(series, datasource, domain_code, country, item, element) {
+    GHG_QA_QC.prototype.plotSeries = function(series, datasource, domain_code, country, item, element, gunf_code) {
         var _this = this;
         var sql = {};
+        var db_domain_code = domain_code;
+        if (db_domain_code == 'ag_soils')
+            db_domain_code = 'gt';
         switch (datasource) {
             case 'faostat':
                 sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
                     "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                    "WHERE D.DomainCode = '" + domain_code + "' AND D.AreaCode = '" + country + "' " +
+                    "WHERE D.DomainCode = '" + db_domain_code + "' AND D.AreaCode = '" + country + "' " +
                     "AND D.ElementListCode = '" + element + "' " +
                     "AND D.ItemCode IN ('" + item + "') " +
                     "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
@@ -734,7 +733,7 @@ define(['jquery',
                 sql['query'] = "SELECT year, GUNFValue " +
                                "FROM UNFCCC_Comparison " +
                                "WHERE areacode = " + country + " " +
-                               "AND code = '" + item + "' " +
+                               "AND code = '" + gunf_code + "' " +
                                "AND year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
                                             "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
                                             "2010, 2011, 2012) " +
@@ -755,7 +754,7 @@ define(['jquery',
             url     :   this.CONFIG.url_data,
             data    :   data,
             success: function (response) {
-                _this.prepare_chart_data(series, response, datasource);
+                _this.prepare_chart_data(series, response, datasource, domain_code, item, element);
             },
             error: function (e, b, c) {
 
@@ -763,7 +762,7 @@ define(['jquery',
         });
     };
 
-    GHG_QA_QC.prototype.prepare_chart_data = function (series, db_data, datasource) {
+    GHG_QA_QC.prototype.prepare_chart_data = function (series, db_data, datasource, domain_code, item, element) {
         var json = db_data;
         if (typeof json == 'string')
             json = $.parseJSON(db_data);
@@ -794,7 +793,11 @@ define(['jquery',
                 }
                 break;
         }
-        series.setData(data);
+        if (data.length > 0) {
+            series.setData(data);
+        } else {
+            $('#' + domain_code + '_' + item + '_' + element).html(translate.data_not_available);
+        }
     };
 
     /* Show or hide a section. */

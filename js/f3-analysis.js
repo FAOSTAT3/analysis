@@ -3,7 +3,7 @@ var F3_ANALYSIS = (function() {
     var CONFIG = {
         placeholder: 'container',
         lang: 'E',
-        prefix: 'http://fenixapps2.fao.org/ghg/analysis/',
+        prefix: 'http://fenixapps2.fao.org/ghg/tiled-analysis/',
 
         datasource: 'faostat2',
 

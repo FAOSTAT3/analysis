@@ -4,18 +4,9 @@
             "code": "ghg_qa_qc_verification_agri_total_structure",
             "target": "ghg_verification_domains_list",
             "label": {
-                "E": "Agriculture: Agriculture Total",
-                "S": "Agricoltura: Agricultura total",
-                "F": "Agriculture: Agriculture Total"
-            }
-        },
-        {
-            "code": "ghg_qa_qc_verification_agri_soils_structure",
-            "target": "ghg_verification_domains_list",
-            "label": {
-                "E": "Agriculture: Agricultural Soils",
-                "S": "Agricoltura: Suelos Agricolas",
-                "F": "Agriculture: Sols Agricoles"
+                "E": "Agriculture Total",
+                "S": "Agricultura total",
+                "F": "Agriculture Total"
             }
         },
         {
@@ -119,51 +110,6 @@
                 "E": "Rice Cultivation",
                 "S": "Cultivo del arroz",
                 "F": "Riziculture"
-            }
-        },
-        {
-            "code": "GY",
-            "target": "AREAS_ITEMS_ELEMENTS",
-            "label": {
-                "E": "Synthetic Fertilizers",
-                "S": "Fertilizantes sintéticos",
-                "F": "Engrais synthétique"
-            }
-        },
-        {
-            "code": "GU",
-            "target": "AREAS_ITEMS_ELEMENTS",
-            "label": {
-                "E": "Manure applied to Soils",
-                "S": "Estiércol aplicado a los suelos",
-                "F": "Fumier appliquée aux sols"
-            }
-        },
-        {
-            "code": "GP",
-            "target": "AREAS_ITEMS_ELEMENTS",
-            "label": {
-                "E": "Manure left on Pasture",
-                "S": "Estiércol depositado en las pasturas",
-                "F": "Fumier déposée sur des pâturages"
-            }
-        },
-        {
-            "code": "GA",
-            "target": "AREAS_ITEMS_ELEMENTS",
-            "label": {
-                "E": "Crop Residues",
-                "S": "Residuos agrícolas",
-                "F": "Résidus de récoltes"
-            }
-        },
-        {
-            "code": "GV",
-            "target": "AREAS_ITEMS_ELEMENTS",
-            "label": {
-                "E": "Cultivation of Organic Soils",
-                "S": "Cultivación de suelos orgánicos",
-                "F": "Culture de sols organiques"
             }
         },
         {

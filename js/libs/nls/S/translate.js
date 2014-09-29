@@ -31,6 +31,7 @@ define({
     'gc': 'Tierras de cultivo',
     'gg': 'Pastizales',
     'gi': 'Combustión de biomasa',
+    'ag_soils': 'Agricultural Soils',
     'charts': 'Gráficos',
     'tables': 'Tablas',
     'emissions': 'Emisiones',

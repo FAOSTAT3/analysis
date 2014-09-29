@@ -32,6 +32,7 @@ define({
         'gc': 'Cropland',
         'gg': 'Grassland',
         'gi': 'Burning - Biomass',
+        'ag_soils': 'Agricultural Soils',
         'charts': 'Charts',
         'tables': 'Tables',
         'emissions': 'Emissions',

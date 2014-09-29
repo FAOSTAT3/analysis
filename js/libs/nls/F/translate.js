@@ -31,6 +31,7 @@ define({
     'gc': 'Terres cultivées',
     'gg': 'Prairie',
     'gi': 'Combustion - Biomasse',
+    'ag_soils': 'Agricultural Soils',
     'charts': 'Graphiques',
     'tables': 'Tables',
     'emissions': 'Emissions',

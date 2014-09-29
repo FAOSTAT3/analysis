@@ -47,6 +47,11 @@
             </a>
         </li>
         <li>
+            <a href='#agri_total_ag_soils' role='tab' data-toggle='tab' id='agri_total_ag_soils_label'>
+                {{ag_soils}}
+            </a>
+        </li>
+        <li>
             <a href='#agri_total_ge' role='tab' data-toggle='tab' id='agri_total_ge_label'>
                 {{ge}}
             </a>
@@ -59,31 +64,6 @@
         <li>
             <a href='#agri_total_gr' role='tab' data-toggle='tab' id='agri_total_gr_label'>
                 {{gr}}
-            </a>
-        </li>
-        <li>
-            <a href='#agri_total_gy' role='tab' data-toggle='tab' id='agri_total_gy_label'>
-                {{gy}}
-            </a>
-        </li>
-        <li>
-            <a href='#agri_total_gu' role='tab' data-toggle='tab' id='agri_total_gu_label'>
-                {{gu}}
-            </a>
-        </li>
-        <li>
-            <a href='#agri_total_gp' role='tab' data-toggle='tab' id='agri_total_gp_label'>
-                {{gp}}
-            </a>
-        </li>
-        <li>
-            <a href='#agri_total_ga' role='tab' data-toggle='tab' id='agri_total_ga_label'>
-                {{ga}}
-            </a>
-        </li>
-        <li>
-            <a href='#agri_total_gv' role='tab' data-toggle='tab' id='agri_total_gv_label'>
-                {{gv}}
             </a>
         </li>
         <li>
@@ -108,6 +88,11 @@
 
             </div>
         </div>
+        <div class='tab-pane' id='agri_total_ag_soils'>
+            <div id='agri_total_ag_soils_charts_and_tables'>
+
+            </div>
+        </div>
         <div class='tab-pane' id='agri_total_ge'>
             <div id='agri_total_ge_charts_and_tables'>
 
@@ -120,31 +105,6 @@
         </div>
         <div class='tab-pane' id='agri_total_gr'>
             <div id='agri_total_gr_charts_and_tables'>
-
-            </div>
-        </div>
-        <div class='tab-pane' id='agri_total_gy'>
-            <div id='agri_total_gy_charts_and_tables'>
-
-            </div>
-        </div>
-        <div class='tab-pane' id='agri_total_gu'>
-            <div id='agri_total_gu_charts_and_tables'>
-
-            </div>
-        </div>
-        <div class='tab-pane' id='agri_total_gp'>
-            <div id='agri_total_gp_charts_and_tables'>
-
-            </div>
-        </div>
-        <div class='tab-pane' id='agri_total_ga'>
-            <div id='agri_total_ga_charts_and_tables'>
-
-            </div>
-        </div>
-        <div class='tab-pane' id='agri_total_gv'>
-            <div id='agri_total_gv_charts_and_tables'>
 
             </div>
         </div>
@@ -656,17 +616,17 @@
                 <th style='vertical-align: middle !important;'>
                     {{item}}
                 </th>
-                <td>
+                <td style='vertical-align: middle !important; width: 275px;'>
                     <div id='{{col0}}'>
                         {{data_not_available}}
                     </div>
                 </td>
-                <td>
+                <td style='vertical-align: middle !important; width: 275px;'>
                     <div id='{{col1}}'>
                         {{data_not_available}}
                     </div>
                 </td>
-                <td>
+                <td style='vertical-align: middle !important; width: 275px;'>
                     <div id='{{col2}}'>
                         {{data_not_available}}
                     </div>

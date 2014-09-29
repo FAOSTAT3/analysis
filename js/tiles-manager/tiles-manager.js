@@ -13,7 +13,7 @@ define(['jquery',
         this.CONFIG = {
             lang: 'E',
             url_analysis_home: 'http://168.202.28.57:8080/faostat-gateway/go/to/analysis/Q/QC/',
-            url_images: 'http://168.202.28.57:8080/analysis/images/'
+            url_images: 'http://168.202.28.57:8080/tiled-analysis/images/'
         };
 
     }
@@ -70,10 +70,8 @@ define(['jquery',
 
     TILESMGR.prototype.show_module = function(tile_code) {
         var _this = this;
-        console.log(tiles_configuration[tile_code]['require']);
         if (tiles_configuration[tile_code]['require'] != null) {
             $('#tiles_container').empty();
-            console.log(tiles_configuration[tile_code]['require']);
             require([tiles_configuration[tile_code]['require']], function (module) {
                 module.init({'lang': _this.CONFIG.lang});
             });
