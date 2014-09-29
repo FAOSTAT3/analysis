@@ -1,9 +1,9 @@
 define(['jquery',
         'mustache',
-        'text!analysis/js/ghg-qa-qc/html/templates.html',
-        'text!analysis/js/ghg-qa-qc/config/selectors.json',
-        'text!analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
-        'i18n!analysis/js/libs/nls/translate',
+        'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
+        'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
+        'i18n!tiled-analysis/js/libs/nls/translate',
         'chosen',
         'highcharts',
         'bootstrap'], function ($, Mustache, templates, selectors_configuration, chart_template, translate) {

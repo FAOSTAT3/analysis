@@ -1,6 +1,6 @@
 define(['jquery',
-    'text!analysis/js/ghg-overview/html/ghg-overview-structure.html',
-    'text!analysis/js/ghg-overview/config/ghg_overview.json',
+    'text!tiled-analysis/js/ghg-overview/html/ghg-overview-structure.html',
+    'text!tiled-analysis/js/ghg-overview/config/ghg_overview.json',
     'chosen',
     'highcharts',
     'F3_CHART',

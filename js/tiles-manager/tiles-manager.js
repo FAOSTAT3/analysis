@@ -1,9 +1,9 @@
 define(['jquery',
         'require',
         'mustache',
-        'text!analysis/js/tiles-manager/html/templates.html',
-        'text!analysis/js/tiles-manager/config/tiles_configuration.json',
-        'i18n!analysis/js/libs/nls/translate',
+        'text!tiled-analysis/js/tiles-manager/html/templates.html',
+        'text!tiled-analysis/js/tiles-manager/config/tiles_configuration.json',
+        'i18n!tiled-analysis/js/libs/nls/translate',
         'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
 
     'use strict';
@@ -70,8 +70,10 @@ define(['jquery',
 
     TILESMGR.prototype.show_module = function(tile_code) {
         var _this = this;
+        console.log(tiles_configuration[tile_code]['require']);
         if (tiles_configuration[tile_code]['require'] != null) {
             $('#tiles_container').empty();
+            console.log(tiles_configuration[tile_code]['require']);
             require([tiles_configuration[tile_code]['require']], function (module) {
                 module.init({'lang': _this.CONFIG.lang});
             });
