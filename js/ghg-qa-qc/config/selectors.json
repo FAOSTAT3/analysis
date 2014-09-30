@@ -4,9 +4,9 @@
             "code": "ghg_qa_qc_verification_agri_total_structure",
             "target": "ghg_verification_domains_list",
             "label": {
-                "E": "Agriculture Total",
-                "S": "Agricultura total",
-                "F": "Agriculture Total"
+                "E": "Agriculture",
+                "S": "Agricultura",
+                "F": "Agriculture"
             }
         },
         {
