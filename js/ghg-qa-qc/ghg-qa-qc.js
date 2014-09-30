@@ -241,8 +241,22 @@ define(['jquery',
                 var items = response;
                 if (typeof items == 'string')
                     items = $.parseJSON(response);
-                if (domain_code == 'gt')
+
+                /* Special behaviour for Agriculture Total. */
+                if (domain_code == 'gt') {
+
+                    /* Add Agriculture Total itself as item. */
                     items.splice(0, 0, ["1711", translate.gt, "80", "+"]);
+
+                    /* Remove the Agricultural Soils items. */
+                    var ag_soils = ['5061', '5062', '5063', '5064', '6759'];
+                    for (var i = 0 ; i < items.length ; i++) {
+                        if ($.inArray(items[i][0], ag_soils) > -1)
+                            items.splice(i, 1);
+                    }
+                    console.log(items);
+
+                }
                 _this.create_charts(domain_code, elements, items);
             }
         });
