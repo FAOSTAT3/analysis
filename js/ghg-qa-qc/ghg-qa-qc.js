@@ -254,7 +254,6 @@ define(['jquery',
                         if ($.inArray(items[i][0], ag_soils) > -1)
                             items.splice(i, 1);
                     }
-                    console.log(items);
 
                 }
                 _this.create_charts(domain_code, elements, items);
@@ -323,6 +322,9 @@ define(['jquery',
             gunf_code: gunf_code
         });
         if (domain_code == 'gt' || domain_code == 'gl' || domain_code == 'ag_soils') {
+            if (domain_code == 'ag_soils') {
+                gunf_code = $.parseJSON(domain_items_map)[item_code];
+            }
             series_1.push({
                 name: $.i18n.prop('_agriculture_total') + ' (NC)',
                 domain: 'GT',
