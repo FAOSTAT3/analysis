@@ -336,6 +336,8 @@ define(['jquery',
                 enableMarker: true,
                 gunf_code: gunf_code
             });
+            if (domain_code == 'ag_soils' && element_code != '7231')
+                series_1.splice(1, 1);
         }
         var colors = this.CONFIG.colors.chart_1;
         this.createChart(domain_code + '_' + item_code + '_' + element_code, '<b>That is my title</b>', series_1, add_user_data, colors);
