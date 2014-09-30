@@ -698,7 +698,6 @@ define(['jquery',
                     load: function() {
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
-//                            console.log(i + ') ' + series[i].gunf_code);
                             _this.plotSeries(chart_series,
                                              series[i].datasource,
                                              series[i].domain,
@@ -811,10 +810,6 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
-                if (datasource == 'nc') {
-                    console.log(domain_code + ' > ' + item + ' > ' + gunf_code);
-                    console.log(json);
-                }
                 _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
             },
             error: function (e, b, c) {
@@ -849,11 +844,6 @@ define(['jquery',
                     }
                     data.push(tmp);
                 }
-//                if (domain_code == 'gt' || domain_code == 'ge') {
-                    console.log(data);
-                    console.log(series);
-                    console.log();
-//                }
                 break;
         }
         if (data.length > 0) {
@@ -1186,12 +1176,6 @@ define(['jquery',
 
                 });
 
-            },
-
-            error: function (e, b, c) {
-                console.log(e);
-                console.log(b);
-                console.log(c);
             }
 
         });
@@ -1246,11 +1230,6 @@ define(['jquery',
                     }
                     document.getElementById('emissions_db_faostat_' + crf + '_' + y).innerHTML = v;
                 }
-            },
-            error: function (e, b, c) {
-                console.log(e);
-                console.log(b);
-                console.log(c);
             }
         });
     };
