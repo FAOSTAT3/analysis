@@ -64,7 +64,7 @@ define(['jquery',
             'tab_verification_label': translate.verification,
             'tab_qaqc_label': translate.qa_qc,
             'ghg_verification_areas_label': translate.areas,
-            'ghg_verification_groups_label': translate.groups
+            'ghg_verification_groups_label': translate.domains
         };
         var template = $(templates).filter('#ghg_qa_qc_verification_structure').html();
         var render = Mustache.render(template, view);
@@ -250,10 +250,29 @@ define(['jquery',
 
                     /* Remove the Agricultural Soils items. */
                     var ag_soils = ['5061', '5062', '5063', '5064', '6759'];
+                    var blacklist = ['5064', '5068', '5062', '5063', '6759'];
                     for (var i = 0 ; i < items.length ; i++) {
                         if ($.inArray(items[i][0], ag_soils) > -1)
                             items.splice(i, 1);
+                        if ($.inArray(items[i][0], blacklist) > -1)
+                            items.splice(i, 1);
                     }
+
+                    /* Add Agricultural Soils after Rice Cultivation. */
+                    for (var i = 0 ; i < items.length ; i++) {
+                        if (items[i][0] == '5060') {
+                            items.splice((1 + i), 0, ['1709', translate.ag_soils]);
+                            break;
+                        }
+                    }
+
+                    for (var i = 0 ; i < items.length ; i++) {
+                        if (items[i][0] == '5063') {
+                            items.splice(i, 1);
+                            break;
+                        }
+                    }
+
 
                 }
                 _this.create_charts(domain_code, elements, items);
@@ -296,8 +315,8 @@ define(['jquery',
         }
 
         for (var i = 0; i < items.length; i++) {
-            $('#' + items[i][0] + '_anchor').click(function() {
-//                alert('hallo from ' + this.id);
+            $('#' + items[i][0] + '_anchor').click({'test': 'Hallo!'}, function() {
+                alert(event.data.test);
                 $('#agri_total_tab a[href="#agri_total_ag_soils"]').tab('show');
             });
         }
@@ -311,7 +330,7 @@ define(['jquery',
 
         var series_1 = [];
         series_1.push({
-            name: $.i18n.prop('_agriculture_total') + ' (FAOSTAT)',
+            name: '(FAOSTAT)',
             domain: domain_code,
             country: this.CONFIG.country_code,
             item: item_code,
@@ -322,11 +341,11 @@ define(['jquery',
             gunf_code: gunf_code
         });
         if (domain_code == 'gt' || domain_code == 'gl' || domain_code == 'ag_soils') {
-            if (domain_code == 'ag_soils') {
+            if (domain_code == 'ag_soils' || domain_code == 'gt') {
                 gunf_code = $.parseJSON(domain_items_map)[item_code];
             }
             series_1.push({
-                name: $.i18n.prop('_agriculture_total') + ' (NC)',
+                name: '(NC)',
                 domain: 'GT',
                 country: this.CONFIG.country_code,
                 item: '4',
@@ -339,6 +358,7 @@ define(['jquery',
             if (domain_code == 'ag_soils' && element_code != '7231')
                 series_1.splice(1, 1);
         }
+
         var colors = this.CONFIG.colors.chart_1;
         this.createChart(domain_code + '_' + item_code + '_' + element_code, '<b>That is my title</b>', series_1, add_user_data, colors);
 
@@ -678,7 +698,14 @@ define(['jquery',
                     load: function() {
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
-                            _this.plotSeries(chart_series, series[i].datasource, series[i].domain, series[i].country, series[i].item, series[i].element, series[i].gunf_code);
+//                            console.log(i + ') ' + series[i].gunf_code);
+                            _this.plotSeries(chart_series,
+                                             series[i].datasource,
+                                             series[i].domain,
+                                             series[i].country,
+                                             series[i].item,
+                                             series[i].element,
+                                             series[i].gunf_code);
                         }
                     }
                 }
@@ -781,7 +808,14 @@ define(['jquery',
             url     :   this.CONFIG.url_data,
             data    :   data,
             success: function (response) {
-                _this.prepare_chart_data(series, response, datasource, domain_code, item, element);
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                if (datasource == 'nc') {
+                    console.log(domain_code + ' > ' + item + ' > ' + gunf_code);
+                    console.log(json);
+                }
+                _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
             },
             error: function (e, b, c) {
 
@@ -790,34 +824,36 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.prepare_chart_data = function (series, db_data, datasource, domain_code, item, element) {
-        var json = db_data;
-        if (typeof json == 'string')
-            json = $.parseJSON(db_data);
         var data = [];
         switch (datasource) {
             case 'faostat':
-                for (var i = json.length - 1 ; i >= 0 ; i--) {
+                for (var i = db_data.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
-                    var year = parseInt(json[i][4]);
+                    var year = parseInt(db_data[i][4]);
                     tmp.push(year);
-                    tmp.push(parseFloat(json[i][5]));
+                    tmp.push(parseFloat(db_data[i][5]));
                     data.push(tmp);
                 }
                 break;
             case 'nc':
-                for (var i = json.length - 1 ; i >= 0 ; i--) {
+                for (var i = db_data.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
-                    if (json[i].length > 1) {
-                        var year = parseInt(json[i][0]);
+                    if (db_data[i].length > 1) {
+                        var year = parseInt(db_data[i][0]);
                         tmp.push(year);
-                        tmp.push(parseFloat(json[i][1]));
+                        tmp.push(parseFloat(db_data[i][1]));
                     } else {
-                        var year = parseInt(json[i][0]);
+                        var year = parseInt(db_data[i][0]);
                         tmp.push(year);
                         tmp.push(null);
                     }
                     data.push(tmp);
                 }
+//                if (domain_code == 'gt' || domain_code == 'ge') {
+                    console.log(data);
+                    console.log(series);
+                    console.log();
+//                }
                 break;
         }
         if (data.length > 0) {
