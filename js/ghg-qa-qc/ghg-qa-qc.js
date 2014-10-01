@@ -394,6 +394,7 @@ define(['jquery',
                 $('#' + selector_id).trigger('chosen:updated');
                 $('#' + selector_id).change(function() {
                     _this.CONFIG.country_code = $('#' + selector_id + ' option:selected').val();
+                    _this.on_group_change('ghg_verification_groups_list');
                 });
             }
         });
