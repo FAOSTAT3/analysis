@@ -62,7 +62,11 @@ define(['jquery',
         var _this = this;
 
         /* Cast configuration files. */
+        domain_elements_map = $.parseJSON(domain_elements_map);
+        selectors_configuration = $.parseJSON(selectors_configuration);
+        chart_template = $.parseJSON(chart_template);
         items_tab_map = $.parseJSON(items_tab_map);
+        domain_items_map = $.parseJSON(domain_items_map);
 
         /* Load GHG-QA/QC structure. */
         var view = {
@@ -83,10 +87,6 @@ define(['jquery',
 
         /* Populate areas. */
         this.create_area_item_element_selector('GT', 1, 'ghg_verification_areas_list', null);
-
-        /* Cast selectors configuration to JSON. */
-        if (typeof selectors_configuration == 'string')
-            selectors_configuration = $.parseJSON(selectors_configuration);
 
         /* Populate groups. */
         this.create_groups_selector('groups', 'ghg_verification_groups_list', selectors_configuration.groups[0].target);
@@ -253,6 +253,15 @@ define(['jquery',
                 if (typeof items == 'string')
                     items = $.parseJSON(response);
 
+                /* Add the domain itself for the totals. */
+                switch (domain_code) {
+                    case 'ge': items.splice(0, 0, ["5058", translate.ge, "10", "0"]); break;
+                    case 'gm': items.splice(0, 0, ["5059", translate.gm, "10", "0"]); break;
+                    case 'gr': items.splice(0, 0, ["5060", translate.gr, "10", "0"]); break;
+                    case 'gb': items.splice(0, 0, ["5066", translate.gb, "10", "0"]); break;
+                    case 'gh': items.splice(0, 0, ["5067", translate.gh, "10", "0"]); break;
+                }
+
                 /* Special behaviour for Agriculture Total. */
                 if (domain_code == 'gt') {
 
@@ -343,7 +352,9 @@ define(['jquery',
     GHG_QA_QC.prototype.query_db_for_charts = function(datasource, domain_code, item_code, element_code) {
 
         var add_user_data = false;
-        var gunf_code = $.parseJSON(domain_items_map)[domain_code];
+        var gunf_code = domain_items_map[domain_code];
+        if (gunf_code == null)
+            gunf_code = domain_items_map[item_code];
 
         var series_1 = [];
         series_1.push({
@@ -357,10 +368,8 @@ define(['jquery',
             enableMarker: false,
             gunf_code: gunf_code
         });
-        if (domain_code == 'gt' || domain_code == 'gl' || domain_code == 'ag_soils') {
-            if (domain_code == 'ag_soils' || domain_code == 'gt') {
-                gunf_code = $.parseJSON(domain_items_map)[item_code];
-            }
+
+        if (gunf_code != null) {
             series_1.push({
                 name: 'NC',
                 domain: 'GT',
@@ -709,7 +718,7 @@ define(['jquery',
     /* Charts template. */
     GHG_QA_QC.prototype.createChart = function(chart_id, title, series, add_user_data, colors) {
         var _this = this;
-        var p = $.parseJSON(chart_template);
+        var p = chart_template;
         var custom_p = {
             chart: {
                 events: {
@@ -796,11 +805,24 @@ define(['jquery',
 
     /* Query DB and prepare the payload for the charts. */
     GHG_QA_QC.prototype.plotSeries = function(series, datasource, domain_code, country, item, element, gunf_code) {
+
         var _this = this;
         var sql = {};
         var db_domain_code = domain_code;
+
         if (db_domain_code == 'ag_soils')
             db_domain_code = 'gt';
+        if (item == '5058' && domain_code == 'ge')
+            db_domain_code = 'gt';
+        if (item == '5059' && domain_code == 'gm')
+            db_domain_code = 'gt';
+        if (item == '5060' && domain_code == 'gr')
+            db_domain_code = 'gt';
+        if (item == '5066' && domain_code == 'gb')
+            db_domain_code = 'gt';
+        if (item == '5067' && domain_code == 'gh')
+            db_domain_code = 'gt';
+
         switch (datasource) {
             case 'faostat':
                 sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
@@ -809,8 +831,8 @@ define(['jquery',
                     "AND D.ElementListCode = '" + element + "' " +
                     "AND D.ItemCode IN ('" + item + "') " +
                     "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                    "2010, 2011, 2012) " +
+                                   "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                   "2010, 2011, 2012) " +
                     "AND D.AreaCode = A.AreaCode " +
                     "AND D.ElementListCode = E.ElementListCode " +
                     "AND D.ItemCode = I.ItemCode " +
@@ -828,6 +850,7 @@ define(['jquery',
                                "ORDER BY year DESC ";
                 break;
         }
+
         var data = {};
         data.datasource = 'faostat';
         data.thousandSeparator = ',';
