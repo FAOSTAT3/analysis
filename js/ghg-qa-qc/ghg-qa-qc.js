@@ -330,7 +330,7 @@ define(['jquery',
 
         var series_1 = [];
         series_1.push({
-            name: '(FAOSTAT)',
+            name: 'FAOSTAT',
             domain: domain_code,
             country: this.CONFIG.country_code,
             item: item_code,
@@ -345,7 +345,7 @@ define(['jquery',
                 gunf_code = $.parseJSON(domain_items_map)[item_code];
             }
             series_1.push({
-                name: '(NC)',
+                name: 'NC',
                 domain: 'GT',
                 country: this.CONFIG.country_code,
                 item: '4',
@@ -709,7 +709,23 @@ define(['jquery',
                     }
                 }
             },
-            colors: _this.CONFIG.default_colors
+            colors: _this.CONFIG.default_colors,
+            tooltip: {
+                formatter: function() {
+                    var s = [];
+                    $.each(this.points, function(i, point) {
+                        var tmp = '';
+                        tmp += '<b>';
+                        tmp += point.series.name;
+                        tmp += ':</b> ';
+                        tmp += point.y;
+                        tmp += ' (' + point.x + ')';
+                        s.push(tmp);
+                    });
+                    return s.join('<br>');
+                },
+                shared: true
+            }
         };
         custom_p.series = [];
         for (var i = 0 ; i < series.length ; i++) {
@@ -721,14 +737,14 @@ define(['jquery',
 
         var chart = $('#' + chart_id).highcharts();
         try {
-
             for (var i = 0; i < series.length; i++) {
                 if (chart.series[i].name.indexOf('NC') > -1) {
                     chart.series[i].update({
                         marker: {
                             enabled: true
                         },
-                        type: 'scatter'
+                        type: 'line',
+                        lineWidth: 0
                     });
                 } else if (chart.series[i].name.indexOf('FAOSTAT') > -1) {
                     chart.series[i].update({
@@ -750,6 +766,7 @@ define(['jquery',
                     });
                 }
             }
+
 
             chart.redraw();
 

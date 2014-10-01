@@ -1,6 +1,6 @@
 {
     "chart": {
-        "height": 75,
+        "height": 125,
         "width": 275,
         "spacingBottom": 5,
         "alignTicks": false,
@@ -66,7 +66,7 @@
         }
     },
     "legend": {
-        "enabled": false,
+        "enabled": true,
         "floating": false,
         "backgroundColor": "#FFFFFF",
         "align": "center",
@@ -104,7 +104,7 @@
                 "duration": 1000,
                 "easing": "swing"
             },
-            "connectNulls": true,
+            "connectNulls": false,
             "cropThreshold": 3,
             "lineWidth": 1,
             "states": {
@@ -120,7 +120,9 @@
                 ]
             },
             "marker": {
-                "enabled": false
+                "enabled": false,
+                "symbol": "circle",
+                "radius": 2
             }
         }
     },
@@ -172,7 +174,7 @@
         "borderWidth": 1,
         "shadow": false,
         "shared ": true,
-        "crosshairs": true,
+        "crosshairs": [true, true],
         "valueDecimals": 2,
         "valuePrefix": "",
         "valueSuffix": ""
