@@ -1,0 +1,50 @@
+{
+    "1711": {
+        "group": "agri_total_tab",
+        "tab": "agri_total_gt"
+    },
+    "5058": {
+        "group": "agri_total_tab",
+        "tab": "agri_total_ge"
+    },
+    "5059": {
+        "group": "agri_total_tab",
+        "tab": "agri_total_gm"
+    },
+    "5060": {
+        "group": "agri_total_tab",
+        "tab": "agri_total_gr"
+    },
+    "1709": {
+        "group": "agri_total_tab",
+        "tab": "agri_total_ag_soils"
+    },
+    "5066": {
+        "group": "agri_total_tab",
+        "tab": "agri_total_gb"
+    },
+    "5067": {
+        "group": "agri_total_tab",
+        "tab": "agri_total_gh"
+    },
+    "1707": {
+        "group": "land_use_tab",
+        "tab": "land_use_gl"
+    },
+    "5065": {
+        "group": "land_use_tab",
+        "tab": "land_use_gf"
+    },
+    "5070": {
+        "group": "land_use_tab",
+        "tab": "land_use_gc"
+    },
+    "6794": {
+        "group": "land_use_tab",
+        "tab": "land_use_gg"
+    },
+    "5069": {
+        "group": "land_use_tab",
+        "tab": "land_use_gi"
+    }
+}

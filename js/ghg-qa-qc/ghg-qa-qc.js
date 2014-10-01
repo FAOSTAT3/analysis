@@ -5,6 +5,7 @@ define(['jquery',
         'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
         'text!tiled-analysis/js/ghg-qa-qc/config/domain_elements_map.json',
         'text!tiled-analysis/js/ghg-qa-qc/config/domain_items_map.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/items_tab_map.json',
         'i18n!tiled-analysis/js/libs/nls/translate',
         'chosen',
         'highcharts',
@@ -15,6 +16,7 @@ define(['jquery',
                                 chart_template,
                                 domain_elements_map,
                                 domain_items_map,
+                                items_tab_map,
                                 translate) {
 
     'use strict';
@@ -58,6 +60,9 @@ define(['jquery',
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
         var _this = this;
+
+        /* Cast configuration files. */
+        items_tab_map = $.parseJSON(items_tab_map);
 
         /* Load GHG-QA/QC structure. */
         var view = {
@@ -232,12 +237,18 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.create_charts_get_items = function(domain_code, elements) {
+
         var _this = this;
+
         $.ajax({
+
             type: 'GET',
             dataType: 'json',
             url: this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/3/1/' + this.CONFIG.lang,
+
             success: function (response) {
+
+                /* Cast response to JSON. */
                 var items = response;
                 if (typeof items == 'string')
                     items = $.parseJSON(response);
@@ -266,6 +277,7 @@ define(['jquery',
                         }
                     }
 
+                    /* Kill 5063!!! */
                     for (var i = 0 ; i < items.length ; i++) {
                         if (items[i][0] == '5063') {
                             items.splice(i, 1);
@@ -273,11 +285,15 @@ define(['jquery',
                         }
                     }
 
-
                 }
+
+                /* Create charts. */
                 _this.create_charts(domain_code, elements, items);
+
             }
+
         });
+
     };
 
     GHG_QA_QC.prototype.create_charts = function(domain_code, elements, items) {
@@ -315,9 +331,10 @@ define(['jquery',
         }
 
         for (var i = 0; i < items.length; i++) {
-            $('#' + items[i][0] + '_anchor').click({'test': 'Hallo!'}, function() {
-                alert(event.data.test);
-                $('#agri_total_tab a[href="#agri_total_ag_soils"]').tab('show');
+            $('#' + items[i][0] + '_anchor').click({'items': items, 'i': i}, function(event) {
+                var group = items_tab_map[event.data.items[event.data.i][0]].group;
+                var tab = items_tab_map[event.data.items[event.data.i][0]].tab;
+                $('#' + group + ' a[href="#' + tab + '"]').tab('show');
             });
         }
 
