@@ -6,6 +6,7 @@ define(['jquery',
         'text!tiled-analysis/js/ghg-qa-qc/config/domain_elements_map.json',
         'text!tiled-analysis/js/ghg-qa-qc/config/domain_items_map.json',
         'text!tiled-analysis/js/ghg-qa-qc/config/items_tab_map.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/charts_configuration.json',
         'i18n!tiled-analysis/js/libs/nls/translate',
         'chosen',
         'highcharts',
@@ -17,6 +18,7 @@ define(['jquery',
                                 domain_elements_map,
                                 domain_items_map,
                                 items_tab_map,
+                                charts_configuration,
                                 translate) {
 
     'use strict';
@@ -47,6 +49,7 @@ define(['jquery',
         chart_template = $.parseJSON(chart_template);
         items_tab_map = $.parseJSON(items_tab_map);
         domain_items_map = $.parseJSON(domain_items_map);
+        charts_configuration = $.parseJSON(charts_configuration);
 
         /* Load GHG-QA/QC structure. */
         var view = {
@@ -145,13 +148,6 @@ define(['jquery',
                 this.create_charts_and_tables_tabs(lu[i] + '_charts_and_tables', lu[i]);
         }
 
-        /* Render charts and tables tabs: Agricultural Soils */
-//        if (option_selected == 'ghg_qa_qc_verification_agri_soils_structure') {
-//            var as = ['gt', 'gy', 'gu', 'gp', 'ga', 'gv'];
-//            for (var i = 0; i < as.length; i++)
-//                this.create_charts_and_tables_tabs('agri_soils_' + as[i] + '_charts_and_tables', as[i]);
-//        }
-
     };
 
     GHG_QA_QC.prototype.create_charts_and_tables_tabs = function(id, domain_code) {
@@ -166,11 +162,68 @@ define(['jquery',
         var template = $(templates).filter('#charts_and_tables').html();
         var render = Mustache.render(template, view);
         $('#' + id).html(render);
-//        if (domain_code == 'ag_soils') {
-//            this.create_charts_and_tables_ag_soils();
-//        } else {
-//            this.create_charts_get_elements(domain_code);
-//        }
+        this.read_charts_table_configuration(domain_code);
+    };
+
+    GHG_QA_QC.prototype.read_charts_table_configuration = function(domain_code) {
+
+        /* Load configurations for the given domain. */
+        var config = charts_configuration[domain_code];
+
+        /* Load items. */
+        $.ajax({
+
+            type: 'GET',
+            dataType: 'json',
+            url: this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/3/1/' + this.CONFIG.lang,
+
+            success: function (response) {
+
+                /* Cast response to JSON. */
+                var items = response;
+                if (typeof items == 'string')
+                    items = $.parseJSON(response);
+
+                /* Remove items contained in the blacklist. */
+                for (var i = items.length - 1 ; i >= 0 ; i--) {
+                    if ($.inArray(items[i][0], config.items_blacklist) > -1) {
+                        console.log('remove ' + items[i][0] + ' @ ' + i);
+                        items.splice(i, 1);
+                    }
+                }
+
+                /* Add items listed as totals. */
+                for (i = config.totals.length - 1; i >= 0 ; i--)
+                    items.splice(0, 0, [config.totals[i].item.code, translate[config.totals[i].item.label]]);
+
+                /* Prepare items for the template. */
+                var mustache_items = [];
+                for (i = 0; i < items.length; i++) {
+                    var tmp = {};
+                    tmp.item = items[i][1];
+                    tmp['data_not_available'] = translate.data_not_available;
+                    tmp['tab_link'] = items[i][0] + '_anchor';
+                    for (var j = 0; j < config.elements.length; j++)
+                        tmp['col' + j] = domain_code + '_' + items[i][0] + '_' + config.elements[j];
+                    mustache_items.push(tmp);
+                }
+
+                /* Load and render the template. */
+                var view = {
+                    'item': translate.item,
+                    'emissions': translate.emissions,
+                    'emissions_activity': translate.emissions_activity,
+                    'emissions_factor': translate.emissions_factor,
+                    'items': mustache_items
+                };
+                var template = $(templates).filter('#charts_structure').html();
+                var render = Mustache.render(template, view);
+                $('#' + domain_code + '__charts_content').html(render);
+
+            }
+
+        });
+
     };
 
     GHG_QA_QC.prototype.create_charts_and_tables_ag_soils = function() {

@@ -1,35 +1,55 @@
 {
     "gt": {
-        "items_blacklist": ["5061", "5062", "5063", "5064", "6759" ],
+        "items_blacklist": ["5061", "5062", "5063", "5064", "6759",
+                            "1711", "5058", "5059", "5060", "5067",
+                            "5066", "5068"],
         "elements": ["7231", "7243", "7244"],
         "totals": [
             {
-                "item_code": "1711",
+                "item": {
+                    "code": "1711",
+                    "label": "gt"
+                },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4"
             },
             {
-                "item_code": "5058",
+                "item": {
+                    "code": "5058",
+                    "label": "ge"
+                },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4.A"
             },
             {
-                "item_code": "5059",
+                "item": {
+                    "code": "5059",
+                    "label": "gm"
+                },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4.B"
             },
             {
-                "item_code": "5060",
+                "item": {
+                    "code": "5060",
+                    "label": "gr"
+                },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4.C"
             },
             {
-                "item_code": "5067",
+                "item": {
+                    "code": "5067",
+                    "label": "gb"
+                },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4.E"
             },
             {
-                "item_code": "5066",
+                "item": {
+                    "code": "5066",
+                    "label": "gh"
+                },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4.F"
             }
@@ -41,7 +61,10 @@
         "elements": ["7231", "7244"],
         "totals": [
             {
-                "item_code": "5058",
+                "item": {
+                    "code": "5058",
+                    "label": "ge"
+                },
                 "element_codes": ["7231", "7244"],
                 "gunf_code": "4.A"
             }
