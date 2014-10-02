@@ -137,16 +137,17 @@ define(['jquery',
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
             var at = ['gt', 'ag_soils', 'ge', 'gm', 'gr', 'gb', 'gh'];
+//            var at = ['gt'];
             for (var i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
 
         /* Render charts and tables tabs: Land Use */
-        if (option_selected == 'ghg_qa_qc_verification_land_use_structure') {
-            var lu = ['gl', 'gf', 'gc', 'gg', 'gi'];
-            for (i = 0; i < lu.length; i++)
-                this.create_charts_and_tables_tabs(lu[i] + '_charts_and_tables', lu[i]);
-        }
+//        if (option_selected == 'ghg_qa_qc_verification_land_use_structure') {
+//            var lu = ['gl', 'gf', 'gc', 'gg', 'gi'];
+//            for (i = 0; i < lu.length; i++)
+//                this.create_charts_and_tables_tabs(lu[i] + '_charts_and_tables', lu[i]);
+//        }
 
     };
 
@@ -239,11 +240,85 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.populate_charts_table = function(td_ids) {
+
+        /* Iterate over the charts table cells. */
         for (var i = 0 ; i < td_ids.length ; i++) {
+
+            /* Read parameters. */
             var params = td_ids[i].split('_');
-            console.log(td_ids[i] + ' >>> ' + params.length);
+
+            /* Create 'total' charts. */
+            if ($.inArray('TOTAL', params) > -1) {
+
+                /* Initiate series definition and variables. */
+                var series_definition = [];
+                var domain_code = params[0];
+                var item_code = params[1];
+                var element_code = params[2];
+                var gunf_code = params[4];
+
+                /* FAOSTAT chart. */
+                series_definition.push({
+                    name: 'FAOSTAT',
+                    domain: domain_code,
+                    country: this.CONFIG.country_code,
+                    item: item_code,
+                    element: element_code,
+                    datasource: 'faostat',
+                    type: 'line',
+                    enableMarker: false,
+                    gunf_code: gunf_code
+                });
+
+                /* UNFCCC chart. */
+                if (gunf_code != null) {
+                    series_definition.push({
+                        name: 'NC',
+                        domain: 'GT',
+                        country: this.CONFIG.country_code,
+                        item: '4',
+                        element: null,
+                        datasource: 'nc',
+                        type: 'scatter',
+                        enableMarker: true,
+                        gunf_code: gunf_code
+                    });
+                }
+
+                /* Create chart. */
+                this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
+
+            }
+
+            /* Create 'standard' chart. */
+            else {
+
+                /* Initiate series definition and variables. */
+                var series_definition = [];
+                var domain_code = params[0];
+                var item_code = params[1];
+                var element_code = params[2];
+
+                /* FAOSTAT chart. */
+                series_definition.push({
+                    name: 'FAOSTAT',
+                    domain: domain_code,
+                    country: this.CONFIG.country_code,
+                    item: item_code,
+                    element: element_code,
+                    datasource: 'faostat',
+                    type: 'line',
+                    enableMarker: false,
+                    gunf_code: gunf_code
+                });
+
+                /* Create chart. */
+                this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
+
+            }
+
         }
-        console.log();
+
     };
 
     GHG_QA_QC.prototype.create_charts_and_tables_ag_soils = function() {
@@ -766,12 +841,14 @@ define(['jquery',
 
     /* Charts template. */
     GHG_QA_QC.prototype.createChart = function(chart_id, title, series, add_user_data, colors) {
+        console.log('create chart ' + chart_id);
         var _this = this;
         var p = chart_template;
         var custom_p = {
             chart: {
                 events: {
                     load: function() {
+                        console.log('series? ' + series.length);
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
                             _this.plotSeries(chart_series,
@@ -785,7 +862,7 @@ define(['jquery',
                     }
                 }
             },
-            colors: _this.CONFIG.default_colors,
+            colors: colors,
             tooltip: {
                 formatter: function() {
                     var s = [];
@@ -809,7 +886,7 @@ define(['jquery',
             custom_p.series[i].name = series[i].name;
         }
         p = $.extend(true, {}, p, custom_p);
-        $('#' + chart_id).highcharts(p);
+        $(document.getElementById(chart_id)).highcharts(p);
 
         var chart = $('#' + chart_id).highcharts();
         try {
@@ -859,18 +936,18 @@ define(['jquery',
         var sql = {};
         var db_domain_code = domain_code;
 
-        if (db_domain_code == 'ag_soils')
-            db_domain_code = 'gt';
-        if (item == '5058' && domain_code == 'ge')
-            db_domain_code = 'gt';
-        if (item == '5059' && domain_code == 'gm')
-            db_domain_code = 'gt';
-        if (item == '5060' && domain_code == 'gr')
-            db_domain_code = 'gt';
-        if (item == '5066' && domain_code == 'gb')
-            db_domain_code = 'gt';
-        if (item == '5067' && domain_code == 'gh')
-            db_domain_code = 'gt';
+//        if (db_domain_code == 'ag_soils')
+//            db_domain_code = 'gt';
+//        if (item == '5058' && domain_code == 'ge')
+//            db_domain_code = 'gt';
+//        if (item == '5059' && domain_code == 'gm')
+//            db_domain_code = 'gt';
+//        if (item == '5060' && domain_code == 'gr')
+//            db_domain_code = 'gt';
+//        if (item == '5066' && domain_code == 'gb')
+//            db_domain_code = 'gt';
+//        if (item == '5067' && domain_code == 'gh')
+//            db_domain_code = 'gt';
 
         switch (datasource) {
             case 'faostat':
