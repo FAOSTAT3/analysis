@@ -13,7 +13,7 @@ define(['jquery',
         this.CONFIG = {
             lang: 'E',
             url_analysis_home: 'http://168.202.28.57:8080/faostat-gateway/go/to/analysis/Q/QC/',
-            url_images: 'http://fenixapps2.fao.org/faostat-ghg/modules/tiled-analysis/images/'
+            url_images: '/tiled-analysis/images/'
         };
 
     }

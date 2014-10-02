@@ -1,6 +1,0 @@
-{
-	"datasource": "faostat2",
-	"baseurl": "fenixapps2.fao.org/ghg",
-    "I18N_URL" :  "http://fenixapps2.fao.org/ghg/faostat-gateway/static/faostat/I18N/"
-
-}
