@@ -1,81 +1,97 @@
-var GHG_OVERVIEW = (function() {
+define(['jquery',
+    'text!tiled-analysis/js/ghg-overview/html/ghg-overview-structure.html',
+    'text!tiled-analysis/js/ghg-overview/config/ghg_overview.json',
+    'chosen',
+    'highcharts',
+    'F3_CHART',
+    'F3_GHG_TABLE',
+    'FENIXChartsLibrary',
+    'jshashtable'
+], function ($, template, resources_json) {
 
-    var CONFIG = {
-        placeholder: 'container_view',
-        lang: 'E',
-        prefix: 'http://168.202.28.214:8080/analysis/',
+    'use strict';
 
-        // DATASOURCE
-        datasource: 'faostat',
+    function GHG_OVERVIEW() {
+        this.CONFIG = {
+            resources_json :  $.parseJSON(resources_json),
+            placeholder: 'tiles_container',
+            lang: 'E',
+            prefix: 'http://168.202.28.214:8080/analysis/',
 
-        // Values used in the queries
-        domaincode: 'GT',
-        itemcode: "'1709','5066','5067','5058','5059','5060'",
-        elementcode: '7231',
-        selected_aggregation : "AVG",
+            // DATASOURCE
+            datasource: 'faostat',
 
-        // SP URLs
-        baseurl: 'http://faostat3.fao.org',
-        baseurl_data: '/wds/rest/table/json',
-        baseurl_countries: '/wds/rest/procedures/countries',
-        baseurl_years: '/wds/rest/procedures/years',
+            // Values used in the queries
+            domaincode: 'GT',
+            itemcode: "'1709','5066','5067','5058','5059','5060'",
+            elementcode: '7231',
+            selected_aggregation: "AVG",
 
-        // Structures and Labels
-        html_structure: 'http://168.202.28.214:8080/analysis/ghg-overview-structure.html',
-        I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
+            // SP URLs
+            baseurl: 'http://faostat3.fao.org',
+            baseurl_data: '/wds/rest/table/json',
+            baseurl_countries: '/wds/rest/procedures/countries',
+            baseurl_years: '/wds/rest/procedures/years',
 
-        // Default Values of the comboboxes
-        default_country : [49,60,138],
-//        default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
-        default_from_year : [1990],
-        default_to_year : [2010],
+            // Structures and Labels
+            //html_structure: 'http://168.202.28.214:8080/analysis/ghg-overview-structure.html',
+            I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
 
-        // JSON resources
-        baseurl_resources_ghg_overview: '/resources/json/ghg_overview.json',
+            // Default Values of the comboboxes
+            default_country: [49, 60, 138],
+            //        default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
+            default_from_year: [1990],
+            default_to_year: [2010],
 
-        // selectors IDs
-        selector_country_list : "fx_country_list",
-        selector_from_year_list : "fx_from_year_list",
-        selector_to_year_list : "fx_to_year_list",
-        decimal_values : 2
-    };
+            // JSON resources
+            //baseurl_resources_ghg_overview: '/resources/json/ghg_overview.json',
 
-    function init(config) {
+            // selectors IDs
+            selector_country_list: "fx_country_list",
+            selector_from_year_list: "fx_from_year_list",
+            selector_to_year_list: "fx_to_year_list",
+            decimal_values: 2
+        };
+    }
+
+    GHG_OVERVIEW.prototype.init = function(config){
 
         // get configuration changes
-        CONFIG = $.extend(true, CONFIG, config);
+        this.CONFIG = $.extend(true, this.CONFIG, config);
+
+        console.log(this.CONFIG);
+        console.log(this.CONFIG.placeholder);
 
         // Load interface
-        $('#' + CONFIG.placeholder).load(CONFIG.html_structure, function () {
+        $('#' + this.CONFIG.placeholder).html(template);
 
-            // Multilanguage
-            loadLabels()
+        // Multilanguage
+        this.loadLabels()
 
-            // Default View
-            var url = CONFIG.prefix + CONFIG.baseurl_resources_ghg_overview;
-            CONFIG.selected_areacodes = CONFIG.default_country;
-            CONFIG.selected_from_year = CONFIG.default_from_year;
-            CONFIG.selected_to_year = CONFIG.default_to_year;
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (response) {
-                    CONFIG.resources_json = (typeof response == 'string')? $.parseJSON(response): response;
-                    updateView()
-                },
-                error: function (a, b, c) {}
-            });
+        // Default View
+        var url = this.CONFIG.prefix + this.CONFIG.baseurl_resources_ghg_overview;
+        this.CONFIG.selected_areacodes = this.CONFIG.default_country;
+        this.CONFIG.selected_from_year = this.CONFIG.default_from_year;
+        this.CONFIG.selected_to_year = this.CONFIG.default_to_year;
+        this.updateView()
 
-            // Populate DropDowns
-            var url_country = CONFIG.baseurl + CONFIG.baseurl_countries + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
-            var url_years = CONFIG.baseurl + CONFIG.baseurl_years + "/" + CONFIG.datasource + "/" + CONFIG.domaincode + "/" + CONFIG.lang
-            populateView(CONFIG.selector_country_list,url_country, CONFIG.default_country, "100%", true, {disable_search_threshold: 10});
-            populateViewYears(CONFIG.selector_from_year_list, 1990, 2010, CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
-            populateViewYears(CONFIG.selector_to_year_list, 1990, 2010, CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
+        // Populate DropDowns
+        var url_country = this.CONFIG.baseurl + this.CONFIG.baseurl_countries + "/" + this.CONFIG.datasource + "/" + this.CONFIG.domaincode + "/" + this.CONFIG.lang
+        var url_years = this.CONFIG.baseurl + this.CONFIG.baseurl_years + "/" + this.CONFIG.datasource + "/" + this.CONFIG.domaincode + "/" + this.CONFIG.lang
+        this.populateView(this.CONFIG.selector_country_list,url_country, this.CONFIG.default_country, "100%", true, {disable_search_threshold: 10});
+        this.populateViewYears(this.CONFIG.selector_from_year_list, 1990, 2010, this.CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
+        this.populateViewYears(this.CONFIG.selector_to_year_list, 1990, 2010, this.CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
+
+        var _this = this;
+        $('#fs-overview-tables-button').on('click', function() {
+            _this.showHideTables()
+        });
+        $('#fs-overview-tables-button-a').on('click', function() {
+            _this.showHideTables()
         });
     };
 
-    function loadLabels() {
+    GHG_OVERVIEW.prototype.loadLabels = function() {
 //        $("#fs_label_area").html($.i18n.prop('_area'));
         $("#fs_label_area").html($.i18n.prop('_select_a_country'));
         $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
@@ -100,11 +116,12 @@ var GHG_OVERVIEW = (function() {
         $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
     }
 
-    function showHideTables() {
+    GHG_OVERVIEW.prototype.showHideTables = function() {
         $('#fs-overview-tables').toggle();
     }
 
-    function populateView(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
+    GHG_OVERVIEW.prototype.populateView = function(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
+        var _this = this;
         $.ajax({
             url         :   url,
             type        :   'GET',
@@ -114,7 +131,6 @@ var GHG_OVERVIEW = (function() {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
 
                 var ddID = id + "_dd";
-                // TODO: dynamic width
                 var html = '<select ';
                 html += (multiselection)? 'multiple': '';
                 html += ' id="'+ ddID+'" style="width:' + dropdown_width +'"  class="">';
@@ -137,80 +153,81 @@ var GHG_OVERVIEW = (function() {
                 $('#' + id).html(html);
 
                 $('#' + id).on('change', function() {
-                    CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
-                    CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
-                    CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
-                    updateView();
+                    _this.CONFIG.selected_areacodes = $('#' + _this.CONFIG.selector_country_list + "_dd").val()
+                    _this.CONFIG.selected_from_year = $('#' + _this.CONFIG.selector_from_year_list + "_dd").val()
+                    _this.CONFIG.selected_to_year = $('#' + _this.CONFIG.selector_to_year_list + "_dd").val()
+                    _this.updateView();
                 });
 
                 $('#' + ddID).chosen(chosen_parameters);
 
                 /** update countries list **/
-                updateCountryListNames()
+                _this.updateCountryListNames()
             },
             error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
     };
 
-    function populateViewYears(id, fromyear, toyear, default_code, dropdown_width, multiselection, chosen_parameters) {
+    GHG_OVERVIEW.prototype.populateViewYears = function(id, fromyear, toyear, default_code, dropdown_width, multiselection, chosen_parameters) {
+        $('#' + id).empty();
 
-                $('#' + id).empty();
-
-                var ddID = id + "_dd";
-                // TODO: dynamic width
-                var html = '<select ';
-                html += (multiselection)? 'multiple': '';
-                html += ' id="'+ ddID+'" style="width:' + dropdown_width +'"  class="">';
-                for(var i=toyear; i >= fromyear; i--) {
-                    var selected = false;
-                    for (var j = 0; j < default_code.length; j++) {
-                        if (default_code[j] == i) {
-                            // TODO: set default
-                            html += '<option selected="selected" value="' + i + '">' + i + '</option>';
-                            selected = true
-                            break;
-                        }
-                    }
-
-                    if (!selected)
-                        html += '<option value="' + i + '">' + i + '</option>';
+        var ddID = id + "_dd";
+        // TODO: dynamic width
+        var html = '<select ';
+        html += (multiselection)? 'multiple': '';
+        html += ' id="'+ ddID+'" style="width:' + dropdown_width +'"  class="">';
+        for(var i=toyear; i >= fromyear; i--) {
+            var selected = false;
+            for (var j = 0; j < default_code.length; j++) {
+                if (default_code[j] == i) {
+                    // TODO: set default
+                    html += '<option selected="selected" value="' + i + '">' + i + '</option>';
+                    selected = true
+                    break;
                 }
-                html += '</select>';
+            }
 
-                // add html
-                $('#' + id).html(html);
+            if (!selected)
+                html += '<option value="' + i + '">' + i + '</option>';
+        }
+        html += '</select>';
 
-                $('#' + id).on('change', function() {
-                    CONFIG.selected_areacodes = $('#' + CONFIG.selector_country_list + "_dd").val()
-                    CONFIG.selected_areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected")
-                    CONFIG.selected_from_year = $('#' + CONFIG.selector_from_year_list + "_dd").val()
-                    CONFIG.selected_to_year = $('#' + CONFIG.selector_to_year_list + "_dd").val()
-                    updateView();
-                });
+        // add html
+        $('#' + id).html(html);
 
-                $('#' + ddID).chosen(chosen_parameters);
+        var _this = this;
+        $('#' + id).on('change', function() {
+            _this.CONFIG.selected_areacodes = $('#' + _this.CONFIG.selector_country_list + "_dd").val()
+            _this.CONFIG.selected_areanames = $('#' + _this.CONFIG.selector_country_list + "_dd option:selected")
+            _this.CONFIG.selected_from_year = $('#' + _this.CONFIG.selector_from_year_list + "_dd").val()
+            _this.CONFIG.selected_to_year = $('#' + _this.CONFIG.selector_to_year_list + "_dd").val()
+            _this.updateView();
+        });
+
+        console.log(chosen_parameters);
+        $('#' + ddID).chosen(chosen_parameters);
     };
 
 
-    function updateView() {
-        var json = CONFIG.resources_json;
+    GHG_OVERVIEW.prototype.updateView = function() {
+        var json = this.CONFIG.resources_json;
 
         // update views
-        updateWorldBox(json)
-        updateContinentBox(json)
-        updateSubRegionBox(json)
-        updateCountryBox(json)
+        this.updateWorldBox(json)
+        this.updateContinentBox(json)
+        this.updateSubRegionBox(json)
+        this.updateCountryBox(json)
 
-        updateTableWorld(json)
+        this.updateTableWorld(json)
 
-        updateChartsByCountries(json);
+        this.updateChartsByCountries(json);
 
         // this changes the div with the names of the countries
-        updateCountryListNames();
+        this.updateCountryListNames();
     }
 
-    function updateWorldBox(json) {
-        var obj = getconfugirationObject()
+    GHG_OVERVIEW.prototype.updateWorldBox = function(json) {
+        var obj = this.getconfugirationObject()
 
         var arecode = "'5000'"
 
@@ -218,7 +235,7 @@ var GHG_OVERVIEW = (function() {
         var json_total = json.world_total;
         var total_obj = obj;
         total_obj.areacode = arecode
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
 
         // Create Pie
 //        var json_chart = json.world_chart;
@@ -229,33 +246,34 @@ var GHG_OVERVIEW = (function() {
         var json_chart = json.byarea_chart;
         var chart_obj = obj;
         chart_obj.areacode = arecode
-        json_chart =  $.parseJSON(replaceValues(json_chart, chart_obj))
+        json_chart =  $.parseJSON(this.replaceValues(json_chart, chart_obj))
 
-        createTitle("fx_world_total", json_total.sql)
-        createChart("fx_world_chart", json_chart.sql)
+        this.createTitle("fx_world_total", json_total.sql)
+        this.createChart("fx_world_chart", json_chart.sql)
     }
 
-    function updateContinentBox(json) {
-        var obj = getconfugirationObject()
+    GHG_OVERVIEW.prototype.updateContinentBox = function(json) {
+        var obj = this.getconfugirationObject()
 
         // Getting Area Codes
-        var codes = getQueryAreaCodes()
+        var codes = this.getQueryAreaCodes()
 
         // Replacing Query Object
         var json_total = json.query_regions;
         var total_obj = obj;
         total_obj.areacode = codes
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
 
         var data = {};
-        data.datasource = CONFIG.datasource;
+        data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(json_total.sql);
+        var _this = this;
         $.ajax({
             type : 'POST',
-            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            url : this.CONFIG.baseurl + this.CONFIG.baseurl_data,
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
@@ -288,34 +306,37 @@ var GHG_OVERVIEW = (function() {
                     },
                     add_first_column: true
                 }
-                updateAreasBox(json, id, code, areanames)
-                updateAreasTable(json, code, config)
+                _this.updateAreasBox(json, id, code, areanames)
+                _this.updateAreasTable(json, code, config)
             },
-            error: function (a, b, c) {console.log(a + " " + b + " " + c); }
+            error: function (a, b, c) {
+                console.log(a + " " + b + " " + c);
+            }
         });
     }
 
-    function updateSubRegionBox(json) {
-        var obj = getconfugirationObject();
+    GHG_OVERVIEW.prototype.updateSubRegionBox = function(json) {
+        var obj = this.getconfugirationObject();
 
         // Getting Area Codes
-        var codes = getQueryAreaCodes()
+        var codes = this.getQueryAreaCodes()
 
         // Replacing Query Object
         var json_total = json.query_sub_regions;
         var total_obj = obj;
         total_obj.areacode = codes
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
 
         var data = {};
-        data.datasource = CONFIG.datasource;
+        data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(json_total.sql);
+        var _this = this;
         $.ajax({
             type : 'POST',
-            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            url : this.CONFIG.baseurl + this.CONFIG.baseurl_data,
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
@@ -348,45 +369,44 @@ var GHG_OVERVIEW = (function() {
                     },
                     add_first_column: true
                 }
-                updateAreasBox(json, id, code, areanames)
-                updateAreasTable(json, code, config)
-
-                updateTimeserieAgricultureTotal(json, code)
+                _this.updateAreasBox(json, id, code, areanames)
+                _this.updateAreasTable(json, code, config)
+                _this.updateTimeserieAgricultureTotal(json, code)
             },
             error: function (a, b, c) {console.log(a + " " + b + " " + c); }
         });
     }
 
-    function updateChartsByCountries(json) {
-        var obj = getconfugirationObject();
-        var areacodes = getQueryAreaCodes();
+    GHG_OVERVIEW.prototype.updateChartsByCountries = function(json) {
+        var obj = this.getconfugirationObject();
+        var areacodes = this.getQueryAreaCodes();
 
         // Create Second Chart
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5058', '5059'"
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
-        createChart("fx_second_chart", json_total.sql, 'timeserie')
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        this.createChart("fx_second_chart", json_total.sql, 'timeserie')
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'1709', '5060'"
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
-        createChart("fx_third_chart", json_total.sql, 'timeserie')
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        this.createChart("fx_third_chart", json_total.sql, 'timeserie')
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5066', '5067'"
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
-        createChart("fx_fourth_chart", json_total.sql, 'timeserie')
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        this.createChart("fx_fourth_chart", json_total.sql, 'timeserie')
     }
 
     /** TODO: not hardcoded **/
-    function updateCountryListNames() {
-        var areanames = $('#' + CONFIG.selector_country_list + "_dd option:selected")
+    GHG_OVERVIEW.prototype.updateCountryListNames = function() {
+        var areanames = $('#' + this.CONFIG.selector_country_list + "_dd option:selected")
         var label = ""
         if ( typeof areanames == "object") {
             for (var i = 0; i < areanames.length; i++) {
@@ -396,12 +416,12 @@ var GHG_OVERVIEW = (function() {
             }
         }
         else
-            label = CONFIG.selected_areacodes;
+            label = this.CONFIG.selected_areacodes;
         $('#fx_country_total_name').html(label)
     }
 
-    function updateCountryBox(json) {
-        var codes = getQueryAreaCodes()
+    GHG_OVERVIEW.prototype.updateCountryBox = function(json) {
+        var codes = this.getQueryAreaCodes()
 
         var id = "fx_country"
         var id_table = id + "_table"
@@ -421,36 +441,37 @@ var GHG_OVERVIEW = (function() {
             },
             add_first_column: true
         }
-        updateAreasBox(json, id, codes, null)
-        updateAreasTable(json, codes, config)
+        this.updateAreasBox(json, id, codes, null)
+        this.updateAreasTable(json, codes, config)
     }
 
 
-    function updateAreasBox(json, id, areacode, areanames) {
+    GHG_OVERVIEW.prototype.updateAreasBox = function(json, id, areacode, areanames) {
         if ( areanames )
             $("#" + id + "_total_name").html(areanames)
 
-        var obj = getconfugirationObject();
+        var obj = this.getconfugirationObject();
 
         // Create Title
         var json_total = json.byarea_total;
         var total_obj = obj;
         total_obj.areacode = areacode
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
 
         // Create Pie
         var json_chart = json.byarea_chart;
         var chart_obj = obj;
         chart_obj.areacode = areacode
-        json_chart =  $.parseJSON(replaceValues(json_chart, chart_obj))
+        json_chart =  $.parseJSON(this.replaceValues(json_chart, chart_obj))
 
-        createTitle(id + "_total", json_total.sql)
-        createChart(id + "_chart", json_chart.sql)
+        this.createTitle(id + "_total", json_total.sql)
+        this.createChart(id + "_chart", json_chart.sql)
     }
 
-    function updateTimeserieAgricultureTotal(json, regions) {
-        var obj = getconfugirationObject();
-        var areacodes = getQueryAreaCodes();
+    GHG_OVERVIEW.prototype.updateTimeserieAgricultureTotal = function(json, regions) {
+//        function updateTimeserieAgricultureTotal(json, regions) {
+        var obj = this.getconfugirationObject();
+        var areacodes = this.getQueryAreaCodes();
 
         var areas_query = areacodes + ',' + regions;
 
@@ -458,35 +479,37 @@ var GHG_OVERVIEW = (function() {
         var json_total = json.agriculture_total_chart
         var total_obj = obj;
         total_obj.areacode = areas_query
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
-       createChart("fx_agriculture_total_chart", json_total.sql, 'timeserie')
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        this.createChart("fx_agriculture_total_chart", json_total.sql, 'timeserie')
     }
 
-    function createTitle(id, sql) {
+    GHG_OVERVIEW.prototype.createTitle = function(id, sql) {
+//        function createTitle(id, sql) {
         var data = {};
-        data.datasource = CONFIG.datasource;
+        data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
         console.log(JSON.stringify(sql));
+        var _this = this;
         $.ajax({
             type : 'POST',
-            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            url : this.CONFIG.baseurl + this.CONFIG.baseurl_data,
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
                 $("#" + id + "_element").html(response[0][0])
-                var value = Number(parseFloat(response[0][1]).toFixed(CONFIG.decimal_values)).toLocaleString();
+                var value = Number(parseFloat(response[0][1]).toFixed(_this.CONFIG.decimal_values)).toLocaleString();
                 $("#" + id + "_value").html(value)
             },
             error : function(err, b, c) {}
         });
     }
 
-    function createChart(id, sql, type) {
+    GHG_OVERVIEW.prototype.createChart = function(id, sql, type) {
         var data = {};
-        data.datasource = CONFIG.datasource;
+        data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
@@ -494,7 +517,7 @@ var GHG_OVERVIEW = (function() {
         //console.log(JSON.stringify(sql));
         $.ajax({
             type : 'POST',
-            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            url : this.CONFIG.baseurl + this.CONFIG.baseurl_data,
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
@@ -513,28 +536,28 @@ var GHG_OVERVIEW = (function() {
         });
     }
 
-    function updateTableWorld(json) {
+    GHG_OVERVIEW.prototype.updateTableWorld = function(json) {
         var years = []
-        if ( typeof CONFIG.selected_from_year == 'object') {
-            years.push(CONFIG.selected_from_year[0])
-            for ( var i = CONFIG.selected_from_year[0]+1; i <= CONFIG.selected_to_year[0]; i++) {
+        if ( typeof this.CONFIG.selected_from_year == 'object') {
+            years.push(this.CONFIG.selected_from_year[0])
+            for ( var i = this.CONFIG.selected_from_year[0]+1; i <= this.CONFIG.selected_to_year[0]; i++) {
                 years.push(i)
             }
 
         }
         else{
-            years.push(parseInt(CONFIG.selected_from_year))
-            for ( var i = parseInt(CONFIG.selected_from_year)+1; i <= parseInt(CONFIG.selected_to_year); i++) {
+            years.push(parseInt(this.CONFIG.selected_from_year))
+            for ( var i = parseInt(this.CONFIG.selected_from_year)+1; i <= parseInt(this.CONFIG.selected_to_year); i++) {
                 years.push(i)
             }
         }
-        var obj = getconfugirationObject();
+        var obj = this.getconfugirationObject();
 
         var json_total = json.world_table;
         // TODO: Modify the JSON with the right attributes
 
-       var total_obj = obj;
-       json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        var total_obj = obj;
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
 
         var config = {
             placeholder : "fx_world_table",
@@ -552,39 +575,39 @@ var GHG_OVERVIEW = (function() {
             },
             add_first_column: false
         }
-       createTable(json_total.sql, years, config)
+        this.createTable(json_total.sql, years, config)
     }
 
-    function updateAreasTable(json, areacode, config) {
+    GHG_OVERVIEW.prototype.updateAreasTable = function(json, areacode, config) {
         var years = []
-        if ( typeof CONFIG.selected_from_year == 'object') {
-            years.push(CONFIG.selected_from_year[0])
-            for ( var i = CONFIG.selected_from_year[0]+1; i <= CONFIG.selected_to_year[0]; i++) {
+        if ( typeof this.CONFIG.selected_from_year == 'object') {
+            years.push(this.CONFIG.selected_from_year[0])
+            for ( var i = this.CONFIG.selected_from_year[0]+1; i <= this.CONFIG.selected_to_year[0]; i++) {
                 years.push(i)
             }
 
         }
         else{
-            years.push(parseInt(CONFIG.selected_from_year))
-            for ( var i = parseInt(CONFIG.selected_from_year)+1; i <= parseInt(CONFIG.selected_to_year); i++) {
+            years.push(parseInt(this.CONFIG.selected_from_year))
+            for ( var i = parseInt(this.CONFIG.selected_from_year)+1; i <= parseInt(this.CONFIG.selected_to_year); i++) {
                 years.push(i)
             }
         }
-        var obj = getconfugirationObject();
+        var obj = this.getconfugirationObject();
 
         // Create Title
         var json_total = json.byarea_table;
         var total_obj = obj;
         total_obj.areacode = areacode
-        json_total = $.parseJSON(replaceValues(json_total, total_obj))
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
 
-        createTable(json_total.sql, years, config)
+        this.createTable(json_total.sql, years, config)
     }
 
-
-    function createTable(sql, years, config) {
+    GHG_OVERVIEW.prototype.createTable = function(sql, years, config) {
+        console.log("HERE");
         var data = {};
-        data.datasource = CONFIG.datasource;
+        data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
@@ -593,7 +616,7 @@ var GHG_OVERVIEW = (function() {
         var table = new F3_GHG_TABLE();
         $.ajax({
             type : 'POST',
-            url : CONFIG.baseurl + CONFIG.baseurl_data,
+            url : this.CONFIG.baseurl + this.CONFIG.baseurl_data,
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
@@ -604,56 +627,56 @@ var GHG_OVERVIEW = (function() {
         });
     }
 
-    function createTimeserieAgricultureTotal(json) {
-        var obj = getconfugirationObject();
-        var codes = getQueryAreaCodes();
+    GHG_OVERVIEW.prototype.createTimeserieAgricultureTotal = function(json) {
+        var obj = this.getconfugirationObject();
+        var codes = this.getQueryAreaCodes();
 
         /** TODO: **/
         var json_obj = json[id];
         var total_obj = obj;
         total_obj.areacode = codes
-        json_obj = $.parseJSON(replaceValues(json_obj, total_obj))
+        json_obj = $.parseJSON(this.replaceValues(json_obj, total_obj))
 
-        $('#' + id + "_title").html(json_obj.title[CONFIG.lang.toUpperCase()]);
-        createChart(id + "_chart", json_obj.sql)
+        $('#' + id + "_title").html(json_obj.title[this.CONFIG.lang.toUpperCase()]);
+        this.createChart(id + "_chart", json_obj.sql)
     }
 
-    function getconfugirationObject() {
+    GHG_OVERVIEW.prototype.getconfugirationObject = function() {
         var obj = {
-            lang : CONFIG.lang.toUpperCase(),
-            elementcode: "'" + CONFIG.elementcode + "'",
-            itemcode: CONFIG.itemcode,
-            fromyear: CONFIG.selected_from_year,
-            toyear : CONFIG.selected_to_year,
-            domaincode : "'" + CONFIG.domaincode + "'",
-            aggregation : CONFIG.selected_aggregation
+            lang : this.CONFIG.lang.toUpperCase(),
+            elementcode: "'" + this.CONFIG.elementcode + "'",
+            itemcode: this.CONFIG.itemcode,
+            fromyear: this.CONFIG.selected_from_year,
+            toyear : this.CONFIG.selected_to_year,
+            domaincode : "'" + this.CONFIG.domaincode + "'",
+            aggregation : this.CONFIG.selected_aggregation
         }
         return obj;
     }
 
-    function getQueryAreaCodes() {
+    GHG_OVERVIEW.prototype.getQueryAreaCodes = function() {
         var codes = ""
-        if ( typeof CONFIG.selected_areacodes == "object") {
-            for (var i = 0; i < CONFIG.selected_areacodes.length; i++) {
-                codes += "'" + CONFIG.selected_areacodes[i] + "'"
-                if (i < CONFIG.selected_areacodes.length - 1)
+        if ( typeof this.CONFIG.selected_areacodes == "object") {
+            for (var i = 0; i < this.CONFIG.selected_areacodes.length; i++) {
+                codes += "'" + this.CONFIG.selected_areacodes[i] + "'"
+                if (i < this.CONFIG.selected_areacodes.length - 1)
                     codes += ","
             }
         }
         else
-            codes = CONFIG.selected_areacodes;
+            codes = this.CONFIG.selected_areacodes;
         return codes;
     }
 
-    function replaceValues(response, obj) {
+    GHG_OVERVIEW.prototype.replaceValues = function(response, obj) {
         var json = (typeof data == 'string') ? response : JSON.stringify(response);
         for (var key in obj) {
-            json = replaceAll(json, "{{" + key.toUpperCase() + "}}", obj[key])
+            json = this.replaceAll(json, "{{" + key.toUpperCase() + "}}", obj[key])
         }
         return json
     };
 
-    function replaceAll(text, stringToFind, stringToReplace) {
+    GHG_OVERVIEW.prototype.replaceAll = function(text, stringToFind, stringToReplace) {
         try {
             var temp = text;
             var index = temp.indexOf(stringToFind);
@@ -667,9 +690,13 @@ var GHG_OVERVIEW = (function() {
         }
     }
 
-    return {
-        init: init,
-        showHideTables: showHideTables
-    };
+//    return {
+//        init: init,
+//        showHideTables: showHideTables
+//    };
+//
+//})();
 
-})();
+    return new GHG_OVERVIEW();
+
+});

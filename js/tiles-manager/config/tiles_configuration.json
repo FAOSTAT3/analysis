@@ -1,0 +1,49 @@
+{
+    "main": {
+        "type": "section",
+        "tiles": [
+            "ghg"
+        ]
+    },
+    "ghg": {
+        "id": "ghg",
+        "type": "section",
+        "img": "/main_ghg.jpg",
+        "label_code": "ghg",
+        "tiles": [
+            "ghg_overview",
+            "ghg_quality",
+            "ghg_indicators",
+            "ghg_data"
+        ]
+    },
+    "ghg_overview": {
+        "id": "ghg_overview",
+        "type": "module",
+        "img": "/overview.jpg",
+        "label_code": "ghg_overview",
+        "tiles": [],
+        "require": "ANALYSIS_GHG_OVERVIEW"
+    },
+    "ghg_quality": {
+        "id": "ghg_quality",
+        "type": "module",
+        "img": "/quality.jpg",
+        "label_code": "ghg_quality",
+        "require": "ANALYSIS_GHG_QA_QC"
+    },
+    "ghg_indicators": {
+        "id": "ghg_indicators",
+        "type": "module",
+        "img": "/indicators.jpg",
+        "label_code": "ghg_indicators",
+        "require": "ANALYSIS_GHG_INDICATORS"
+    },
+    "ghg_data": {
+        "id": "ghg_data",
+        "type": "module",
+        "img": "/data.jpg",
+        "label_code": "ghg_data",
+        "require": "ANALYSIS_GHG_DATA"
+    }
+}

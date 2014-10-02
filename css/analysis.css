@@ -108,3 +108,12 @@ h1 {
   #main_content_emissions .col-lg-9 .form-control {
     border: 0;
     box-shadow: none; }
+
+.tile_img {
+  width: 481px;
+  height: 242px;
+  cursor: pointer; }
+
+#analysis_breadcrumb.breadcrumb {
+  background-color: #FFFFFF;
+  margin-top: -5px; }

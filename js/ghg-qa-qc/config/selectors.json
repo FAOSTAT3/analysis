@@ -1,0 +1,190 @@
+{
+    "groups": [
+        {
+            "code": "ghg_qa_qc_verification_agri_total_structure",
+            "target": "ghg_verification_domains_list",
+            "label": {
+                "E": "Agriculture",
+                "S": "Agricultura",
+                "F": "Agriculture"
+            }
+        },
+        {
+            "code": "ghg_qa_qc_verification_land_use_structure",
+            "target": "ghg_verification_domains_list",
+            "label": {
+                "E": "Land Use",
+                "S": "Uso de la Tierra",
+                "F": "Utilisation des Terres"
+            }
+        }
+    ],
+    "AGRI_SOILS": [
+        {
+            "code": "GY",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Synthetic Fertilizers",
+                "S": "Fertilizantes sintéticos",
+                "F": "Engrais synthétique"
+            }
+        },
+        {
+            "code": "GU",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Manure applied to Soils",
+                "S": "Estiércol aplicado a los suelos",
+                "F": "Fumier appliquée aux sols"
+            }
+        },
+        {
+            "code": "GP",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Manure left on Pasture",
+                "S": "Estiércol depositado en las pasturas",
+                "F": "Fumier déposée sur des pâturages"
+            }
+        },
+        {
+            "code": "GA",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Crop Residues",
+                "S": "Residuos agrícolas",
+                "F": "Résidus de récoltes"
+            }
+        },
+        {
+            "code": "GV",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Cultivation of Organic Soils",
+                "S": "Cultivación de suelos orgánicos",
+                "F": "Culture de sols organiques"
+            }
+        }
+    ],
+    "G1": [
+        {
+            "code": "GT",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Agriculture Total",
+                "S": "Agricultura total",
+                "F": "Agriculture Total"
+            }
+        },
+        {
+            "code": "AGRI_SOILS",
+            "target": "ghg_verification_subdomains_list",
+            "label": {
+                "E": "Agricultural Soils",
+                "S": "Suelos Agricolas",
+                "F": "Sols Agricoles"
+            }
+        },
+        {
+            "code": "GE",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Enteric Fermentation",
+                "S": "Fermentación entérica",
+                "F": "Fermentation entérique"
+            }
+        },
+        {
+            "code": "GM",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Manure Management",
+                "S": "Gestión del estiércol",
+                "F": "Gestion du fumier"
+            }
+        },
+        {
+            "code": "GR",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Rice Cultivation",
+                "S": "Cultivo del arroz",
+                "F": "Riziculture"
+            }
+        },
+        {
+            "code": "GB",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Burning - Crop Residues",
+                "S": "Combustión - residuos agrícolas",
+                "F": "Combustion - résidus de récoltes"
+            }
+        },
+        {
+            "code": "GH",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Burning - Savanna",
+                "S": "Combustión - Sabana",
+                "F": "Combustion - Savane"
+            }
+        },
+        {
+            "code": "GN",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Energy Use",
+                "S": "Use de energía",
+                "F": "Consommation d'énergie"
+            }
+        }
+    ],
+    "G2": [
+        {
+            "code": "GL",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Land Use Total",
+                "S": "Uso de la tierra total",
+                "F": "Utilisation des terres total"
+            }
+        },
+        {
+            "code": "GF",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Forest Land",
+                "S": "Tierras forestales",
+                "F": "Terres forestières"
+            }
+        },
+        {
+            "code": "GC",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Cropland",
+                "S": "Tierras de cultivo",
+                "F": "Terres cultivées"
+            }
+        },
+        {
+            "code": "GG",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Grassland",
+                "S": "Pastizales",
+                "F": "Prairie"
+            }
+        },
+        {
+            "code": "GI",
+            "target": "AREAS_ITEMS_ELEMENTS",
+            "label": {
+                "E": "Burning - Biomass",
+                "S": "Combustión de biomasa",
+                "F": "Combustion - Biomasse"
+            }
+        }
+    ]
+}
