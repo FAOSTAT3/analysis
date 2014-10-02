@@ -185,16 +185,15 @@ define(['jquery',
                     items = $.parseJSON(response);
 
                 /* Remove items contained in the blacklist. */
-                for (var i = items.length - 1 ; i >= 0 ; i--) {
-                    if ($.inArray(items[i][0], config.items_blacklist) > -1) {
-                        console.log('remove ' + items[i][0] + ' @ ' + i);
+                for (var i = items.length - 1 ; i >= 0 ; i--)
+                    if ($.inArray(items[i][0], config.items_blacklist) > -1)
                         items.splice(i, 1);
-                    }
-                }
 
                 /* Add items listed as totals. */
                 for (i = config.totals.length - 1; i >= 0 ; i--)
-                    items.splice(0, 0, [config.totals[i].item.code, translate[config.totals[i].item.label]]);
+                    items.splice(0, 0, [config.totals[i].item.code,
+                                        translate[config.totals[i].item.label],
+                                        'TOTAL']);
 
                 /* Prepare items for the template. */
                 var mustache_items = [];
@@ -203,8 +202,12 @@ define(['jquery',
                     tmp.item = items[i][1];
                     tmp['data_not_available'] = translate.data_not_available;
                     tmp['tab_link'] = items[i][0] + '_anchor';
-                    for (var j = 0; j < config.elements.length; j++)
-                        tmp['col' + j] = domain_code + '_' + items[i][0] + '_' + config.elements[j];
+                    for (var j = 0; j < config.elements.length; j++) {
+                        var td_id = domain_code + '_' + items[i][0] + '_' + config.elements[j];
+                        if (items[i][2] == 'TOTAL')
+                            td_id += '_TOTAL';   
+                        tmp['col' + j] = td_id;
+                    }
                     mustache_items.push(tmp);
                 }
 
