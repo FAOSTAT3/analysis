@@ -1,0 +1,50 @@
+{
+    "gt": {
+        "items_blacklist": ["5061", "5062", "5063", "5064", "6759" ],
+        "elements": ["7231", "7243", "7244"],
+        "totals": [
+            {
+                "item_code": "1711",
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4"
+            },
+            {
+                "item_code": "5058",
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4.A"
+            },
+            {
+                "item_code": "5059",
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4.B"
+            },
+            {
+                "item_code": "5060",
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4.C"
+            },
+            {
+                "item_code": "5067",
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4.E"
+            },
+            {
+                "item_code": "5066",
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4.F"
+            }
+
+        ]
+    },
+    "ge": {
+        "items_blacklist": [],
+        "elements": ["7231", "7244"],
+        "totals": [
+            {
+                "item_code": "5058",
+                "element_codes": ["7231", "7244"],
+                "gunf_code": "4.A"
+            }
+        ]
+    }
+}

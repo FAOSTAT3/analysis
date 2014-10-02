@@ -25,32 +25,13 @@ define(['jquery',
 
         this.CONFIG = {
             lang            :   'E',
-            data            :   null,
             datasource      :   'faostat',
-            base_url        :   'http://168.202.28.57:8080/ghg',
             url_procedures  :   'http://faostat3.fao.org/wds/rest/procedures/countries/faostat/GT',
             url_data        :   'http://faostat3.fao.org/wds/rest/table/json',
             url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
             url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
-            colors: {
-                chart_1 : ['green', 'green'],
-                chart_2 : ['red', 'red', 'brown', 'brown'],
-                chart_3 : ['yellow', 'yellow'],
-                chart_4 : ['blue', 'blue'],
-                chart_5 : ['red', 'red', 'green', 'green']
-            },
-            default_colors: [
-                '#379bcd',
-                '#76BE94',
-                '#744490',
-                '#E10079',
-                '#2D1706',
-                '#F1E300',
-                '#F7AE3C',
-                '#DF3328'
-            ],
-            url_listboxes: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/',
-            json_domain_elements_map: $.parseJSON(domain_elements_map)
+            url_listboxes   :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/',
+            default_colors  :   ['#379bcd', '#76BE94', '#744490', '#E10079', '#2D1706', '#F1E300', '#F7AE3C', '#DF3328']
         };
 
     }
@@ -59,7 +40,6 @@ define(['jquery',
 
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
-        var _this = this;
 
         /* Cast configuration files. */
         domain_elements_map = $.parseJSON(domain_elements_map);
@@ -96,37 +76,33 @@ define(['jquery',
     GHG_QA_QC.prototype.create_groups_selector = function(selector_code, selector_id) {
 
         /* Variables. */
-        var _this = this;
         var target = null;
 
         /* Populate drop-down. */
         $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
-        try {
-            for (var i = 0; i < selectors_configuration[selector_code].length; i++) {
-                target = selectors_configuration[selector_code][i].target;
-                var s = '<option value="';
-                s += selectors_configuration[selector_code][i].code;
-                s += '">';
-                s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
-                s += '</option>';
-                $('#' + selector_id).append(s);
-            }
-        } catch (e) {
-            this.create_area_item_element_selectors(selector_code);
+        for (var i = 0; i < selectors_configuration[selector_code].length; i++) {
+            target = selectors_configuration[selector_code][i].target;
+            var s = '<option value="';
+            s += selectors_configuration[selector_code][i].code;
+            s += '">';
+            s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
+            s += '</option>';
+            $('#' + selector_id).append(s);
         }
 
         /* Initiate Chosen. */
         $('#' + selector_id).trigger('chosen:updated');
 
         /* On-change listener. */
-        $('#' + selector_id).change(function () {
-            _this.on_group_change(selector_id);
+        $('#' + selector_id).change({'module': this}, function (e) {
+            e.data.module.on_group_change(selector_id);
         });
 
     };
 
     GHG_QA_QC.prototype.on_group_change = function(selector_id) {
 
+        /* Read the selected option. */
         var option_selected = $('#' + selector_id + ' option:selected').val();
 
         /* Render domain tabs. */
@@ -155,26 +131,26 @@ define(['jquery',
         var render = Mustache.render(template, view);
         $('#ghg_verification_content').html(render);
 
+        /* Render charts and tables tabs: Agricultural Total */
+        if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
+            var at = ['gt', 'ag_soils', 'ge', 'gm', 'gr', 'gb', 'gh'];
+            for (var i = 0; i < at.length; i++)
+                this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
+        }
+
         /* Render charts and tables tabs: Land Use */
         if (option_selected == 'ghg_qa_qc_verification_land_use_structure') {
             var lu = ['gl', 'gf', 'gc', 'gg', 'gi'];
-            for (var i = 0; i < lu.length; i++)
-                this.create_charts_and_tables_tabs('land_use_' + lu[i] + '_charts_and_tables', lu[i]);
+            for (i = 0; i < lu.length; i++)
+                this.create_charts_and_tables_tabs(lu[i] + '_charts_and_tables', lu[i]);
         }
 
         /* Render charts and tables tabs: Agricultural Soils */
-        if (option_selected == 'ghg_qa_qc_verification_agri_soils_structure') {
-            var as = ['gt', 'gy', 'gu', 'gp', 'ga', 'gv'];
-            for (var i = 0; i < as.length; i++)
-                this.create_charts_and_tables_tabs('agri_soils_' + as[i] + '_charts_and_tables', as[i]);
-        }
-
-        /* Render charts and tables tabs: Agricultural Total */
-        if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
-            var at = ['gt', 'ag_soils', 'ge', 'gm', 'gr', 'gy', 'gu', 'gp', 'ga', 'gv', 'gb', 'gh', 'gn'];
-            for (var i = 0; i < at.length; i++)
-                this.create_charts_and_tables_tabs('agri_total_' + at[i] + '_charts_and_tables', at[i]);
-        }
+//        if (option_selected == 'ghg_qa_qc_verification_agri_soils_structure') {
+//            var as = ['gt', 'gy', 'gu', 'gp', 'ga', 'gv'];
+//            for (var i = 0; i < as.length; i++)
+//                this.create_charts_and_tables_tabs('agri_soils_' + as[i] + '_charts_and_tables', as[i]);
+//        }
 
     };
 
@@ -184,17 +160,17 @@ define(['jquery',
             'tables_label': translate.tables,
             'id_charts_content': domain_code + '__charts_content',
             'id_tables_content': domain_code +'_tables_content',
-            'href_charts': 'agri_total_' + domain_code + '_charts',
-            'href_tables': 'agri_total_' + domain_code + '_tables'
+            'href_charts': domain_code + '_charts',
+            'href_tables': domain_code + '_tables'
         };
         var template = $(templates).filter('#charts_and_tables').html();
         var render = Mustache.render(template, view);
         $('#' + id).html(render);
-        if (domain_code == 'ag_soils') {
-            this.create_charts_and_tables_ag_soils();
-        } else {
-            this.create_charts_get_elements(domain_code);
-        }
+//        if (domain_code == 'ag_soils') {
+//            this.create_charts_and_tables_ag_soils();
+//        } else {
+//            this.create_charts_get_elements(domain_code);
+//        }
     };
 
     GHG_QA_QC.prototype.create_charts_and_tables_ag_soils = function() {
@@ -233,7 +209,7 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.create_charts_get_elements = function (domain_code) {
-        this.create_charts_get_items(domain_code, this.CONFIG.json_domain_elements_map[domain_code]);
+        this.create_charts_get_items(domain_code, domain_elements_map[domain_code]);
     };
 
     GHG_QA_QC.prototype.create_charts_get_items = function(domain_code, elements) {
@@ -385,7 +361,7 @@ define(['jquery',
                 series_1.splice(1, 1);
         }
 
-        var colors = this.CONFIG.colors.chart_1;
+        var colors = this.CONFIG.default_colors;
         this.createChart(domain_code + '_' + item_code + '_' + element_code, '<b>That is my title</b>', series_1, add_user_data, colors);
 
     };
@@ -566,7 +542,7 @@ define(['jquery',
                 enableMarker: true
             }
         ];
-        var colors = this.CONFIG.colors.chart_1;
+        var colors = this.CONFIG.default_colors;
         this.createChart('chart_1', '<b>' + $.i18n.prop('_agriculture_total') + '</b>', series_1, add_user_data, colors);
 
         /* Chart 2 Definition. */
@@ -612,7 +588,7 @@ define(['jquery',
                 enableMarker: true
             }
         ];
-        var colors = this.CONFIG.colors.chart_2;
+        var colors = this.CONFIG.default_colors;
         this.createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data, colors);
 
         /* Chart 3 Definition. */
@@ -638,7 +614,7 @@ define(['jquery',
                 enableMarker: true
             }
         ];
-        var colors = this.CONFIG.colors.chart_3;
+        var colors = this.CONFIG.default_colors;
         this.createChart('chart_3', '<b>' + $.i18n.prop('_rice_cultivation') + '</b>', series_3, add_user_data, colors);
 
         /* Chart 4 Definition. */
@@ -664,7 +640,7 @@ define(['jquery',
                 enableMarker: true
             }
         ];
-        var colors = this.CONFIG.colors.chart_4;
+        var colors = this.CONFIG.default_colors;
         this.createChart('chart_4', '<b>' + $.i18n.prop('_agricultural_soils') + '</b>', series_4, add_user_data, colors);
 
         /* Chart 5 Definition. */
@@ -710,7 +686,7 @@ define(['jquery',
                 enableMarker: true
             }
         ];
-        var colors = this.CONFIG.colors.chart_5;
+        var colors = this.CONFIG.default_colors;
         this.createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data, colors);
 
     };
