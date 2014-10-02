@@ -167,6 +167,9 @@ define(['jquery',
 
     GHG_QA_QC.prototype.read_charts_table_configuration = function(domain_code) {
 
+        /* This... */
+        var _this = this;
+
         /* Load configurations for the given domain. */
         var config = charts_configuration[domain_code];
 
@@ -193,10 +196,12 @@ define(['jquery',
                 for (i = config.totals.length - 1; i >= 0 ; i--)
                     items.splice(0, 0, [config.totals[i].item.code,
                                         translate[config.totals[i].item.label],
-                                        'TOTAL']);
+                                        'TOTAL',
+                                        config.totals[i].gunf_code]);
 
                 /* Prepare items for the template. */
                 var mustache_items = [];
+                var td_ids = [];
                 for (i = 0; i < items.length; i++) {
                     var tmp = {};
                     tmp.item = items[i][1];
@@ -205,8 +210,9 @@ define(['jquery',
                     for (var j = 0; j < config.elements.length; j++) {
                         var td_id = domain_code + '_' + items[i][0] + '_' + config.elements[j];
                         if (items[i][2] == 'TOTAL')
-                            td_id += '_TOTAL';   
+                            td_id += '_TOTAL' + '_' + items[i][3];
                         tmp['col' + j] = td_id;
+                        td_ids.push(td_id);
                     }
                     mustache_items.push(tmp);
                 }
@@ -223,10 +229,21 @@ define(['jquery',
                 var render = Mustache.render(template, view);
                 $('#' + domain_code + '__charts_content').html(render);
 
+                /* Populate charts table. */
+                _this.populate_charts_table(td_ids);
+
             }
 
         });
 
+    };
+
+    GHG_QA_QC.prototype.populate_charts_table = function(td_ids) {
+        for (var i = 0 ; i < td_ids.length ; i++) {
+            var params = td_ids[i].split('_');
+            console.log(td_ids[i] + ' >>> ' + params.length);
+        }
+        console.log();
     };
 
     GHG_QA_QC.prototype.create_charts_and_tables_ag_soils = function() {
