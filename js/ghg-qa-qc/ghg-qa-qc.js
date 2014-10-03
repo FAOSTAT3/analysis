@@ -3,8 +3,6 @@ define(['jquery',
         'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
         'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
         'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
-        'text!tiled-analysis/js/ghg-qa-qc/config/domain_elements_map.json',
-        'text!tiled-analysis/js/ghg-qa-qc/config/domain_items_map.json',
         'text!tiled-analysis/js/ghg-qa-qc/config/items_tab_map.json',
         'text!tiled-analysis/js/ghg-qa-qc/config/charts_configuration.json',
         'i18n!tiled-analysis/js/libs/nls/translate',
@@ -15,8 +13,6 @@ define(['jquery',
                                 templates,
                                 selectors_configuration,
                                 chart_template,
-                                domain_elements_map,
-                                domain_items_map,
                                 items_tab_map,
                                 charts_configuration,
                                 translate) {
@@ -44,11 +40,9 @@ define(['jquery',
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
         /* Cast configuration files. */
-        domain_elements_map = $.parseJSON(domain_elements_map);
         selectors_configuration = $.parseJSON(selectors_configuration);
         chart_template = $.parseJSON(chart_template);
         items_tab_map = $.parseJSON(items_tab_map);
-        domain_items_map = $.parseJSON(domain_items_map);
         charts_configuration = $.parseJSON(charts_configuration);
 
         /* Load GHG-QA/QC structure. */
@@ -137,7 +131,6 @@ define(['jquery',
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
             var at = ['gt', 'ag_soils', 'ge', 'gm', 'gr', 'gb', 'gh'];
-//            var at = ['ge'];
             for (var i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
@@ -168,7 +161,7 @@ define(['jquery',
 
     GHG_QA_QC.prototype.read_charts_table_configuration = function(domain_code) {
 
-        /* This... */
+        /* 'this' wrapper for asynchronous functions. */
         var _this = this;
 
         /* Load configurations for the given domain. */
@@ -203,19 +196,38 @@ define(['jquery',
                 /* Prepare items for the template. */
                 var mustache_items = [];
                 var td_ids = [];
+
+                /* Iterate over items. */
                 for (i = 0; i < items.length; i++) {
+
+                    /* Create objects for templating. */
                     var tmp = {};
                     tmp.item = items[i][1];
                     tmp['data_not_available'] = translate.data_not_available;
                     tmp['tab_link'] = items[i][0] + '_anchor';
-                    for (var j = 0; j < config.elements.length; j++) {
-                        var td_id = domain_code + '_' + items[i][0] + '_' + config.elements[j];
-                        if (items[i][2] == 'TOTAL')
+
+                    /* Totals may have different elements. */
+                    if (items[i][2] == 'TOTAL') {
+                        for (var j = 0; j < config.totals[i].element_codes.length; j++) {
+                            var td_id = domain_code + '_' + items[i][0] + '_' + config.totals[i].element_codes[j];
                             td_id += '_TOTAL' + '_' + items[i][3];
-                        tmp['col' + j] = td_id;
-                        td_ids.push(td_id);
+                            tmp['col' + j] = td_id;
+                            td_ids.push(td_id);
+                        }
                     }
+
+                    /* Standard elements are applied for the items. */
+                    else {
+                        for (var j = 0; j < config.elements.length; j++) {
+                            var td_id = domain_code + '_' + items[i][0] + '_' + config.elements[j];
+                            tmp['col' + j] = td_id;
+                            td_ids.push(td_id);
+                        }
+                    }
+
+                    /* Add to the items for templating. */
                     mustache_items.push(tmp);
+
                 }
 
                 /* Load and render the template. */
@@ -250,73 +262,62 @@ define(['jquery',
             var item_code = params[1];
             var element_code = params[2];
             var gunf_code = null;
+            var series_definition = [];
+
+            /* FAOSTAT chart definition. */
+            var faostat = {
+                name: 'FAOSTAT',
+                domain: domain_code,
+                country: this.CONFIG.country_code,
+                item: item_code,
+                element: element_code,
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false,
+                gunf_code: null
+            };
+
+            /* UNFCCC chart definition. */
+            var unfccc = {
+                name: 'NC',
+                domain: 'GT',
+                country: this.CONFIG.country_code,
+                item: '4',
+                element: null,
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true,
+                gunf_code: gunf_code
+            };
 
             /* Create 'total' charts. */
             if ($.inArray('TOTAL', params) > -1) {
 
                 /* Initiate series definition and variables. */
-                var series_definition = [];
                 gunf_code = params[4];
+                unfccc.gunf_code = gunf_code;
+                faostat.gunf_code = gunf_code;
+                faostat.domain = charts_configuration.domains_map[domain_code];
 
                 /* FAOSTAT chart. */
-                series_definition.push({
-                    name: 'FAOSTAT',
-                    domain: charts_configuration.domains_map[domain_code],
-                    country: this.CONFIG.country_code,
-                    item: item_code,
-                    element: element_code,
-                    datasource: 'faostat',
-                    type: 'line',
-                    enableMarker: false,
-                    gunf_code: gunf_code
-                });
+                series_definition.push(faostat);
 
                 /* UNFCCC chart. */
-                if (gunf_code != null) {
-                    series_definition.push({
-                        name: 'NC',
-                        domain: 'GT',
-                        country: this.CONFIG.country_code,
-                        item: '4',
-                        element: null,
-                        datasource: 'nc',
-                        type: 'scatter',
-                        enableMarker: true,
-                        gunf_code: gunf_code
-                    });
-                }
-
-                /* Create chart. */
-                this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
+                if (gunf_code != null)
+                    series_definition.push(unfccc);
 
             }
 
             /* Create 'standard' chart. */
             else {
 
-                /* Initiate series definition and variables. */
-                var series_definition = [];
-                var domain_code = params[0];
-                var item_code = params[1];
-                var element_code = params[2];
-
                 /* FAOSTAT chart. */
-                series_definition.push({
-                    name: 'FAOSTAT',
-                    domain: domain_code,
-                    country: this.CONFIG.country_code,
-                    item: item_code,
-                    element: element_code,
-                    datasource: 'faostat',
-                    type: 'line',
-                    enableMarker: false,
-                    gunf_code: gunf_code
-                });
-
-                /* Create chart. */
-                this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
+                series_definition.push(faostat);
 
             }
+
+            /* Create chart. */
+            this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
 
         }
 
