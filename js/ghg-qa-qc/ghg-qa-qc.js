@@ -137,17 +137,17 @@ define(['jquery',
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
             var at = ['gt', 'ag_soils', 'ge', 'gm', 'gr', 'gb', 'gh'];
-//            var at = ['gt'];
+//            var at = ['ge'];
             for (var i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
 
         /* Render charts and tables tabs: Land Use */
-//        if (option_selected == 'ghg_qa_qc_verification_land_use_structure') {
-//            var lu = ['gl', 'gf', 'gc', 'gg', 'gi'];
-//            for (i = 0; i < lu.length; i++)
-//                this.create_charts_and_tables_tabs(lu[i] + '_charts_and_tables', lu[i]);
-//        }
+        if (option_selected == 'ghg_qa_qc_verification_land_use_structure') {
+            var lu = ['gl', 'gf', 'gc', 'gg', 'gi'];
+            for (i = 0; i < lu.length; i++)
+                this.create_charts_and_tables_tabs(lu[i] + '_charts_and_tables', lu[i]);
+        }
 
     };
 
@@ -246,21 +246,22 @@ define(['jquery',
 
             /* Read parameters. */
             var params = td_ids[i].split('_');
+            var domain_code = params[0];
+            var item_code = params[1];
+            var element_code = params[2];
+            var gunf_code = null;
 
             /* Create 'total' charts. */
             if ($.inArray('TOTAL', params) > -1) {
 
                 /* Initiate series definition and variables. */
                 var series_definition = [];
-                var domain_code = params[0];
-                var item_code = params[1];
-                var element_code = params[2];
-                var gunf_code = params[4];
+                gunf_code = params[4];
 
                 /* FAOSTAT chart. */
                 series_definition.push({
                     name: 'FAOSTAT',
-                    domain: domain_code,
+                    domain: charts_configuration.domains_map[domain_code],
                     country: this.CONFIG.country_code,
                     item: item_code,
                     element: element_code,
@@ -319,41 +320,6 @@ define(['jquery',
 
         }
 
-    };
-
-    GHG_QA_QC.prototype.create_charts_and_tables_ag_soils = function() {
-        var items = [
-            ['1709', translate.ag_soils],
-            ['5061', translate.gy],
-            ['5062', translate.gu],
-            ['5063', translate.gp],
-            ['5064', translate.ga],
-            ['6759', translate.gv]
-        ];
-        var elements = ['7231', '7143'];
-        var mustache_items = [];
-        for (var i = 0; i < items.length; i++) {
-            var tmp = {};
-            tmp.item = items[i][1];
-            tmp['data_not_available'] = translate.data_not_available;
-            for (var j = 0; j < elements.length; j++) {
-                tmp['col' + j] = 'ag_soils' + '_' + items[i][0] + '_' + elements[j];
-            }
-            mustache_items.push(tmp);
-        }
-        var view = {
-            'item': translate.item,
-            'emissions': translate.emissions,
-            'emissions_activity': translate.emissions_activity,
-            'emissions_factor': translate.emissions_factor,
-            'items': mustache_items
-        };
-        var template = $(templates).filter('#charts_structure').html();
-        var render = Mustache.render(template, view);
-        $('#ag_soils__charts_content').html(render);
-        for (var q = 0 ; q < elements.length ; q++)
-            for (var z = 0; z < items.length; z++)
-                this.query_db_for_charts(this.CONFIG.datasource, 'ag_soils', items[z][0], elements[q]);
     };
 
     GHG_QA_QC.prototype.create_charts_get_elements = function (domain_code) {
@@ -665,190 +631,14 @@ define(['jquery',
         }, 1000);
     };
 
-    GHG_QA_QC.prototype.createCharts = function(country, add_user_data) {
-
-        /* Chart 1 Definition. */
-        var series_1 = [
-            {
-                name: $.i18n.prop('_agriculture_total') + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '1711',
-                element: '7231',
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
-                name: $.i18n.prop('_agriculture_total') + ' (NC)',
-                domain: 'GT',
-                country: country,
-                item: '4',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true
-            }
-        ];
-        var colors = this.CONFIG.default_colors;
-        this.createChart('chart_1', '<b>' + $.i18n.prop('_agriculture_total') + '</b>', series_1, add_user_data, colors);
-
-        /* Chart 2 Definition. */
-        var series_2 = [
-            {
-                name: $.i18n.prop('_enteric_fermentation') + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '5058',
-                element: '7231',
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
-                name: $.i18n.prop('_enteric_fermentation') + ' (NC)',
-                domain: 'GT',
-                country: country,
-                item: '4.A',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true
-            },
-            {
-                name: $.i18n.prop('_manure_management') + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '5059',
-                element: '7231',
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
-                name: $.i18n.prop('_manure_management') + ' (NC)',
-                domain: 'GT',
-                country: country,
-                item: '4.B',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true
-            }
-        ];
-        var colors = this.CONFIG.default_colors;
-        this.createChart('chart_2', '<b>' + $.i18n.prop('_enteric_fermentation') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_manure_management') + '</b>', series_2, add_user_data, colors);
-
-        /* Chart 3 Definition. */
-        var series_3 = [
-            {
-                name: $.i18n.prop('_rice_cultivation') + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '5060',
-                element: '7231',
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
-                name: $.i18n.prop('_rice_cultivation') + ' (NC)',
-                domain: 'GT',
-                country: country,
-                item: '4.C',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true
-            }
-        ];
-        var colors = this.CONFIG.default_colors;
-        this.createChart('chart_3', '<b>' + $.i18n.prop('_rice_cultivation') + '</b>', series_3, add_user_data, colors);
-
-        /* Chart 4 Definition. */
-        var series_4 = [
-            {
-                name: $.i18n.prop('_agricultural_soils') + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '1709',
-                element: '7231',
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
-                name: $.i18n.prop('_agricultural_soils')  + ' (NC)',
-                domain: 'GT',
-                country: country,
-                item: '4.D',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true
-            }
-        ];
-        var colors = this.CONFIG.default_colors;
-        this.createChart('chart_4', '<b>' + $.i18n.prop('_agricultural_soils') + '</b>', series_4, add_user_data, colors);
-
-        /* Chart 5 Definition. */
-        var series_5 = [
-            {
-                name: $.i18n.prop('_prescribed_burning_of_savannas')  + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '5067',
-                element: '7231',
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
-                name: $.i18n.prop('_prescribed_burning_of_savannas')  + ' (NC)',
-                domain: 'GT',
-                country: country,
-                item: '4.E',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true
-            },
-            {
-                name: $.i18n.prop('_field_burning_of_agricultural_residues')  + ' (FAOSTAT)',
-                domain: 'GT',
-                country: country,
-                item: '5066',
-                element: '7231',
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false
-            },
-            {
-                name: $.i18n.prop('_field_burning_of_agricultural_residues')  + ' (NC)',
-                domain: 'GT',
-                country: country,
-                item: '4.F',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true
-            }
-        ];
-        var colors = this.CONFIG.default_colors;
-        this.createChart('chart_5', '<b>' + $.i18n.prop('_prescribed_burning_of_savannas') + ' ' + $.i18n.prop('_and') + ' ' + $.i18n.prop('_field_burning_of_agricultural_residues') + '</b>', series_5, add_user_data, colors);
-
-    };
-
     /* Charts template. */
     GHG_QA_QC.prototype.createChart = function(chart_id, title, series, add_user_data, colors) {
-        console.log('create chart ' + chart_id);
         var _this = this;
         var p = chart_template;
         var custom_p = {
             chart: {
                 events: {
                     load: function() {
-                        console.log('series? ' + series.length);
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
                             _this.plotSeries(chart_series,
@@ -935,19 +725,6 @@ define(['jquery',
         var _this = this;
         var sql = {};
         var db_domain_code = domain_code;
-
-//        if (db_domain_code == 'ag_soils')
-//            db_domain_code = 'gt';
-//        if (item == '5058' && domain_code == 'ge')
-//            db_domain_code = 'gt';
-//        if (item == '5059' && domain_code == 'gm')
-//            db_domain_code = 'gt';
-//        if (item == '5060' && domain_code == 'gr')
-//            db_domain_code = 'gt';
-//        if (item == '5066' && domain_code == 'gb')
-//            db_domain_code = 'gt';
-//        if (item == '5067' && domain_code == 'gh')
-//            db_domain_code = 'gt';
 
         switch (datasource) {
             case 'faostat':

@@ -1,4 +1,17 @@
 {
+    "domains_map": {
+        "gt": "gt",
+        "ge": "gt",
+        "gm": "gt",
+        "gr": "gt",
+        "gb": "gt",
+        "gh": "gt",
+        "gl": "gl",
+        "gf": "gl",
+        "gc": "gl",
+        "gg": "gl",
+        "gi": "gl"
+    },
     "gt": {
         "items_blacklist": ["5061", "5062", "5063", "5064", "6759",
                             "1711", "5058", "5059", "5060", "5067",
@@ -10,7 +23,7 @@
                     "code": "1711",
                     "label": "gt"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4"
             },
             {
@@ -67,6 +80,164 @@
                 },
                 "element_codes": ["7231", "7244"],
                 "gunf_code": "4.A"
+            }
+        ]
+    },
+    "gm": {
+        "items_blacklist": [],
+        "elements": ["7231", "7224"],
+        "totals": [
+            {
+                "item": {
+                    "code": "5059",
+                    "label": "gm"
+                },
+                "element_codes": ["7231", "7224"],
+                "gunf_code": "4.B"
+            }
+        ]
+    },
+    "gr": {
+        "items_blacklist": [],
+        "elements": ["7231", "7224"],
+        "totals": [
+            {
+                "item": {
+                    "code": "5060",
+                    "label": "gr"
+                },
+                "element_codes": ["7231", "7224"],
+                "gunf_code": "4.C"
+            }
+        ]
+    },
+    "gb": {
+        "items_blacklist": [],
+        "elements": ["7231", "7224"],
+        "totals": [
+            {
+                "item": {
+                    "code": "5066",
+                    "label": "gb"
+                },
+                "element_codes": ["7231", "7224"],
+                "gunf_code": "4.F"
+            }
+        ]
+    },
+    "gh": {
+        "items_blacklist": [],
+        "elements": ["7231", "7224"],
+        "totals": [
+            {
+                "item": {
+                    "code": "5067",
+                    "label": "gh"
+                },
+                "element_codes": ["7231", "7224"],
+                "gunf_code": "4.E"
+            }
+        ]
+    },
+    "gl": {
+        "items_blacklist": ["5065", "5070", "6794", "5069"],
+        "elements": ["7217"],
+        "totals": [
+            {
+                "item": {
+                    "code": "1707",
+                    "label": "gl"
+                },
+                "element_codes": ["7231"],
+                "gunf_code": null
+            },
+            {
+                "item": {
+                    "code": "5065",
+                    "label": "gf"
+                },
+                "element_codes": ["7231"],
+                "gunf_code": null
+            },
+            {
+                "item": {
+                    "code": "5070",
+                    "label": "gc"
+                },
+                "element_codes": ["7231"],
+                "gunf_code": null
+            },
+            {
+                "item": {
+                    "code": "6794",
+                    "label": "gg"
+                },
+                "element_codes": ["7231"],
+                "gunf_code": null
+            },
+            {
+                "item": {
+                    "code": "5069",
+                    "label": "gi"
+                },
+                "element_codes": ["7231"],
+                "gunf_code": null
+            }
+        ]
+    },
+    "gf": {
+        "items_blacklist": [],
+        "elements": ["7217"],
+        "totals": [
+            {
+                "item": {
+                    "code": "5065",
+                    "label": "gf"
+                },
+                "element_codes": ["7217"],
+                "gunf_code": null
+            }
+        ]
+    },
+    "gc": {
+        "items_blacklist": [],
+        "elements": ["7217"],
+        "totals": [
+            {
+                "item": {
+                    "code": "5070",
+                    "label": "gc"
+                },
+                "element_codes": ["7217"],
+                "gunf_code": null
+            }
+        ]
+    },
+    "gg": {
+        "items_blacklist": [],
+        "elements": ["7217"],
+        "totals": [
+            {
+                "item": {
+                    "code": "6794",
+                    "label": "gg"
+                },
+                "element_codes": ["7217"],
+                "gunf_code": null
+            }
+        ]
+    },
+    "gi": {
+        "items_blacklist": [],
+        "elements": ["7217"],
+        "totals": [
+            {
+                "item": {
+                    "code": "5069",
+                    "label": "gi"
+                },
+                "element_codes": ["7217"],
+                "gunf_code": null
             }
         ]
     }
