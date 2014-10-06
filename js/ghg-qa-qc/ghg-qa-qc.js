@@ -287,36 +287,21 @@ define(['jquery',
                 datasource: 'nc',
                 type: 'scatter',
                 enableMarker: true,
-                gunf_code: gunf_code
+                gunf_code: null
             };
 
-            /* Create 'total' charts. */
+            /* Additional parameters for 'total' charts. */
             if ($.inArray('TOTAL', params) > -1) {
-
-                /* Initiate series definition and variables. */
                 gunf_code = params[4];
                 unfccc.gunf_code = gunf_code;
                 faostat.gunf_code = gunf_code;
                 faostat.domain = charts_configuration.domains_map[domain_code];
-
-                /* FAOSTAT chart. */
-                series_definition.push(faostat);
-
-                /* UNFCCC chart. */
-                if (gunf_code != null)
-                    series_definition.push(unfccc);
-
-            }
-
-            /* Create 'standard' chart. */
-            else {
-
-                /* FAOSTAT chart. */
-                series_definition.push(faostat);
-
             }
 
             /* Create chart. */
+            series_definition.push(faostat);
+            if (gunf_code != null)
+                series_definition.push(unfccc);
             this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
 
         }
@@ -651,7 +636,8 @@ define(['jquery',
                                              series[i].gunf_code);
                         }
                     }
-                }
+                },
+                type: 'line'
             },
             colors: colors,
             tooltip: {
@@ -675,48 +661,13 @@ define(['jquery',
         for (var i = 0 ; i < series.length ; i++) {
             custom_p.series[i] = {};
             custom_p.series[i].name = series[i].name;
+
         }
         p = $.extend(true, {}, p, custom_p);
         $(document.getElementById(chart_id)).highcharts(p);
 
+        /* Create chart. */
         var chart = $('#' + chart_id).highcharts();
-        try {
-            for (var i = 0; i < series.length; i++) {
-                if (chart.series[i].name.indexOf('NC') > -1) {
-                    chart.series[i].update({
-                        marker: {
-                            enabled: true
-                        },
-                        type: 'line',
-                        lineWidth: 0
-                    });
-                } else if (chart.series[i].name.indexOf('FAOSTAT') > -1) {
-                    chart.series[i].update({
-                        marker: {
-                            enabled: false
-                        },
-                        type: 'line'
-                    });
-                }
-            }
-
-            if (add_user_data) {
-                var chart = $('#' + chart_id).highcharts();
-                var number_of_series = series.length;
-                var user_series = number_of_series / 2;
-                for (var i = 0; i < user_series; i++) {
-                    chart.addSeries({
-                        name: chart.series[i].name.replace('(FAOSTAT)', '(User Data)')
-                    });
-                }
-            }
-
-
-            chart.redraw();
-
-        } catch(e) {
-
-        }
 
     };
 
@@ -808,11 +759,29 @@ define(['jquery',
                 }
                 break;
         }
+
         if (data.length > 0) {
+
+            /* Add data to the chart. */
             series.setData(data);
-        } else {
+
+            /* Make it scatter for UNFCCC. */
+            if (series.name == 'NC') {
+                series.update({
+                    marker: {
+                        enabled: true
+                    },
+                    type: 'scatter',
+                    lineWidth: 0
+                });
+            }
+
+        }
+
+        else {
             $('#' + domain_code + '_' + item + '_' + element).html(translate.data_not_available);
         }
+
     };
 
     /* Show or hide a section. */
