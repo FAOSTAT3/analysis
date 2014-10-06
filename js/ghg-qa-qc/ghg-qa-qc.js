@@ -150,6 +150,8 @@ define(['jquery',
             'tables_label': translate.tables,
             'id_charts_content': domain_code + '__charts_content',
             'id_tables_content': domain_code +'_tables_content',
+            'id_tables_content_faostat': domain_code +'_tables_content_faostat',
+            'id_tables_content_nc': domain_code +'_tables_content_nc',
             'href_charts': domain_code + '_charts',
             'href_tables': domain_code + '_tables'
         };
@@ -283,6 +285,15 @@ define(['jquery',
         /* Populate charts table. */
         this.populate_charts_table(td_ids);
 
+        /* Load table's template */
+        switch (domain_code) {
+            case 'gt':
+                this.load_table_template('gt_tables_content_faostat', translate.faostat, 1990, 2012, 'gt_faostat', 'faostat');
+                this.load_table_template('gt_tables_content_nc', translate.nc, 1990, 2012, 'gt_nc', 'nc');
+                break;
+        }
+
+
         /* Link to tabs. */
         for (var i = 0; i < items.length; i++) {
             $('#' + items[i][0] + '_anchor').click({'items': items, 'i': i}, function(event) {
@@ -292,6 +303,171 @@ define(['jquery',
             });
         }
 
+    };
+
+    /* Create the tables through Mustache templating. */
+    GHG_QA_QC.prototype.load_table_template = function(render_id, label, start_year, end_year, id_prefix, datasource) {
+
+        /* This... */
+        var _this = this;
+
+        /* Create time-range and inputs. */
+        var years = [];
+        var inputs_4 = [];
+        var inputs_4A = [];
+        var inputs_4B = [];
+        var inputs_4C = [];
+        var inputs_4D = [];
+        var inputs_4E = [];
+        var inputs_4F = [];
+        for (var i = start_year; i <= end_year; i++) {
+            years.push({'year': i});
+            inputs_4.push({'input_id_4': id_prefix + '_4_' + i});
+            inputs_4A.push({'input_id_4A': id_prefix + '_4A_' + i});
+            inputs_4B.push({'input_id_4B': id_prefix + '_4B_' + i});
+            inputs_4C.push({'input_id_4C': id_prefix + '_4C_' + i});
+            inputs_4D.push({'input_id_4D': id_prefix + '_4D_' + i});
+            inputs_4E.push({'input_id_4E': id_prefix + '_4E_' + i});
+            inputs_4F.push({'input_id_4F': id_prefix + '_4F_' + i});
+        }
+
+        /* Define placeholders. */
+        var view = {
+            section_name: id_prefix,
+            spinning_id: id_prefix + '_spinning',
+            collapse_id: id_prefix + '_collapse_button',
+            left_table_id: id_prefix + '_left_table',
+            right_table_id: id_prefix + '_right_table',
+            years: years,
+            title: label,
+            inputs_4: inputs_4,
+            inputs_4A: inputs_4A,
+            inputs_4B: inputs_4B,
+            inputs_4C: inputs_4C,
+            inputs_4D: inputs_4D,
+            inputs_4E: inputs_4E,
+            inputs_4F: inputs_4F,
+            _code: $.i18n.prop('_code'),
+            _category: $.i18n.prop('_category'),
+            _agriculture: $.i18n.prop('_agriculture'),
+            _enteric_fermentation: $.i18n.prop('_enteric_fermentation'),
+            _manure_management: $.i18n.prop('_manure_management'),
+            _rice_cultivation: $.i18n.prop('_rice_cultivation'),
+            _agricultural_soils: $.i18n.prop('_agricultural_soils'),
+            _prescribed_burning_of_savannas: $.i18n.prop('_prescribed_burning_of_savannas'),
+            _field_burning_of_agricultural_residues: $.i18n.prop('_field_burning_of_agricultural_residues')
+        };
+
+        /* Load the template. */
+        var template = $(templates).filter('#g1_table').html();
+
+        /* Substitute placeholders. */
+        var render = Mustache.render(template, view);
+
+        /* Render the HTML. */
+        $(document.getElementById(render_id)).html(render);
+
+        /* Populate table. */
+        this.populate_tables(this.CONFIG.country_code, datasource);
+
+    };
+
+    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource) {
+        switch (datasource) {
+            case 'faostat':
+                this.populate_tables_faostat(country_code);
+                break;
+            case 'nc':
+                this.populate_tables_nc(country_code);
+                break;
+        }
+    };
+
+    GHG_QA_QC.prototype.populate_tables_nc = function(country_code) {
+        var sql = {
+            'query': 'select code, year, gunfvalue from UNFCCC_Comparison where areacode = ' + country_code
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0; i < json.length; i++) {
+                    var id = 'gt_nc_' + json[i][0].replace('.', '') + '_' + json[i][1];
+                    try {
+                        document.getElementById(id).innerHTML = (json[i].length > 2) ? json[i][2] : '';
+                    } catch (e) {
+
+                    }
+                }
+            }
+        });
+    };
+
+    GHG_QA_QC.prototype.populate_tables_faostat = function(country_code) {
+        var sql = {
+            'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                     "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                     "WHERE D.DomainCode = 'GT' " +
+                     "AND D.AreaCode = '" + country_code + "' " +
+                     "AND D.ElementListCode = '7231' " +
+                     "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
+                     "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                    "2010, 2011, 2012) " +
+                     "AND D.AreaCode = A.AreaCode " +
+                     "AND D.ElementListCode = E.ElementListCode " +
+                     "AND D.ItemCode = I.ItemCode " +
+                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        var url_data = this.CONFIG.url_data;
+        $.ajax({
+            type    :   'POST',
+            url     :   url_data,
+            data    :   data,
+            success : function(response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0 ; i < json.length ; i++) {
+                    var item = json[i][3];
+                    var y = json[i][4];
+                    var v = json[i][5];
+                    var crf = null;
+                    switch (item) {
+                        case '1711': crf = '4';  break;
+                        case '5058': crf = '4A'; break;
+                        case '5059': crf = '4B'; break;
+                        case '5060': crf = '4C'; break;
+                        case '1709': crf = '4D'; break;
+                        case '5067': crf = '4E'; break;
+                        case '5066': crf = '4F'; break;
+                    }
+                    $('#gt_faostat_' + crf + '_' + y).html(v);
+                }
+            }
+        });
     };
 
     GHG_QA_QC.prototype.populate_charts_table = function(td_ids) {
@@ -611,80 +787,6 @@ define(['jquery',
         }
     };
 
-    /* Create the tables through Mustache templating. */
-    GHG_QA_QC.prototype.createTable = function(render_id, is_editable, title, start_year, end_year, id_prefix, callback) {
-
-        /* Create time-range and inputs. */
-        var years = [];
-        var inputs_4 = [];
-        var inputs_4A = [];
-        var inputs_4B = [];
-        var inputs_4C = [];
-        var inputs_4D = [];
-        var inputs_4E = [];
-        var inputs_4F = [];
-        for (var i = start_year; i <= end_year; i++) {
-            years.push({'year': i});
-            inputs_4.push({'input_id_4': id_prefix + '_4_' + i});
-            inputs_4A.push({'input_id_4A': id_prefix + '_4A_' + i});
-            inputs_4B.push({'input_id_4B': id_prefix + '_4B_' + i});
-            inputs_4C.push({'input_id_4C': id_prefix + '_4C_' + i});
-            inputs_4D.push({'input_id_4D': id_prefix + '_4D_' + i});
-            inputs_4E.push({'input_id_4E': id_prefix + '_4E_' + i});
-            inputs_4F.push({'input_id_4F': id_prefix + '_4F_' + i});
-        }
-
-        /* Define placeholders. */
-        var view = {
-            section_name: id_prefix,
-            spinning_id: id_prefix + '_spinning',
-            collapse_id: id_prefix + '_collapse_button',
-            title: title,
-            left_table_id: id_prefix + '_left_table',
-            right_table_id: id_prefix + '_right_table',
-            years: years,
-            inputs_4: inputs_4,
-            inputs_4A: inputs_4A,
-            inputs_4B: inputs_4B,
-            inputs_4C: inputs_4C,
-            inputs_4D: inputs_4D,
-            inputs_4E: inputs_4E,
-            inputs_4F: inputs_4F,
-            _code: $.i18n.prop('_code'),
-            _category: $.i18n.prop('_category'),
-            _agriculture: $.i18n.prop('_agriculture'),
-            _enteric_fermentation: $.i18n.prop('_enteric_fermentation'),
-            _manure_management: $.i18n.prop('_manure_management'),
-            _rice_cultivation: $.i18n.prop('_rice_cultivation'),
-            _agricultural_soils: $.i18n.prop('_agricultural_soils'),
-            _prescribed_burning_of_savannas: $.i18n.prop('_prescribed_burning_of_savannas'),
-            _field_burning_of_agricultural_residues: $.i18n.prop('_field_burning_of_agricultural_residues')
-        };
-
-        /* Load the right template. */
-        var template = null;
-        if (is_editable)
-            template = $(templates).filter('#g1_table_editable').html();
-        else
-            template = $(templates).filter('#g1_table').html();
-
-        /* Substitute placeholders. */
-        var render = Mustache.render(template, view);
-
-        /* Render the HTML. */
-        document.getElementById(render_id).innerHTML = render;
-
-        /* Bind show/hide function. */
-        $('#' + id_prefix + '_collapse_button').on('click', function () {
-            this.showHideTable(id_prefix + '_left_table', id_prefix + '_right_table', id_prefix + '_collapse_button');
-        });
-
-        /* Bind callback (if any) */
-        if (callback != null)
-            callback();
-
-    };
-
     GHG_QA_QC.prototype.populateTable_EmissionsDatabaseNC = function(country_code, callback) {
         var sql = {
             'query' : 'select code, year, gunfvalue from UNFCCC_Comparison where areacode = ' + country_code
@@ -719,109 +821,6 @@ define(['jquery',
             },
             error : function(err, b, c) { }
         });
-    };
-
-    GHG_QA_QC.prototype.populate_tables = function(country_code, callback) {
-
-        var sql = {
-            'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                "WHERE D.DomainCode = 'GT' " +
-                "AND D.AreaCode = '" + country_code + "' " +
-                "AND D.ElementListCode = '7231' " +
-                "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
-                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                "2010, 2011, 2012) " +
-                "AND D.AreaCode = A.AreaCode " +
-                "AND D.ElementListCode = E.ElementListCode " +
-                "AND D.ItemCode = I.ItemCode " +
-                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
-        };
-        var data = {};
-        data.datasource = 'faostat';
-        data.thousandSeparator = ',';
-        data.decimalSeparator = '.';
-        data.decimalNumbers = 2;
-        data.json = JSON.stringify(sql);
-        data.cssFilename = '';
-        data.nowrap = false;
-        data.valuesIndex = 0;
-
-        var url_data = this.CONFIG.url_data;
-
-        $.ajax({
-
-            type    :   'POST',
-            url     :   url_data,
-            data    :   data,
-
-            success : function(response) {
-                var json = response;
-                if (typeof json == 'string')
-                    json = $.parseJSON(response);
-                for (var i = 0 ; i < json.length ; i++) {
-                    var item = json[i][3];
-                    var y = json[i][4];
-                    var v = json[i][5];
-                    var crf = null;
-                    switch (item) {
-                        case '1711': crf = '4';  break;
-                        case '5058': crf = '4A'; break;
-                        case '5059': crf = '4B'; break;
-                        case '5060': crf = '4C'; break;
-                        case '1709': crf = '4D'; break;
-                        case '5067': crf = '4E'; break;
-                        case '5066': crf = '4F'; break;
-                    }
-                    document.getElementById('emissions_db_faostat_' + crf + '_' + y).innerHTML = v;
-                }
-
-                var sql = {
-                    'query' : 'select code, year, gunfvalue from UNFCCC_Comparison where areacode = ' + country_code
-                };
-                var data = {};
-                data.datasource = 'faostat';
-                data.thousandSeparator = ',';
-                data.decimalSeparator = '.';
-                data.decimalNumbers = 2;
-                data.json = JSON.stringify(sql);
-                data.cssFilename = '';
-                data.nowrap = false;
-                data.valuesIndex = 0;
-
-                $.ajax({
-
-                    type    :   'POST',
-                    url     :   url_data,
-                    data    :   data,
-
-                    success : function(response) {
-                        var json = response;
-                        if (typeof json == 'string')
-                            json = $.parseJSON(response);
-                        for (var i = 0 ; i < json.length ; i++) {
-                            var id = 'emissions_db_nc_' + json[i][0].replace('.', '') + '_' + json[i][1];
-                            try {
-                                document.getElementById(id).innerHTML = (json[i].length > 2) ? json[i][2] : '';
-                            } catch (e) {
-
-                            }
-                        }
-                        if (callback != null)
-                            callback();
-                    },
-
-                    error : function(err, b, c) {
-
-                    }
-
-                });
-
-            }
-
-        });
-
     };
 
     GHG_QA_QC.prototype.populateTable_EmissionsDatabaseFAOSTAT = function(country_code) {
