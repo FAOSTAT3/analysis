@@ -152,6 +152,8 @@ define(['jquery',
             'id_tables_content': domain_code +'_tables_content',
             'id_tables_content_faostat': domain_code +'_tables_content_faostat',
             'id_tables_content_nc': domain_code +'_tables_content_nc',
+            'id_tables_content_difference': domain_code +'_tables_content_difference',
+            'id_tables_content_norm_difference': domain_code +'_tables_content_norm_difference',
             'href_charts': domain_code + '_charts',
             'href_tables': domain_code + '_tables'
         };
@@ -290,6 +292,8 @@ define(['jquery',
             case 'gt':
                 this.load_table_template('gt_tables_content_faostat', translate.faostat, 1990, 2012, 'gt_faostat', 'faostat');
                 this.load_table_template('gt_tables_content_nc', translate.nc, 1990, 2012, 'gt_nc', 'nc');
+                this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
+                this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
                 break;
         }
 
@@ -380,7 +384,79 @@ define(['jquery',
             case 'nc':
                 this.populate_tables_nc(country_code);
                 break;
+            case 'difference':
+                this.populate_tables_difference(country_code);
+                break;
+            case 'norm_difference':
+                this.populate_tables_norm_difference(country_code);
+                break;
         }
+    };
+
+    GHG_QA_QC.prototype.populate_tables_norm_difference = function(country_code) {
+        var sql = {
+            'query': 'select code, year, NormPerDiff from UNFCCC_Comparison where areacode = ' + country_code
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0; i < json.length; i++) {
+                    var id = 'gt_norm_difference_' + json[i][0].replace('.', '') + '_' + json[i][1];
+                    var value = parseFloat(json[i][2]);
+                    if (isNaN(value))
+                        $('#' + id).html();
+                    else
+                        $('#' + id).html(value.toFixed(2));
+                }
+            }
+        });
+    };
+
+    GHG_QA_QC.prototype.populate_tables_difference = function(country_code) {
+        var sql = {
+            'query': 'select code, year, PerDiff from UNFCCC_Comparison where areacode = ' + country_code
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0; i < json.length; i++) {
+                    var id = 'gt_difference_' + json[i][0].replace('.', '') + '_' + json[i][1];
+                    var value = parseFloat(json[i][2]);
+                    if (isNaN(value))
+                        $('#' + id).html();
+                    else
+                        $('#' + id).html(value.toFixed(2));
+                }
+            }
+        });
     };
 
     GHG_QA_QC.prototype.populate_tables_nc = function(country_code) {
@@ -406,11 +482,11 @@ define(['jquery',
                     json = $.parseJSON(response);
                 for (var i = 0; i < json.length; i++) {
                     var id = 'gt_nc_' + json[i][0].replace('.', '') + '_' + json[i][1];
-                    try {
-                        document.getElementById(id).innerHTML = (json[i].length > 2) ? json[i][2] : '';
-                    } catch (e) {
-
-                    }
+                    var value = parseFloat(json[i][2]);
+                    if (isNaN(value))
+                        $('#' + id).html();
+                    else
+                        $('#' + id).html(value.toFixed(2));
                 }
             }
         });
