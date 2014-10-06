@@ -122,7 +122,7 @@ define(['jquery',
             'gc': translate.gc,
             'gg': translate.gg,
             'gi': translate.gi,
-            'ag_soils': translate.ag_soils
+            'agsoils': translate.ag_soils
         };
         var template = $(templates).filter('#' + template_id).html();
         var render = Mustache.render(template, view);
@@ -130,7 +130,7 @@ define(['jquery',
 
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
-            var at = ['gt', 'ag_soils', 'ge', 'gm', 'gr', 'gb', 'gh'];
+            var at = ['gt', 'agsoils', 'ge', 'gm', 'gr', 'gb', 'gh'];
             for (var i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
@@ -186,68 +186,110 @@ define(['jquery',
                     if ($.inArray(items[i][0], config.items_blacklist) > -1)
                         items.splice(i, 1);
 
-                /* Add items listed as totals. */
-                for (i = config.totals.length - 1; i >= 0 ; i--)
-                    items.splice(0, 0, [config.totals[i].item.code,
-                                        translate[config.totals[i].item.label],
-                                        'TOTAL',
-                                        config.totals[i].gunf_code]);
+                /* Process results. */
+                _this.process_charts_table_configuration(domain_code, config, items);
 
-                /* Prepare items for the template. */
-                var mustache_items = [];
-                var td_ids = [];
+            },
 
-                /* Iterate over items. */
-                for (i = 0; i < items.length; i++) {
-
-                    /* Create objects for templating. */
-                    var tmp = {};
-                    tmp.item = items[i][1];
-                    tmp['data_not_available'] = translate.data_not_available;
-                    tmp['tab_link'] = items[i][0] + '_anchor';
-
-                    /* Totals may have different elements. */
-                    if (items[i][2] == 'TOTAL') {
-                        for (var j = 0; j < config.totals[i].element_codes.length; j++) {
-                            var td_id = domain_code + '_' + items[i][0] + '_' + config.totals[i].element_codes[j];
-                            td_id += '_TOTAL' + '_' + items[i][3];
-                            tmp['col' + j] = td_id;
-                            td_ids.push(td_id);
-                        }
-                    }
-
-                    /* Standard elements are applied for the items. */
-                    else {
-                        for (var j = 0; j < config.elements.length; j++) {
-                            var td_id = domain_code + '_' + items[i][0] + '_' + config.elements[j];
-                            tmp['col' + j] = td_id;
-                            td_ids.push(td_id);
-                        }
-                    }
-
-                    /* Add to the items for templating. */
-                    mustache_items.push(tmp);
-
+            error : function(err) {
+                var items = [];
+                for (var i = 0 ; i < config.totals.length ; i++) {
+                    var item = [];
+                    item.push(config.totals[i].item.code);
+                    item.push(translate[config.totals[i].item.label]);
+                    item.push('TOTAL');
+                    item.push(config.totals[i].gunf_code);
+                    items.push(item);
                 }
-
-                /* Load and render the template. */
-                var view = {
-                    'item': translate.item,
-                    'emissions': translate.emissions,
-                    'emissions_activity': translate.emissions_activity,
-                    'emissions_factor': translate.emissions_factor,
-                    'items': mustache_items
-                };
-                var template = $(templates).filter('#charts_structure').html();
-                var render = Mustache.render(template, view);
-                $('#' + domain_code + '__charts_content').html(render);
-
-                /* Populate charts table. */
-                _this.populate_charts_table(td_ids);
-
+                _this.process_charts_table_configuration(domain_code, config, items);
             }
 
         });
+
+    };
+
+    GHG_QA_QC.prototype.process_charts_table_configuration = function(domain_code, config, items) {
+
+        var links = [];
+
+        /* Add items listed as totals. */
+        for (i = config.totals.length - 1; i >= 0 ; i--)
+            items.splice(0, 0, [config.totals[i].item.code,
+                                translate[config.totals[i].item.label],
+                                'TOTAL',
+                                config.totals[i].gunf_code]);
+
+        /* Prepare items for the template. */
+        var mustache_items = [];
+        var td_ids = [];
+
+        /* Iterate over items. */
+        for (i = 0; i < items.length; i++) {
+
+            /* Create objects for templating. */
+            var add_to_template = false;
+            var tmp = {};
+            tmp.item = items[i][1];
+            tmp['data_not_available'] = translate.data_not_available;
+            tmp['tab_link'] = items[i][0] + '_anchor';
+            if ($.inArray(items[i][0] + '_anchor', links) < 0) {
+                links.push(items[i][0] + '_anchor');
+                add_to_template = true;
+            }
+
+            /* Totals may have different elements. */
+            try {
+
+                if (items[i][2] == 'TOTAL') {
+                    for (var j = 0; j < config.totals[i].element_codes.length; j++) {
+                        var td_id = domain_code + '_' + items[i][0] + '_' + config.totals[i].element_codes[j];
+                        td_id += '_TOTAL' + '_' + items[i][3];
+                        tmp['col' + j] = td_id;
+                        td_ids.push(td_id);
+                    }
+                }
+
+                /* Standard elements are applied for the items. */
+                else {
+                    for (var j = 0; j < config.elements.length; j++) {
+                        var td_id = domain_code + '_' + items[i][0] + '_' + config.elements[j];
+                        tmp['col' + j] = td_id;
+                    }
+                }
+
+                } catch(e) {
+
+                }
+
+            /* Add to the items for templating. */
+            if (add_to_template)
+                mustache_items.push(tmp);
+
+        }
+
+        /* Load and render the template. */
+        var view = {
+            'item': translate.item,
+            'emissions': translate.emissions,
+            'emissions_activity': translate.emissions_activity,
+            'emissions_factor': translate.emissions_factor,
+            'items': mustache_items
+        };
+        var template = $(templates).filter('#charts_structure').html();
+        var render = Mustache.render(template, view);
+        $('#' + domain_code + '__charts_content').html(render);
+
+        /* Populate charts table. */
+        this.populate_charts_table(td_ids);
+
+        /* Link to tabs. */
+        for (var i = 0; i < items.length; i++) {
+            $('#' + items[i][0] + '_anchor').click({'items': items, 'i': i}, function(event) {
+                var group = items_tab_map[event.data.items[event.data.i][0]].group;
+                var tab = items_tab_map[event.data.items[event.data.i][0]].tab;
+                $('#' + group + ' a[href="#' + tab + '"]').tab('show');
+            });
+        }
 
     };
 
@@ -415,13 +457,13 @@ define(['jquery',
 
         }
 
-        for (var i = 0; i < items.length; i++) {
-            $('#' + items[i][0] + '_anchor').click({'items': items, 'i': i}, function(event) {
-                var group = items_tab_map[event.data.items[event.data.i][0]].group;
-                var tab = items_tab_map[event.data.items[event.data.i][0]].tab;
-                $('#' + group + ' a[href="#' + tab + '"]').tab('show');
-            });
-        }
+//        for (var i = 0; i < items.length; i++) {
+//            $('#' + items[i][0] + '_anchor').click({'items': items, 'i': i}, function(event) {
+//                var group = items_tab_map[event.data.items[event.data.i][0]].group;
+//                var tab = items_tab_map[event.data.items[event.data.i][0]].tab;
+//                $('#' + group + ' a[href="#' + tab + '"]').tab('show');
+//            });
+//        }
 
     };
 
