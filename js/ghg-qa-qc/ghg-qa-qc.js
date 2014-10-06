@@ -254,6 +254,7 @@ define(['jquery',
                     for (var j = 0; j < config.elements.length; j++) {
                         var td_id = domain_code + '_' + items[i][0] + '_' + config.elements[j];
                         tmp['col' + j] = td_id;
+                        td_ids.push(td_id);
                     }
                 }
 
