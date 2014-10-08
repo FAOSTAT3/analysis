@@ -1,6 +1,6 @@
 {
     "chart": {
-        "height": 125,
+        "height": 175,
         "width": 275,
         "spacingBottom": 5,
         "alignTicks": false,
@@ -140,10 +140,11 @@
         "lineColor": "#e0e0e0",
         "tickColor": "#e0e0e0",
         "gridLineColor": "#eeeeee",
-        "minTickInterval": 5,
+        "minTickInterval": null,
         "tickmarkPlacement": "on",
         "labels": {
-            "enabled": false
+            "enabled": true,
+            "rotation": -45
         }
     },
     "yAxis": {

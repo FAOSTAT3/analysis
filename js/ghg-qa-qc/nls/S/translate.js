@@ -34,8 +34,12 @@ define({
     'ag_soils': 'Agricultural Soils',
     'charts': 'Gráficos',
     'tables': 'Tablas',
-    'emissions': 'Emisiones',
+    'emissions': 'Emissions (Gg CO2Eq)',
     'emissions_activity': 'Dato de actividad',
-    'emissions_factor': 'Factor de emisión',
-    'data_not_available': 'Datos No Disponible'
+    'emissions_factor': 'Factor de emisión implícito (unidades)',
+    'data_not_available': 'Datos No Disponible',
+    'faostat': 'FAOSTAT',
+    'nc': 'Comunicación Nacional',
+    'difference': 'Diferencia',
+    'norm_difference': 'Diferencia normalizada '
 });

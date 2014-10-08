@@ -38,7 +38,11 @@ define({
         'emissions': 'Emissions',
         'emissions_activity': 'Activity data',
         'emissions_factor': 'Emission factor',
-        'data_not_available': 'Data Not Available'
+        'data_not_available': 'Data Not Available',
+        'faostat': 'FAOSTAT',
+        'nc': 'National Communication',
+        'difference': 'Difference',
+        'norm_difference': 'Normalized Difference'
     },
     'F' : true,
     'S' : true
