@@ -541,7 +541,8 @@ define(['jquery',
                         case '5067': crf = '4E'; break;
                         case '5066': crf = '4F'; break;
                     }
-                    $('#gt_faostat_' + crf + '_' + y).html(v);
+                    var value = parseFloat(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    $('#gt_faostat_' + crf + '_' + y).html(value);
                 }
             }
         });
@@ -685,15 +686,15 @@ define(['jquery',
                 formatter: function() {
                     var s = [];
                     $.each(this.points, function(i, point) {
+                        var value = parseFloat(point.y).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         var tmp = '';
                         tmp += '<b>';
                         tmp += point.series.name;
                         tmp += ':</b> ';
-                        tmp += point.y;
+                        tmp += value;
                         tmp += ' (' + point.x + ')';
                         s.push(tmp);
                     });
-                    console.log(s.join('<br>'));
                     return s.join('<br>');
                 },
                 shared: true
