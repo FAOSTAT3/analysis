@@ -693,6 +693,7 @@ define(['jquery',
                         tmp += ' (' + point.x + ')';
                         s.push(tmp);
                     });
+                    console.log(s.join('<br>'));
                     return s.join('<br>');
                 },
                 shared: true

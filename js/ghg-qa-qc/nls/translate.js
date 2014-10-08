@@ -1,7 +1,7 @@
 define({
     'root' : {
         'groups' : 'Groups',
-        'domains' : 'Domainsaaaaaaaaaaaaaaaaaaaaa',
+        'domains' : 'Domains',
         'subdomains' : 'Sub-Domains',
         'areas' : 'Geographic Areas',
         'items' : 'Items',
@@ -35,9 +35,9 @@ define({
         'ag_soils': 'Agricultural Soils',
         'charts': 'Charts',
         'tables': 'Tables',
-        'emissions': 'Emissions',
+        'emissions': 'Emissions (Gg CO2Eq)',
         'emissions_activity': 'Activity data',
-        'emissions_factor': 'Emission factor',
+        'emissions_factor': 'Implied Emission Factor (Units)',
         'data_not_available': 'Data Not Available',
         'faostat': 'FAOSTAT',
         'nc': 'National Communication',
