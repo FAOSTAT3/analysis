@@ -53,6 +53,14 @@
             },
             {
                 "item": {
+                    "code": "1709",
+                    "label": "ag_soils"
+                },
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4.D"
+            },
+            {
+                "item": {
                     "code": "5067",
                     "label": "gb"
                 },
