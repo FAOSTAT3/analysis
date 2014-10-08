@@ -46,7 +46,9 @@ define({
         'code': 'Code',
         'category': 'Category',
         'agriculture': 'Agriculture',
-        'direct_soil_emissions': 'Direct Soil Emissions'
+        'direct_soil_emissions': 'Direct Soil Emissions',
+        'pasture_paddock_maure': 'Pasture, Range and Paddock Manure',
+        'indirect_emissions': 'Indirect Emissions'
     },
     'F' : true,
     'S' : true

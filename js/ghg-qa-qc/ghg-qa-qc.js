@@ -325,7 +325,9 @@ define(['jquery',
             {'category_code': '4.D.1.1', 'category_label': translate.gy},
             {'category_code': '4.D.1.2', 'category_label': translate.gu},
             {'category_code': '4.D.1.4', 'category_label': translate.gp},
-            {'category_code': '4.D.1.5', 'category_label': translate.gv}
+            {'category_code': '4.D.1.5', 'category_label': translate.gv},
+            {'category_code': '4.D.2', 'category_label': translate.pasture_paddock_maure},
+            {'category_code': '4.D.3', 'category_label': translate.indirect_emissions}
         ];
         var years = [];
         var inputs = [];
@@ -341,7 +343,9 @@ define(['jquery',
                 'input_4d11': id + '_4d11',
                 'input_4d12': id + '_4d12',
                 'input_4d14': id + '_4d14',
-                'input_4d15': id + '_4d15'
+                'input_4d15': id + '_4d15',
+                'input_4d2': id + '_4d2',
+                'input_4d3': id + '_4d3'
             });
         }
 
@@ -447,6 +451,12 @@ define(['jquery',
                                 break;
                             case '72318':
                                 crf = '4d15';
+                                break;
+                            case '72350':
+                                crf = '4d2';
+                                break;
+                            case '7237':
+                                crf = '4d3';
                                 break;
                         }
                         var value = parseFloat(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
