@@ -3,7 +3,7 @@ define(['jquery',
         'mustache',
         'text!tiled-analysis/js/tiles-manager/html/templates.html',
         'text!tiled-analysis/js/tiles-manager/config/tiles_configuration.json',
-        'i18n!tiled-analysis/js/libs/nls/translate',
+        'i18n!tiled-analysis/js/tiles-manager/nls/translate',
         'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
 
     'use strict';
