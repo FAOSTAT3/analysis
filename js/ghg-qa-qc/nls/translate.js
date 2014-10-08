@@ -42,7 +42,11 @@ define({
         'faostat': 'FAOSTAT',
         'nc': 'National Communication',
         'difference': 'Difference',
-        'norm_difference': 'Normalized Difference'
+        'norm_difference': 'Normalized Difference',
+        'code': 'Code',
+        'category': 'Category',
+        'agriculture': 'Agriculture',
+        'direct_soil_emissions': 'Direct Soil Emissions'
     },
     'F' : true,
     'S' : true

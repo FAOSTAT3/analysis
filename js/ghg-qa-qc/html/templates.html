@@ -368,6 +368,109 @@
 
 </div>
 
+<div id='ag_soils_table'>
+    <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-top: -16px;'>
+        <h1>{{title}}</h1>
+    </div>
+    <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+        <div style='display: inline-block; width: 100%;'>
+            <table class='table table-bordered table-condensed table-hover' id='{{left_ghg_table_id}}'>
+                <thead>
+                    <tr>
+                        <th>
+                            <div class='table_cell'>
+                                {{code_title_label}}
+                            </div>
+                        </th>
+                        <th>
+                            <div class='table_cell'>
+                                {{category_title_label}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--{{#categories}}-->
+                    <tr>
+                        <td>
+                            <div class='table_cell'>
+                                {{category_code}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class='table_cell'>
+                                {{category_label}}
+                            </div>
+                        </td>
+                    </tr>
+                    <!--{{/categories}}-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
+        <div style='display: inline-block; width: 100%; overflow: auto;'>
+            <table class='table table-bordered table-condensed table-hover' id='{{right_ghg_table_id}}'>
+                <thead>
+                    <tr>
+                        <!--{{#years}}-->
+                        <th>
+                            <div class='table_cell year'>
+                                {{year}}
+                            </div>
+                        </th>
+                        <!--{{/years}}-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!--{{#inputs}}-->
+                        <td>
+                            <div id='{{input_4d}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                        </td>
+                        <!--{{/inputs}}-->
+                    </tr>
+                    <tr>
+                        <!--{{#inputs}}-->
+                        <td>
+                            <div id='{{input_4d1}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                        </td>
+                        <!--{{/inputs}}-->
+                    </tr>
+                    <tr>
+                        <!--{{#inputs}}-->
+                        <td>
+                            <div id='{{input_4d11}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                        </td>
+                        <!--{{/inputs}}-->
+                    </tr>
+                    <tr>
+                        <!--{{#inputs}}-->
+                        <td>
+                            <div id='{{input_4d12}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                        </td>
+                        <!--{{/inputs}}-->
+                    </tr>
+                    <tr>
+                        <!--{{#inputs}}-->
+                        <td>
+                            <div id='{{input_4d14}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                        </td>
+                        <!--{{/inputs}}-->
+                    </tr>
+                    <tr>
+                        <!--{{#inputs}}-->
+                        <td>
+                            <div id='{{input_4d15}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                        </td>
+                        <!--{{/inputs}}-->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <div id='g1_table'>
     <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-top: -16px;'>
         <h1>{{title}}</h1>

@@ -290,11 +290,18 @@ define(['jquery',
 
         /* Load table's template */
         switch (domain_code) {
+
+            /* Agriculture Total tables. */
             case 'gt':
                 this.load_table_template('gt_tables_content_faostat', translate.faostat, 1990, 2012, 'gt_faostat', 'faostat');
                 this.load_table_template('gt_tables_content_nc', translate.nc, 1990, 2012, 'gt_nc', 'nc');
                 this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
                 this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
+                break;
+
+            /* Agricultural Soils tables. */
+            case 'agsoils':
+                this.load_agsoils_table_template('agsoils_tables_content', translate.faostat, 1990, 2013, 'prefix', 'faostat');
                 break;
         }
 
@@ -308,6 +315,202 @@ define(['jquery',
             });
         }
 
+    };
+
+    GHG_QA_QC.prototype.load_agsoils_table_template = function(render_id, label, start_year, end_year, id_prefix, datasource) {
+
+        var categories = [
+            {'category_code': '4.D', 'category_label': translate.ag_soils},
+            {'category_code': '4.D.1', 'category_label': translate.direct_soil_emissions},
+            {'category_code': '4.D.1.1', 'category_label': translate.gy},
+            {'category_code': '4.D.1.2', 'category_label': translate.gu},
+            {'category_code': '4.D.1.4', 'category_label': translate.gp},
+            {'category_code': '4.D.1.5', 'category_label': translate.gv}
+        ];
+        var years = [];
+        var inputs = [];
+
+        for (var i = start_year ; i < end_year ; i++)
+            years.push({'year': i});
+
+        for (var j = start_year; j < end_year; j++) {
+            var id = datasource + '_' + j;
+            inputs.push({
+                'input_4d': id + '_4d',
+                'input_4d1': id + '_4d1',
+                'input_4d11': id + '_4d11',
+                'input_4d12': id + '_4d12',
+                'input_4d14': id + '_4d14',
+                'input_4d15': id + '_4d15'
+            });
+        }
+
+        /* Load and render the template. */
+        var view = {
+            'title': label,
+            'code_title_label': translate.code,
+            'category_title_label': translate.category,
+            'categories': categories,
+            'years': years,
+            'inputs': inputs
+        };
+        var template = $(templates).filter('#ag_soils_table').html();
+        var render = Mustache.render(template, view);
+        $('#' + render_id).html(render);
+
+        this.populate_agsoils_tables(this.CONFIG.country_code, datasource);
+
+    };
+
+    GHG_QA_QC.prototype.populate_agsoils_tables = function(country_code, datasource) {
+        switch (datasource) {
+            case 'faostat':
+                this.populate_agsoils_tables_faostat(country_code);
+                break;
+            case 'nc':
+                this.populate_tables_nc(country_code);
+                break;
+            case 'difference':
+                this.populate_tables_difference(country_code);
+                break;
+            case 'norm_difference':
+                this.populate_tables_norm_difference(country_code);
+                break;
+        }
+    };
+
+    GHG_QA_QC.prototype.populate_agsoils_tables_faostat = function(country_code) {
+        var query_config = [
+            {item: '1709', element: '7231'},
+            {item: '5056', element: '7235'},
+            {item: '3102', element: '72353'},
+            {item: '1755', element: '72351'},
+            {item: '1712', element: '72352'},
+            {item: '6729', element: '72318'},
+            {item: '1755', element: '72350'},
+            {item: '5057', element: '7237'}
+        ];
+        for (var z = 0 ; z < query_config.length ; z++) {
+            var sql = {
+                'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode " +
+                    "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                    "WHERE D.AreaCode = '" + country_code + "' " +
+                    "AND D.ElementCode IN (" + query_config[z].element + ") " +
+                    "AND D.ItemCode IN (" + query_config[z].item + ") " +
+                    "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                    "2010, 2011, 2012) " +
+                    "AND D.AreaCode = A.AreaCode " +
+                    "AND D.ElementListCode = E.ElementListCode " +
+                    "AND D.ItemCode = I.ItemCode " +
+                    "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
+            };
+            var data = {};
+            data.datasource = 'faostat';
+            data.thousandSeparator = ',';
+            data.decimalSeparator = '.';
+            data.decimalNumbers = 2;
+            data.json = JSON.stringify(sql);
+            data.cssFilename = '';
+            data.nowrap = false;
+            data.valuesIndex = 0;
+            var url_data = this.CONFIG.url_data;
+            $.ajax({
+                type: 'POST',
+                url: url_data,
+                data: data,
+                success: function (response) {
+                    var json = response;
+                    if (typeof json == 'string')
+                        json = $.parseJSON(response);
+                    for (var i = 0; i < json.length; i++) {
+                        var item = json[i][3];
+                        var element = json[i][6];
+                        var y = json[i][4];
+                        var v = json[i][5];
+                        var crf = null;
+                        switch (element) {
+                            case '7231':
+                                crf = '4d';
+                                break;
+                            case '7235':
+                                crf = '4d1';
+                                break;
+                            case '72353':
+                                crf = '4d11';
+                                break;
+                            case '72351':
+                                crf = '4d12';
+                                break;
+                            case '72352':
+                                crf = '4d14';
+                                break;
+                            case '72318':
+                                crf = '4d15';
+                                break;
+                        }
+                        var value = parseFloat(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        $('#faostat_' + y + '_' + crf).html(value);
+                    }
+                }
+            });
+        }
+    };
+
+    GHG_QA_QC.prototype.populate_tables_faostat = function(country_code) {
+        var sql = {
+            'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                "WHERE D.DomainCode = 'GT' " +
+                "AND D.AreaCode = '" + country_code + "' " +
+                "AND D.ElementListCode = '7231' " +
+                "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711'," +
+                "'5056', '1755', '1712', '6729', '5057') " +
+                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                "2010, 2011, 2012) " +
+                "AND D.AreaCode = A.AreaCode " +
+                "AND D.ElementListCode = E.ElementListCode " +
+                "AND D.ItemCode = I.ItemCode " +
+                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        var url_data = this.CONFIG.url_data;
+        $.ajax({
+            type    :   'POST',
+            url     :   url_data,
+            data    :   data,
+            success : function(response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0 ; i < json.length ; i++) {
+                    var item = json[i][3];
+                    var y = json[i][4];
+                    var v = json[i][5];
+                    var crf = null;
+                    switch (item) {
+                        case '1711': crf = '4';  break;
+                        case '5058': crf = '4A'; break;
+                        case '5059': crf = '4B'; break;
+                        case '5060': crf = '4C'; break;
+                        case '1709': crf = '4D'; break;
+                        case '5067': crf = '4E'; break;
+                        case '5066': crf = '4F'; break;
+                    }
+                    var value = parseFloat(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    $('#gt_faostat_' + crf + '_' + y).html(value);
+                }
+            }
+        });
     };
 
     /* Create the tables through Mustache templating. */
@@ -352,15 +555,20 @@ define(['jquery',
             inputs_4D: inputs_4D,
             inputs_4E: inputs_4E,
             inputs_4F: inputs_4F,
-            _code: $.i18n.prop('_code'),
-            _category: $.i18n.prop('_category'),
-            _agriculture: $.i18n.prop('_agriculture'),
-            _enteric_fermentation: $.i18n.prop('_enteric_fermentation'),
-            _manure_management: $.i18n.prop('_manure_management'),
-            _rice_cultivation: $.i18n.prop('_rice_cultivation'),
-            _agricultural_soils: $.i18n.prop('_agricultural_soils'),
-            _prescribed_burning_of_savannas: $.i18n.prop('_prescribed_burning_of_savannas'),
-            _field_burning_of_agricultural_residues: $.i18n.prop('_field_burning_of_agricultural_residues')
+            _code: translate.code,
+            _category: translate.category,
+            _agriculture: translate.gt,
+            _enteric_fermentation: translate.ge,
+            _manure_management: translate.gm,
+            _rice_cultivation: translate.gr,
+            _agricultural_soils: translate.ag_soils,
+            _prescribed_burning_of_savannas: translate.gh,
+            _field_burning_of_agricultural_residues: translate.gb,
+            _direct_soil_emissions: translate.direct_soil_emissions,
+            _synthetic_fertilizers: translate.gy,
+            _manure_applied_to_soils: translate.gu,
+            _crop_residues: translate.ga,
+            _cultivation_of_histosols: translate.gv
         };
 
         /* Load the template. */
@@ -500,7 +708,8 @@ define(['jquery',
                      "WHERE D.DomainCode = 'GT' " +
                      "AND D.AreaCode = '" + country_code + "' " +
                      "AND D.ElementListCode = '7231' " +
-                     "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
+                     "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711'," +
+                                        "'5056', '1755', '1712', '6729', '5057') " +
                      "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
                                     "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
                                     "2010, 2011, 2012) " +
