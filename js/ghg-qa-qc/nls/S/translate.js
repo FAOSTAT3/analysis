@@ -31,7 +31,7 @@ define({
     'gc': 'Tierras de cultivo',
     'gg': 'Pastizales',
     'gi': 'Combustión de biomasa',
-    'ag_soils': 'Agricultural Soils',
+    'ag_soils': 'Suelos agrícolas',
     'charts': 'Gráficos',
     'tables': 'Tablas',
     'emissions': 'Emissions (Gg CO2Eq)',
@@ -41,5 +41,11 @@ define({
     'faostat': 'FAOSTAT',
     'nc': 'Comunicación Nacional',
     'difference': 'Diferencia',
-    'norm_difference': 'Diferencia normalizada '
+    'norm_difference': 'Diferencia normalizada',
+    'code': 'Código',
+    'category': 'Categoría',
+    'agriculture': 'Agricultura',
+    'direct_soil_emissions': 'Emisiones directas del suelo',
+    'pasture_paddock_maure': 'Estiércol depositado en pastura/prado/pradera',
+    'indirect_emissions': 'Emisiones indirectas'
 });
