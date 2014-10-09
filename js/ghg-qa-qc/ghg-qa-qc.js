@@ -301,7 +301,10 @@ define(['jquery',
 
             /* Agricultural Soils tables. */
             case 'agsoils':
-                this.load_agsoils_table_template('agsoils_tables_content', translate.faostat, 1990, 2013, 'prefix', 'faostat');
+                this.load_agsoils_table_template('agsoils_tables_content', translate.faostat, 1990, 2013, 'faostat');
+                this.load_agsoils_table_template('agsoils_tables_content', translate.nc, 1990, 2013, 'nc');
+                this.load_agsoils_table_template('agsoils_tables_content', translate.difference, 1990, 2013, 'difference');
+                this.load_agsoils_table_template('agsoils_tables_content', translate.norm_difference, 1990, 2013, 'norm_difference');
                 break;
         }
 
@@ -317,7 +320,7 @@ define(['jquery',
 
     };
 
-    GHG_QA_QC.prototype.load_agsoils_table_template = function(render_id, label, start_year, end_year, id_prefix, datasource) {
+    GHG_QA_QC.prototype.load_agsoils_table_template = function(render_id, label, start_year, end_year, datasource) {
 
         var categories = [
             {'category_code': '4.D', 'category_label': translate.ag_soils},
@@ -356,11 +359,13 @@ define(['jquery',
             'category_title_label': translate.category,
             'categories': categories,
             'years': years,
-            'inputs': inputs
+            'inputs': inputs,
+            'left_ghg_table_id': render_id + '_left_ghg_table',
+            'right_ghg_table_id': render_id + '_right_ghg_table'
         };
         var template = $(templates).filter('#ag_soils_table').html();
         var render = Mustache.render(template, view);
-        $('#' + render_id).html(render);
+        $('#' + render_id).append(render);
 
         this.populate_agsoils_tables(this.CONFIG.country_code, datasource);
 
@@ -372,15 +377,120 @@ define(['jquery',
                 this.populate_agsoils_tables_faostat(country_code);
                 break;
             case 'nc':
-                this.populate_tables_nc(country_code);
+                this.populate_agsoils_tables_nc(country_code);
                 break;
             case 'difference':
-                this.populate_tables_difference(country_code);
+                this.populate_agsoils_tables_difference(country_code);
                 break;
             case 'norm_difference':
-                this.populate_tables_norm_difference(country_code);
+                this.populate_agsoils_tables_norm_difference(country_code);
                 break;
         }
+    };
+
+    GHG_QA_QC.prototype.populate_agsoils_tables_norm_difference = function(country_code) {
+        var sql = {
+            'query': 'select code, year, NormPerDiff from UNFCCC_Comparison where areacode = ' + country_code
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0; i < json.length; i++) {
+                    var y = json[i][1];
+                    var crf = json[i][0].replace(/\./g, '').toLowerCase();
+                    var id = 'norm_difference_' + y + '_' + crf;
+                    var value = parseFloat(json[i][2]).toFixed(2);
+                    if (isNaN(value))
+                        $('#' + id).html();
+                    else
+                        $('#' + id).html(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                }
+            }
+        });
+    };
+
+    GHG_QA_QC.prototype.populate_agsoils_tables_difference = function(country_code) {
+        var sql = {
+            'query': 'select code, year, PerDiff from UNFCCC_Comparison where areacode = ' + country_code
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0; i < json.length; i++) {
+                    var y = json[i][1];
+                    var crf = json[i][0].replace(/\./g, '').toLowerCase();
+                    var id = 'difference_' + y + '_' + crf;
+                    var value = parseFloat(json[i][2]).toFixed(2);
+                    if (isNaN(value))
+                        $('#' + id).html();
+                    else
+                        $('#' + id).html(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                }
+            }
+        });
+    };
+
+    GHG_QA_QC.prototype.populate_agsoils_tables_nc = function(country_code) {
+        var sql = {
+            'query': 'select code, year, gunfvalue from UNFCCC_Comparison where areacode = ' + country_code
+        };
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+        $.ajax({
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
+            success: function (response) {
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+                for (var i = 0; i < json.length; i++) {
+                    var y = json[i][1];
+                    var crf = json[i][0].replace(/\./g, '').toLowerCase();
+                    var id = 'nc_' + y + '_' + crf;
+                    var value = parseFloat(json[i][2]).toFixed(2);
+                    if (isNaN(value))
+                        $('#' + id).html();
+                    else
+                        $('#' + id).html(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                }
+            }
+        });
     };
 
     GHG_QA_QC.prototype.populate_agsoils_tables_faostat = function(country_code) {
@@ -459,7 +569,7 @@ define(['jquery',
                                 crf = '4d3';
                                 break;
                         }
-                        var value = parseFloat(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        var value = parseFloat(v).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         $('#faostat_' + y + '_' + crf).html(value);
                     }
                 }
