@@ -519,6 +519,7 @@ define(['jquery',
                     "AND D.ItemCode = I.ItemCode " +
                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
             };
+
             var data = {};
             data.datasource = 'faostat';
             data.thousandSeparator = ',';
@@ -1049,6 +1050,9 @@ define(['jquery',
         var _this = this;
         var sql = {};
         var db_domain_code = domain_code;
+
+        if (gunf_code == '4.D.2')
+            db_domain_code = 'gp';
 
         switch (datasource) {
             case 'faostat':

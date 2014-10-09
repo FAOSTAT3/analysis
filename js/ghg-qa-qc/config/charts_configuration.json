@@ -11,6 +11,7 @@
         "gc": "gl",
         "gg": "gl",
         "gi": "gl",
+        "gp": "gp",
         "agsoils": "gt"
     },
     "gt": {
@@ -84,6 +85,22 @@
         "totals": [
             {
                 "item": {
+                    "code": "1709",
+                    "label": "ag_soils"
+                },
+                "element_codes": ["7231", "7243", "7244"],
+                "gunf_code": "4.D"
+            },
+            {
+                "item": {
+                    "code": "5056",
+                    "label": "direct_soil_emissions"
+                },
+                "element_codes": ["7235"],
+                "gunf_code": "4.D.1"
+            },
+            {
+                "item": {
                     "code": "5061",
                     "label": "gy"
                 },
@@ -100,14 +117,6 @@
             },
             {
                 "item": {
-                    "code": "5063",
-                    "label": "gp"
-                },
-                "element_codes": ["7231", "7243"],
-                "gunf_code": "4.D.1.3"
-            },
-            {
-                "item": {
                     "code": "5064",
                     "label": "ga"
                 },
@@ -121,6 +130,22 @@
                 },
                 "element_codes": ["7231", "7243"],
                 "gunf_code": "4.D.1.5"
+            },
+            {
+                "item": {
+                    "code": "1755",
+                    "label": "pasture_paddock_maure"
+                },
+                "element_codes": ["7235"],
+                "gunf_code": "4.D.2"
+            },
+            {
+                "item": {
+                    "code": "5057",
+                    "label": "indirect_emissions"
+                },
+                "element_codes": ["7237"],
+                "gunf_code": "4.D.3"
             }
         ]
     },
