@@ -421,10 +421,14 @@ define(['jquery',
                     var crf = json[i][0].replace(/\./g, '').toLowerCase();
                     var id = 'norm_difference_' + y + '_' + crf;
                     var value = parseFloat(json[i][2]).toFixed(2);
-                    if (isNaN(value))
+                    if (isNaN(value)) {
                         $('#' + id).html();
-                    else
+                    } else {
                         $('#' + id).html(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                        var color = value > 0 ? 'green' : 'red';
+                        color = value == 0 ? '#555' : color;
+                        $('#' + id).css('color', color);
+                    }
                 }
             }
         });
@@ -456,10 +460,14 @@ define(['jquery',
                     var crf = json[i][0].replace(/\./g, '').toLowerCase();
                     var id = 'difference_' + y + '_' + crf;
                     var value = parseFloat(json[i][2]).toFixed(2);
-                    if (isNaN(value))
+                    if (isNaN(value)) {
                         $('#' + id).html();
-                    else
+                    } else {
                         $('#' + id).html(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+                        var color = value > 0 ? 'green' : 'red';
+                        color = value == 0 ? '#555' : color;
+                        $('#' + id).css('color', color);
+                    }
                 }
             }
         });
@@ -754,10 +762,14 @@ define(['jquery',
                 for (var i = 0; i < json.length; i++) {
                     var id = 'gt_norm_difference_' + json[i][0].replace('.', '') + '_' + json[i][1];
                     var value = parseFloat(json[i][2]);
-                    if (isNaN(value))
+                    if (isNaN(value)) {
                         $('#' + id).html();
-                    else
+                    } else {
                         $('#' + id).html(value.toFixed(2));
+                        var color = value > 0 ? 'green' : 'red';
+                        color = value == 0 ? '#555' : color;
+                        $('#' + id).css('color', color);
+                    }
                 }
             }
         });
@@ -787,10 +799,14 @@ define(['jquery',
                 for (var i = 0; i < json.length; i++) {
                     var id = 'gt_difference_' + json[i][0].replace('.', '') + '_' + json[i][1];
                     var value = parseFloat(json[i][2]);
-                    if (isNaN(value))
+                    if (isNaN(value)) {
                         $('#' + id).html();
-                    else
+                    } else {
                         $('#' + id).html(value.toFixed(2));
+                        var color = value > 0 ? 'green' : 'red';
+                        color = value == 0 ? '#555' : color;
+                        $('#' + id).css('color', color);
+                    }
                 }
             }
         });
