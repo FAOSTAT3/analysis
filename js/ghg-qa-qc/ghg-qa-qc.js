@@ -393,6 +393,11 @@ define(['jquery',
                 this.populate_agsoils_tables_norm_difference(country_code);
                 break;
         }
+        $('[id$=4d11]').css('font-style', 'italic');
+        $('[id$=4d12]').css('font-style', 'italic');
+        $('[id$=4d14]').css('font-style', 'italic');
+        $('[id$=4d15]').css('font-style', 'italic');
+        $('[id$=4d]').css('font-weight', 'bold');
     };
 
     GHG_QA_QC.prototype.populate_agsoils_tables_norm_difference = function(country_code) {
