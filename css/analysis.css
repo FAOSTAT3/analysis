@@ -117,3 +117,31 @@ h1 {
 #analysis_breadcrumb.breadcrumb {
   background-color: #FFFFFF;
   margin-top: -5px; }
+
+.ghg_lvl {
+  font-weight: bold; }
+
+.ghg_sub_lvl {
+  margin-left: 16px; }
+
+.ghg_sub_sub_lvl {
+  margin-left: 32px;
+  font-style: italic; }
+
+.coloured_header, #agsoils_tables_content_left_ghg_table th,
+#agsoils_tables_content_right_ghg_table th,
+#gt_faostat_left_table th,
+#gt_faostat_right_table th,
+#gt_nc_left_table th,
+#gt_nc_right_table th,
+#gt_difference_left_table th,
+#gt_difference_right_table th,
+#gt_norm_difference_left_table th,
+#gt_norm_difference_right_table th {
+  font-weight: normal;
+  background-color: #379bce;
+  color: #FFFFFF; }
+
+.form-control.input-sm {
+  box-shadow: none;
+  border: none; }
