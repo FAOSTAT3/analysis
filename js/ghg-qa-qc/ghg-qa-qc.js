@@ -129,6 +129,13 @@ define(['jquery',
         var render = Mustache.render(template, view);
         $('#ghg_verification_content').html(render);
 
+        /* Short titles. */
+        var tab_names = $('a[data-toggle="tab"]');
+        for (var i = 0 ; i < tab_names.length ; i++) {
+            $(tab_names[i]).html(tab_names[i].text.replace('-', '<br>'));
+            $(tab_names[i]).css('text-align', 'center');
+        }
+
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
             var at = ['gt', 'agsoils', 'ge', 'gm', 'gr', 'gb', 'gh'];
@@ -1041,6 +1048,7 @@ define(['jquery',
 
         /* Create chart. */
         var chart = $('#' + chart_id).highcharts();
+//        var chart = new Highcharts.Chart(p);
 
     };
 
