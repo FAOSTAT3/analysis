@@ -836,10 +836,12 @@ define(['jquery',
                 for (var i = 0; i < json.length; i++) {
                     var id = 'gt_nc_' + json[i][0].replace('.', '') + '_' + json[i][1];
                     var value = parseFloat(json[i][2]);
-                    if (isNaN(value))
+                    if (isNaN(value)) {
                         $('#' + id).html();
-                    else
-                        $('#' + id).html(value.toFixed(2));
+                    } else {
+                        value = value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        $('#' + id).html(value);
+                    }
                 }
             }
         });
