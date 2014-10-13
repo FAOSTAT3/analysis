@@ -30,7 +30,9 @@ define(['jquery',
             url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
             url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
             url_listboxes   :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/',
-            default_colors  :   ['#379bcd', '#76BE94', '#744490', '#E10079', '#2D1706', '#F1E300', '#F7AE3C', '#DF3328']
+            default_colors  :   ['#379bcd', '#379bcd', '#76BE94', '#76BE94', '#744490', '#744490', '#744490',
+                                 '#E10079', '#E10079', '#2D1706', '#2D1706', '#F1E300', '#F1E300', '#F7AE3C',
+                                 '#F7AE3C', '#DF3328', '#DF3328']
         };
 
     }
@@ -920,6 +922,15 @@ define(['jquery',
             var element_code = params[2];
             var gunf_code = null;
             var series_definition = [];
+
+            /* Custom colors. */
+            if (charts_configuration.colors_map[item_code] != null) {
+                this.CONFIG.default_colors[0] = charts_configuration.colors_map[item_code];
+                this.CONFIG.default_colors[1] = charts_configuration.colors_map[item_code];
+            } else {
+                this.CONFIG.default_colors[0] = '#379bcd';
+                this.CONFIG.default_colors[1] = '#379bcd';
+            }
 
             /* FAOSTAT chart definition. */
             var faostat = {
