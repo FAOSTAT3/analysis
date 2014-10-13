@@ -336,7 +336,7 @@ define(['jquery',
             {'category_code': '4.D.1', 'category_label': translate.direct_soil_emissions, 'category_code_class': 'ghg_sub_lvl'},
             {'category_code': '4.D.1.1', 'category_label': translate.gy, 'category_code_class': 'ghg_sub_sub_lvl'},
             {'category_code': '4.D.1.2', 'category_label': translate.gu, 'category_code_class': 'ghg_sub_sub_lvl'},
-            {'category_code': '4.D.1.4', 'category_label': translate.gp, 'category_code_class': 'ghg_sub_sub_lvl'},
+            {'category_code': '4.D.1.4', 'category_label': translate.ga, 'category_code_class': 'ghg_sub_sub_lvl'},
             {'category_code': '4.D.1.5', 'category_label': translate.gv, 'category_code_class': 'ghg_sub_sub_lvl'},
             {'category_code': '4.D.2', 'category_label': translate.pasture_paddock_maure, 'category_code_class': 'ghg_sub_lvl'},
             {'category_code': '4.D.3', 'category_label': translate.indirect_emissions, 'category_code_class': 'ghg_sub_lvl'}
