@@ -527,7 +527,8 @@ define(['jquery',
             {item: '1712', element: '72352'},
             {item: '6729', element: '72318'},
             {item: '1755', element: '72350'},
-            {item: '5057', element: '7237'}
+            {item: '5057', element: '7237'},
+            {item: '5061', element: '7235'}
         ];
         for (var z = 0 ; z < query_config.length ; z++) {
             var sql = {
@@ -544,7 +545,6 @@ define(['jquery',
                     "AND D.ItemCode = I.ItemCode " +
                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
             };
-
             var data = {};
             data.datasource = 'faostat';
             data.thousandSeparator = ',';
@@ -595,6 +595,8 @@ define(['jquery',
                                 crf = '4d3';
                                 break;
                         }
+                        if (item == '5061' && element == '7235')
+                            crf = '4d11';
                         var value = parseFloat(v).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         $('#faostat_' + y + '_' + crf).html(value);
                     }
@@ -606,19 +608,19 @@ define(['jquery',
     GHG_QA_QC.prototype.populate_tables_faostat = function(country_code) {
         var sql = {
             'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                "WHERE D.DomainCode = 'GT' " +
-                "AND D.AreaCode = '" + country_code + "' " +
-                "AND D.ElementListCode = '7231' " +
-                "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711'," +
-                "'5056', '1755', '1712', '6729', '5057') " +
-                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                "2010, 2011, 2012) " +
-                "AND D.AreaCode = A.AreaCode " +
-                "AND D.ElementListCode = E.ElementListCode " +
-                "AND D.ItemCode = I.ItemCode " +
-                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
+                     "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                     "WHERE D.DomainCode = 'GT' " +
+                     "AND D.AreaCode = '" + country_code + "' " +
+                     "AND D.ElementListCode = '7231' " +
+                     "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711'," +
+                                        "'5056', '1755', '1712', '6729', '5057', '5061') " +
+                     "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                    "2010, 2011, 2012) " +
+                     "AND D.AreaCode = A.AreaCode " +
+                     "AND D.ElementListCode = E.ElementListCode " +
+                     "AND D.ItemCode = I.ItemCode " +
+                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
         };
         var data = {};
         data.datasource = 'faostat';
@@ -852,62 +854,6 @@ define(['jquery',
                         value = value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                         $('#' + id).html(value);
                     }
-                }
-            }
-        });
-    };
-
-    GHG_QA_QC.prototype.populate_tables_faostat = function(country_code) {
-        var sql = {
-            'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                     "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                     "WHERE D.DomainCode = 'GT' " +
-                     "AND D.AreaCode = '" + country_code + "' " +
-                     "AND D.ElementListCode = '7231' " +
-                     "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711'," +
-                                        "'5056', '1755', '1712', '6729', '5057') " +
-                     "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                    "2010, 2011, 2012) " +
-                     "AND D.AreaCode = A.AreaCode " +
-                     "AND D.ElementListCode = E.ElementListCode " +
-                     "AND D.ItemCode = I.ItemCode " +
-                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
-        };
-        var data = {};
-        data.datasource = 'faostat';
-        data.thousandSeparator = ',';
-        data.decimalSeparator = '.';
-        data.decimalNumbers = 2;
-        data.json = JSON.stringify(sql);
-        data.cssFilename = '';
-        data.nowrap = false;
-        data.valuesIndex = 0;
-        var url_data = this.CONFIG.url_data;
-        $.ajax({
-            type    :   'POST',
-            url     :   url_data,
-            data    :   data,
-            success : function(response) {
-                var json = response;
-                if (typeof json == 'string')
-                    json = $.parseJSON(response);
-                for (var i = 0 ; i < json.length ; i++) {
-                    var item = json[i][3];
-                    var y = json[i][4];
-                    var v = json[i][5];
-                    var crf = null;
-                    switch (item) {
-                        case '1711': crf = '4';  break;
-                        case '5058': crf = '4A'; break;
-                        case '5059': crf = '4B'; break;
-                        case '5060': crf = '4C'; break;
-                        case '1709': crf = '4D'; break;
-                        case '5067': crf = '4E'; break;
-                        case '5066': crf = '4F'; break;
-                    }
-                    var value = parseFloat(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                    $('#gt_faostat_' + crf + '_' + y).html(value);
                 }
             }
         });
