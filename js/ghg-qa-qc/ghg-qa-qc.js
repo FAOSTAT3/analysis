@@ -326,6 +326,9 @@ define(['jquery',
                 $('#' + group + ' a[href="#' + tab + '"]').tab('show');
             });
         }
+        $('#1709_anchor').click(function() {
+            $('#agri_total_tab a[href="#agri_total_agsoils"]').tab('show');
+        });
 
     };
 
