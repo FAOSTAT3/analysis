@@ -72,7 +72,7 @@
             {
                 "item": {
                     "code": "5067",
-                    "label": "gb"
+                    "label": "gh"
                 },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4.E"
@@ -80,7 +80,7 @@
             {
                 "item": {
                     "code": "5066",
-                    "label": "gh"
+                    "label": "gb"
                 },
                 "element_codes": ["7231", "7243", "7244"],
                 "gunf_code": "4.F"
