@@ -251,44 +251,69 @@ define(['jquery',
         this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
         this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
 
-        /* FAOSTAT chart definition. */
-        var faostat = {
-            name: 'FAOSTAT',
-            domain: domain_code,
-            country: this.CONFIG.country_code,
-            item: '1711',
-            element: '7231',
-            datasource: 'faostat',
-            type: 'line',
-            enableMarker: false,
-            gunf_code: null
-        };
+        /* Configuration for charts. */
+        var charts_config = [
+            {item: '1711', element: '7231', gunf: '4', render: 'GT_HOME_gt_1711_7231_TOTAL_4', width: 925},
+            {item: '5058', element: '7231', gunf: '4.A', render: 'GT_HOME_ge_5058_7231_TOTAL_4.A', width: 455},
+            {item: '5059', element: '7231', gunf: '4.B', render: 'GT_HOME_gm_5059_7231_TOTAL_4.B', width: 455},
+            {item: '5060', element: '7231', gunf: '4.C', render: 'GT_HOME_gr_5060_7231_TOTAL_4.C', width: 455},
+            {item: '1709', element: '7231', gunf: '4.D', render: 'GT_HOME_gm_1709_7231_TOTAL_4.D', width: 455},
+            {item: '5067', element: '7231', gunf: '4.E', render: 'GT_HOME_gh_5067_7231_TOTAL_4.E', width: 455},
+            {item: '5066', element: '7231', gunf: '4.F', render: 'GT_HOME_gb_5066_7231_TOTAL_4.F', width: 455}
+        ];
 
-        /* UNFCCC chart definition. */
-        var unfccc = {
-            name: 'NC',
-            domain: 'GT',
-            country: this.CONFIG.country_code,
-            item: '4',
-            element: null,
-            datasource: 'nc',
-            type: 'scatter',
-            enableMarker: true,
-            gunf_code: null
-        };
+        /* Create charts. */
+        for (var i = 0 ; i < charts_config.length ; i++) {
 
-        /* Parameters. */
-        var gunf_code = '4';
-        var series_definition = [];
-        unfccc.gunf_code = gunf_code;
-        faostat.gunf_code = gunf_code;
-        faostat.domain = charts_configuration.domains_map[domain_code];
+            /* FAOSTAT chart definition. */
+            var faostat = {
+                name: 'FAOSTAT',
+                domain: domain_code,
+                country: this.CONFIG.country_code,
+                item: charts_config[i].item,
+                element: charts_config[i].element,
+                datasource: 'faostat',
+                type: 'line',
+                enableMarker: false,
+                gunf_code: null
+            };
 
-        /* Create chart. */
-        series_definition.push(faostat);
-        if (gunf_code != null)
-            series_definition.push(unfccc);
-        this.createChart('gt_1711_7231_TOTAL_4', '', series_definition, false, this.CONFIG.default_colors, 1090);
+            /* UNFCCC chart definition. */
+            var unfccc = {
+                name: 'NC',
+                domain: 'GT',
+                country: this.CONFIG.country_code,
+                item: '4',
+                element: null,
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true,
+                gunf_code: null
+            };
+
+            /* Parameters. */
+            var gunf_code = charts_config[i].gunf;
+            var series_definition = [];
+            unfccc.gunf_code = gunf_code;
+            faostat.gunf_code = gunf_code;
+            faostat.domain = charts_configuration.domains_map[domain_code];
+
+            /* Custom colors. */
+            if (charts_config[i].item != null) {
+                this.CONFIG.default_colors[0] = charts_configuration.colors_map[charts_config[i].item];
+                this.CONFIG.default_colors[1] = charts_configuration.colors_map[charts_config[i].item];
+            } else {
+                this.CONFIG.default_colors[0] = '#379bcd';
+                this.CONFIG.default_colors[1] = '#379bcd';
+            }
+
+            /* Create chart. */
+            series_definition.push(faostat);
+            if (gunf_code != null)
+                series_definition.push(unfccc);
+            this.createChart(charts_config[i].render, '', series_definition, false, this.CONFIG.default_colors, charts_config[i].width);
+
+        }
 
     };
 
