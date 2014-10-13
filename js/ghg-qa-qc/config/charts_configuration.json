@@ -27,7 +27,7 @@
         "items_blacklist": ["5061", "5062", "5063", "5064", "6759",
                             "1711", "5058", "5059", "5060", "5067",
                             "5066", "5068"],
-        "elements": ["7231", "7243", "7244"],
+        "elements": ["7231"],
         "totals": [
             {
                 "item": {
@@ -42,7 +42,7 @@
                     "code": "5058",
                     "label": "ge"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.A"
             },
             {
@@ -50,7 +50,7 @@
                     "code": "5059",
                     "label": "gm"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.B"
             },
             {
@@ -58,7 +58,7 @@
                     "code": "5060",
                     "label": "gr"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.C"
             },
             {
@@ -66,7 +66,7 @@
                     "code": "1709",
                     "label": "ag_soils"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.D"
             },
             {
@@ -74,7 +74,7 @@
                     "code": "5067",
                     "label": "gh"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.E"
             },
             {
@@ -82,7 +82,7 @@
                     "code": "5066",
                     "label": "gb"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.F"
             }
 

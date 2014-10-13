@@ -223,6 +223,76 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.process_charts_table_configuration = function(domain_code, config, items) {
+        if (domain_code == 'gt')
+            this.process_charts_table_configuration_gt(domain_code, config, items)
+        else
+            this.process_charts_table_configuration_standard(domain_code, config, items)
+    };
+
+    GHG_QA_QC.prototype.process_charts_table_configuration_gt = function(domain_code, config, items) {
+
+        /* Load and render the template. */
+        var view = {
+            'gt_label': translate.gt,
+            'ge_label': translate.ge,
+            'gm_label': translate.gm,
+            'gr_label': translate.gr,
+            'ag_soils_label': translate.ag_soils,
+            'gb_label': translate.gb,
+            'gh_label': translate.gh
+        };
+        var template = $(templates).filter('#gt_charts_table').html();
+        var render = Mustache.render(template, view);
+        $('#' + domain_code + '__charts_content').html(render);
+
+        /* Populate tables. */
+        this.load_table_template('gt_tables_content_faostat', translate.faostat, 1990, 2012, 'gt_faostat', 'faostat');
+        this.load_table_template('gt_tables_content_nc', translate.nc, 1990, 2012, 'gt_nc', 'nc');
+        this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
+        this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
+
+        /* FAOSTAT chart definition. */
+        var faostat = {
+            name: 'FAOSTAT',
+            domain: domain_code,
+            country: this.CONFIG.country_code,
+            item: '1711',
+            element: '7231',
+            datasource: 'faostat',
+            type: 'line',
+            enableMarker: false,
+            gunf_code: null
+        };
+
+        /* UNFCCC chart definition. */
+        var unfccc = {
+            name: 'NC',
+            domain: 'GT',
+            country: this.CONFIG.country_code,
+            item: '4',
+            element: null,
+            datasource: 'nc',
+            type: 'scatter',
+            enableMarker: true,
+            gunf_code: null
+        };
+
+        /* Parameters. */
+        var gunf_code = '4';
+        var series_definition = [];
+        unfccc.gunf_code = gunf_code;
+        faostat.gunf_code = gunf_code;
+        faostat.domain = charts_configuration.domains_map[domain_code];
+
+        /* Create chart. */
+        series_definition.push(faostat);
+        if (gunf_code != null)
+            series_definition.push(unfccc);
+        this.createChart('gt_1711_7231_TOTAL_4', '', series_definition, false, this.CONFIG.default_colors, 1090);
+
+    };
+
+    GHG_QA_QC.prototype.process_charts_table_configuration_standard = function(domain_code, config, items) {
 
         var links = [];
 
@@ -980,7 +1050,7 @@ define(['jquery',
     };
 
     /* Charts template. */
-    GHG_QA_QC.prototype.createChart = function(chart_id, title, series, add_user_data, colors) {
+    GHG_QA_QC.prototype.createChart = function(chart_id, title, series, add_user_data, colors, width) {
         var _this = this;
         var p = chart_template;
         var custom_p = {
@@ -1026,6 +1096,8 @@ define(['jquery',
             custom_p.series[i].name = series[i].name;
 
         }
+        if (width != null)
+            custom_p.chart.width = width;
         p = $.extend(true, {}, p, custom_p);
         $(document.getElementById(chart_id)).highcharts(p);
 

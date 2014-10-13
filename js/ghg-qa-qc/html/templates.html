@@ -1,4 +1,4 @@
-<div id='ghg_qa_qc_verification_structure'>
+<template id='ghg_qa_qc_verification_structure'>
     <ul class='nav nav-tabs' role='tablist'>
         <li class='active'>
             <a href='#ghg_verification' role='tab' data-toggle='tab'>
@@ -37,9 +37,9 @@
 
         </div>
     </div>
-</div>
+</template>
 
-<div id='ghg_qa_qc_verification_agri_total_structure'>
+<template id='ghg_qa_qc_verification_agri_total_structure'>
     <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;' id='agri_total_tab'>
         <li class='active'>
             <a href='#agri_total_gt' role='tab' data-toggle='tab'>
@@ -114,9 +114,9 @@
             </div>
         </div>
     </div>
-</div>
+</template>
 
-<div id='ghg_qa_qc_verification_land_use_structure'>
+<template id='ghg_qa_qc_verification_land_use_structure'>
     <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;' id='land_use_tab'>
         <li class='active'>
             <a href='#land_use_gl' role='tab' data-toggle='tab'>
@@ -171,9 +171,9 @@
             </div>
         </div>
     </div>
-</div>
+</template>
 
-<div id='charts_and_tables'>
+<template id='charts_and_tables'>
     <div class='row' style='margin-top: 16px;'>
         <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
             <ul class='nav nav-tabs' role='tablist' style='margin-top: 16px;'>
@@ -219,9 +219,9 @@
             </div>
         </div>
     </div>
-</div>
+</template>
 
-<div id='ghg_qa_qc_structure'>
+<template id='ghg_qa_qc_structure'>
 
     <div class='row'>
 
@@ -366,9 +366,9 @@
         </div>
     </div>
 
-</div>
+</template>
 
-<div id='ag_soils_table'>
+<template id='ag_soils_table'>
     <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-top: -16px;'>
         <h1>{{title}}</h1>
     </div>
@@ -399,7 +399,9 @@
                         </td>
                         <td>
                             <div class='table_cell {{category_code_class}}'>
-                                {{category_label}}
+                                <div class='truncate'>
+                                    {{category_label}}
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -483,9 +485,9 @@
             </table>
         </div>
     </div>
-</div>
+</template>
 
-<div id='g1_table'>
+<template id='g1_table'>
     <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-top: -16px;'>
         <h1>{{title}}</h1>
     </div>
@@ -647,9 +649,9 @@
             </table>
         </div>
     </div>
-</div>
+</template>
 
-<div id='charts_structure'>
+<template id='charts_structure'>
     <table class='table table-bordered table-condensed'>
         <thead>
             <tr>
@@ -688,4 +690,38 @@
             <!--{{/items}}-->
         </tbody>
     </table>
-</div>
+</template>
+
+<template id='gt_charts_table'>
+    <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+        <label for='gt_1711_7231_TOTAL_4'>{{gt_label}}</label>
+        <div id='gt_1711_7231_TOTAL_4'></div>
+    </div>
+    <br>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <label for='ge_5058_7231_TOTAL_4.A'>{{ge_label}}</label>
+        <div id='ge_5058_7231_TOTAL_4.A'></div>
+    </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <label for='gm_5059_7231_TOTAL_4.B'>{{gm_label}}</label>
+        <div id='gm_5059_7231_TOTAL_4.B'></div>
+    </div>
+    <br>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <label for='gr_5060_7231_TOTAL_4.C'>{{gr_label}}</label>
+        <div id='gr_5060_7231_TOTAL_4.C'></div>
+    </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <label for='gm_1709_7231_TOTAL_4.D'>{{ag_soils_label}}</label>
+        <div id='gm_1709_7231_TOTAL_4.D'></div>
+    </div>
+    <br>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <label for='gh_5067_7231_TOTAL_4.E'>{{gh_label}}</label>
+        <div id='gh_5067_7231_TOTAL_4.E'></div>
+    </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <label for='gb_5066_7231_TOTAL_4.F'>{{gb_label}}</label>
+        <div id='gb_5066_7231_TOTAL_4.F'></div>
+    </div>
+</template>

@@ -145,3 +145,9 @@ h1 {
 .form-control.input-sm {
   box-shadow: none;
   border: none; }
+
+.truncate {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }

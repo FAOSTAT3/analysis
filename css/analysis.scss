@@ -189,4 +189,11 @@ h1 {
   border: none;
 }
 
+.truncate {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 // $('#5056_anchor').parent().css('border-bottom', '3px solid #555')
