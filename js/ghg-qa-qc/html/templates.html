@@ -369,284 +369,288 @@
 </template>
 
 <template id='ag_soils_table'>
-    <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-top: -16px;'>
-        <h1>{{title}}</h1>
-    </div>
-    <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4' style='padding-right: 0px;'>
-        <div style='display: inline-block; width: 100%;'>
-            <table class='table table-bordered table-condensed table-hover' id='{{left_ghg_table_id}}'>
-                <thead>
-                    <tr>
-                        <th>
-                            <div class='table_cell'>
-                                {{code_title_label}}
-                            </div>
-                        </th>
-                        <th>
-                            <div class='table_cell'>
-                                {{category_title_label}}
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!--{{#categories}}-->
-                    <tr>
-                        <td>
-                            <div class='table_cell {{category_code_class}}'>
-                                {{category_code}}
-                            </div>
-                        </td>
-                        <td>
-                            <div class='table_cell {{category_code_class}}'>
-                                <div class='truncate'>
-                                    {{category_label}}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <!--{{/categories}}-->
-                </tbody>
-            </table>
+    <div style='margin-bottom: -50px;'>
+        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+            <h1>{{title}}</h1>
         </div>
-    </div>
-    <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8' style='padding-left: 0px; margin-left: -1px;'>
-        <div style='display: inline-block; width: 100%; overflow: auto;'>
-            <table class='table table-bordered table-condensed table-hover' id='{{right_ghg_table_id}}'>
-                <thead>
-                    <tr>
-                        <!--{{#years}}-->
-                        <th>
-                            <div class='table_cell year'>
-                                {{year}}
-                            </div>
-                        </th>
-                        <!--{{/years}}-->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d1}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d11}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d12}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d14}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d15}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d2}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs}}-->
-                        <td>
-                            <div id='{{input_4d3}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs}}-->
-                    </tr>
-                </tbody>
-            </table>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4' style='padding-right: 0px;'>
+            <div style='display: inline-block; width: 100%;'>
+                <table class='table table-bordered table-condensed table-hover' id='{{left_ghg_table_id}}'>
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class='table_cell'>
+                                    {{code_title_label}}
+                                </div>
+                            </th>
+                            <th>
+                                <div class='table_cell'>
+                                    {{category_title_label}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--{{#categories}}-->
+                        <tr>
+                            <td>
+                                <div class='table_cell {{category_code_class}}'>
+                                    {{category_code}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class='table_cell {{category_code_class}}'>
+                                    <div class='truncate'>
+                                        {{category_label}}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{{/categories}}-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8' style='padding-left: 0px; margin-left: -1px;'>
+            <div style='display: inline-block; width: 100%; overflow-x: scroll;'>
+                <table class='table table-bordered table-condensed table-hover' id='{{right_ghg_table_id}}'>
+                    <thead>
+                        <tr>
+                            <!--{{#years}}-->
+                            <th>
+                                <div class='table_cell year'>
+                                    {{year}}
+                                </div>
+                            </th>
+                            <!--{{/years}}-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d1}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d11}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d12}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d14}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d15}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d2}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{input_4d3}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
 
 <template id='g1_table'>
-    <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-top: -16px;'>
-        <h1>{{title}}</h1>
-    </div>
-    <div class='col-xs-12 col-sm-3 col-md-3 col-lg-3' style='padding-right: 0;'>
-        <div style='display: inline-block;'>
-            <table style='width: 100%;' class='table table-bordered table-condensed table-hover' id='{{left_table_id}}'>
-                <thead>
-                    <tr>
-                        <th>
-                            <div class='table_cell'>
-                                {{_code}}
-                            </div>
-                        </th>
-                        <th>
-                            <div class='table_cell'>
-                                {{_category}}
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class='table_cell ghg_lvl'>4</div>
-                        </td>
-                        <td>
-                            <div class='table_cell ghg_lvl'>
-                                {{_agriculture}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class='table_cell'>4.A</div>
-                        </td>
-                        <td>
-                            <div class='table_cell'>
-                                {{_enteric_fermentation}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class='table_cell'>4.B</div>
-                        </td>
-                        <td>
-                            <div class='table_cell'>
-                                {{_manure_management}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class='table_cell'>4.C</div>
-                        </td>
-                        <td>
-                            <div class='table_cell'>
-                                {{_rice_cultivation}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class='table_cell'>4.D</div>
-                        </td>
-                        <td>
-                            <div class='table_cell'>
-                                {{_agricultural_soils}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class='table_cell'>4.E</div>
-                        </td>
-                        <td>
-                            <div class='table_cell'>
-                                {{_prescribed_burning_of_savannas}}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class='table_cell'>4.F</div>
-                        </td>
-                        <td>
-                            <div class='table_cell'>
-                                {{_field_burning_of_agricultural_residues}}
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div style='margin-bottom: -50px;'>
+        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+            <h1>{{title}}</h1>
         </div>
-    </div>
-    <div class='col-xs-12 col-sm-9 col-md-9 col-lg-9' style='padding-left: 0; left: -18px;'>
-        <div style='display: inline-block; width: 100%; overflow: auto;'>
-            <table class='table table-bordered table-condensed table-hover' id='{{right_table_id}}'>
-                <thead>
-                    <tr>
-                        <!--{{#years}}-->
-                        <th>
-                            <div class='table_cell year'>{{year}}</div>
-                        </th>
-                        <!--{{/years}}-->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <!--{{#inputs_4}}-->
-                        <td>
-                            <div id='{{input_id_4}}' style='width: 100px; text-align: right; font-weight: bold;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs_4}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs_4A}}-->
-                        <td>
-                            <div id='{{input_id_4A}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs_4A}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs_4B}}-->
-                        <td>
-                            <div id='{{input_id_4B}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs_4B}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs_4C}}-->
-                        <td>
-                            <div id='{{input_id_4C}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs_4C}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs_4D}}-->
-                        <td>
-                            <div id='{{input_id_4D}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs_4D}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs_4E}}-->
-                        <td>
-                            <div id='{{input_id_4E}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs_4E}}-->
-                    </tr>
-                    <tr>
-                        <!--{{#inputs_4F}}-->
-                        <td>
-                            <div id='{{input_id_4F}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
-                        </td>
-                        <!--{{/inputs_4F}}-->
-                    </tr>
-                </tbody>
-            </table>
+        <div class='col-xs-12 col-sm-3 col-md-3 col-lg-3' style='padding-right: 0;'>
+            <div style='display: inline-block;'>
+                <table style='width: 100%;' class='table table-bordered table-condensed table-hover' id='{{left_table_id}}'>
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class='table_cell'>
+                                    {{_code}}
+                                </div>
+                            </th>
+                            <th>
+                                <div class='table_cell'>
+                                    {{_category}}
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class='table_cell ghg_lvl'>4</div>
+                            </td>
+                            <td>
+                                <div class='table_cell ghg_lvl'>
+                                    {{_agriculture}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='table_cell'>4.A</div>
+                            </td>
+                            <td>
+                                <div class='table_cell'>
+                                    {{_enteric_fermentation}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='table_cell'>4.B</div>
+                            </td>
+                            <td>
+                                <div class='table_cell'>
+                                    {{_manure_management}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='table_cell'>4.C</div>
+                            </td>
+                            <td>
+                                <div class='table_cell'>
+                                    {{_rice_cultivation}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='table_cell'>4.D</div>
+                            </td>
+                            <td>
+                                <div class='table_cell'>
+                                    {{_agricultural_soils}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='table_cell'>4.E</div>
+                            </td>
+                            <td>
+                                <div class='table_cell'>
+                                    {{_prescribed_burning_of_savannas}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='table_cell'>4.F</div>
+                            </td>
+                            <td>
+                                <div class='table_cell'>
+                                    {{_field_burning_of_agricultural_residues}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-9 col-md-9 col-lg-9' style='padding-left: 0; left: -18px;'>
+            <div style='display: inline-block; width: 100%; overflow-x: scroll;'>
+                <table class='table table-bordered table-condensed table-hover' id='{{right_table_id}}'>
+                    <thead>
+                        <tr>
+                            <!--{{#years}}-->
+                            <th>
+                                <div class='table_cell year'>{{year}}</div>
+                            </th>
+                            <!--{{/years}}-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <!--{{#inputs_4}}-->
+                            <td>
+                                <div id='{{input_id_4}}' style='width: 100px; text-align: right; font-weight: bold;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs_4}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs_4A}}-->
+                            <td>
+                                <div id='{{input_id_4A}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs_4A}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs_4B}}-->
+                            <td>
+                                <div id='{{input_id_4B}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs_4B}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs_4C}}-->
+                            <td>
+                                <div id='{{input_id_4C}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs_4C}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs_4D}}-->
+                            <td>
+                                <div id='{{input_id_4D}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs_4D}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs_4E}}-->
+                            <td>
+                                <div id='{{input_id_4E}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs_4E}}-->
+                        </tr>
+                        <tr>
+                            <!--{{#inputs_4F}}-->
+                            <td>
+                                <div id='{{input_id_4F}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs_4F}}-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>

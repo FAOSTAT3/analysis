@@ -167,7 +167,7 @@
                     "code": "5058",
                     "label": "ge"
                 },
-                "element_codes": ["7231", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.A"
             }
         ]
@@ -181,7 +181,7 @@
                     "code": "5059",
                     "label": "gm"
                 },
-                "element_codes": ["7231", "7224"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.B"
             }
         ]
@@ -195,7 +195,7 @@
                     "code": "5060",
                     "label": "gr"
                 },
-                "element_codes": ["7231", "7224"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.C"
             }
         ]
@@ -209,7 +209,7 @@
                     "code": "5066",
                     "label": "gb"
                 },
-                "element_codes": ["7231", "7224"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.F"
             }
         ]
@@ -223,7 +223,7 @@
                     "code": "5067",
                     "label": "gh"
                 },
-                "element_codes": ["7231", "7224"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.E"
             }
         ]
