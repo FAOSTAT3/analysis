@@ -141,7 +141,7 @@ define(['jquery',
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
             var at = ['gt', 'agsoils', 'ge', 'gm', 'gr', 'gb', 'gh'];
-            for (var i = 0; i < at.length; i++)
+            for (i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
 
@@ -388,6 +388,19 @@ define(['jquery',
         var template = $(templates).filter('#charts_structure').html();
         var render = Mustache.render(template, view);
         $('#' + domain_code + '__charts_content').html(render);
+
+        /* Remove extra columns for Agricultural Soils. */
+        if (domain_code == 'agsoils') {
+            $('#agsoils__charts_content table td:last-child').remove();
+            $('#agsoils__charts_content table td:last-child').remove();
+            $('#agsoils__charts_content table th:last-child').remove();
+            $('#agsoils__charts_content table th:last-child').remove();
+            $('#agsoils__charts_content table th:first-child').css('width', '135px');
+        } else {
+            $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
+            $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
+            $('#' + domain_code + '__charts_content table tr:nth-child(1) td').attr('colspan', 3);
+        }
 
         /* Populate charts table. */
         this.populate_charts_table(td_ids);
@@ -1107,6 +1120,8 @@ define(['jquery',
         }
         if (width != null)
             custom_p.chart.width = width;
+        if (chart_id.indexOf('_TOTAL_') > -1 && !(chart_id.indexOf('GT_HOME_') > -1))
+            custom_p.chart.width = 835;
         p = $.extend(true, {}, p, custom_p);
 
         /* Create chart. */

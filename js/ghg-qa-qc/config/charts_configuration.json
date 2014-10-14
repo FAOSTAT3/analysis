@@ -97,7 +97,7 @@
                     "code": "1709",
                     "label": "ag_soils"
                 },
-                "element_codes": ["7231", "7243", "7244"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.D"
             },
             {
@@ -113,7 +113,7 @@
                     "code": "5061",
                     "label": "gy"
                 },
-                "element_codes": ["7231", "7243"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.D.1.1"
             },
             {
@@ -121,7 +121,7 @@
                     "code": "5062",
                     "label": "gu"
                 },
-                "element_codes": ["7231", "7243"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.D.1.2"
             },
             {
@@ -129,7 +129,7 @@
                     "code": "5064",
                     "label": "ga"
                 },
-                "element_codes": ["7231", "7243"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.D.1.4"
             },
             {
@@ -137,7 +137,7 @@
                     "code": "6759",
                     "label": "gv"
                 },
-                "element_codes": ["7231", "7243"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.D.1.5"
             },
             {

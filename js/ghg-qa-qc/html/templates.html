@@ -659,9 +659,7 @@
     <table class='table table-bordered table-condensed'>
         <thead>
             <tr>
-                <th>
-                    {{item}}
-                </th>
+                <th>{{item}}</th>
                 <th>{{emissions}}</th>
                 <th>{{emissions_activity}}</th>
                 <th>{{emissions_factor}}</th>
@@ -734,4 +732,25 @@
         <label for='GT_HOME_gb_5066_7231_TOTAL_4.F'>{{gb_label}}</label>
         <div id='GT_HOME_gb_5066_7231_TOTAL_4.F'></div>
     </div>
+</template>
+
+<template id='aggregation_chart'>
+    <table class='table table-bordered table-condensed'>
+        <thead>
+            <tr>
+                <th>{{item}}</th>
+                <th>{{emissions}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style='vertical-align: middle !important;'>
+                    {{aggregation_chart_label}}
+                </td>
+                <td style='vertical-align: middle !important;'>
+                    {{aggregation_chart_id}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </template>
