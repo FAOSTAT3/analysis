@@ -1095,25 +1095,7 @@ define(['jquery',
                     }
                 },
                 type: 'line',
-                "renderTo": chart_id
-            },
-            tooltip: {
-//                formatter: function() {
-//                    var s = [];
-//                    $.each(this.points, function(i, point) {
-//                        console.debug(i);
-//                        var value = parseFloat(point.y).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-//                        var tmp = '';
-//                        tmp += '<b>';
-//                        tmp += point.series.name;
-//                        tmp += ':</b> ';
-//                        tmp += value;
-//                        tmp += ' (' + point.x + ')';
-//                        s.push(tmp);
-//                    });
-//                    return s.join('<br>');
-//                },
-                shared: true
+                renderTo: chart_id
             },
             colors: colors
         };
@@ -1126,32 +1108,18 @@ define(['jquery',
         if (width != null)
             custom_p.chart.width = width;
         p = $.extend(true, {}, p, custom_p);
-        $(document.getElementById(chart_id)).highcharts(p);
 
         /* Create chart. */
-        var chart = $('#' + chart_id).highcharts();
-        if (chart_id == 'GT_HOME_gt_1711_7231_TOTAL_4') {
-            chart.tooltip.options.formatter = function() {
-                var x = null;
-                try {
-                    x = this.point.x;
-                } catch(e) {
-                    console.debug(this);
-                }
-                var s = '<b><u>' + x + '</u></b>';
-                for (var i = 0 ; i < chart.series.length ; i++) {
-                    s += '<br><b>' + chart.series[i].name + ':</b> ';
-                    var value = parseFloat(chart.series[i].points[x - 1990].y).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                    s += value;
-//                    for (var j = 0 ; j < chart.series[i].points.length ; j++) {
-//                        if (chart.series[i].points[j].x == x) {
-//                            s += chart.series[i].points[j].y;
-//                            break;
-//                        }
-//                    }
-                }
-                return s;
+        var chart = new Highcharts.Chart(p);
+        chart.tooltip.options.formatter = function () {
+            var x = this.point.x;
+            var s = '<b><u>' + x + '</u></b>';
+            for (var i = 0; i < chart.series.length; i++) {
+                s += '<br><b>' + chart.series[i].name + ':</b> ';
+                var value = parseFloat(chart.series[i].points[x - 1990].y).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                s += value;
             }
+            return s;
         }
 
     };
