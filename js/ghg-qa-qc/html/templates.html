@@ -734,23 +734,98 @@
     </div>
 </template>
 
-<template id='aggregation_chart'>
-    <table class='table table-bordered table-condensed'>
-        <thead>
-            <tr>
-                <th>{{item}}</th>
-                <th>{{emissions}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style='vertical-align: middle !important;'>
-                    {{aggregation_chart_label}}
-                </td>
-                <td style='vertical-align: middle !important;'>
-                    {{aggregation_chart_id}}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<template id='standard_table'>
+    <div style='margin-bottom: -50px;'>
+        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+            <h1>{{title}}</h1>
+        </div>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4' style='padding-right: 0px;'>
+            <div style='display: inline-block; width: 100%;'>
+                <table class='table table-bordered table-condensed table-hover' id='{{left_standard_table_id}}'>
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class='table_cell'>
+                                {{code_title_label}}
+                            </div>
+                        </th>
+                        <th>
+                            <div class='table_cell'>
+                                {{category_title_label}}
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--{{#categories}}-->
+                    <tr>
+                        <td>
+                            <div class='table_cell {{category_code_class}}'>
+                                {{category_code}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class='table_cell {{category_code_class}}'>
+                                <div class='truncate'>
+                                    {{category_label}}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--{{/categories}}-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8' style='padding-left: 0px; margin-left: -1px;'>
+            <div style='display: inline-block; width: 100%; overflow-x: scroll;'>
+                <table class='table table-bordered table-condensed table-hover' id='{{right_standard_table_id}}'>
+                    <thead>
+                        <tr>
+                            <!--{{#years}}-->
+                            <th>
+                                <div class='table_cell year'>
+                                    {{year}}
+                                </div>
+                            </th>
+                            <!--{{/years}}-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--{{#rows}}-->
+                        <tr>
+                            <!--{{#inputs}}-->
+                            <td>
+                                <div id='{{standard_input_id}}' style='width: 100px; text-align: right; font-weight: normal;' class='form-control input-sm'></div>
+                            </td>
+                            <!--{{/inputs}}-->
+                        </tr>
+                        <!--{{#rows}}-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </template>
+
+<script>
+    /* This should create 2 rows, each row having 3 inputs. */
+    var view = {
+        "rows": [
+            {
+                "inputs": [
+                    {"standard_input_id": "Pippo"},
+                    {"standard_input_id": "Pluto"},
+                    {"standard_input_id": "Paperino"}
+                ]
+            },
+            {
+                "inputs": [
+                    {"standard_input_id": "Pippo"},
+                    {"standard_input_id": "Pluto"},
+                    {"standard_input_id": "Paperino"}
+                ]
+            }
+        ]
+    }
+</script>
