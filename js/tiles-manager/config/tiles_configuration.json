@@ -15,7 +15,10 @@
             "ghg_quality",
             "ghg_indicators",
             "ghg_data"
-        ]
+        ],
+        "tile_title": "ghg",
+        "tile_description": "ghg_description",
+        "tile_button": "ghg_button"
     },
     "ghg_overview": {
         "id": "ghg_overview",
@@ -23,6 +26,9 @@
         "img": "/overview.jpg",
         "label_code": "ghg_overview",
         "tiles": [],
+        "tile_title": "ghg_overview",
+        "tile_description": "ghg_overview_description",
+        "tile_button": "ghg_overview_button",
         "require": "ANALYSIS_GHG_OVERVIEW"
     },
     "ghg_quality": {
@@ -30,20 +36,29 @@
         "type": "module",
         "img": "/quality.jpg",
         "label_code": "ghg_quality",
-        "require": "ANALYSIS_GHG_QA_QC"
+        "require": "ANALYSIS_GHG_QA_QC",
+        "tile_title": "ghg_quality",
+        "tile_description": "ghg_quality_description",
+        "tile_button": "ghg_quality_button"
     },
     "ghg_indicators": {
         "id": "ghg_indicators",
         "type": "module",
         "img": "/indicators.jpg",
         "label_code": "ghg_indicators",
-        "require": "ANALYSIS_GHG_INDICATORS"
+        "require": "ANALYSIS_GHG_INDICATORS",
+        "tile_title": "ghg_indicators",
+        "tile_description": "ghg_indicators_description",
+        "tile_button": "ghg_indicators_button"
     },
     "ghg_data": {
         "id": "ghg_data",
         "type": "module",
         "img": "/data.jpg",
         "label_code": "ghg_data",
-        "require": "ANALYSIS_GHG_DATA"
+        "require": "ANALYSIS_GHG_DATA",
+        "tile_title": "ghg_data",
+        "tile_description": "ghg_data_description",
+        "tile_button": "ghg_data_button"
     }
 }

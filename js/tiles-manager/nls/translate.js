@@ -42,7 +42,17 @@ define({
         'faostat': 'FAOSTAT',
         'nc': 'National Communication',
         'difference': 'Difference',
-        'norm_difference': 'Normalized Difference'
+        'norm_difference': 'Normalized Difference',
+        'ghg_description': 'Description',
+        'ghg_overview_description': 'Regional Overview module description.',
+        'ghg_quality_description': 'QA-QC and Verification module description.',
+        'ghg_indicators_description': 'Indicators module description.',
+        'ghg_data_description': 'Georeferenced Data module description.',
+        'ghg_button': 'Go to the Greenhouse Gases module.',
+        'ghg_overview_button': 'Go to the Regional Overview module.',
+        'ghg_quality_button': 'Go to the QA-QC and Verification module.',
+        'ghg_indicators_button': 'Go to the Indicators module.',
+        'ghg_data_button': 'Go to the Georeferenced Data module.'
     },
     'F' : true,
     'S' : true

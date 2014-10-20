@@ -1,22 +1,24 @@
-<div id='analysis_structure'>
+<template id='analysis_structure'>
     <ol class='breadcrumb' id='analysis_breadcrumb'>
         <li><a href='{{url_analysis_home}}'>Analysis</a></li>
     </ol>
-    <div class='container-fluid' id='tiles_container'>
+    <div style='height: 570px; overflow-y: auto;'>
+        <div class='container-fluid' id='tiles_container'>
 
+        </div>
     </div>
-</div>
+</template>
 
-<div id='tile_single_row_structure'>
+<template id='tile_single_row_structure'>
     <div class='row'>
         <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
             <img src='{{tile_img_src_1}}' id='{{tile_1_id}}' class='tile_img'>
         </div>
     </div>
     <br>
-</div>
+</template>
 
-<div id='tile_double_row_structure'>
+<template id='tile_double_row_structure'>
     <div class='row'>
         <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
             <img src='{{tile_img_src_1}}' id='{{tile_2_id}}' class='tile_img'>
@@ -26,4 +28,24 @@
         </div>
     </div>
     <br>
-</div>
+</template>
+
+<template id='main_tile_structure'>
+    <div class='container-tile'>
+        <div class='ghg-main-tile'>
+            <div class='ghg-holder-content' id='{{tile_id}}' style='cursor: pointer;'>
+                <img src='{{tile_img}}' style='height: 106px; width: 103px;'>
+                <h2 style='text-transform: uppercase;'>
+                    {{tile_title}}
+                </h2>
+                <p class='ghg-text'>
+                    {{tile_description}}
+                </p>
+                <p style='text-transform: uppercase;'>
+                    {{tile_button}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <br>
+</template>

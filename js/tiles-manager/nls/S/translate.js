@@ -41,5 +41,15 @@ define({
     'faostat': 'FAOSTAT',
     'nc': 'Comunicación Nacional',
     'difference': 'Diferencia',
-    'norm_difference': 'Diferencia normalizada '
+    'norm_difference': 'Diferencia normalizada ',
+    'ghg_description': 'Descripción',
+    'ghg_overview_description': 'Panorama Regional descripción.',
+    'ghg_quality_description': 'GC-CC y Verificacion descripción.',
+    'ghg_indicators_description': 'Indicadores descripción.',
+    'ghg_data_description': 'Datos Georreferenciados descripción.',
+    'ghg_button': 'Ir al módulo de Gases de Efecto Invernadero.',
+    'ghg_overview_button': 'Ir al módulo de Panorama Regional.',
+    'ghg_quality_button': 'Ir al módulo de GC-CC y Verificacion.',
+    'ghg_indicators_button': 'Ir al módulo de Indicadores.',
+    'ghg_data_button': 'Ir al módulo de GDatos Georreferenciados.'
 });

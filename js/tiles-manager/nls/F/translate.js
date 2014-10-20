@@ -41,5 +41,15 @@ define({
     'faostat': 'FAOSTAT',
     'nc': 'Communication Nationale',
     'difference': 'Difference',
-    'norm_difference': 'Normalized Difference'
+    'norm_difference': 'Normalized Difference',
+    'ghg_description': 'Description',
+    'ghg_overview_description': 'Aperçu Regional description.',
+    'ghg_quality_description': 'AQ-CQ et Verification description.',
+    'ghg_indicators_description': 'Indicateurs description.',
+    'ghg_data_description': 'Donnees Georeferencees description.',
+    'ghg_button': 'Aller vers le module de gaz à effet de serre.',
+    'ghg_overview_button': 'Aller vers le module de Aperçu Regional.',
+    'ghg_quality_button': 'Aller vers le module de AQ-CQ et Verification.',
+    'ghg_indicators_button': 'Aller vers le module de Indicateurs.',
+    'ghg_data_button': 'Aller vers le module de Donnees Georeferencees.'
 });

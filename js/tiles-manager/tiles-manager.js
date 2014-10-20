@@ -13,8 +13,8 @@ define(['jquery',
         this.CONFIG = {
             lang: 'E',
             url_analysis_home: 'http://168.202.28.57:8080/faostat-gateway/go/to/analysis/Q/QC/',
-//            url_images: '/faostat-ghg/modules/tiled-analysis/images/'
-            url_images: '/tiled-analysis/images/'
+            url_images: '/faostat-ghg/modules/tiled-analysis/images/'
+//            url_images: '/tiled-analysis/images/'
         };
 
     }
@@ -87,37 +87,25 @@ define(['jquery',
         $('#tiles_container').empty();
 
         /* Create tiles reading the configuration file. */
-        for (var i = 0; i < tiles_configuration[tile_code]['tiles'].length; i += 2) {
+        for (var i = 0; i < tiles_configuration[tile_code]['tiles'].length; i ++) {
 
             var child_1 = tiles_configuration[tiles_configuration[tile_code]['tiles'][i]];
             var view = {};
             var template = null;
             var render = null;
 
-            /* 2 tile per row. */
-            if (i + 1 < tiles_configuration[tile_code]['tiles'].length) {
-                var child_2 = tiles_configuration[tiles_configuration[tile_code]['tiles'][i + 1]];
-                view = {
-                    tile_img_src_1: this.CONFIG.url_images + this.CONFIG.lang + child_1.img,
-                    tile_img_src_2: this.CONFIG.url_images + this.CONFIG.lang + child_2.img,
-                    tile_2_id: child_1.id,
-                    tile_3_id: child_2.id
-                };
-                template = $(templates).filter('#tile_double_row_structure').html();
-                render = Mustache.render(template, view);
-            }
-
-            /* 1 tile per row. */
-            else {
-                view = {
-                    tile_img_src_1: this.CONFIG.url_images + this.CONFIG.lang + child_1.img,
-                    tile_1_id: child_1.id
-                };
-                template = $(templates).filter('#tile_single_row_structure').html();
-                render = Mustache.render(template, view);
-            }
+            console.debug(child_1.img);
 
             /* Render the template. */
+            var view = {
+                tile_img: this.CONFIG.url_images + 'ghg-logo-tile.png',
+                tile_id: child_1.id,
+                tile_title: translate[child_1.tile_title],
+                tile_description: translate[child_1.tile_description],
+                tile_button: translate[child_1.tile_button]
+            };
+            var template = $(templates).filter('#main_tile_structure').html();
+            var render = Mustache.render(template, view);
             $('#tiles_container').append(render);
         }
 
