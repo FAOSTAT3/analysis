@@ -34,18 +34,19 @@ define({
     'ag_soils': 'Sols agricoles',
     'charts': 'Graphiques',
     'tables': 'Tables',
-    'emissions': 'Emissions (Gg CO2Eq)',
+    'emissions': 'Emissions (Gg CO2eq)',
     'emissions_activity': 'Emissions Activité',
     'emissions_factor': 'Implicite Facteur d\'émission (unités)',
     'data_not_available': 'Données Non Disponibles',
     'faostat': 'FAOSTAT',
     'nc': 'Communication Nationale',
-    'difference': 'Différence (NC - FAOSTAT)',
-    'norm_difference': 'Différence Normalisée (NC - FAOSTAT)',
+    'difference': 'Différence (Communication Nationale - FAOSTAT)',
+    'norm_difference': 'Différence Normalisée (Communication Nationale - FAOSTAT)',
     'code': 'Code',
     'category': 'Catégorie',
     'agriculture': 'Agriculture',
     'direct_soil_emissions': 'Émissions directes des sols',
     'pasture_paddock_maure': 'Fumier déposé sur des pâturages/parcours/parcelles',
-    'indirect_emissions': 'Émissions indirectes'
+    'indirect_emissions': 'Émissions indirectes',
+    'co2eq': '(Gg CO2eq)'
 });

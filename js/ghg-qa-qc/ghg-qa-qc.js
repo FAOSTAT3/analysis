@@ -233,13 +233,13 @@ define(['jquery',
 
         /* Load and render the template. */
         var view = {
-            'gt_label': translate.gt,
-            'ge_label': translate.ge,
-            'gm_label': translate.gm,
+            'gt_label': translate.gt + ' ' + translate.co2eq,
+            'ge_label': translate.ge + ' ' + translate.co2eq,
+            'gm_label': translate.gm + ' ' + translate.co2eq,
             'gr_label': translate.gr,
-            'ag_soils_label': translate.ag_soils,
-            'gb_label': translate.gb,
-            'gh_label': translate.gh
+            'ag_soils_label': translate.ag_soils + ' ' + translate.co2eq,
+            'gb_label': translate.gb + ' ' + translate.co2eq,
+            'gh_label': translate.gh + ' ' + translate.co2eq
         };
         var template = $(templates).filter('#gt_charts_table').html();
         var render = Mustache.render(template, view);
@@ -253,13 +253,13 @@ define(['jquery',
 
         /* Configuration for charts. */
         var charts_config = [
-            {item: '1711', element: '7231', gunf: '4', render: 'GT_HOME_gt_1711_7231_TOTAL_4', width: 925},
-            {item: '5058', element: '7231', gunf: '4.A', render: 'GT_HOME_ge_5058_7231_TOTAL_4.A', width: 455},
-            {item: '5059', element: '7231', gunf: '4.B', render: 'GT_HOME_gm_5059_7231_TOTAL_4.B', width: 455},
-            {item: '5060', element: '7231', gunf: '4.C', render: 'GT_HOME_gr_5060_7231_TOTAL_4.C', width: 455},
-            {item: '1709', element: '7231', gunf: '4.D', render: 'GT_HOME_gm_1709_7231_TOTAL_4.D', width: 455},
-            {item: '5067', element: '7231', gunf: '4.E', render: 'GT_HOME_gh_5067_7231_TOTAL_4.E', width: 455},
-            {item: '5066', element: '7231', gunf: '4.F', render: 'GT_HOME_gb_5066_7231_TOTAL_4.F', width: 455}
+            {item: '1711', element: '7231', gunf: '4', render: 'GT_HOME_gt_1711_7231_TOTAL_4', width: 925, height: 250},
+            {item: '5058', element: '7231', gunf: '4.A', render: 'GT_HOME_ge_5058_7231_TOTAL_4.A', width: 455, height: 250},
+            {item: '5059', element: '7231', gunf: '4.B', render: 'GT_HOME_gm_5059_7231_TOTAL_4.B', width: 455, height: 250},
+            {item: '5060', element: '7231', gunf: '4.C', render: 'GT_HOME_gr_5060_7231_TOTAL_4.C', width: 455, height: 250},
+            {item: '1709', element: '7231', gunf: '4.D', render: 'GT_HOME_gm_1709_7231_TOTAL_4.D', width: 455, height: 250},
+            {item: '5067', element: '7231', gunf: '4.E', render: 'GT_HOME_gh_5067_7231_TOTAL_4.E', width: 455, height: 250},
+            {item: '5066', element: '7231', gunf: '4.F', render: 'GT_HOME_gb_5066_7231_TOTAL_4.F', width: 455, height: 250}
         ];
 
         /* Create charts. */
@@ -311,7 +311,7 @@ define(['jquery',
             series_definition.push(faostat);
             if (gunf_code != null)
                 series_definition.push(unfccc);
-            this.createChart(charts_config[i].render, '', series_definition, false, this.CONFIG.default_colors, charts_config[i].width);
+            this.createChart(charts_config[i].render, '', series_definition, false, this.CONFIG.default_colors, charts_config[i].width, charts_config[i].height);
 
         }
 
@@ -1088,7 +1088,7 @@ define(['jquery',
     };
 
     /* Charts template. */
-    GHG_QA_QC.prototype.createChart = function(chart_id, title, series, add_user_data, colors, width) {
+    GHG_QA_QC.prototype.createChart = function(chart_id, title, series, add_user_data, colors, width, height) {
         var _this = this;
         var p = chart_template;
         var custom_p = {
@@ -1120,6 +1120,8 @@ define(['jquery',
         }
         if (width != null)
             custom_p.chart.width = width;
+        if (height != null)
+            custom_p.chart.height = height;
         if (chart_id.indexOf('_TOTAL_') > -1 && !(chart_id.indexOf('GT_HOME_') > -1))
             custom_p.chart.width = 835;
         p = $.extend(true, {}, p, custom_p);
