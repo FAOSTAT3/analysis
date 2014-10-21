@@ -14,7 +14,6 @@ define(['jquery',
             lang: 'E',
             url_analysis_home: 'http://168.202.28.57:8080/faostat-gateway/go/to/analysis/Q/QC/',
             url_images: '/faostat-ghg/modules/tiled-analysis/images/'
-//            url_images: '/tiled-analysis/images/'
         };
 
     }
@@ -93,8 +92,6 @@ define(['jquery',
             var view = {};
             var template = null;
             var render = null;
-
-            console.debug(child_1.img);
 
             /* Render the template. */
             var view = {

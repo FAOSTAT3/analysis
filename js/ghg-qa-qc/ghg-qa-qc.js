@@ -653,6 +653,8 @@ define(['jquery',
                     "AND D.ItemCode = I.ItemCode " +
                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
             };
+            if (query_config[z].item == '5057')
+                console.debug(sql.query);
             var data = {};
             data.datasource = 'faostat';
             data.thousandSeparator = ',';
@@ -1246,8 +1248,6 @@ define(['jquery',
             var datas = [];
             for (i = 0 ; i < series.chart.series.length ; i++)
                 datas.push(series.chart.series[i].data)
-//            if (item == '1711')
-//                console.debug(datas.length);
 
             for (var j = 0 ; j < datas.length ; j++) {
                 for (i = 0; i < datas[j].length; i++) {
@@ -1255,15 +1255,11 @@ define(['jquery',
                         max = datas[j][i].y;
                     if (datas[j][i].y < min)
                         min = datas[j][i].y;
-//                    if (item == '1711')
-//                        console.debug(min + ' | ' + max + ' | ' + );
                 }
             }
 
             var interval = parseInt((max - min) / 5);
             var order = 1 + Math.floor(Math.log(interval) / Math.LN10);
-//            if (item == '1711')
-//                console.debug(min + ' | ' + max + ' | ' + interval);
             series.chart.yAxis[0].options.tickInterval = Math.pow(10,order);
 
             /* Make it scatter for UNFCCC. */
