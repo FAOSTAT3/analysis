@@ -1137,7 +1137,7 @@ define(['jquery',
                 s += value;
             }
             return s;
-        }
+        };
 
     };
 
@@ -1205,7 +1205,11 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.prepare_chart_data = function (series, db_data, datasource, domain_code, item, element) {
+
         var data = [];
+        var max = Number.MIN_VALUE;
+        var min = Number.MAX_VALUE;
+
         switch (datasource) {
             case 'faostat':
                 for (var i = db_data.length - 1 ; i >= 0 ; i--) {
@@ -1237,6 +1241,30 @@ define(['jquery',
 
             /* Add data to the chart. */
             series.setData(data);
+
+            /* Re-set the tick interval. */
+            var datas = [];
+            for (i = 0 ; i < series.chart.series.length ; i++)
+                datas.push(series.chart.series[i].data)
+//            if (item == '1711')
+//                console.debug(datas.length);
+
+            for (var j = 0 ; j < datas.length ; j++) {
+                for (i = 0; i < datas[j].length; i++) {
+                    if (datas[j][i].y > max)
+                        max = datas[j][i].y;
+                    if (datas[j][i].y < min)
+                        min = datas[j][i].y;
+//                    if (item == '1711')
+//                        console.debug(min + ' | ' + max + ' | ' + );
+                }
+            }
+
+            var interval = parseInt((max - min) / 5);
+            var order = 1 + Math.floor(Math.log(interval) / Math.LN10);
+//            if (item == '1711')
+//                console.debug(min + ' | ' + max + ' | ' + interval);
+            series.chart.yAxis[0].options.tickInterval = Math.pow(10,order);
 
             /* Make it scatter for UNFCCC. */
             if (series.name == 'NC') {
