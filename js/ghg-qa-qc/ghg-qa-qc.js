@@ -177,26 +177,6 @@ define(['jquery',
             $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
             $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '3');
 
-        } else {
-
-//            /* Add an empty row. */
-//            html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="2">PIPPO</td></tr>';
-//            console.debug(html);
-//            $('#' + domain_code + '__charts_content table tr:nth-child(2)').before(html);
-//
-//            /* Add titles for the 'second' table. */
-//            html = '';
-//            html += '<tr>';
-//            html += '<th>' + translate.item + '</th>';
-//            html += '<th>' + translate.emissions + '</th>';
-//            html += '</tr>';
-//            $('#' + domain_code + '__charts_content table tr:nth-child(3)').before(html);
-//
-//            /* Fix the title for the 'first' table. */
-//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
-//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
-//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '3');
-
         }
 
     };
