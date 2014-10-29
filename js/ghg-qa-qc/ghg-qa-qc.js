@@ -280,7 +280,7 @@ define(['jquery',
 
             /* UNFCCC chart definition. */
             var unfccc = {
-                name: 'NC',
+                name: translate.nc,
                 domain: 'GT',
                 country: this.CONFIG.country_code,
                 item: '4',
@@ -1006,7 +1006,7 @@ define(['jquery',
 
             /* UNFCCC chart definition. */
             var unfccc = {
-                name: 'NC',
+                name: translate.nc,
                 domain: 'GT',
                 country: this.CONFIG.country_code,
                 item: '4',
@@ -1263,7 +1263,7 @@ define(['jquery',
             series.chart.yAxis[0].options.tickInterval = Math.pow(10,order);
 
             /* Make it scatter for UNFCCC. */
-            if (series.name == 'NC') {
+            if (series.name == translate.nc) {
                 series.update({
                     marker: {
                         enabled: true
