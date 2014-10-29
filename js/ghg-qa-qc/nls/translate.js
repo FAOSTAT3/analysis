@@ -13,7 +13,7 @@ define({
         'ghg_indicators': 'Indicators',
         'ghg_data': 'Georeferenced Data',
         'please_select': 'Please Select...',
-        'verification': 'Comparison',
+        'verification': 'Verification',
         'qa_qc': 'QA/QC',
         'gt': 'Agriculture Total',
         'ge': 'Enteric Fermentation',

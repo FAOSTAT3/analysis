@@ -154,6 +154,53 @@ define(['jquery',
 
     };
 
+    GHG_QA_QC.prototype.separate_total_charts = function(domain_code) {
+
+        if (domain_code != 'agsoils') {
+
+            /* Add an empty row. */
+            var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="4">&nbsp;</td></tr>';
+            $('#' + domain_code + '__charts_content table tr:nth-child(2)').before(html);
+
+            /* Add titles for the 'second' table. */
+            html = '';
+            html += '<tr>';
+            html += '<th>' + translate.item + '</th>';
+            html += '<th>' + translate.emissions + '</th>';
+            html += '<th>' + translate.emissions_activity + '</th>';
+            html += '<th>' + translate.emissions_factor + '</th>';
+            html += '</tr>';
+            $('#' + domain_code + '__charts_content table tr:nth-child(3)').before(html);
+
+            /* Fix the title for the 'first' table. */
+            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
+            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
+            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '3');
+
+        } else {
+
+//            /* Add an empty row. */
+//            html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="2">PIPPO</td></tr>';
+//            console.debug(html);
+//            $('#' + domain_code + '__charts_content table tr:nth-child(2)').before(html);
+//
+//            /* Add titles for the 'second' table. */
+//            html = '';
+//            html += '<tr>';
+//            html += '<th>' + translate.item + '</th>';
+//            html += '<th>' + translate.emissions + '</th>';
+//            html += '</tr>';
+//            $('#' + domain_code + '__charts_content table tr:nth-child(3)').before(html);
+//
+//            /* Fix the title for the 'first' table. */
+//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
+//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
+//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '3');
+
+        }
+
+    };
+
     GHG_QA_QC.prototype.create_charts_and_tables_tabs = function(id, domain_code) {
         var view = {
             'charts_label': translate.charts,
@@ -171,6 +218,7 @@ define(['jquery',
         var render = Mustache.render(template, view);
         $('#' + id).html(render);
         this.read_charts_table_configuration(domain_code);
+
     };
 
     GHG_QA_QC.prototype.read_charts_table_configuration = function(domain_code) {
@@ -224,9 +272,9 @@ define(['jquery',
 
     GHG_QA_QC.prototype.process_charts_table_configuration = function(domain_code, config, items) {
         if (domain_code == 'gt')
-            this.process_charts_table_configuration_gt(domain_code, config, items)
+            this.process_charts_table_configuration_gt(domain_code, config, items);
         else
-            this.process_charts_table_configuration_standard(domain_code, config, items)
+            this.process_charts_table_configuration_standard(domain_code, config, items);
     };
 
     GHG_QA_QC.prototype.process_charts_table_configuration_gt = function(domain_code, config, items) {
@@ -389,13 +437,31 @@ define(['jquery',
         var render = Mustache.render(template, view);
         $('#' + domain_code + '__charts_content').html(render);
 
+        /* Separate totals from the rest of the table. */
+        if (domain_code != 'gt')
+            this.separate_total_charts(domain_code);
+
         /* Remove extra columns for Agricultural Soils. */
         if (domain_code == 'agsoils') {
+
             $('#agsoils__charts_content table td:last-child').remove();
             $('#agsoils__charts_content table td:last-child').remove();
             $('#agsoils__charts_content table th:last-child').remove();
             $('#agsoils__charts_content table th:last-child').remove();
             $('#agsoils__charts_content table th:first-child').css('width', '135px');
+
+            /* Add an empty row. */
+            var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="2">&nbsp;</td></tr>';
+            $('#agsoils__charts_content table tr:nth-child(2)').before(html);
+
+            /* Add titles for the 'second' table. */
+            html = '';
+            html += '<tr>';
+            html += '<th>' + translate.item + '</th>';
+            html += '<th>' + translate.emissions + '</th>';
+            html += '</tr>';
+            $('#agsoils__charts_content table tr:nth-child(3)').before(html);
+
         } else {
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
@@ -653,8 +719,6 @@ define(['jquery',
                     "AND D.ItemCode = I.ItemCode " +
                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
             };
-            if (query_config[z].item == '5057')
-                console.debug(sql.query);
             var data = {};
             data.datasource = 'faostat';
             data.thousandSeparator = ',';

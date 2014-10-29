@@ -12,7 +12,7 @@ define({
     'ghg_indicators': 'Indicadores',
     'ghg_data': 'Datos Georreferenciados',
     'please_select': 'Por Favor Seleccione...',
-    'verification': 'Comparison',
+    'verification': 'Verificacion',
     'qa_qc': 'SG/CQ',
     'gt': 'Agricultura total',
     'ge': 'Fermentación entérica',
