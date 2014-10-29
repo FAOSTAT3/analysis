@@ -34,7 +34,7 @@ define({
     'ag_soils': 'Suelos agrícolas',
     'charts': 'Gráficos',
     'tables': 'Tablas',
-    'emissions': 'Emissions (Gg CO2eq)',
+    'emissions': 'Emisiones (Gg CO2eq)',
     'emissions_activity': 'Dato de actividad',
     'emissions_factor': 'Factor de emisión implícito (unidades)',
     'data_not_available': 'Datos No Disponible',
@@ -48,5 +48,5 @@ define({
     'direct_soil_emissions': 'Emisiones directas del suelo',
     'pasture_paddock_maure': 'Estiércol depositado en pastura/prado/pradera',
     'indirect_emissions': 'Emisiones indirectas',
-    'co2eq': '(Gg CO2eq)'
+    'co2eq': '(Emisiones Gg CO2eq)'
 });
