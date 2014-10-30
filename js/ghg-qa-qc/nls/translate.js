@@ -49,7 +49,8 @@ define({
         'direct_soil_emissions': 'Direct Soil Emissions',
         'pasture_paddock_maure': 'Pasture, Range and Paddock Manure',
         'indirect_emissions': 'Indirect Emissions',
-        'co2eq': '(Emissions Gg CO2eq)'
+        'co2eq': '(Emissions Gg CO2eq)',
+        'table_selector_label': 'Table Selector'
     },
     'F' : true,
     'S' : true

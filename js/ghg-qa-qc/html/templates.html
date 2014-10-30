@@ -200,6 +200,25 @@
                 </div>
                 <div class='tab-pane' id='{{href_tables}}'>
                     <div class='row' style='margin-top: 16px;'>
+                        <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
+                            <h1 style='margin-top: 5px;'>
+                                {{table_selector_label}}
+                            </h1>
+                        </div>
+                        <div class='col-xs-12 col-sm-10 col-md-10 col-lg-10'>
+                            <select id='{{table_selector_id}}' class='chosen' style='width: 100%;'>
+                                <option>{{emissions}}</option>
+                                <option>{{activity_data}}</option>
+                                <option>{{implied_emissions_factor}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12' style='margin-bottom: -22px;'>
+                            <hr style='width: 100%;'>
+                        </div>
+                    </div>
+                    <div class='row' style='margin-top: 0px;'>
                         <div id='{{id_tables_content}}'>
                             <div id='{{id_tables_content_faostat}}'>
 

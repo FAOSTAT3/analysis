@@ -182,6 +182,8 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.create_charts_and_tables_tabs = function(id, domain_code) {
+
+        /* Load template. */
         var view = {
             'charts_label': translate.charts,
             'tables_label': translate.tables,
@@ -192,11 +194,22 @@ define(['jquery',
             'id_tables_content_difference': domain_code +'_tables_content_difference',
             'id_tables_content_norm_difference': domain_code +'_tables_content_norm_difference',
             'href_charts': domain_code + '_charts',
-            'href_tables': domain_code + '_tables'
+            'href_tables': domain_code + '_tables',
+            'table_selector_label': translate.table_selector_label,
+            'emissions': translate.emissions,
+            'activity_data': translate.emissions_activity,
+            'implied_emissions_factor': translate.emissions_factor,
+            'table_selector_id': domain_code + '_table_selector'
         };
         var template = $(templates).filter('#charts_and_tables').html();
         var render = Mustache.render(template, view);
         $('#' + id).html(render);
+
+        /* Add table type selector. */
+        $('#' + domain_code + '_table_selector').chosen();
+        $('#' + domain_code + '_table_selector_chosen').css('width', '100%');
+
+        /* Read configuration. */
         this.read_charts_table_configuration(domain_code);
 
     };
@@ -274,8 +287,8 @@ define(['jquery',
         $('#' + domain_code + '__charts_content').html(render);
 
         /* Populate tables. */
-        this.load_table_template('gt_tables_content_faostat', translate.faostat, 1990, 2012, 'gt_faostat', 'faostat');
-        this.load_table_template('gt_tables_content_nc', translate.nc, 1990, 2012, 'gt_nc', 'nc');
+        this.load_table_template('gt_tables_content_faostat', translate.faostat + ' ' + translate.co2eq, 1990, 2012, 'gt_faostat', 'faostat');
+        this.load_table_template('gt_tables_content_nc', translate.nc + ' ' + translate.co2eq, 1990, 2012, 'gt_nc', 'nc');
         this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
         this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
 
@@ -456,16 +469,16 @@ define(['jquery',
 
             /* Agriculture Total tables. */
             case 'gt':
-                this.load_table_template('gt_tables_content_faostat', translate.faostat, 1990, 2012, 'gt_faostat', 'faostat');
-                this.load_table_template('gt_tables_content_nc', translate.nc, 1990, 2012, 'gt_nc', 'nc');
+                this.load_table_template('gt_tables_content_faostat', translate.faostat + ' ' + translate.co2eq, 1990, 2012, 'gt_faostat', 'faostat');
+                this.load_table_template('gt_tables_content_nc', translate.nc + ' ' + translate.co2eq, 1990, 2012, 'gt_nc', 'nc');
                 this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
                 this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
                 break;
 
             /* Agricultural Soils tables. */
             case 'agsoils':
-                this.load_agsoils_table_template('agsoils_tables_content', translate.faostat, 1990, 2013, 'faostat');
-                this.load_agsoils_table_template('agsoils_tables_content', translate.nc, 1990, 2013, 'nc');
+                this.load_agsoils_table_template('agsoils_tables_content', translate.faostat + ' ' + translate.co2eq, 1990, 2013, 'faostat');
+                this.load_agsoils_table_template('agsoils_tables_content', translate.nc + ' ' + translate.co2eq, 1990, 2013, 'nc');
                 this.load_agsoils_table_template('agsoils_tables_content', translate.difference, 1990, 2013, 'difference');
                 this.load_agsoils_table_template('agsoils_tables_content', translate.norm_difference, 1990, 2013, 'norm_difference');
                 break;
