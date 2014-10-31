@@ -43,10 +43,14 @@ define(['jquery',
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
 
         /* Cast configuration files. */
-        selectors_configuration = $.parseJSON(selectors_configuration);
-        chart_template = $.parseJSON(chart_template);
-        items_tab_map = $.parseJSON(items_tab_map);
-        charts_configuration = $.parseJSON(charts_configuration);
+        if (typeof selectors_configuration == 'string')
+            selectors_configuration = $.parseJSON(selectors_configuration);
+        if (typeof chart_template == 'string')
+            chart_template = $.parseJSON(chart_template);
+        if (typeof items_tab_map == 'string')
+            items_tab_map = $.parseJSON(items_tab_map);
+        if (typeof charts_configuration == 'string')
+            charts_configuration = $.parseJSON(charts_configuration);
 
         /* Load GHG-QA/QC structure. */
         var view = {
