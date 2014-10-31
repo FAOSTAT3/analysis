@@ -51,5 +51,6 @@ define({
     'ghg_overview_button': 'Aller vers le module de Aperçu Regional.',
     'ghg_quality_button': 'Aller vers le module de AQ-CQ et Verification.',
     'ghg_indicators_button': 'Aller vers le module de Indicateurs.',
-    'ghg_data_button': 'Aller vers le module de Donnees Georeferencees.'
+    'ghg_data_button': 'Aller vers le module de Donnees Georeferencees.',
+    'analysis': 'Analyse'
 });

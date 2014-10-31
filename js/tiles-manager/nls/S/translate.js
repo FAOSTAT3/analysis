@@ -51,5 +51,6 @@ define({
     'ghg_overview_button': 'Ir al módulo de Panorama Regional.',
     'ghg_quality_button': 'Ir al módulo de GC-CC y Verificacion.',
     'ghg_indicators_button': 'Ir al módulo de Indicadores.',
-    'ghg_data_button': 'Ir al módulo de GDatos Georreferenciados.'
+    'ghg_data_button': 'Ir al módulo de GDatos Georreferenciados.',
+    'analysis': 'Analisis'
 });

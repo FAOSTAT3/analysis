@@ -52,7 +52,8 @@ define({
         'ghg_overview_button': 'Go to the Regional Overview module.',
         'ghg_quality_button': 'Go to the QA-QC and Verification module.',
         'ghg_indicators_button': 'Go to the Indicators module.',
-        'ghg_data_button': 'Go to the Georeferenced Data module.'
+        'ghg_data_button': 'Go to the Georeferenced Data module.',
+        'analysis': 'Analysis'
     },
     'F' : true,
     'S' : true

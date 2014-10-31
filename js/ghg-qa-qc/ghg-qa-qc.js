@@ -199,7 +199,8 @@ define(['jquery',
             'emissions': translate.emissions,
             'activity_data': translate.emissions_activity,
             'implied_emissions_factor': translate.emissions_factor,
-            'table_selector_id': domain_code + '_table_selector'
+            'table_selector_id': domain_code + '_table_selector',
+            'table_selector_container': domain_code + '_table_selector_container'
         };
         var template = $(templates).filter('#charts_and_tables').html();
         var render = Mustache.render(template, view);
@@ -208,6 +209,7 @@ define(['jquery',
         /* Add table type selector. */
         $('#' + domain_code + '_table_selector').chosen();
         $('#' + domain_code + '_table_selector_chosen').css('width', '100%');
+        $('#' + domain_code + '_table_selector_container').sticky({topSpacing:50});
 
         /* Read configuration. */
         this.read_charts_table_configuration(domain_code);

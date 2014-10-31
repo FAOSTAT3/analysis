@@ -13,8 +13,8 @@ require.config({
         F3_CHART: 'analysis/js/libs/commons/f3-chart',
         GHG_QA_QC: 'analysis/js/ghg-qa-qc/ghg-qa-qc',
         GHG_OVERVIEW: 'analysis/js//ghg-overview/ghg-overview',
-        TILESMGR: 'analysis/js/tiles-manager/tiles-manager'
-
+        TILESMGR: 'analysis/js/tiles-manager/tiles-manager',
+        'jquery.sticky': 'stickyjs/1.0/jquery.sticky'
     },
 
     shim: {
@@ -24,7 +24,8 @@ require.config({
         underscore: {
             exports: '_'
         },
-        'jquery.power.tip': ['jquery']
+        'jquery.power.tip': ['jquery'],
+        'jquery.sticky': { deps :['jquery'] }
     }
 
 });
