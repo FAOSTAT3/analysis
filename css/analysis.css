@@ -233,3 +233,6 @@ body {
   position: relative;
   transform: translate(-50%, 0);
   margin-bottom: 20px; }
+
+.col-xs-12.col-sm-4.col-md-4.col-lg-4 h1:hover {
+  color: #174C74; }

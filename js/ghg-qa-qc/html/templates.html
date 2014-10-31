@@ -201,7 +201,7 @@
                 <div class='tab-pane' id='{{href_tables}}'>
                     <div class='row' style='margin-top: 16px;'>
                         <div class='col-xs-12 col-sm-2 col-md-2 col-lg-2'>
-                            <h1 style='margin-top: 5px;'>
+                            <h1 style='margin-top: 8px;'>
                                 {{table_selector_label}}
                             </h1>
                         </div>
@@ -389,8 +389,14 @@
 
 <template id='ag_soils_table'>
     <div style='margin-bottom: -50px;'>
-        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+        <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
             <h1>{{title}}</h1>
+        </div>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+            <h1 style='text-align: right; cursor:pointer;' id='{{agsoils_export_data_id}}'>
+                <i class='fa fa-download'></i>
+                {{export_data_label}}
+            </h1>
         </div>
         <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4' style='padding-right: 0px;'>
             <div style='display: inline-block; width: 100%;'>
@@ -510,8 +516,14 @@
 
 <template id='g1_table'>
     <div style='margin-bottom: -50px;'>
-        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+        <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
             <h1>{{title}}</h1>
+        </div>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+            <h1 style='text-align: right; cursor:pointer;' id='{{export_data_id}}'>
+                <i class='fa fa-download'></i>
+                {{export_data_label}}
+            </h1>
         </div>
         <div class='col-xs-12 col-sm-3 col-md-3 col-lg-3' style='padding-right: 0;'>
             <div style='display: inline-block;'>

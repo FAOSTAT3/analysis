@@ -546,13 +546,21 @@ define(['jquery',
             'years': years,
             'inputs': inputs,
             'left_ghg_table_id': render_id + '_left_ghg_table',
-            'right_ghg_table_id': render_id + '_right_ghg_table'
+            'right_ghg_table_id': render_id + '_right_ghg_table',
+            'agsoils_export_data_id': render_id + '_export_data',
+            'export_data_label': translate.export_data_label
         };
         var template = $(templates).filter('#ag_soils_table').html();
         var render = Mustache.render(template, view);
         $('#' + render_id).append(render);
 
         this.populate_agsoils_tables(this.CONFIG.country_code, datasource);
+
+        /* Export tables. */
+        var _this = this;
+        $('#' + render_id + '_export_data').click({id: render_id}, function(e) {
+            _this.export_data(e.data.id);
+        });
 
     };
 
@@ -889,7 +897,9 @@ define(['jquery',
             _synthetic_fertilizers: translate.gy,
             _manure_applied_to_soils: translate.gu,
             _crop_residues: translate.ga,
-            _cultivation_of_histosols: translate.gv
+            _cultivation_of_histosols: translate.gv,
+            export_data_label: translate.export_data_label,
+            export_data_id: id_prefix + '_export_data'
         };
 
         /* Load the template. */
@@ -904,6 +914,54 @@ define(['jquery',
         /* Populate table. */
         this.populate_tables(this.CONFIG.country_code, datasource);
 
+        /* Export tables. */
+        $('#' + id_prefix + '_export_data').click({id: id_prefix}, function(e) {
+            _this.export_data(e.data.id);
+        });
+
+    };
+
+    GHG_QA_QC.prototype.export_data = function(table_id) {
+
+        var data = [];
+
+        var data_string = '';
+        var csv_content = '';
+
+        var headers_1 = [];
+        $('#' + table_id + '_left_table th div').each(function() {
+            headers_1.push($(this).html().trim())
+        });
+
+        var headers_2 = [];
+        $('#' + table_id + '_right_table th div').each(function() {
+            headers_2.push($(this).html().trim())
+        });
+
+        data.push(headers_1.concat(headers_2));
+
+        for (var z = 1 ; z < $('#' + table_id + '_left_table tr').length ; z++) {
+            var contents_1 = $('#' + table_id + '_left_table tr:nth-child(' + z + ') td div');
+            var contents_2 = $('#' + table_id + '_right_table tr:nth-child(' + z + ') td div');
+            var row = [];
+            for (var i = 0; i < contents_1.length; i++)
+                row.push($(contents_1[i]).html().trim());
+            for (var i = 0; i < contents_2.length; i++)
+                row.push($(contents_2[i]).html().trim().replace(',', ''));
+            data.push(row);
+        }
+
+        data.forEach(function(infoArray, index){
+            data_string = infoArray.join(',');
+            csv_content += index < infoArray.length ? data_string+ '\n' : data_string;
+        });
+
+        var a = document.createElement('a');
+        a.href = 'data:text/csv;charset=utf-8,\n' + encodeURIComponent(csv_content);
+        a.target = '_blank';
+        a.download = table_id + '_country_data.csv';
+        document.body.appendChild(a);
+        a.click();
     };
 
     GHG_QA_QC.prototype.populate_tables = function(country_code, datasource) {
@@ -1469,20 +1527,6 @@ define(['jquery',
                 }
             }
         });
-    };
-
-    GHG_QA_QC.prototype.exportData = function() {
-        var data = {};
-        var inputs = $('input[id^=country_new_data_]');
-        for (var i = 0 ; i < inputs.length ; i++)
-            data[inputs[i].id] = $(inputs[i]).val();
-        data.country_code = $('#country_selector').find(":selected").val();
-        var a = document.createElement('a');
-        a.href = 'data:application/json,' + JSON.stringify(data);
-        a.target = '_blank';
-        a.download = $('#country_selector').find(":selected").val() + '_country_data.json';
-        document.body.appendChild(a);
-        a.click();
     };
 
     GHG_QA_QC.prototype.handlefilescatter = function(e) {

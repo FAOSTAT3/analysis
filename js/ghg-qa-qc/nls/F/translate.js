@@ -48,5 +48,6 @@ define({
     'direct_soil_emissions': 'Émissions directes des sols',
     'pasture_paddock_maure': 'Fumier déposé sur des pâturages/parcours/parcelles',
     'indirect_emissions': 'Émissions indirectes',
-    'co2eq': '(Emissions Gg CO2eq)'
+    'co2eq': '(Emissions Gg CO2eq)',
+    'export_data_label': 'Exporter des Données'
 });

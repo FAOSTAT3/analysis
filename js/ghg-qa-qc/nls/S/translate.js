@@ -48,5 +48,6 @@ define({
     'direct_soil_emissions': 'Emisiones directas del suelo',
     'pasture_paddock_maure': 'Estiércol depositado en pastura/prado/pradera',
     'indirect_emissions': 'Emisiones indirectas',
-    'co2eq': '(Emisiones Gg CO2eq)'
+    'co2eq': '(Emisiones Gg CO2eq)',
+    'export_data_label': 'Exportar Datos'
 });
