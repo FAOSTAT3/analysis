@@ -86,7 +86,11 @@ define(['jquery',
         $('#' + selector_id).append('<option value="null">' + translate.please_select + '</option>');
         for (var i = 0; i < selectors_configuration[selector_code].length; i++) {
             target = selectors_configuration[selector_code][i].target;
-            var s = '<option value="';
+            var s = null;
+            if (i == selectors_configuration[selector_code].length - 1)
+                s += '<option disabled value="';
+            else
+                s += '<option value="';
             s += selectors_configuration[selector_code][i].code;
             s += '">';
             s += selectors_configuration[selector_code][i].label[this.CONFIG.lang];
@@ -283,7 +287,7 @@ define(['jquery',
             'gt_label': translate.gt + ' ' + translate.co2eq,
             'ge_label': translate.ge + ' ' + translate.co2eq,
             'gm_label': translate.gm + ' ' + translate.co2eq,
-            'gr_label': translate.gr,
+            'gr_label': translate.gr + ' ' + translate.co2eq,
             'ag_soils_label': translate.ag_soils + ' ' + translate.co2eq,
             'gb_label': translate.gb + ' ' + translate.co2eq,
             'gh_label': translate.gh + ' ' + translate.co2eq
@@ -962,6 +966,7 @@ define(['jquery',
         a.download = table_id + '_country_data.csv';
         document.body.appendChild(a);
         a.click();
+
     };
 
     GHG_QA_QC.prototype.populate_tables = function(country_code, datasource) {
