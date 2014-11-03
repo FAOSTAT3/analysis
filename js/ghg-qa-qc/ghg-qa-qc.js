@@ -1166,7 +1166,7 @@ define(['jquery',
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/' + domain_code + '/' + listbox + '/1/' + this.CONFIG.lang,
+            url: this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/' + listbox + '/1/' + this.CONFIG.lang,
             success: function (response) {
                 var json = response;
                 if (typeof json == 'string')
@@ -1238,7 +1238,14 @@ define(['jquery',
                 type: 'line',
                 renderTo: chart_id
             },
-            colors: colors
+            colors: colors,
+            yAxis: {
+                labels: {
+                    formatter: function() {
+                        return parseFloat(this.value).toFixed(0)
+                    }
+                }
+            }
         };
         custom_p.series = [];
         for (var i = 0 ; i < series.length ; i++) {
