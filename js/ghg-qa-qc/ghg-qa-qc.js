@@ -392,6 +392,7 @@ define(['jquery',
             tmp.item = items[i][1];
             tmp['data_not_available'] = translate.data_not_available;
             tmp['tab_link'] = items[i][0] + '_anchor';
+            tmp['link_container'] = items[i][0] + '_container';
             if ($.inArray(items[i][0] + '_anchor', links) < 0) {
                 links.push(items[i][0] + '_anchor');
                 add_to_template = true;
@@ -447,7 +448,6 @@ define(['jquery',
         /* Remove extra columns for Agricultural Soils. */
         if (domain_code == 'agsoils') {
 
-//            $('#agsoils__charts_content table td:last-child').remove();
             $('#agsoils__charts_content table td:last-child').remove();
             $('#agsoils__charts_content table th:last-child').remove();
             $('#agsoils__charts_content table th:last-child').remove();
@@ -467,9 +467,21 @@ define(['jquery',
 
         } else {
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
-//            $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td').attr('colspan', 3);
         }
+
+        /* Indent Agricultural Soils. */
+        $('#5056_container').css('margin-left', '16px');
+        $('#1755_container').css('margin-left', '16px');
+        $('#5057_container').css('margin-left', '16px');
+        $('#5061_container').css('margin-left', '32px');
+        $('#5062_container').css('margin-left', '32px');
+        $('#5064_container').css('margin-left', '32px');
+        $('#6759_container').css('margin-left', '32px');
+        $('#5061_container').css('font-style', 'italic');
+        $('#5062_container').css('font-style', 'italic');
+        $('#5064_container').css('font-style', 'italic');
+        $('#6759_container').css('font-style', 'italic');
 
         /* Populate charts table. */
         this.populate_charts_table(td_ids);
