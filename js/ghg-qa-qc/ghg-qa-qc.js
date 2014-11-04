@@ -450,7 +450,6 @@ define(['jquery',
 
             $('#agsoils__charts_content table td:last-child').remove();
             $('#agsoils__charts_content table th:last-child').remove();
-            $('#agsoils__charts_content table th:last-child').remove();
             $('#agsoils__charts_content table th:first-child').css('width', '135px');
 
             /* Add an empty row. */
