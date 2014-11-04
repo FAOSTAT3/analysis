@@ -167,7 +167,7 @@ define(['jquery',
         if (domain_code != 'agsoils') {
 
             /* Add an empty row. */
-            var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="4">&nbsp;</td></tr>';
+            var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
             $('#' + domain_code + '__charts_content table tr:nth-child(2)').before(html);
 
             /* Add titles for the 'second' table. */
@@ -176,14 +176,14 @@ define(['jquery',
             html += '<th>' + translate.item + '</th>';
             html += '<th>' + translate.emissions + '</th>';
             html += '<th>' + translate.emissions_activity + '</th>';
-            html += '<th>' + translate.emissions_factor + '</th>';
+//            html += '<th>' + translate.emissions_factor + '</th>';
             html += '</tr>';
             $('#' + domain_code + '__charts_content table tr:nth-child(3)').before(html);
 
             /* Fix the title for the 'first' table. */
             $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
-            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
-            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '3');
+//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
+            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '2');
 
         }
 
@@ -447,7 +447,7 @@ define(['jquery',
         /* Remove extra columns for Agricultural Soils. */
         if (domain_code == 'agsoils') {
 
-            $('#agsoils__charts_content table td:last-child').remove();
+//            $('#agsoils__charts_content table td:last-child').remove();
             $('#agsoils__charts_content table td:last-child').remove();
             $('#agsoils__charts_content table th:last-child').remove();
             $('#agsoils__charts_content table th:last-child').remove();
@@ -467,7 +467,7 @@ define(['jquery',
 
         } else {
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
-            $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
+//            $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td').attr('colspan', 3);
         }
 

@@ -25,8 +25,8 @@
     },
     "gt": {
         "items_blacklist": ["5061", "5062", "5063", "5064", "6759",
-            "1711", "5058", "5059", "5060", "5067",
-            "5066", "5068"],
+                            "1711", "5058", "5059", "5060", "5067",
+                            "5066", "5068"],
         "elements": ["7231"],
         "totals": [
             {
@@ -47,10 +47,10 @@
             },
             {
                 "item": {
-                    "code": "1755",
+                    "code": "5059",
                     "label": "gm"
                 },
-                "element_codes": ["72356"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.B"
             },
             {
@@ -90,7 +90,7 @@
     },
     "agsoils": {
         "items_blacklist": [],
-        "elements": [],
+        "elements": ["7231", "7243"],
         "totals": [
             {
                 "item": {
@@ -160,7 +160,7 @@
     },
     "ge": {
         "items_blacklist": [],
-        "elements": ["7231", "5111"],
+        "elements": ["7231", "7244"],
         "totals": [
             {
                 "item": {
@@ -174,21 +174,21 @@
     },
     "gm": {
         "items_blacklist": [],
-        "elements": ["72356", "5111"],
+        "elements": ["7231", "7224"],
         "totals": [
             {
                 "item": {
-                    "code": "1755",
+                    "code": "5059",
                     "label": "gm"
                 },
-                "element_codes": ["72356"],
+                "element_codes": ["7231"],
                 "gunf_code": "4.B"
             }
         ]
     },
     "gr": {
         "items_blacklist": ["27"],
-        "elements": ["7231", "5312"],
+        "elements": ["7231", "7224"],
         "totals": [
             {
                 "item": {
@@ -202,7 +202,7 @@
     },
     "gb": {
         "items_blacklist": [],
-        "elements": ["7231", "7245"],
+        "elements": ["7231", "7224"],
         "totals": [
             {
                 "item": {

@@ -1,7 +1,7 @@
 {
     "chart": {
         "height": 250,
-        "width": 275,
+        "width": 410,
         "spacingBottom": 5,
         "alignTicks": false,
         "backgroundColor": "#FFFFFF",
