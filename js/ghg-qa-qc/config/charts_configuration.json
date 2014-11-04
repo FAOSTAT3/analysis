@@ -18,6 +18,7 @@
         "1711": "green",
         "5058": "red",
         "5059": "maroon",
+        "1755": "maroon",
         "5060": "orange",
         "1709": "blue",
         "5067": "green",
@@ -25,9 +26,10 @@
     },
     "gt": {
         "items_blacklist": ["5061", "5062", "5063", "5064", "6759",
-            "1711", "5058", "5059", "5060", "5067",
-            "5066", "5068"],
+                            "1711", "5058", "5059", "5060", "5067",
+                            "5066", "5068"],
         "elements": ["7231"],
+        "elements_lists": ["7231"],
         "totals": [
             {
                 "item": {
@@ -35,6 +37,7 @@
                     "label": "gt"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4"
             },
             {
@@ -43,6 +46,7 @@
                     "label": "ge"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.A"
             },
             {
@@ -51,6 +55,7 @@
                     "label": "gm"
                 },
                 "element_codes": ["72356"],
+                "element_lists_codes": ["72356"],
                 "gunf_code": "4.B"
             },
             {
@@ -59,6 +64,7 @@
                     "label": "gr"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.C"
             },
             {
@@ -67,6 +73,7 @@
                     "label": "ag_soils"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.D"
             },
             {
@@ -75,6 +82,7 @@
                     "label": "gh"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.E"
             },
             {
@@ -83,6 +91,7 @@
                     "label": "gb"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.F"
             }
 
@@ -91,6 +100,7 @@
     "agsoils": {
         "items_blacklist": [],
         "elements": [],
+        "elements_lists": [],
         "totals": [
             {
                 "item": {
@@ -98,6 +108,7 @@
                     "label": "ag_soils"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.D"
             },
             {
@@ -106,6 +117,7 @@
                     "label": "direct_soil_emissions"
                 },
                 "element_codes": ["7235"],
+                "element_lists_codes": ["7235"],
                 "gunf_code": "4.D.1"
             },
             {
@@ -114,6 +126,7 @@
                     "label": "gy"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.D.1.1"
             },
             {
@@ -122,6 +135,7 @@
                     "label": "gu"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.D.1.2"
             },
             {
@@ -130,6 +144,7 @@
                     "label": "ga"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.D.1.4"
             },
             {
@@ -138,6 +153,7 @@
                     "label": "gv"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.D.1.5"
             },
             {
@@ -146,6 +162,7 @@
                     "label": "pasture_paddock_maure"
                 },
                 "element_codes": ["7235"],
+                "element_lists_codes": ["7235"],
                 "gunf_code": "4.D.2"
             },
             {
@@ -154,6 +171,7 @@
                     "label": "indirect_emissions"
                 },
                 "element_codes": ["7237"],
+                "element_lists_codes": ["7237"],
                 "gunf_code": "4.D.3"
             }
         ]
@@ -161,6 +179,7 @@
     "ge": {
         "items_blacklist": [],
         "elements": ["7231", "5111"],
+        "elements_lists": ["7231", "5111"],
         "totals": [
             {
                 "item": {
@@ -168,6 +187,7 @@
                     "label": "ge"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.A"
             }
         ]
@@ -175,6 +195,7 @@
     "gm": {
         "items_blacklist": [],
         "elements": ["72356", "5111"],
+        "elements_lists": ["72356", "5111"],
         "totals": [
             {
                 "item": {
@@ -182,6 +203,7 @@
                     "label": "gm"
                 },
                 "element_codes": ["72356"],
+                "element_lists_codes": ["72356"],
                 "gunf_code": "4.B"
             }
         ]
@@ -189,6 +211,7 @@
     "gr": {
         "items_blacklist": ["27"],
         "elements": ["7231", "5312"],
+        "elements_lists": ["7231", "5312"],
         "totals": [
             {
                 "item": {
@@ -196,6 +219,7 @@
                     "label": "gr"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.C"
             }
         ]
@@ -203,6 +227,7 @@
     "gb": {
         "items_blacklist": [],
         "elements": ["7231", "7245"],
+        "elements_lists": ["7231", "7245"],
         "totals": [
             {
                 "item": {
@@ -210,6 +235,7 @@
                     "label": "gb"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.F"
             }
         ]
@@ -217,6 +243,7 @@
     "gh": {
         "items_blacklist": [],
         "elements": ["7231", "7224"],
+        "elements_lists": ["7231", "7224"],
         "totals": [
             {
                 "item": {
@@ -224,6 +251,7 @@
                     "label": "gh"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": "4.E"
             }
         ]
@@ -231,6 +259,7 @@
     "gl": {
         "items_blacklist": ["5065", "5070", "6794", "5069"],
         "elements": ["7217"],
+        "elements_lists": ["7217"],
         "totals": [
             {
                 "item": {
@@ -238,6 +267,7 @@
                     "label": "gl"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": null
             },
             {
@@ -246,6 +276,7 @@
                     "label": "gf"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": null
             },
             {
@@ -254,6 +285,7 @@
                     "label": "gc"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": null
             },
             {
@@ -262,6 +294,7 @@
                     "label": "gg"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": null
             },
             {
@@ -270,6 +303,7 @@
                     "label": "gi"
                 },
                 "element_codes": ["7231"],
+                "element_lists_codes": ["7231"],
                 "gunf_code": null
             }
         ]
@@ -277,6 +311,7 @@
     "gf": {
         "items_blacklist": [],
         "elements": ["7217"],
+        "elements_lists": ["7217"],
         "totals": [
             {
                 "item": {
@@ -284,6 +319,7 @@
                     "label": "gf"
                 },
                 "element_codes": ["7217"],
+                "element_lists_codes": ["7217"],
                 "gunf_code": null
             }
         ]
@@ -291,6 +327,7 @@
     "gc": {
         "items_blacklist": [],
         "elements": ["7217"],
+        "elements_lists": ["7217"],
         "totals": [
             {
                 "item": {
@@ -298,6 +335,7 @@
                     "label": "gc"
                 },
                 "element_codes": ["7217"],
+                "element_lists_codes": ["7217"],
                 "gunf_code": null
             }
         ]
@@ -305,6 +343,7 @@
     "gg": {
         "items_blacklist": [],
         "elements": ["7217"],
+        "elements_lists": ["7217"],
         "totals": [
             {
                 "item": {
@@ -312,6 +351,7 @@
                     "label": "gg"
                 },
                 "element_codes": ["7217"],
+                "element_lists_codes": ["7217"],
                 "gunf_code": null
             }
         ]
@@ -319,6 +359,7 @@
     "gi": {
         "items_blacklist": [],
         "elements": ["7217"],
+        "elements_lists": ["7217"],
         "totals": [
             {
                 "item": {
@@ -326,6 +367,7 @@
                     "label": "gi"
                 },
                 "element_codes": ["7217"],
+                "element_lists_codes": ["7217"],
                 "gunf_code": null
             }
         ]

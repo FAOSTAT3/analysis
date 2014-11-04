@@ -306,7 +306,7 @@ define(['jquery',
         var charts_config = [
             {item: '1711', element: '7231', gunf: '4', render: 'GT_HOME_gt_1711_7231_TOTAL_4', width: 925, height: 250},
             {item: '5058', element: '7231', gunf: '4.A', render: 'GT_HOME_ge_5058_7231_TOTAL_4.A', width: 455, height: 250},
-            {item: '5059', element: '7231', gunf: '4.B', render: 'GT_HOME_gm_5059_7231_TOTAL_4.B', width: 455, height: 250},
+            {item: '1755', element: '72356', gunf: '4.B', render: 'GT_HOME_gm_5059_7231_TOTAL_4.B', width: 455, height: 250},
             {item: '5060', element: '7231', gunf: '4.C', render: 'GT_HOME_gr_5060_7231_TOTAL_4.C', width: 455, height: 250},
             {item: '1709', element: '7231', gunf: '4.D', render: 'GT_HOME_gm_1709_7231_TOTAL_4.D', width: 455, height: 250},
             {item: '5067', element: '7231', gunf: '4.E', render: 'GT_HOME_gh_5067_7231_TOTAL_4.E', width: 455, height: 250},
@@ -718,17 +718,17 @@ define(['jquery',
         for (var z = 0 ; z < query_config.length ; z++) {
             var sql = {
                 'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode " +
-                    "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                    "WHERE D.AreaCode = '" + country_code + "' " +
-                    "AND D.ElementCode IN (" + query_config[z].element + ") " +
-                    "AND D.ItemCode IN (" + query_config[z].item + ") " +
-                    "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                    "2010, 2011, 2012) " +
-                    "AND D.AreaCode = A.AreaCode " +
-                    "AND D.ElementListCode = E.ElementListCode " +
-                    "AND D.ItemCode = I.ItemCode " +
-                    "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
+                         "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                         "WHERE D.AreaCode = '" + country_code + "' " +
+                         "AND D.ElementCode IN (" + query_config[z].element + ") " +
+                         "AND D.ItemCode IN (" + query_config[z].item + ") " +
+                         "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                         "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                         "2010, 2011, 2012) " +
+                         "AND D.AreaCode = A.AreaCode " +
+                         "AND D.ElementListCode = E.ElementListCode " +
+                         "AND D.ItemCode = I.ItemCode " +
+                         "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
             };
             var data = {};
             data.datasource = 'faostat';
@@ -1285,22 +1285,24 @@ define(['jquery',
 
         if (gunf_code == '4.D.2')
             db_domain_code = 'gp';
+        if (item == '1755' && element == '72356')
+            db_domain_code = 'gm';
 
         switch (datasource) {
             case 'faostat':
                 sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                    "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                    "WHERE D.DomainCode = '" + db_domain_code + "' AND D.AreaCode = '" + country + "' " +
-                    "AND D.ElementListCode = '" + element + "' " +
-                    "AND D.ItemCode IN ('" + item + "') " +
-                    "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                   "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                   "2010, 2011, 2012) " +
-                    "AND D.AreaCode = A.AreaCode " +
-                    "AND D.ElementListCode = E.ElementListCode " +
-                    "AND D.ItemCode = I.ItemCode " +
-                    "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                    "ORDER BY D.Year DESC ";
+                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                               "WHERE D.DomainCode = '" + db_domain_code + "' AND D.AreaCode = '" + country + "' " +
+                               "AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
+                               "AND D.ItemCode IN ('" + item + "') " +
+                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                                              "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                                              "2010, 2011, 2012) " +
+                               "AND D.AreaCode = A.AreaCode " +
+                               "AND D.ElementListCode = E.ElementListCode " +
+                               "AND D.ItemCode = I.ItemCode " +
+                               "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                               "ORDER BY D.Year DESC ";
                 break;
             case 'nc':
                 sql['query'] = "SELECT year, GUNFValue " +
@@ -1313,6 +1315,9 @@ define(['jquery',
                                "ORDER BY year DESC ";
                 break;
         }
+
+        if (item == '1755' && element == '72356')
+            console.debug(series.chart.renderTo);
 
         var data = {};
         data.datasource = 'faostat';
@@ -1376,24 +1381,6 @@ define(['jquery',
 
             /* Add data to the chart. */
             series.setData(data);
-
-            /* Re-set the tick interval. */
-            var datas = [];
-            for (i = 0 ; i < series.chart.series.length ; i++)
-                datas.push(series.chart.series[i].data)
-
-            for (var j = 0 ; j < datas.length ; j++) {
-                for (i = 0; i < datas[j].length; i++) {
-                    if (datas[j][i].y > max)
-                        max = datas[j][i].y;
-                    if (datas[j][i].y < min)
-                        min = datas[j][i].y;
-                }
-            }
-
-            var interval = parseInt((max - min) / 5);
-            var order = 1 + Math.floor(Math.log(interval) / Math.LN10);
-            series.chart.yAxis[0].options.tickInterval = Math.pow(10,order);
 
             /* Make it scatter for UNFCCC. */
             if (series.name == translate.nc) {
@@ -1492,17 +1479,17 @@ define(['jquery',
     GHG_QA_QC.prototype.populateTable_EmissionsDatabaseFAOSTAT = function(country_code) {
         var sql = {
             'query' : "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                "WHERE D.DomainCode = 'GT' AND D.AreaCode = '" + country_code + "' " +
-                "AND D.ElementListCode = '7231' " +
-                "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
-                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                "2010, 2011, 2012) " +
-                "AND D.AreaCode = A.AreaCode " +
-                "AND D.ElementListCode = E.ElementListCode " +
-                "AND D.ItemCode = I.ItemCode " +
-                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
+                      "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                      "WHERE D.DomainCode = 'GT' AND D.AreaCode = '" + country_code + "' " +
+                      "AND D.ElementListCode = '7231' " +
+                      "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711') " +
+                      "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                      "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                      "2010, 2011, 2012) " +
+                      "AND D.AreaCode = A.AreaCode " +
+                      "AND D.ElementListCode = E.ElementListCode " +
+                      "AND D.ItemCode = I.ItemCode " +
+                      "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
         }
         var data = {};
         data.datasource = 'faostat';
