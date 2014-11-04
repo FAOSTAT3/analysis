@@ -1287,6 +1287,10 @@ define(['jquery',
             db_domain_code = 'gp';
         if (item == '1755' && element == '72356')
             db_domain_code = 'gm';
+        if (item == '5056' && element == '7235')
+            db_domain_code = 'GUNF';
+        if (item == '5057' && element == '7237')
+            db_domain_code = 'GUNF';
 
         switch (datasource) {
             case 'faostat':
@@ -1315,9 +1319,6 @@ define(['jquery',
                                "ORDER BY year DESC ";
                 break;
         }
-
-        if (item == '1755' && element == '72356')
-            console.debug(series.chart.renderTo);
 
         var data = {};
         data.datasource = 'faostat';

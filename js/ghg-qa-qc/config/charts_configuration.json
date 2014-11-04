@@ -209,7 +209,7 @@
         ]
     },
     "gr": {
-        "items_blacklist": ["27"],
+        "items_blacklist": [],
         "elements": ["7231", "5312"],
         "elements_lists": ["7231", "5312"],
         "totals": [
