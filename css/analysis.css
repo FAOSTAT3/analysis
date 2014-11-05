@@ -179,8 +179,7 @@ body {
   overflow: hidden;
   position: relative;
   width: 1000px;
-  background-color: white;
-  height: calc(100% - 10em); }
+  background-color: white; }
 
 .container-tile {
   padding-left: 15px;
