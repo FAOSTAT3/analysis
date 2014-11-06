@@ -166,24 +166,60 @@ define(['jquery',
 
         if (domain_code != 'agsoils') {
 
-            /* Add an empty row. */
-            var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
-            $('#' + domain_code + '__charts_content table tr:nth-child(2)').before(html);
+            /* Fetch the appropriate measurement unit for the activity data. */
+            var sql = {
+                query: 'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
+                       'FROM Element E, DomainElement D ' +
+                       'WHERE D.DomainCode = \'' + domain_code + '\' ' +
+                       'AND D.ElementCode = E.ElementCode ' +
+                       'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
+                       'ORDER BY D.Order' + this.CONFIG.lang + ' '
+            };
+            var data = {};
+            data.datasource = 'faostat';
+            data.thousandSeparator = ',';
+            data.decimalSeparator = '.';
+            data.decimalNumbers = 2;
+            data.json = JSON.stringify(sql);
+            data.cssFilename = '';
+            data.nowrap = false;
+            data.valuesIndex = 0;
 
-            /* Add titles for the 'second' table. */
-            html = '';
-            html += '<tr>';
-            html += '<th>' + translate.item + '</th>';
-            html += '<th>' + translate.emissions + '</th>';
-            html += '<th>' + translate.emissions_activity + '</th>';
-//            html += '<th>' + translate.emissions_factor + '</th>';
-            html += '</tr>';
-            $('#' + domain_code + '__charts_content table tr:nth-child(3)').before(html);
+            $.ajax({
 
-            /* Fix the title for the 'first' table. */
-            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
-//            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
-            $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '2');
+                type    :   'POST',
+                url     :   'http://faostat3.fao.org/wds/rest/table/json',
+                data    :   data,
+
+                success: function (response) {
+
+                    /* Cast the measurement unit. */
+                    var json = response;
+                    if (typeof json == 'string')
+                        json = $.parseJSON(response);
+                    var activity = json[0][0];
+                    var mu = json[0][1];
+
+                    /* Add an empty row. */
+                    var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
+                    $('#' + domain_code + '__charts_content table tr:nth-child(2)').before(html);
+
+                    /* Add titles for the 'second' table. */
+                    html = '';
+                    html += '<tr>';
+                    html += '<th>' + translate.item + '</th>';
+                    html += '<th>' + translate.emissions + '</th>';
+                    html += '<th>' + activity + ' (' + mu + ')' + '</th>';
+                    html += '</tr>';
+                    $('#' + domain_code + '__charts_content table tr:nth-child(3)').before(html);
+
+                    /* Fix the title for the 'first' table. */
+                    $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
+                    $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '2');
+
+                }
+
+            });
 
         }
 
@@ -217,7 +253,6 @@ define(['jquery',
         /* Add table type selector. */
         $('#' + domain_code + '_table_selector').chosen();
         $('#' + domain_code + '_table_selector_chosen').css('width', '100%');
-        $('#' + domain_code + '_table_selector_container').sticky({topSpacing:50});
 
         /* Read configuration. */
         this.read_charts_table_configuration(domain_code);
@@ -1161,7 +1196,7 @@ define(['jquery',
                 country: this.CONFIG.country_code,
                 item: '4',
                 element: null,
-                datasource: 'nc',
+                datasource: 'GUNF',
                 type: 'scatter',
                 enableMarker: true,
                 gunf_code: null
@@ -1333,11 +1368,11 @@ define(['jquery',
                                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
                                "ORDER BY D.Year DESC ";
                 break;
-            case 'faostat':
+            case 'GUNF':
                 sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
                                "FROM Data AS D, Area AS A, Element AS E, Item I " +
                                "WHERE D.DomainCode = 'GUNF' AND D.AreaCode = '" + country + "' " +
-                               "AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
+                               //"AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
                                "AND D.ItemCode IN ('" + item + "') " +
                                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
                                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
@@ -1377,10 +1412,19 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
+                //if (datasource == 'GUNF') {
+                //    console.debug(json);
+                //    console.debug(sql.query);
+                //    console.debug();
+                //}
                 _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
             },
             error: function (e, b, c) {
-
+                console.debug(e);
+                console.debug(b);
+                console.debug(c);
+                console.debug(response);
+                console.debug();
             }
         });
     };
