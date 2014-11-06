@@ -5,13 +5,14 @@
         <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' type='text/javascript'></script>
         <script>
             function test() {
-                var domain_code = 'GY';
+                var domain_code = 'GE';
                 var sql = {
-                    query: 'SELECT E.UnitNameE ' +
-                    'FROM Element E, Data D ' +
+                    query: 'SELECT E.ElementListNameE, E.UnitNameE ' +
+                    'FROM Element E, DomainElement D ' +
                     'WHERE D.DomainCode = \'' + domain_code + '\' ' +
-                    'AND D.ElementListCode = E.ElementListCode ' +
-                    'GROUP BY E.UnitNameE '
+                    'AND D.ElementCode = E.ElementCode ' +
+                    'GROUP BY E.ElementListNameE, E.UnitNameE, D.OrderE ' +
+                    'ORDER BY D.OrderE'
                 };
                 var data = {};
                 data.datasource = 'faostat';
@@ -30,7 +31,8 @@
                         var json = response;
                         if (typeof json == 'string')
                             json = $.parseJSON(response);
-                        var s = 'Measurement Unit for ' + domain_code + ': ' + json[0][0];
+                        console.debug(json);
+                        var s = 'Measurement Unit for ' + domain_code + ': ' + json[0][0] + ' (' + json[0][1] + ')';
                         document.getElementById('container').innerHTML = s;
                     },
                     error: function (e, b, c) {
