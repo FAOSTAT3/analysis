@@ -1191,11 +1191,11 @@ define(['jquery',
 
             /* Activity Data chart definition. */
             var gunf = {
-                name: translate.emissions_activity,
+                name: translate.nc,
                 domain: 'GUNF',
                 country: this.CONFIG.country_code,
-                item: '4',
-                element: null,
+                item: item_code,
+                element: element_code,
                 datasource: 'GUNF',
                 type: 'scatter',
                 enableMarker: true,
@@ -1214,7 +1214,8 @@ define(['jquery',
             series_definition.push(faostat);
             if (gunf_code != null)
                 series_definition.push(unfccc);
-            series_definition.push(gunf);
+            if ($.inArray('TOTAL', params) < 0)
+                series_definition.push(gunf);
             this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
 
         }
@@ -1372,7 +1373,7 @@ define(['jquery',
                 sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
                                "FROM Data AS D, Area AS A, Element AS E, Item I " +
                                "WHERE D.DomainCode = 'GUNF' AND D.AreaCode = '" + country + "' " +
-                               //"AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
+                               "AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
                                "AND D.ItemCode IN ('" + item + "') " +
                                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
                                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
@@ -1412,11 +1413,6 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
-                //if (datasource == 'GUNF') {
-                //    console.debug(json);
-                //    console.debug(sql.query);
-                //    console.debug();
-                //}
                 _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
             },
             error: function (e, b, c) {
