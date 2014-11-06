@@ -1154,6 +1154,19 @@ define(['jquery',
                 gunf_code: null
             };
 
+            /* Activity Data chart definition. */
+            var gunf = {
+                name: translate.emissions_activity,
+                domain: 'GUNF',
+                country: this.CONFIG.country_code,
+                item: '4',
+                element: null,
+                datasource: 'nc',
+                type: 'scatter',
+                enableMarker: true,
+                gunf_code: null
+            };
+
             /* Additional parameters for 'total' charts. */
             if ($.inArray('TOTAL', params) > -1) {
                 gunf_code = params[4];
@@ -1166,6 +1179,7 @@ define(['jquery',
             series_definition.push(faostat);
             if (gunf_code != null)
                 series_definition.push(unfccc);
+            series_definition.push(gunf);
             this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
 
         }
@@ -1319,6 +1333,21 @@ define(['jquery',
                                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
                                "ORDER BY D.Year DESC ";
                 break;
+            case 'faostat':
+                sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                               "WHERE D.DomainCode = 'GUNF' AND D.AreaCode = '" + country + "' " +
+                               "AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
+                               "AND D.ItemCode IN ('" + item + "') " +
+                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                               "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                               "2010, 2011, 2012) " +
+                               "AND D.AreaCode = A.AreaCode " +
+                               "AND D.ElementListCode = E.ElementListCode " +
+                               "AND D.ItemCode = I.ItemCode " +
+                               "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                               "ORDER BY D.Year DESC ";
+                break;
             case 'nc':
                 sql['query'] = "SELECT year, GUNFValue " +
                                "FROM UNFCCC_Comparison " +
@@ -1372,6 +1401,15 @@ define(['jquery',
                     data.push(tmp);
                 }
                 break;
+            case 'GUNF':
+                for (var i = db_data.length - 1 ; i >= 0 ; i--) {
+                    var tmp = [];
+                    var year = parseInt(db_data[i][4]);
+                    tmp.push(year);
+                    tmp.push(parseFloat(db_data[i][5]));
+                    data.push(tmp);
+                }
+                break;
             case 'nc':
                 for (var i = db_data.length - 1 ; i >= 0 ; i--) {
                     var tmp = [];
@@ -1395,7 +1433,7 @@ define(['jquery',
             series.setData(data);
 
             /* Make it scatter for UNFCCC. */
-            if (series.name == translate.nc) {
+            if (series.name == translate.nc || series.name == translate.emissions_activity) {
                 series.update({
                     marker: {
                         enabled: true
