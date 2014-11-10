@@ -160,7 +160,7 @@
         ]
     },
     "ge": {
-        "items_blacklist": ["1049", "1051"],
+        "items_blacklist": ["1049505", "1051"],
         "elements": ["7231", "5111"],
         "items_aggregated": ["1048"],
         "totals": [
