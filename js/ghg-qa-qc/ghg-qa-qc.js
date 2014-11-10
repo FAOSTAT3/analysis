@@ -1381,9 +1381,9 @@ define(['jquery',
         if (item == '1755' && element == '72356')
             db_domain_code = 'gm';
         if (item == '5056' && element == '7235')
-            db_domain_code = 'GUNF';
+            db_domain_code = 'GT';
         if (item == '5057' && element == '7237')
-            db_domain_code = 'GUNF';
+            db_domain_code = 'GT';
 
         switch (datasource) {
             case 'faostat':
