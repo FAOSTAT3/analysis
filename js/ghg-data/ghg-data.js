@@ -17,7 +17,7 @@ define(['jquery'], function ($) {
 
         // var src = 'http://fenixapps.fao.org/repository/countrystat/view_ghg.html?tab=ghg_burned_areas_savanna';
         var src = 'http://168.202.28.214:7070/fnx_maps_playground/index_dev.html#distribution/en';
-        var iframe = ' <iframe src="'+ src +'" width="1000px" height="1700px" frameborder="0"></iframe> ';
+        var iframe = ' <iframe src="'+ src +'" width="970px" height="1450px" frameborder="0"></iframe> ';
         $('#tiles_container').html(iframe);
 
     };
