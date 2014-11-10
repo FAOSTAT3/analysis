@@ -160,8 +160,9 @@
         ]
     },
     "ge": {
-        "items_blacklist": [],
+        "items_blacklist": ["1049", "1051"],
         "elements": ["7231", "5111"],
+        "items_aggregated": ["1048"],
         "totals": [
             {
                 "item": {
@@ -174,8 +175,9 @@
         ]
     },
     "gm": {
-        "items_blacklist": [],
+        "items_blacklist": ["1049", "1051", "1052", "1053"],
         "elements": ["72356", "5111"],
+        "items_aggregated": ["1048", "1054"],
         "totals": [
             {
                 "item": {

@@ -286,8 +286,41 @@ define(['jquery',
                     if ($.inArray(items[i][0], config.items_blacklist) > -1)
                         items.splice(i, 1);
 
-                /* Process results. */
-                _this.process_charts_table_configuration(domain_code, config, items);
+                /* Add items aggregated, if any. */
+                if (config.items_aggregated != null) {
+
+                    /* Fetch items aggregated from the DB. */
+                    $.ajax({
+
+                        type: 'GET',
+                        dataType: 'json',
+                        url: _this.CONFIG.url_listboxes + _this.CONFIG.datasource + '/' + domain_code + '/3/2/' + _this.CONFIG.lang,
+
+                        success: function (response) {
+
+                            /* Cast response to JSON. */
+                            var items_aggregated = response;
+                            if (typeof items_aggregated == 'string')
+                                items_aggregated = $.parseJSON(response);
+
+                            /* Add the items aggregated described in the configuration file. */
+                            for (i = 0 ; i < items_aggregated.length ; i++)
+                                if ($.inArray(items_aggregated[i][0], config.items_aggregated) > -1)
+                                    items.push(items_aggregated[i]);
+
+                            /* Process results. */
+                            _this.process_charts_table_configuration(domain_code, config, items);
+
+                        }
+
+                    });
+
+                } else {
+
+                    /* Process results. */
+                    _this.process_charts_table_configuration(domain_code, config, items);
+
+                }
 
             },
 
@@ -539,7 +572,6 @@ define(['jquery',
                 this.load_agsoils_table_template('agsoils_tables_content', translate.norm_difference, 1990, 2013, 'norm_difference');
                 break;
         }
-
 
         /* Link to tabs. */
         for (var i = 0; i < items.length; i++) {
