@@ -1243,7 +1243,8 @@ define(['jquery',
             }
 
             /* Create chart. */
-            series_definition.push(faostat);
+            if (element_code != '7231')
+                series_definition.push(faostat);
             if (gunf_code != null)
                 series_definition.push(unfccc);
             if ($.inArray('TOTAL', params) < 0)
@@ -1361,7 +1362,7 @@ define(['jquery',
             for (var i = 0; i < chart.series.length; i++) {
                 s += '<br><b>' + chart.series[i].name + ':</b> ';
                 var value = parseFloat(chart.series[i].points[x - 1990].y).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                if (isNaN(value))
+                if (isNaN(value.replace(/\,/g, '')))
                     value = translate.data_not_available;
                 s += value;
             }
