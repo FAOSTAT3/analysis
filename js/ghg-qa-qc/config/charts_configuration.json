@@ -186,7 +186,7 @@
     },
     "gm": {
         "items_blacklist": ["1049", "1051", "1052", "1053"],
-        "elements": ["72356", "5111"],
+        "elements": ["72356", "72386"],
         "elements_gunf": ["72316"],
         "items_aggregated": ["1048", "1054"],
         "totals": [

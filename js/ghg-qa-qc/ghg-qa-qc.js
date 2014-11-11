@@ -996,6 +996,15 @@ define(['jquery',
         /* Populate table. */
         this.populate_tables(this.CONFIG.country_code, datasource);
 
+        /* Enlarge first column for English language only. */
+        if (this.CONFIG.lang == 'E' || this.CONFIG.lang == 'F' || this.CONFIG.lang == 'S') {
+            $('#gt_faostat_left_table thead tr th:nth-child(2)').css('width', '181px');
+            $('#gt_nc_left_table thead tr th:nth-child(2)').css('width', '181px');
+            $('#gt_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
+            $('#gt_norm_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
+        }
+
+
         /* Export tables. */
         $('#' + id_prefix + '_export_data').click({id: id_prefix}, function(e) {
             _this.export_data(e.data.id);
