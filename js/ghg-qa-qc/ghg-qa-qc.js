@@ -1234,6 +1234,9 @@ define(['jquery',
                 gunf_code: null
             };
 
+            if (gunf.element == charts_configuration[domain_code].elements[0])
+                gunf.element = charts_configuration.gunf_elements_map[domain_code];
+
             /* Additional parameters for 'total' charts. */
             if ($.inArray('TOTAL', params) > -1) {
                 gunf_code = params[4];
@@ -1243,8 +1246,7 @@ define(['jquery',
             }
 
             /* Create chart. */
-            if (element_code != '7231')
-                series_definition.push(faostat);
+            series_definition.push(faostat);
             if (gunf_code != null)
                 series_definition.push(unfccc);
             if ($.inArray('TOTAL', params) < 0)
