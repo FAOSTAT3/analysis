@@ -1344,7 +1344,6 @@ define(['jquery',
         for (var i = 0 ; i < series.length ; i++) {
             custom_p.series[i] = {};
             custom_p.series[i].name = series[i].name;
-
         }
         if (width != null)
             custom_p.chart.width = width;
@@ -1362,6 +1361,8 @@ define(['jquery',
             for (var i = 0; i < chart.series.length; i++) {
                 s += '<br><b>' + chart.series[i].name + ':</b> ';
                 var value = parseFloat(chart.series[i].points[x - 1990].y).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                if (isNaN(value))
+                    value = translate.data_not_available;
                 s += value;
             }
             return s;
@@ -1402,18 +1403,18 @@ define(['jquery',
                                "ORDER BY D.Year DESC ";
                 break;
             case 'GUNF':
-                sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                sql['query'] = "SELECT A.AreaNameS, E.ElementNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
                                "FROM Data AS D, Area AS A, Element AS E, Item I " +
                                "WHERE D.DomainCode = 'GUNF' AND D.AreaCode = '" + country + "' " +
-                               "AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
+                               "AND D.ElementCode = '" + element + "' " +
                                "AND D.ItemCode IN ('" + item + "') " +
                                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
                                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
                                "2010, 2011, 2012) " +
                                "AND D.AreaCode = A.AreaCode " +
-                               "AND D.ElementListCode = E.ElementListCode " +
+                               "AND D.ElementCode = E.ElementCode " +
                                "AND D.ItemCode = I.ItemCode " +
-                               "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
+                               "GROUP BY A.AreaNameS, E.ElementNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
                                "ORDER BY D.Year DESC ";
                 break;
             case 'nc':
@@ -1446,13 +1447,6 @@ define(['jquery',
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
                 _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
-            },
-            error: function (e, b, c) {
-                console.debug(e);
-                console.debug(b);
-                console.debug(c);
-                console.debug(response);
-                console.debug();
             }
         });
     };
@@ -1504,21 +1498,34 @@ define(['jquery',
             /* Add data to the chart. */
             series.setData(data);
 
-            /* Make it scatter for UNFCCC. */
-            if (series.name == translate.nc || series.name == translate.emissions_activity) {
-                series.update({
-                    marker: {
-                        enabled: true
-                    },
-                    type: 'scatter',
-                    lineWidth: 0
-                });
+        }
+
+        else {
+            //$('#' + domain_code + '_' + item + '_' + element).html(translate.data_not_available);
+
+            /* If the series is empty, add a vector made of null values. */
+            if (series.data.length == 0) {
+
+                /* Create the null vector. */
+                for (var z = 1990; z < 2012; z++)
+                    data.push([z, null]);
+
+                /* Add data to the chart. */
+                series.setData(data);
+
             }
 
         }
 
-        else {
-            $('#' + domain_code + '_' + item + '_' + element).html(translate.data_not_available);
+        /* Make it scatter for UNFCCC. */
+        if (series.name == translate.nc || series.name == translate.emissions_activity) {
+            series.update({
+                marker: {
+                    enabled: true
+                },
+                type: 'scatter',
+                lineWidth: 0
+            });
         }
 
     };

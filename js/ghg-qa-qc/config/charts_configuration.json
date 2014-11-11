@@ -160,8 +160,11 @@
         ]
     },
     "ge": {
-        "items_blacklist": ["1049505", "1051"],
+        "items_blacklist": ["1049", "1051"],
         "elements": ["7231", "5111"],
+        "elements_gunf": {
+            "7231": "72314"
+        },
         "items_aggregated": ["1048"],
         "totals": [
             {
@@ -177,6 +180,7 @@
     "gm": {
         "items_blacklist": ["1049", "1051", "1052", "1053"],
         "elements": ["72356", "5111"],
+        "elements_gunf": ["72316"],
         "items_aggregated": ["1048", "1054"],
         "totals": [
             {
@@ -192,6 +196,7 @@
     "gr": {
         "items_blacklist": [],
         "elements": ["7231", "5312"],
+        "elements_gunf": ["72315"],
         "totals": [
             {
                 "item": {
@@ -206,6 +211,7 @@
     "gb": {
         "items_blacklist": [],
         "elements": ["7231", "7245"],
+        "elements_gunf": ["72317"],
         "totals": [
             {
                 "item": {
@@ -220,6 +226,7 @@
     "gh": {
         "items_blacklist": [],
         "elements": ["7231", "7224"],
+        "elements_gunf": ["72319"],
         "totals": [
             {
                 "item": {
