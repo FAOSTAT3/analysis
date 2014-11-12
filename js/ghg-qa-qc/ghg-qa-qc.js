@@ -939,6 +939,7 @@ define(['jquery',
                 var render = Mustache.render(template, view);
 
                 /* Render the HTML. */
+                $(document.getElementById(render_id)).empty();
                 $(document.getElementById(render_id)).html(render);
 
                 /* Populate table. */
