@@ -128,17 +128,19 @@ h1 {
   margin-left: 32px;
   font-style: italic; }
 
-.coloured_header, #agsoils_tables_content_left_ghg_table th,
-#agsoils_tables_content_right_ghg_table th,
-#gt_faostat_left_table th,
+.coloured_header, #gt_faostat_left_table th,
 #gt_faostat_right_table th,
+#gas_faostat_left_table th,
+#gas_faostat_right_table th,
+#gas_nc_left_table th,
+#gas_nc_right_table th,
 #gt_nc_left_table th,
 #gt_nc_right_table th,
 #gt_difference_left_table th,
 #gt_difference_right_table th,
 #gt_norm_difference_left_table th,
 #gt_norm_difference_right_table th {
-  font-weight: normal;
+  font-weight: normal !important;
   background-color: #379bce;
   color: #FFFFFF; }
 

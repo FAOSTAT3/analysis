@@ -148,7 +148,7 @@ define(['jquery',
 
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
-            var at = ['gt', 'agsoils', 'ge', 'gm', 'gr', 'gb', 'gh'];
+            var at = ['gt', 'gas', 'ge', 'gm', 'gr', 'gb', 'gh'];
             for (i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
@@ -164,7 +164,7 @@ define(['jquery',
 
     GHG_QA_QC.prototype.separate_total_charts = function(domain_code) {
 
-        if (domain_code != 'agsoils') {
+        if (domain_code != 'gas') {
 
             /* Fetch the appropriate measurement unit for the activity data. */
             var sql = {
@@ -419,15 +419,15 @@ define(['jquery',
             this.separate_total_charts(domain_code);
 
         /* Remove extra columns for Agricultural Soils. */
-        if (domain_code == 'agsoils') {
+        if (domain_code == 'gas') {
 
-            $('#agsoils__charts_content table td:last-child').remove();
-            $('#agsoils__charts_content table th:last-child').remove();
-            $('#agsoils__charts_content table th:first-child').css('width', '135px');
+            $('#gas__charts_content table td:last-child').remove();
+            $('#gas__charts_content table th:last-child').remove();
+            $('#gas__charts_content table th:first-child').css('width', '135px');
 
             /* Add an empty row. */
             var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="2">&nbsp;</td></tr>';
-            $('#agsoils__charts_content table tr:nth-child(2)').before(html);
+            $('#gas__charts_content table tr:nth-child(2)').before(html);
 
             /* Add titles for the 'second' table. */
             html = '';
@@ -435,7 +435,7 @@ define(['jquery',
             html += '<th>' + translate.item + '</th>';
             html += '<th>' + translate.emissions + '</th>';
             html += '</tr>';
-            $('#agsoils__charts_content table tr:nth-child(3)').before(html);
+            $('#gas__charts_content table tr:nth-child(3)').before(html);
 
         } else if (domain_code == 'gt') {
             $('#gt__charts_content table thead tr th:last-child').remove();
@@ -460,6 +460,10 @@ define(['jquery',
 
         /* Populate charts table. */
         this.populate_charts_table(td_ids);
+
+        /* Change domain code for agricultural soils. */
+        if (domain_code == 'agsoils')
+            domain_code = 'gas';
 
         /* Populate tables. */
         this.load_table_template(domain_code + '_tables_content_faostat',
@@ -499,12 +503,12 @@ define(['jquery',
             //    break;
 
             /* Agricultural Soils tables. */
-            case 'agsoils':
-                this.load_agsoils_table_template('agsoils_tables_content', translate.faostat + ' ' + translate.co2eq, 1990, 2013, 'faostat');
-                this.load_agsoils_table_template('agsoils_tables_content', translate.nc + ' ' + translate.co2eq, 1990, 2013, 'nc');
-                this.load_agsoils_table_template('agsoils_tables_content', translate.difference, 1990, 2013, 'difference');
-                this.load_agsoils_table_template('agsoils_tables_content', translate.norm_difference, 1990, 2013, 'norm_difference');
-                break;
+            //case 'agsoils':
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.faostat + ' ' + translate.co2eq, 1990, 2013, 'faostat');
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.nc + ' ' + translate.co2eq, 1990, 2013, 'nc');
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.difference, 1990, 2013, 'difference');
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.norm_difference, 1990, 2013, 'norm_difference');
+            //    break;
         }
 
         /* Link to tabs. */
@@ -887,6 +891,9 @@ define(['jquery',
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
 
+                if (domain_code == 'ge')
+                    console.debug(json[0]);
+
                 /* Define placeholders. */
                 var view = {
                     rows: [],
@@ -900,11 +907,15 @@ define(['jquery',
                 };
 
                 /* Add categories. */
-                for (var i = 0 ; i < json.length ; i++)
+                for (var i = 0 ; i < json.length ; i++) {
+                    var code = json[i].length == 1 ? '' : json[i][0];
+                    var category_label = json[i].length == 1 ? json[i][0] : json[i][1];
                     view.categories.push({
-                        category_code: json[i][0],
-                        category_label: json[i][1]
+                        category_code: code,
+                        category_code_container: domain_code + '_' + code.replace(/\./g, '') + '_container',
+                        category_label: category_label
                     });
+                }
 
                 /* Add years. */
                 for (i = start_year ; i <= end_year ; i++)
@@ -916,7 +927,7 @@ define(['jquery',
                     tmp.inputs = [];
                     for (var j = start_year ; j <= end_year ; j++) {
                         tmp.inputs.push({
-                            standard_input_id: datasource + '_' + j + '_' + json[i][0]
+                            standard_input_id: domain_code + '_' + datasource + '_' + j + '_' + json[i][0]
                         });
                     }
                     view.rows.push(tmp);
@@ -935,10 +946,25 @@ define(['jquery',
                 _this.populate_tables(_this.CONFIG.country_code, datasource, domain_code);
 
                 /* Enlarge first column for English language only. */
-                $('#gt_faostat_left_table thead tr th:nth-child(2)').css('width', '181px');
-                $('#gt_nc_left_table thead tr th:nth-child(2)').css('width', '181px');
-                $('#gt_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
-                $('#gt_norm_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
+                $('#' + domain_code + '_faostat_left_table thead tr th:nth-child(2)').css('width', '181px');
+                $('#' + domain_code + '_nc_left_table thead tr th:nth-child(2)').css('width', '181px');
+                $('#' + domain_code + '_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
+                $('#' + domain_code + '_norm_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
+
+                /* Indent Agricultural Soils. */
+                if (domain_code == 'gas') {
+                    $('.gas_4D1_container').css('margin-left', '16px');
+                    $('.gas_4D11_container').css('margin-left', '32px');
+                    $('.gas_4D12_container').css('margin-left', '32px');
+                    $('.gas_4D14_container').css('margin-left', '32px');
+                    $('.gas_4D15_container').css('margin-left', '32px');
+                    $('.gas_4D2_container').css('margin-left', '16px');
+                    $('.gas_4D3_container').css('margin-left', '16px');
+                    $('.gas_4D11_container').css('font-style', 'italic');
+                    $('.gas_4D12_container').css('font-style', 'italic');
+                    $('.gas_4D14_container').css('font-style', 'italic');
+                    $('.gas_4D15_container').css('font-style', 'italic');
+                }
 
                 /* Export tables. */
                 $('#' + id_prefix + '_export_data').click({id: id_prefix}, function(e) {
@@ -1028,7 +1054,7 @@ define(['jquery',
                     json = $.parseJSON(response);
 
                 for (var i = 0 ; i < json.length ; i++) {
-                    var div_id = datasource + '_' + json[i][0] + '_' + json[i][1];
+                    var div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1];
                     var value_idx = 3;
                     switch (datasource) {
                         case 'nc': value_idx = 4; break;

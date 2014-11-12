@@ -12,7 +12,7 @@
         "gg": "gl",
         "gi": "gl",
         "gp": "gp",
-        "agsoils": "gt"
+        "gas": "gt"
     },
     "colors_map": {
         "1711": "green",
@@ -96,7 +96,7 @@
 
         ]
     },
-    "agsoils": {
+    "gas": {
         "items_blacklist": [],
         "elements": [],
         "totals": [
