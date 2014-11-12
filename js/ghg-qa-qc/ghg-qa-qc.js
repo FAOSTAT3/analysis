@@ -891,9 +891,6 @@ define(['jquery',
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
 
-                if (domain_code == 'ge')
-                    console.debug(json[0]);
-
                 /* Define placeholders. */
                 var view = {
                     rows: [],
@@ -903,7 +900,9 @@ define(['jquery',
                     category_title_label: translate.category,
                     years: [],
                     left_standard_table_id: id_prefix + '_left_table',
-                    right_standard_table_id: id_prefix + '_right_table'
+                    right_standard_table_id: id_prefix + '_right_table',
+                    standard_export_data_id: domain_code + '_' + id_prefix + '_export_data',
+                    export_data_label: translate.export_data_label
                 };
 
                 /* Add categories. */
@@ -967,7 +966,7 @@ define(['jquery',
                 }
 
                 /* Export tables. */
-                $('#' + id_prefix + '_export_data').click({id: id_prefix}, function(e) {
+                $('#' + domain_code + '_' + id_prefix + '_export_data').click({id: id_prefix}, function(e) {
                     _this.export_data(e.data.id);
                 });
 
@@ -986,12 +985,12 @@ define(['jquery',
 
         var headers_1 = [];
         $('#' + table_id + '_left_table th div').each(function() {
-            headers_1.push($(this).html().trim())
+            headers_1.push($(this).text().trim())
         });
 
         var headers_2 = [];
         $('#' + table_id + '_right_table th div').each(function() {
-            headers_2.push($(this).html().trim())
+            headers_2.push($(this).text().trim())
         });
 
         data.push(headers_1.concat(headers_2));
@@ -1001,9 +1000,9 @@ define(['jquery',
             var contents_2 = $('#' + table_id + '_right_table tr:nth-child(' + z + ') td div');
             var row = [];
             for (var i = 0; i < contents_1.length; i++)
-                row.push($(contents_1[i]).html().trim());
+                row.push($(contents_1[i]).text().trim());
             for (var i = 0; i < contents_2.length; i++)
-                row.push($(contents_2[i]).html().trim().replace(',', ''));
+                row.push($(contents_2[i]).text().trim().replace(',', ''));
             data.push(row);
         }
 
