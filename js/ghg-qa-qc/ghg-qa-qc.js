@@ -1025,7 +1025,7 @@ define(['jquery',
     GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code) {
 
         var sql = {
-            'query': "SELECT Year, UNFCCCCode, GItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff " +
+            'query': "SELECT Year, UNFCCCCode, GItemNameE, GUNFValue, GValue, PerDiff, NormPerDiff " +
                      "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                      "WHERE areacode = '" + this.CONFIG.country_code + "' " +
                      "AND tabletype = 'emissions' " +
