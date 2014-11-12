@@ -930,62 +930,44 @@ define(['jquery',
         /* This... */
         var _this = this;
 
-        /* Create time-range and inputs. */
-        var years = [];
-        var inputs_4 = [];
-        var inputs_4A = [];
-        var inputs_4B = [];
-        var inputs_4C = [];
-        var inputs_4D = [];
-        var inputs_4E = [];
-        var inputs_4F = [];
-        for (var i = start_year; i <= end_year; i++) {
-            years.push({'year': i});
-            inputs_4.push({'input_id_4': id_prefix + '_4_' + i});
-            inputs_4A.push({'input_id_4A': id_prefix + '_4A_' + i});
-            inputs_4B.push({'input_id_4B': id_prefix + '_4B_' + i});
-            inputs_4C.push({'input_id_4C': id_prefix + '_4C_' + i});
-            inputs_4D.push({'input_id_4D': id_prefix + '_4D_' + i});
-            inputs_4E.push({'input_id_4E': id_prefix + '_4E_' + i});
-            inputs_4F.push({'input_id_4F': id_prefix + '_4F_' + i});
-        }
-
         /* Define placeholders. */
         var view = {
-            section_name: id_prefix,
-            spinning_id: id_prefix + '_spinning',
-            collapse_id: id_prefix + '_collapse_button',
-            left_table_id: id_prefix + '_left_table',
-            right_table_id: id_prefix + '_right_table',
-            years: years,
+            rows: [
+                {
+                    inputs: [
+                        {standard_input_id: "Pippo1"},
+                        {standard_input_id: "Pluto1"},
+                        {standard_input_id: "Paperino1"}
+                    ]
+                },
+                {
+                    "inputs": [
+                        {standard_input_id: "Pippo2"},
+                        {standard_input_id: "Pluto2"},
+                        {standard_input_id: "Paperino2"}
+                    ]
+                }
+            ],
+            categories: [
+                {
+                    category_code: "12",
+                    category_label: "yo"
+                }
+            ],
             title: label,
-            inputs_4: inputs_4,
-            inputs_4A: inputs_4A,
-            inputs_4B: inputs_4B,
-            inputs_4C: inputs_4C,
-            inputs_4D: inputs_4D,
-            inputs_4E: inputs_4E,
-            inputs_4F: inputs_4F,
-            _code: translate.code,
-            _category: translate.category,
-            _agriculture: translate.gt,
-            _enteric_fermentation: translate.ge,
-            _manure_management: translate.gm,
-            _rice_cultivation: translate.gr,
-            _agricultural_soils: translate.ag_soils,
-            _prescribed_burning_of_savannas: translate.gh,
-            _field_burning_of_agricultural_residues: translate.gb,
-            _direct_soil_emissions: translate.direct_soil_emissions,
-            _synthetic_fertilizers: translate.gy,
-            _manure_applied_to_soils: translate.gu,
-            _crop_residues: translate.ga,
-            _cultivation_of_histosols: translate.gv,
-            export_data_label: translate.export_data_label,
-            export_data_id: id_prefix + '_export_data'
+            code_title_label: translate.code,
+            category_title_label: translate.category,
+            years: [
+                {year: 1990},
+                {year: 1991},
+                {year: 1992}
+            ],
+            left_standard_table_id: id_prefix + '_left_table',
+            right_standard_table_id: id_prefix + '_right_table'
         };
 
         /* Load the template. */
-        var template = $(templates).filter('#g1_table').html();
+        var template = $(templates).filter('#standard_table').html();
 
         /* Substitute placeholders. */
         var render = Mustache.render(template, view);
