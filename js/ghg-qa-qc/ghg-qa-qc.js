@@ -926,7 +926,7 @@ define(['jquery',
                     tmp.inputs = [];
                     for (var j = start_year ; j <= end_year ; j++) {
                         tmp.inputs.push({
-                            standard_input_id: domain_code + '_' + datasource + '_' + j + '_' + json[i][0]
+                            standard_input_id: domain_code + '_' + datasource + '_' + j + '_' + json[i][0].replace(',', '_').replace(' ', '_')
                         });
                     }
                     view.rows.push(tmp);
@@ -1025,7 +1025,7 @@ define(['jquery',
     GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code) {
 
         var sql = {
-            'query': "SELECT Year, UNFCCCCode, GItemNameE, GUNFValue, GValue, PerDiff, NormPerDiff " +
+            'query': "SELECT Year, GItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff, UNFCCCCode " +
                      "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                      "WHERE areacode = '" + this.CONFIG.country_code + "' " +
                      "AND tabletype = 'emissions' " +
@@ -1055,12 +1055,12 @@ define(['jquery',
                     json = $.parseJSON(response);
 
                 for (var i = 0 ; i < json.length ; i++) {
-                    var div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1];
-                    var value_idx = 3;
+                    var div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
+                    var value_idx = 2;
                     switch (datasource) {
-                        case 'nc': value_idx = 4; break;
-                        case 'difference': value_idx = 5; break;
-                        case 'norm_difference': value_idx = 6; break;
+                        case 'nc': value_idx = 3; break;
+                        case 'difference': value_idx = 4; break;
+                        case 'norm_difference': value_idx = 5; break;
                     }
                     var value = parseFloat(json[i][value_idx]).toFixed(2);
                     var color = '#666';
