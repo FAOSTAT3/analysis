@@ -1000,7 +1000,7 @@ define(['jquery',
             var contents_2 = $('#' + table_id + '_right_table tr:nth-child(' + z + ') td div');
             var row = [];
             for (var i = 0; i < 2; i++)
-                row.push($(contents_1[i]).text().trim());
+                row.push('"' + $(contents_1[i]).text().trim() + '"');
             for (var i = 0; i < contents_2.length; i++)
                 row.push($(contents_2[i]).text().trim().replace(',', ''));
             //console.debug(row);
