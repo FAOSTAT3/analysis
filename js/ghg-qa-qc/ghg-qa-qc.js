@@ -1054,8 +1054,14 @@ define(['jquery',
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
 
+                console.debug(json[0]);
+
                 for (var i = 0 ; i < json.length ; i++) {
-                    var div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
+                    var div_id = null;
+                    if (domain_code == 'gt' || domain_code == 'gas')
+                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
+                    else
+                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
                     var value_idx = 2;
                     switch (datasource) {
                         case 'nc': value_idx = 3; break;
