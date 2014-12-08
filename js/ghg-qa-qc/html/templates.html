@@ -62,18 +62,18 @@
             </a>
         </li>
         <li>
-            <a href='#agri_total_agsoils' role='tab' data-toggle='tab'>
+            <a href='#agri_total_gas' role='tab' data-toggle='tab'>
                 {{agsoils}}
-            </a>
-        </li>
-        <li>
-            <a href='#agri_total_gb' role='tab' data-toggle='tab'>
-                {{gb}}
             </a>
         </li>
         <li>
             <a href='#agri_total_gh' role='tab' data-toggle='tab'>
                 {{gh}}
+            </a>
+        </li>
+        <li>
+            <a href='#agri_total_gb' role='tab' data-toggle='tab'>
+                {{gb}}
             </a>
         </li>
     </ul>
@@ -98,8 +98,8 @@
 
             </div>
         </div>
-        <div class='tab-pane' id='agri_total_agsoils'>
-            <div id='agsoils_charts_and_tables'>
+        <div class='tab-pane' id='agri_total_gas'>
+            <div id='gas_charts_and_tables'>
 
             </div>
         </div>
@@ -208,7 +208,7 @@
                         <div class='col-xs-12 col-sm-10 col-md-10 col-lg-10' id='{{table_selector_container}}'>
                             <select id='{{table_selector_id}}' class='chosen' style='width: 100%;'>
                                 <option>{{emissions}}</option>
-                                <option>{{activity_data}}</option>
+                                <option disabled>{{activity_data}}</option>
                                 <!--<option>{{implied_emissions_factor}}</option>-->
                             </select>
                         </div>
@@ -769,38 +769,48 @@
 
 <template id='standard_table'>
     <div style='margin-bottom: -50px;'>
-        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+        <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'>
             <h1>{{title}}</h1>
+        </div>
+        <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
+            <h1 style='text-align: right; cursor:pointer;' id='{{standard_export_data_id}}'>
+                <i class='fa fa-download'></i>
+                {{export_data_label}}
+            </h1>
         </div>
         <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4' style='padding-right: 0px;'>
             <div style='display: inline-block; width: 100%;'>
                 <table class='table table-bordered table-condensed table-hover' id='{{left_standard_table_id}}'>
-                    <thead>
-                    <tr>
-                        <th>
-                            <div class='table_cell'>
-                                {{code_title_label}}
-                            </div>
-                        </th>
-                        <th>
-                            <div class='table_cell'>
-                                {{category_title_label}}
-                            </div>
-                        </th>
-                    </tr>
+                    <thead class='coloured_header'>
+                        <tr>
+                            <th>
+                                <div class='table_cell'>
+                                    {{code_title_label}}
+                                </div>
+                            </th>
+                            <th>
+                                <div class='table_cell'>
+                                    {{category_title_label}}
+                                </div>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
                     <!--{{#categories}}-->
                     <tr>
                         <td>
                             <div class='table_cell {{category_code_class}}'>
-                                {{category_code}}
+                                <span class='{{category_code_container}}'>
+                                    {{category_code}}
+                                </span>
                             </div>
                         </td>
                         <td>
                             <div class='table_cell {{category_code_class}}'>
                                 <div class='truncate'>
-                                    {{category_label}}
+                                    <span class='{{category_code_container}}'>
+                                        {{category_label}}
+                                    </span>
                                 </div>
                             </div>
                         </td>
@@ -813,7 +823,7 @@
         <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8' style='padding-left: 0px; margin-left: -1px;'>
             <div style='display: inline-block; width: 100%; overflow-x: scroll;'>
                 <table class='table table-bordered table-condensed table-hover' id='{{right_standard_table_id}}'>
-                    <thead>
+                    <thead class='coloured_header'>
                         <tr>
                             <!--{{#years}}-->
                             <th>
@@ -833,7 +843,7 @@
                             </td>
                             <!--{{/inputs}}-->
                         </tr>
-                        <!--{{#rows}}-->
+                        <!--{{/rows}}-->
                     </tbody>
                 </table>
             </div>

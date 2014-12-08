@@ -148,7 +148,7 @@ define(['jquery',
 
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
-            var at = ['gt', 'agsoils', 'ge', 'gm', 'gr', 'gb', 'gh'];
+            var at = ['gt', 'gas', 'ge', 'gm', 'gr', 'gh', 'gb'];
             for (i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
@@ -164,7 +164,7 @@ define(['jquery',
 
     GHG_QA_QC.prototype.separate_total_charts = function(domain_code) {
 
-        if (domain_code != 'agsoils') {
+        if (domain_code != 'gas') {
 
             /* Fetch the appropriate measurement unit for the activity data. */
             var sql = {
@@ -309,7 +309,7 @@ define(['jquery',
                                     items.push(items_aggregated[i]);
 
                             /* Process results. */
-                            _this.process_charts_table_configuration(domain_code, config, items);
+                            _this.process_charts_table_configuration_standard(domain_code, config, items);
 
                         }
 
@@ -318,7 +318,7 @@ define(['jquery',
                 } else {
 
                     /* Process results. */
-                    _this.process_charts_table_configuration(domain_code, config, items);
+                    _this.process_charts_table_configuration_standard(domain_code, config, items);
 
                 }
 
@@ -334,105 +334,10 @@ define(['jquery',
                     item.push(config.totals[i].gunf_code);
                     items.push(item);
                 }
-                _this.process_charts_table_configuration(domain_code, config, items);
+                _this.process_charts_table_configuration_standard(domain_code, config, items);
             }
 
         });
-
-    };
-
-    GHG_QA_QC.prototype.process_charts_table_configuration = function(domain_code, config, items) {
-        if (domain_code == 'gt')
-            this.process_charts_table_configuration_gt(domain_code, config, items);
-        else
-            this.process_charts_table_configuration_standard(domain_code, config, items);
-    };
-
-    GHG_QA_QC.prototype.process_charts_table_configuration_gt = function(domain_code, config, items) {
-
-        /* Load and render the template. */
-        var view = {
-            'gt_label': translate.gt + ' ' + translate.co2eq,
-            'ge_label': translate.ge + ' ' + translate.co2eq,
-            'gm_label': translate.gm + ' ' + translate.co2eq,
-            'gr_label': translate.gr + ' ' + translate.co2eq,
-            'ag_soils_label': translate.ag_soils + ' ' + translate.co2eq,
-            'gb_label': translate.gb + ' ' + translate.co2eq,
-            'gh_label': translate.gh + ' ' + translate.co2eq
-        };
-        var template = $(templates).filter('#gt_charts_table').html();
-        var render = Mustache.render(template, view);
-        $('#' + domain_code + '__charts_content').html(render);
-
-        /* Populate tables. */
-        this.load_table_template('gt_tables_content_faostat', translate.faostat + ' ' + translate.co2eq, 1990, 2012, 'gt_faostat', 'faostat');
-        this.load_table_template('gt_tables_content_nc', translate.nc + ' ' + translate.co2eq, 1990, 2012, 'gt_nc', 'nc');
-        this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
-        this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
-
-        /* Configuration for charts. */
-        var charts_config = [
-            {item: '1711', element: '7231', gunf: '4', render: 'GT_HOME_gt_1711_7231_TOTAL_4', width: 925, height: 250},
-            {item: '5058', element: '7231', gunf: '4.A', render: 'GT_HOME_ge_5058_7231_TOTAL_4.A', width: 455, height: 250},
-            {item: '1755', element: '72356', gunf: '4.B', render: 'GT_HOME_gm_5059_7231_TOTAL_4.B', width: 455, height: 250},
-            {item: '5060', element: '7231', gunf: '4.C', render: 'GT_HOME_gr_5060_7231_TOTAL_4.C', width: 455, height: 250},
-            {item: '1709', element: '7231', gunf: '4.D', render: 'GT_HOME_gm_1709_7231_TOTAL_4.D', width: 455, height: 250},
-            {item: '5067', element: '7231', gunf: '4.E', render: 'GT_HOME_gh_5067_7231_TOTAL_4.E', width: 455, height: 250},
-            {item: '5066', element: '7231', gunf: '4.F', render: 'GT_HOME_gb_5066_7231_TOTAL_4.F', width: 455, height: 250}
-        ];
-
-        /* Create charts. */
-        for (var i = 0 ; i < charts_config.length ; i++) {
-
-            /* FAOSTAT chart definition. */
-            var faostat = {
-                name: 'FAOSTAT',
-                domain: domain_code,
-                country: this.CONFIG.country_code,
-                item: charts_config[i].item,
-                element: charts_config[i].element,
-                datasource: 'faostat',
-                type: 'line',
-                enableMarker: false,
-                gunf_code: null
-            };
-
-            /* UNFCCC chart definition. */
-            var unfccc = {
-                name: translate.nc,
-                domain: 'GT',
-                country: this.CONFIG.country_code,
-                item: '4',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true,
-                gunf_code: null
-            };
-
-            /* Parameters. */
-            var gunf_code = charts_config[i].gunf;
-            var series_definition = [];
-            unfccc.gunf_code = gunf_code;
-            faostat.gunf_code = gunf_code;
-            faostat.domain = charts_configuration.domains_map[domain_code];
-
-            /* Custom colors. */
-            if (charts_config[i].item != null) {
-                this.CONFIG.default_colors[0] = charts_configuration.colors_map[charts_config[i].item];
-                this.CONFIG.default_colors[1] = charts_configuration.colors_map[charts_config[i].item];
-            } else {
-                this.CONFIG.default_colors[0] = '#379bcd';
-                this.CONFIG.default_colors[1] = '#379bcd';
-            }
-
-            /* Create chart. */
-            series_definition.push(faostat);
-            if (gunf_code != null)
-                series_definition.push(unfccc);
-            this.createChart(charts_config[i].render, '', series_definition, false, this.CONFIG.default_colors, charts_config[i].width, charts_config[i].height);
-
-        }
 
     };
 
@@ -514,15 +419,15 @@ define(['jquery',
             this.separate_total_charts(domain_code);
 
         /* Remove extra columns for Agricultural Soils. */
-        if (domain_code == 'agsoils') {
+        if (domain_code == 'gas') {
 
-            $('#agsoils__charts_content table td:last-child').remove();
-            $('#agsoils__charts_content table th:last-child').remove();
-            $('#agsoils__charts_content table th:first-child').css('width', '135px');
+            $('#gas__charts_content table td:last-child').remove();
+            $('#gas__charts_content table th:last-child').remove();
+            $('#gas__charts_content table th:first-child').css('width', '135px');
 
             /* Add an empty row. */
             var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="2">&nbsp;</td></tr>';
-            $('#agsoils__charts_content table tr:nth-child(2)').before(html);
+            $('#gas__charts_content table tr:nth-child(2)').before(html);
 
             /* Add titles for the 'second' table. */
             html = '';
@@ -530,8 +435,11 @@ define(['jquery',
             html += '<th>' + translate.item + '</th>';
             html += '<th>' + translate.emissions + '</th>';
             html += '</tr>';
-            $('#agsoils__charts_content table tr:nth-child(3)').before(html);
+            $('#gas__charts_content table tr:nth-child(3)').before(html);
 
+        } else if (domain_code == 'gt') {
+            $('#gt__charts_content table thead tr th:last-child').remove();
+            $('#gt__charts_content table tbody tr td:last-child').remove();
         } else {
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td').attr('colspan', 3);
@@ -553,24 +461,54 @@ define(['jquery',
         /* Populate charts table. */
         this.populate_charts_table(td_ids);
 
+        /* Change domain code for agricultural soils. */
+        if (domain_code == 'agsoils')
+            domain_code = 'gas';
+
+        /* Populate tables. */
+        this.load_table_template(domain_code + '_tables_content_faostat',
+                                 translate.faostat + ' ' + translate.co2eq,
+                                 1990, 2012,
+                                 domain_code + '_faostat',
+                                 'faostat',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_nc',
+                                 translate.nc + ' ' + translate.co2eq,
+                                 1990, 2012,
+                                 domain_code + '_nc',
+                                 'nc',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_difference',
+                                 translate.difference,
+                                 1990, 2012,
+                                 domain_code + '_difference',
+                                 'difference',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_norm_difference',
+                                 translate.norm_difference,
+                                 1990, 2012,
+                                 domain_code + '_norm_difference',
+                                 'norm_difference',
+                                 domain_code);
+
         /* Load table's template */
         switch (domain_code) {
 
             /* Agriculture Total tables. */
-            case 'gt':
-                this.load_table_template('gt_tables_content_faostat', translate.faostat + ' ' + translate.co2eq, 1990, 2012, 'gt_faostat', 'faostat');
-                this.load_table_template('gt_tables_content_nc', translate.nc + ' ' + translate.co2eq, 1990, 2012, 'gt_nc', 'nc');
-                this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference');
-                this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference');
-                break;
+            //case 'gt':
+            //    this.load_table_template('gt_tables_content_faostat', translate.faostat + ' ' + translate.co2eq, 1990, 2012, 'gt_faostat', 'faostat', domain_code);
+            //    this.load_table_template('gt_tables_content_nc', translate.nc + ' ' + translate.co2eq, 1990, 2012, 'gt_nc', 'nc', domain_code);
+            //    this.load_table_template('gt_tables_content_difference', translate.difference, 1990, 2012, 'gt_difference', 'difference', domain_code);
+            //    this.load_table_template('gt_tables_content_norm_difference', translate.norm_difference, 1990, 2012, 'gt_norm_difference', 'norm_difference', domain_code);
+            //    break;
 
             /* Agricultural Soils tables. */
-            case 'agsoils':
-                this.load_agsoils_table_template('agsoils_tables_content', translate.faostat + ' ' + translate.co2eq, 1990, 2013, 'faostat');
-                this.load_agsoils_table_template('agsoils_tables_content', translate.nc + ' ' + translate.co2eq, 1990, 2013, 'nc');
-                this.load_agsoils_table_template('agsoils_tables_content', translate.difference, 1990, 2013, 'difference');
-                this.load_agsoils_table_template('agsoils_tables_content', translate.norm_difference, 1990, 2013, 'norm_difference');
-                break;
+            //case 'agsoils':
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.faostat + ' ' + translate.co2eq, 1990, 2013, 'faostat');
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.nc + ' ' + translate.co2eq, 1990, 2013, 'nc');
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.difference, 1990, 2013, 'difference');
+            //    this.load_agsoils_table_template('agsoils_tables_content', translate.norm_difference, 1990, 2013, 'norm_difference');
+            //    break;
         }
 
         /* Link to tabs. */
@@ -868,22 +806,13 @@ define(['jquery',
         }
     };
 
-    GHG_QA_QC.prototype.populate_tables_faostat = function(country_code) {
+    GHG_QA_QC.prototype.populate_tables_faostat = function(country_code, domain_code) {
         var sql = {
-            'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                     "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                     "WHERE D.DomainCode = 'GT' " +
-                     "AND D.AreaCode = '" + country_code + "' " +
-                     "AND D.ElementListCode = '7231' " +
-                     "AND D.ItemCode IN ('5058', '5059', '5060', '5066', '5067', '1709', '1711'," +
-                                        "'5056', '1755', '1712', '6729', '5057', '5061') " +
-                     "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                    "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                    "2010, 2011, 2012) " +
-                     "AND D.AreaCode = A.AreaCode " +
-                     "AND D.ElementListCode = E.ElementListCode " +
-                     "AND D.ItemCode = I.ItemCode " +
-                     "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value"
+            'query': "SELECT Year, UNFCCCCode, GItemNameE, GValue, PerDiff, NormPerDiff " +
+                     "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                     "WHERE areacode = '" + country_code + "' " +
+                     "AND tabletype = 'emissions' " +
+                     "AND Year >= 1990 AND Year <= 2012"
         };
         var data = {};
         data.datasource = 'faostat';
@@ -925,89 +854,125 @@ define(['jquery',
     };
 
     /* Create the tables through Mustache templating. */
-    GHG_QA_QC.prototype.load_table_template = function(render_id, label, start_year, end_year, id_prefix, datasource) {
+    GHG_QA_QC.prototype.load_table_template = function(render_id, label, start_year, end_year, id_prefix, datasource, domain_code) {
 
         /* This... */
         var _this = this;
 
-        /* Create time-range and inputs. */
-        var years = [];
-        var inputs_4 = [];
-        var inputs_4A = [];
-        var inputs_4B = [];
-        var inputs_4C = [];
-        var inputs_4D = [];
-        var inputs_4E = [];
-        var inputs_4F = [];
-        for (var i = start_year; i <= end_year; i++) {
-            years.push({'year': i});
-            inputs_4.push({'input_id_4': id_prefix + '_4_' + i});
-            inputs_4A.push({'input_id_4A': id_prefix + '_4A_' + i});
-            inputs_4B.push({'input_id_4B': id_prefix + '_4B_' + i});
-            inputs_4C.push({'input_id_4C': id_prefix + '_4C_' + i});
-            inputs_4D.push({'input_id_4D': id_prefix + '_4D_' + i});
-            inputs_4E.push({'input_id_4E': id_prefix + '_4E_' + i});
-            inputs_4F.push({'input_id_4F': id_prefix + '_4F_' + i});
-        }
-
-        /* Define placeholders. */
-        var view = {
-            section_name: id_prefix,
-            spinning_id: id_prefix + '_spinning',
-            collapse_id: id_prefix + '_collapse_button',
-            left_table_id: id_prefix + '_left_table',
-            right_table_id: id_prefix + '_right_table',
-            years: years,
-            title: label,
-            inputs_4: inputs_4,
-            inputs_4A: inputs_4A,
-            inputs_4B: inputs_4B,
-            inputs_4C: inputs_4C,
-            inputs_4D: inputs_4D,
-            inputs_4E: inputs_4E,
-            inputs_4F: inputs_4F,
-            _code: translate.code,
-            _category: translate.category,
-            _agriculture: translate.gt,
-            _enteric_fermentation: translate.ge,
-            _manure_management: translate.gm,
-            _rice_cultivation: translate.gr,
-            _agricultural_soils: translate.ag_soils,
-            _prescribed_burning_of_savannas: translate.gh,
-            _field_burning_of_agricultural_residues: translate.gb,
-            _direct_soil_emissions: translate.direct_soil_emissions,
-            _synthetic_fertilizers: translate.gy,
-            _manure_applied_to_soils: translate.gu,
-            _crop_residues: translate.ga,
-            _cultivation_of_histosols: translate.gv,
-            export_data_label: translate.export_data_label,
-            export_data_id: id_prefix + '_export_data'
+        /* Get categories. */
+        var sql = {
+            'query': 'SELECT UNFCCCCode, GItemNameE ' +
+                     'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
+                     'AND tabletype = \'emissions\' ' +
+                     'AND Year >= 1990 AND Year <= 2012 ' +
+                     'GROUP BY UNFCCCCode, GItemNameE'
         };
 
-        /* Load the template. */
-        var template = $(templates).filter('#g1_table').html();
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
 
-        /* Substitute placeholders. */
-        var render = Mustache.render(template, view);
+        $.ajax({
 
-        /* Render the HTML. */
-        $(document.getElementById(render_id)).html(render);
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
 
-        /* Populate table. */
-        this.populate_tables(this.CONFIG.country_code, datasource);
+            success: function (response) {
 
-        /* Enlarge first column for English language only. */
-        if (this.CONFIG.lang == 'E' || this.CONFIG.lang == 'F' || this.CONFIG.lang == 'S') {
-            $('#gt_faostat_left_table thead tr th:nth-child(2)').css('width', '181px');
-            $('#gt_nc_left_table thead tr th:nth-child(2)').css('width', '181px');
-            $('#gt_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
-            $('#gt_norm_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
-        }
+                /* Cast the response to JSON, if needed. */
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
 
+                /* Define placeholders. */
+                var view = {
+                    rows: [],
+                    categories: [],
+                    title: label,
+                    code_title_label: translate.code,
+                    category_title_label: translate.category,
+                    years: [],
+                    left_standard_table_id: id_prefix + '_left_table',
+                    right_standard_table_id: id_prefix + '_right_table',
+                    standard_export_data_id: domain_code + '_' + id_prefix + '_export_data',
+                    export_data_label: translate.export_data_label
+                };
 
-        /* Export tables. */
-        $('#' + id_prefix + '_export_data').click({id: id_prefix}, function(e) {
-            _this.export_data(e.data.id);
+                /* Add categories. */
+                for (i = 0 ; i < json.length ; i++) {
+                    var code = json[i].length == 1 ? '' : json[i][0];
+                    var category_label = json[i].length == 1 ? json[i][0] : json[i][1];
+                    view.categories.push({
+                        category_code: code,
+                        category_code_container: domain_code + '_' + code.replace(/\./g, '') + '_container',
+                        category_label: category_label
+                    });
+                }
+
+                /* Add years. */
+                for (i = start_year ; i <= end_year ; i++)
+                    view.years.push({year: i});
+
+                /* Generate rows. */
+                for (var i = 0 ; i < json.length ; i++) {
+                    var tmp = {};
+                    tmp.inputs = [];
+                    for (var j = start_year ; j <= end_year ; j++) {
+                        tmp.inputs.push({
+                            standard_input_id: domain_code + '_' + datasource + '_' + j + '_' + json[i][0].replace(',', '_').replace(' ', '_')
+                        });
+                    }
+                    view.rows.push(tmp);
+                }
+
+                /* Load the template. */
+                var template = $(templates).filter('#standard_table').html();
+
+                /* Substitute placeholders. */
+                var render = Mustache.render(template, view);
+
+                /* Render the HTML. */
+                $(document.getElementById(render_id)).empty();
+                $(document.getElementById(render_id)).html(render);
+
+                /* Populate table. */
+                _this.populate_tables(_this.CONFIG.country_code, datasource, domain_code);
+
+                /* Enlarge first column for English language only. */
+                $('#' + domain_code + '_faostat_left_table thead tr th:nth-child(2)').css('width', '181px');
+                $('#' + domain_code + '_nc_left_table thead tr th:nth-child(2)').css('width', '181px');
+                $('#' + domain_code + '_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
+                $('#' + domain_code + '_norm_difference_left_table thead tr th:nth-child(2)').css('width', '181px');
+
+                /* Indent Agricultural Soils. */
+                if (domain_code == 'gas') {
+                    $('.gas_4D1_container').css('margin-left', '16px');
+                    $('.gas_4D11_container').css('margin-left', '32px');
+                    $('.gas_4D12_container').css('margin-left', '32px');
+                    $('.gas_4D14_container').css('margin-left', '32px');
+                    $('.gas_4D15_container').css('margin-left', '32px');
+                    $('.gas_4D2_container').css('margin-left', '16px');
+                    $('.gas_4D3_container').css('margin-left', '16px');
+                    $('.gas_4D11_container').css('font-style', 'italic');
+                    $('.gas_4D12_container').css('font-style', 'italic');
+                    $('.gas_4D14_container').css('font-style', 'italic');
+                    $('.gas_4D15_container').css('font-style', 'italic');
+                }
+
+                /* Export tables. */
+                $('#' + domain_code + '_' + id_prefix + '_export_data').click({id: id_prefix}, function(e) {
+                    _this.export_data(e.data.id);
+                });
+
+            }
+
         });
 
     };
@@ -1021,12 +986,12 @@ define(['jquery',
 
         var headers_1 = [];
         $('#' + table_id + '_left_table th div').each(function() {
-            headers_1.push($(this).html().trim())
+            headers_1.push($(this).text().trim())
         });
 
         var headers_2 = [];
         $('#' + table_id + '_right_table th div').each(function() {
-            headers_2.push($(this).html().trim())
+            headers_2.push($(this).text().trim())
         });
 
         data.push(headers_1.concat(headers_2));
@@ -1035,10 +1000,10 @@ define(['jquery',
             var contents_1 = $('#' + table_id + '_left_table tr:nth-child(' + z + ') td div');
             var contents_2 = $('#' + table_id + '_right_table tr:nth-child(' + z + ') td div');
             var row = [];
-            for (var i = 0; i < contents_1.length; i++)
-                row.push($(contents_1[i]).html().trim());
+            for (var i = 0; i < 2; i++)
+                row.push('"' + $(contents_1[i]).text().trim() + '"');
             for (var i = 0; i < contents_2.length; i++)
-                row.push($(contents_2[i]).html().trim().replace(',', ''));
+                row.push($(contents_2[i]).text().trim().replace(',', ''));
             data.push(row);
         }
 
@@ -1056,21 +1021,73 @@ define(['jquery',
 
     };
 
-    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource) {
-        switch (datasource) {
-            case 'faostat':
-                this.populate_tables_faostat(country_code);
-                break;
-            case 'nc':
-                this.populate_tables_nc(country_code);
-                break;
-            case 'difference':
-                this.populate_tables_difference(country_code);
-                break;
-            case 'norm_difference':
-                this.populate_tables_norm_difference(country_code);
-                break;
-        }
+    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code) {
+
+        var sql = {
+            'query': "SELECT Year, GItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff, UNFCCCCode " +
+                     "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                     "WHERE areacode = '" + this.CONFIG.country_code + "' " +
+                     "AND tabletype = 'emissions' " +
+                     "AND Year >= 1990 AND Year <= 2012"
+        };
+
+        var data = {};
+        data.datasource = 'faostat';
+        data.thousandSeparator = ',';
+        data.decimalSeparator = '.';
+        data.decimalNumbers = 2;
+        data.json = JSON.stringify(sql);
+        data.cssFilename = '';
+        data.nowrap = false;
+        data.valuesIndex = 0;
+
+        $.ajax({
+
+            type: 'POST',
+            url: this.CONFIG.url_data,
+            data: data,
+
+            success: function (response) {
+
+                var json = response;
+                if (typeof json == 'string')
+                    json = $.parseJSON(response);
+
+                for (var i = 0 ; i < json.length ; i++) {
+                    var div_id = null;
+                    if (domain_code == 'gt' || domain_code == 'gas')
+                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
+                    else
+                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
+                    var value_idx = 2;
+                    switch (datasource) {
+                        case 'nc': value_idx = 3; break;
+                        case 'difference': value_idx = 4; break;
+                        case 'norm_difference': value_idx = 5; break;
+                    }
+                    var value = parseFloat(json[i][value_idx]).toFixed(2);
+                    var color = '#666';
+                    switch (datasource) {
+                        case 'difference':
+                            color = value >= 0 ? 'green' : 'red';
+                            break;
+                        case 'norm_difference':
+                            color = value >= 0 ? 'green' : 'red';
+                            break;
+                    }
+                    value = '<span style="color: ' + color + ';">';
+                    if (!isNaN(parseFloat(json[i][value_idx]))) {
+                        value += parseFloat(json[i][value_idx]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        value += (datasource == 'difference' || datasource == 'norm_difference') ? '%' : '';
+                    }
+                    value += '</span>';
+                    document.getElementById(div_id).innerHTML = value;
+                }
+
+            }
+
+        });
+
     };
 
     GHG_QA_QC.prototype.populate_tables_norm_difference = function(country_code) {
@@ -1260,6 +1277,7 @@ define(['jquery',
                 series_definition.push(unfccc);
             if ($.inArray('TOTAL', params) < 0)
                 series_definition.push(gunf);
+
             this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
 
         }
@@ -1397,6 +1415,10 @@ define(['jquery',
             db_domain_code = 'GT';
         if (item == '5057' && element == '7237')
             db_domain_code = 'GT';
+        if (datasource == 'GUNF' && item == '1048' && element == '72314')
+            element = '72316';
+        if (datasource == 'GUNF' && item == '27' && element == '72315')
+            element = '72317';
 
         switch (datasource) {
             case 'faostat':
@@ -1516,7 +1538,7 @@ define(['jquery',
             //$('#' + domain_code + '_' + item + '_' + element).html(translate.data_not_available);
 
             /* If the series is empty, add a vector made of null values. */
-            if (series.data.length == 0) {
+            if (series.data != null && series.data.length == 0) {
 
                 /* Create the null vector. */
                 for (var z = 1990; z < 2012; z++)

@@ -166,15 +166,17 @@ h1 {
 }
 
 .coloured_header {
-  font-weight: normal;
+  font-weight: normal !important;
   background-color: #379bce;
   color: #FFFFFF;
 }
 
-#agsoils_tables_content_left_ghg_table th,
-#agsoils_tables_content_right_ghg_table th,
 #gt_faostat_left_table th,
 #gt_faostat_right_table th,
+#gas_faostat_left_table th,
+#gas_faostat_right_table th,
+#gas_nc_left_table th,
+#gas_nc_right_table th,
 #gt_nc_left_table th,
 #gt_nc_right_table th,
 #gt_difference_left_table th,
