@@ -905,11 +905,6 @@ define(['jquery',
                     export_data_label: translate.export_data_label
                 };
 
-                if (domain_code == 'ge') {
-                    console.debug(json);
-                    console.debug(charts_configuration.ge);
-                }
-
                 /* Add categories. */
                 for (i = 0 ; i < json.length ; i++) {
                     var code = json[i].length == 1 ? '' : json[i][0];
@@ -1285,6 +1280,7 @@ define(['jquery',
                 series_definition.push(unfccc);
             if ($.inArray('TOTAL', params) < 0)
                 series_definition.push(gunf);
+
             this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
 
         }
@@ -1422,6 +1418,8 @@ define(['jquery',
             db_domain_code = 'GT';
         if (item == '5057' && element == '7237')
             db_domain_code = 'GT';
+        if (datasource == 'GUNF' && item == '1048' && element == '72314')
+            element = '72316';
 
         switch (datasource) {
             case 'faostat':
@@ -1465,6 +1463,12 @@ define(['jquery',
                                "ORDER BY year DESC ";
                 break;
         }
+
+        if (datasource == 'GUNF' && item == '1048' && element == '72314') {
+            console.debug(datasource + '\t\t\t' + item + '\t\t\t' + domain_code + '\t\t\t' + element);
+            console.debug(sql.query);
+        }
+
 
         var data = {};
         data.datasource = 'faostat';
