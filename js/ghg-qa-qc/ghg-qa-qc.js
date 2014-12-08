@@ -148,7 +148,7 @@ define(['jquery',
 
         /* Render charts and tables tabs: Agricultural Total */
         if (option_selected == 'ghg_qa_qc_verification_agri_total_structure') {
-            var at = ['gt', 'gas', 'ge', 'gm', 'gr', 'gb', 'gh'];
+            var at = ['gt', 'gas', 'ge', 'gm', 'gr', 'gh', 'gb'];
             for (i = 0; i < at.length; i++)
                 this.create_charts_and_tables_tabs(at[i] + '_charts_and_tables', at[i]);
         }
@@ -905,8 +905,13 @@ define(['jquery',
                     export_data_label: translate.export_data_label
                 };
 
+                if (domain_code == 'ge') {
+                    console.debug(json);
+                    console.debug(charts_configuration.ge);
+                }
+
                 /* Add categories. */
-                for (var i = 0 ; i < json.length ; i++) {
+                for (i = 0 ; i < json.length ; i++) {
                     var code = json[i].length == 1 ? '' : json[i][0];
                     var category_label = json[i].length == 1 ? json[i][0] : json[i][1];
                     view.categories.push({
@@ -1053,8 +1058,6 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
-
-                console.debug(json[0]);
 
                 for (var i = 0 ; i < json.length ; i++) {
                     var div_id = null;
@@ -1273,6 +1276,8 @@ define(['jquery',
                 faostat.gunf_code = gunf_code;
                 faostat.domain = charts_configuration.domains_map[domain_code];
             }
+
+
 
             /* Create chart. */
             series_definition.push(faostat);
