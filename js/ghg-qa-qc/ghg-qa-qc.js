@@ -1004,7 +1004,6 @@ define(['jquery',
                 row.push('"' + $(contents_1[i]).text().trim() + '"');
             for (var i = 0; i < contents_2.length; i++)
                 row.push($(contents_2[i]).text().trim().replace(',', ''));
-            //console.debug(row);
             data.push(row);
         }
 
@@ -1272,8 +1271,6 @@ define(['jquery',
                 faostat.domain = charts_configuration.domains_map[domain_code];
             }
 
-
-
             /* Create chart. */
             series_definition.push(faostat);
             if (gunf_code != null)
@@ -1420,6 +1417,8 @@ define(['jquery',
             db_domain_code = 'GT';
         if (datasource == 'GUNF' && item == '1048' && element == '72314')
             element = '72316';
+        if (datasource == 'GUNF' && item == '27' && element == '72315')
+            element = '72317';
 
         switch (datasource) {
             case 'faostat':
@@ -1463,12 +1462,6 @@ define(['jquery',
                                "ORDER BY year DESC ";
                 break;
         }
-
-        if (datasource == 'GUNF' && item == '1048' && element == '72314') {
-            console.debug(datasource + '\t\t\t' + item + '\t\t\t' + domain_code + '\t\t\t' + element);
-            console.debug(sql.query);
-        }
-
 
         var data = {};
         data.datasource = 'faostat';
@@ -1545,7 +1538,7 @@ define(['jquery',
             //$('#' + domain_code + '_' + item + '_' + element).html(translate.data_not_available);
 
             /* If the series is empty, add a vector made of null values. */
-            if (series.data.length == 0) {
+            if (series.data != null && series.data.length == 0) {
 
                 /* Create the null vector. */
                 for (var z = 1990; z < 2012; z++)
