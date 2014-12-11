@@ -227,6 +227,9 @@ define(['jquery',
 
     GHG_QA_QC.prototype.create_charts_and_tables_tabs = function(id, domain_code) {
 
+        /* This... */
+        var _this = this;
+
         /* Load template. */
         var view = {
             'charts_label': translate.charts,
@@ -253,6 +256,9 @@ define(['jquery',
         /* Add table type selector. */
         $('#' + domain_code + '_table_selector').chosen();
         $('#' + domain_code + '_table_selector_chosen').css('width', '100%');
+        $('#' + domain_code + '_table_selector').change(function() {
+            _this.table_selector_click(domain_code);
+        });
 
         /* Read configuration. */
         this.read_charts_table_configuration(domain_code);
@@ -1021,6 +1027,13 @@ define(['jquery',
 
     };
 
+    GHG_QA_QC.prototype.table_selector_click = function(domain_code) {
+        this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, $('#' + domain_code + '_table_selector').val());
+        this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, $('#' + domain_code + '_table_selector').val());
+        this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, $('#' + domain_code + '_table_selector').val());
+        this.populate_tables(this.CONFIG.country_code, 'norm_difference', domain_code, $('#' + domain_code + '_table_selector').val());
+    };
+
     GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code, emissions_or_activity) {
 
         if (emissions_or_activity == null)
@@ -1033,9 +1046,6 @@ define(['jquery',
                      "AND tabletype = '" + emissions_or_activity + "' " +
                      "AND Year >= 1990 AND Year <= 2012"
         };
-
-        if (domain_code == 'ge')
-            console.debug(sql.query);
 
         var data = {};
         data.datasource = 'faostat';
