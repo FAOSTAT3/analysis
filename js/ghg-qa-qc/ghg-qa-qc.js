@@ -1021,15 +1021,21 @@ define(['jquery',
 
     };
 
-    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code) {
+    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code, emissions_or_activity) {
+
+        if (emissions_or_activity == null)
+            emissions_or_activity = 'emissions';
 
         var sql = {
             'query': "SELECT Year, GItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff, UNFCCCCode " +
                      "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                      "WHERE areacode = '" + this.CONFIG.country_code + "' " +
-                     "AND tabletype = 'emissions' " +
+                     "AND tabletype = '" + emissions_or_activity + "' " +
                      "AND Year >= 1990 AND Year <= 2012"
         };
+
+        if (domain_code == 'ge')
+            console.debug(sql.query);
 
         var data = {};
         data.datasource = 'faostat';
@@ -1059,7 +1065,7 @@ define(['jquery',
                         div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
                     } else {
                         try {
-                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6].replace(',', '_').replace(' ', '_');
+                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
                         } catch(e) {
 
                         }
