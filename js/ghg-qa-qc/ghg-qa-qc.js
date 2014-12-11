@@ -1055,10 +1055,15 @@ define(['jquery',
 
                 for (var i = 0 ; i < json.length ; i++) {
                     var div_id = null;
-                    if (domain_code == 'gt' || domain_code == 'gas')
+                    if (domain_code == 'gt' || domain_code == 'gas') {
                         div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
-                    else
-                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
+                    } else {
+                        try {
+                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6].replace(',', '_').replace(' ', '_');
+                        } catch(e) {
+
+                        }
+                    }
                     var value_idx = 2;
                     switch (datasource) {
                         case 'nc': value_idx = 3; break;
@@ -1081,7 +1086,11 @@ define(['jquery',
                         value += (datasource == 'difference' || datasource == 'norm_difference') ? '%' : '';
                     }
                     value += '</span>';
-                    document.getElementById(div_id).innerHTML = value;
+                    try {
+                        document.getElementById(div_id).innerHTML = value;
+                    } catch(e) {
+
+                    }
                 }
 
             }
@@ -1323,11 +1332,6 @@ define(['jquery',
                     load: function() {
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
-
-                            if (series[i].item == '946' && series[i].domain == 'ge') {
-                                console.debug(series[i].datasource + ', ' + series[i].name + ', ' + chart_id);
-                            }
-
                             _this.plotSeries(chart_series,
                                              series[i].datasource,
                                              series[i].domain,
