@@ -227,6 +227,9 @@ define(['jquery',
 
     GHG_QA_QC.prototype.create_charts_and_tables_tabs = function(id, domain_code) {
 
+        /* This... */
+        var _this = this;
+
         /* Load template. */
         var view = {
             'charts_label': translate.charts,
@@ -253,6 +256,9 @@ define(['jquery',
         /* Add table type selector. */
         $('#' + domain_code + '_table_selector').chosen();
         $('#' + domain_code + '_table_selector_chosen').css('width', '100%');
+        $('#' + domain_code + '_table_selector').change(function() {
+            _this.table_selector_click(domain_code);
+        });
 
         /* Read configuration. */
         this.read_charts_table_configuration(domain_code);
@@ -1021,13 +1027,23 @@ define(['jquery',
 
     };
 
-    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code) {
+    GHG_QA_QC.prototype.table_selector_click = function(domain_code) {
+        this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, $('#' + domain_code + '_table_selector').val());
+        this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, $('#' + domain_code + '_table_selector').val());
+        this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, $('#' + domain_code + '_table_selector').val());
+        this.populate_tables(this.CONFIG.country_code, 'norm_difference', domain_code, $('#' + domain_code + '_table_selector').val());
+    };
+
+    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code, emissions_or_activity) {
+
+        if (emissions_or_activity == null)
+            emissions_or_activity = 'emissions';
 
         var sql = {
             'query': "SELECT Year, GItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff, UNFCCCCode " +
                      "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                      "WHERE areacode = '" + this.CONFIG.country_code + "' " +
-                     "AND tabletype = 'emissions' " +
+                     "AND tabletype = '" + emissions_or_activity + "' " +
                      "AND Year >= 1990 AND Year <= 2012"
         };
 
@@ -1055,10 +1071,15 @@ define(['jquery',
 
                 for (var i = 0 ; i < json.length ; i++) {
                     var div_id = null;
-                    if (domain_code == 'gt' || domain_code == 'gas')
+                    if (domain_code == 'gt' || domain_code == 'gas') {
                         div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
-                    else
-                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
+                    } else {
+                        try {
+                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
+                        } catch(e) {
+
+                        }
+                    }
                     var value_idx = 2;
                     switch (datasource) {
                         case 'nc': value_idx = 3; break;
@@ -1081,7 +1102,11 @@ define(['jquery',
                         value += (datasource == 'difference' || datasource == 'norm_difference') ? '%' : '';
                     }
                     value += '</span>';
-                    document.getElementById(div_id).innerHTML = value;
+                    try {
+                        document.getElementById(div_id).innerHTML = value;
+                    } catch(e) {
+
+                    }
                 }
 
             }
@@ -1221,6 +1246,10 @@ define(['jquery',
                 this.CONFIG.default_colors[1] = '#379bcd';
             }
 
+            var datasource = 'activity';
+            if (element_code == '7231')
+                datasource = 'emissions';
+
             /* FAOSTAT chart definition. */
             var faostat = {
                 name: 'FAOSTAT',
@@ -1228,55 +1257,26 @@ define(['jquery',
                 country: this.CONFIG.country_code,
                 item: item_code,
                 element: element_code,
-                datasource: 'faostat',
+                datasource: datasource,
                 type: 'line',
-                enableMarker: false,
-                gunf_code: null
+                enableMarker: false
             };
 
             /* UNFCCC chart definition. */
             var unfccc = {
                 name: translate.nc,
-                domain: 'GT',
-                country: this.CONFIG.country_code,
-                item: '4',
-                element: null,
-                datasource: 'nc',
-                type: 'scatter',
-                enableMarker: true,
-                gunf_code: null
-            };
-
-            /* Activity Data chart definition. */
-            var gunf = {
-                name: translate.nc,
-                domain: 'GUNF',
+                domain: domain_code,
                 country: this.CONFIG.country_code,
                 item: item_code,
                 element: element_code,
-                datasource: 'GUNF',
-                type: 'scatter',
-                enableMarker: true,
-                gunf_code: null
+                datasource: datasource,
+                type: 'line',
+                enableMarker: false
             };
-
-            if (gunf.element == charts_configuration[domain_code].elements[0])
-                gunf.element = charts_configuration.gunf_elements_map[domain_code];
-
-            /* Additional parameters for 'total' charts. */
-            if ($.inArray('TOTAL', params) > -1) {
-                gunf_code = params[4];
-                unfccc.gunf_code = gunf_code;
-                faostat.gunf_code = gunf_code;
-                faostat.domain = charts_configuration.domains_map[domain_code];
-            }
 
             /* Create chart. */
             series_definition.push(faostat);
-            if (gunf_code != null)
-                series_definition.push(unfccc);
-            if ($.inArray('TOTAL', params) < 0)
-                series_definition.push(gunf);
+            series_definition.push(unfccc);
 
             this.createChart(td_ids[i], '', series_definition, false, this.CONFIG.default_colors);
 
@@ -1407,61 +1407,51 @@ define(['jquery',
         var sql = {};
         var db_domain_code = domain_code;
 
-        if (gunf_code == '4.D.2')
-            db_domain_code = 'gp';
-        if (item == '1755' && element == '72356')
-            db_domain_code = 'gm';
-        if (item == '5056' && element == '7235')
-            db_domain_code = 'GT';
-        if (item == '5057' && element == '7237')
-            db_domain_code = 'GT';
-        if (datasource == 'GUNF' && item == '1048' && element == '72314')
-            element = '72316';
-        if (datasource == 'GUNF' && item == '27' && element == '72315')
-            element = '72317';
+        var query = "SELECT Year, GUNFValue, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                    "WHERE AreaCode = '" + country + "' " +
+                    "AND GUNFCode = '" + item + "' " +
+                    "AND Year <= 2012 ";
+
 
         switch (datasource) {
-            case 'faostat':
-                sql['query'] = "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                               "WHERE D.DomainCode = '" + db_domain_code + "' AND D.AreaCode = '" + country + "' " +
-                               "AND (D.ElementListCode = '" + element + "' OR D.ElementCode = '" + element + "') " +
-                               "AND D.ItemCode IN ('" + item + "') " +
-                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                              "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                              "2010, 2011, 2012) " +
-                               "AND D.AreaCode = A.AreaCode " +
-                               "AND D.ElementListCode = E.ElementListCode " +
-                               "AND D.ItemCode = I.ItemCode " +
-                               "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                               "ORDER BY D.Year DESC ";
+            case 'emissions':
+                switch (series.name) {
+                    case translate.faostat:
+                        query = "SELECT Year, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                                "WHERE AreaCode = '" + country + "' " +
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
+                        break;
+                    case translate.nc:
+                        query = "SELECT Year, GUNFValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                                "WHERE AreaCode = '" + country + "' " +
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
+                        break;
+                }
+                query += "AND TableType = 'emissions' ";
                 break;
-            case 'GUNF':
-                sql['query'] = "SELECT A.AreaNameS, E.ElementNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                               "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                               "WHERE D.DomainCode = 'GUNF' AND D.AreaCode = '" + country + "' " +
-                               "AND D.ElementCode = '" + element + "' " +
-                               "AND D.ItemCode IN ('" + item + "') " +
-                               "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                               "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                               "2010, 2011, 2012) " +
-                               "AND D.AreaCode = A.AreaCode " +
-                               "AND D.ElementCode = E.ElementCode " +
-                               "AND D.ItemCode = I.ItemCode " +
-                               "GROUP BY A.AreaNameS, E.ElementNameS, I.ItemNameS, I.ItemCode, D.Year, D.value " +
-                               "ORDER BY D.Year DESC ";
-                break;
-            case 'nc':
-                sql['query'] = "SELECT year, GUNFValue " +
-                               "FROM UNFCCC_Comparison " +
-                               "WHERE areacode = " + country + " " +
-                               "AND code = '" + gunf_code + "' " +
-                               "AND year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                                            "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                                            "2010, 2011, 2012) " +
-                               "ORDER BY year DESC ";
+            case 'activity':
+                switch (series.name) {
+                    case translate.faostat:
+                        query = "SELECT Year, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                                "WHERE AreaCode = '" + country + "' " +
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
+                        break;
+                    case translate.nc:
+                        query = "SELECT Year, GUNFValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                                "WHERE AreaCode = '" + country + "' " +
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
+                        break;
+                }
+                query += "AND TableType = 'activity' ";
                 break;
         }
+        sql['query'] = query;
+
+
 
         var data = {};
         data.datasource = 'faostat';
@@ -1480,6 +1470,15 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
+
+                //if (item == '946' && domain_code == 'ge') {
+                //    console.debug(datasource + ', ' + series.name);
+                //    console.debug(sql.query);
+                //    console.debug(series.chart.renderTo);
+                //    console.debug(json);
+                //    console.debug();
+                //}
+
                 _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
             }
         });
@@ -1488,44 +1487,57 @@ define(['jquery',
     GHG_QA_QC.prototype.prepare_chart_data = function (series, db_data, datasource, domain_code, item, element) {
 
         var data = [];
-        var max = Number.MIN_VALUE;
-        var min = Number.MAX_VALUE;
 
-        switch (datasource) {
-            case 'faostat':
-                for (var i = db_data.length - 1 ; i >= 0 ; i--) {
-                    var tmp = [];
-                    var year = parseInt(db_data[i][4]);
-                    tmp.push(year);
-                    tmp.push(parseFloat(db_data[i][5]));
-                    data.push(tmp);
-                }
-                break;
-            case 'GUNF':
-                for (var i = db_data.length - 1 ; i >= 0 ; i--) {
-                    var tmp = [];
-                    var year = parseInt(db_data[i][4]);
-                    tmp.push(year);
-                    tmp.push(parseFloat(db_data[i][5]));
-                    data.push(tmp);
-                }
-                break;
-            case 'nc':
-                for (var i = db_data.length - 1 ; i >= 0 ; i--) {
-                    var tmp = [];
-                    if (db_data[i].length > 1) {
-                        var year = parseInt(db_data[i][0]);
-                        tmp.push(year);
-                        tmp.push(parseFloat(db_data[i][1]));
-                    } else {
-                        var year = parseInt(db_data[i][0]);
-                        tmp.push(year);
-                        tmp.push(null);
-                    }
-                    data.push(tmp);
-                }
-                break;
+        for (var i = 0; i < db_data.length ; i ++) {
+            var tmp = [];
+            var year = parseInt(db_data[i][0]);
+            tmp.push(year);
+            var value = parseFloat(db_data[i][1]);
+            if (isNaN(value))
+                value = null;
+            tmp.push(value);
+            data.push(tmp);
         }
+
+        //if (item == '946' && domain_code == 'ge') {
+        //    console.debug(series.name);
+        //    console.debug(db_data);
+        //    console.debug();
+        //}
+
+        //switch (series.name) {
+        //    case translate.faostat:
+        //        for (var i = 0; i < db_data.length ; i ++) {
+        //            var tmp = [];
+        //            var year = parseInt(db_data[i][0]);
+        //            tmp.push(year);
+        //            var value = parseFloat(db_data[i][2]);
+        //            if (isNaN(value))
+        //                value = null;
+        //            tmp.push(value);
+        //            data.push(tmp);
+        //        }
+        //        break;
+        //    case translate.nc:
+        //        for (var i = 0; i < db_data.length ; i ++) {
+        //            var tmp = [];
+        //            var year = parseInt(db_data[i][0]);
+        //            tmp.push(year);
+        //            var value = parseFloat(db_data[i][1]);
+        //            if (isNaN(value))
+        //                value = null;
+        //            tmp.push(value);
+        //            data.push(tmp);
+        //        }
+        //        break;
+        //}
+
+        //if (item == '946' && domain_code == 'ge' && datasource == 'emissions') {
+        //    console.debug(datasource);
+        //    console.debug(data);
+        //    console.debug(series.chart.renderTo);
+        //    console.debug();
+        //}
 
         if (data.length > 0) {
 
