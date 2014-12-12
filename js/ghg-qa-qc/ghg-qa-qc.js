@@ -1064,15 +1064,17 @@ define(['jquery',
             data: data,
 
             success: function (response) {
-
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
-
                 for (var i = 0 ; i < json.length ; i++) {
                     var div_id = null;
                     if (domain_code == 'gt' || domain_code == 'gas') {
-                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
+                        if (json[i][6] != null) {
+                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
+                        } else {
+                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][3];
+                        }
                     } else {
                         try {
                             div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
@@ -1083,29 +1085,40 @@ define(['jquery',
                     var value_idx = 2;
                     switch (datasource) {
                         case 'nc': value_idx = 3; break;
-                        case 'difference': value_idx = 4; break;
+                        case 'difference':
+                            value_idx = 4;
+                            break;
                         case 'norm_difference': value_idx = 5; break;
                     }
-                    var value = parseFloat(json[i][value_idx]).toFixed(2);
-                    var color = '#666';
-                    switch (datasource) {
-                        case 'difference':
-                            color = value >= 0 ? 'green' : 'red';
-                            break;
-                        case 'norm_difference':
-                            color = value >= 0 ? 'green' : 'red';
-                            break;
-                    }
-                    value = '<span style="color: ' + color + ';">';
-                    if (!isNaN(parseFloat(json[i][value_idx]))) {
-                        value += parseFloat(json[i][value_idx]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                        value += (datasource == 'difference' || datasource == 'norm_difference') ? '%' : '';
-                    }
-                    value += '</span>';
-                    try {
-                        document.getElementById(div_id).innerHTML = value;
-                    } catch(e) {
+                    var value = null;
+                    if (json[i][value_idx] != null && json[i][value_idx] != 'undefined') {
+                        value = parseFloat(json[i][value_idx]).toFixed(2);
+                        var color = '#666';
+                        switch (datasource) {
+                            case 'difference':
+                                color = value >= 0 ? 'green' : 'red';
+                                if (json[i].length == 4)
+                                    value = null;
+                                break;
+                            case 'norm_difference':
+                                color = value >= 0 ? 'green' : 'red';
+                                break;
+                        }
+                        value = '<span style="color: ' + color + ';">';
+                        if (datasource == 'nc' && json[i].length == 4) {
+                            value += '';
+                        } else {
+                            if (!isNaN(parseFloat(json[i][value_idx]))) {
+                                value += parseFloat(json[i][value_idx]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                value += (datasource == 'difference' || datasource == 'norm_difference') ? '%' : '';
+                            }
+                        }
+                        value += '</span>';
+                        try {
+                            document.getElementById(div_id).innerHTML = value;
+                        } catch (e) {
 
+                        }
                     }
                 }
 
