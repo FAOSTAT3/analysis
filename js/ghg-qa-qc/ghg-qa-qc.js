@@ -273,77 +273,97 @@ define(['jquery',
         /* Load configurations for the given domain. */
         var config = charts_configuration[domain_code];
 
-        /* Load items. */
-        $.ajax({
+        if (domain_code != 'gas') {
 
-            type: 'GET',
-            dataType: 'json',
-            url: this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/3/1/' + this.CONFIG.lang,
+            /* Load items. */
+            $.ajax({
 
-            success: function (response) {
+                type: 'GET',
+                dataType: 'json',
+                url: this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/3/1/' + this.CONFIG.lang,
 
-                /* Cast response to JSON. */
-                var items = response;
-                if (typeof items == 'string')
-                    items = $.parseJSON(response);
+                success: function (response) {
 
-                /* Remove items contained in the blacklist. */
-                for (var i = items.length - 1 ; i >= 0 ; i--)
-                    if ($.inArray(items[i][0], config.items_blacklist) > -1)
-                        items.splice(i, 1);
+                    /* Cast response to JSON. */
+                    var items = response;
+                    if (typeof items == 'string')
+                        items = $.parseJSON(response);
 
-                /* Add items aggregated, if any. */
-                if (config.items_aggregated != null) {
+                    /* Remove items contained in the blacklist. */
+                    for (var i = items.length - 1; i >= 0; i--)
+                        if ($.inArray(items[i][0], config.items_blacklist) > -1)
+                            items.splice(i, 1);
 
-                    /* Fetch items aggregated from the DB. */
-                    $.ajax({
+                    /* Add items aggregated, if any. */
+                    if (config.items_aggregated != null) {
 
-                        type: 'GET',
-                        dataType: 'json',
-                        url: _this.CONFIG.url_listboxes + _this.CONFIG.datasource + '/' + domain_code + '/3/2/' + _this.CONFIG.lang,
+                        /* Fetch items aggregated from the DB. */
+                        $.ajax({
 
-                        success: function (response) {
+                            type: 'GET',
+                            dataType: 'json',
+                            url: _this.CONFIG.url_listboxes + _this.CONFIG.datasource + '/' + domain_code + '/3/2/' + _this.CONFIG.lang,
 
-                            /* Cast response to JSON. */
-                            var items_aggregated = response;
-                            if (typeof items_aggregated == 'string')
-                                items_aggregated = $.parseJSON(response);
+                            success: function (response) {
 
-                            /* Add the items aggregated described in the configuration file. */
-                            for (i = 0 ; i < items_aggregated.length ; i++)
-                                if ($.inArray(items_aggregated[i][0], config.items_aggregated) > -1)
-                                    items.push(items_aggregated[i]);
+                                /* Cast response to JSON. */
+                                var items_aggregated = response;
+                                if (typeof items_aggregated == 'string')
+                                    items_aggregated = $.parseJSON(response);
 
-                            /* Process results. */
-                            _this.process_charts_table_configuration_standard(domain_code, config, items);
+                                /* Add the items aggregated described in the configuration file. */
+                                for (i = 0; i < items_aggregated.length; i++)
+                                    if ($.inArray(items_aggregated[i][0], config.items_aggregated) > -1)
+                                        items.push(items_aggregated[i]);
 
-                        }
+                                /* Process results. */
+                                _this.process_charts_table_configuration_standard(domain_code, config, items);
 
-                    });
+                            }
 
-                } else {
+                        });
 
-                    /* Process results. */
+                    } else {
+
+                        /* Process results. */
+                        _this.process_charts_table_configuration_standard(domain_code, config, items);
+
+                    }
+
+                },
+
+                error: function (err) {
+                    var items = [];
+                    for (var i = 0; i < config.totals.length; i++) {
+                        var item = [];
+                        item.push(config.totals[i].item.code);
+                        item.push(translate[config.totals[i].item.label]);
+                        item.push('TOTAL');
+                        item.push(config.totals[i].gunf_code);
+                        items.push(item);
+                    }
                     _this.process_charts_table_configuration_standard(domain_code, config, items);
-
                 }
 
-            },
+            });
 
-            error : function(err) {
-                var items = [];
-                for (var i = 0 ; i < config.totals.length ; i++) {
-                    var item = [];
-                    item.push(config.totals[i].item.code);
-                    item.push(translate[config.totals[i].item.label]);
-                    item.push('TOTAL');
-                    item.push(config.totals[i].gunf_code);
-                    items.push(item);
-                }
-                _this.process_charts_table_configuration_standard(domain_code, config, items);
+        } else {
+            var items = [];
+            for (var i = 0 ; i < config.custom_items.length ; i++)
+                items.push([config.custom_items[i],
+                            translate[config.custom_items_labels[i]],
+                            'n.a',
+                            'n.a']);
+            for (var i = 0; i < config.totals.length; i++) {
+                var item = [];
+                item.push(config.totals[i].item.code);
+                item.push(translate[config.totals[i].item.label]);
+                item.push('TOTAL');
+                item.push(config.totals[i].gunf_code);
+                items.push(item);
             }
-
-        });
+            _this.process_charts_table_configuration_standard(domain_code, config, items);
+        }
 
     };
 
@@ -425,25 +445,26 @@ define(['jquery',
             this.separate_total_charts(domain_code);
 
         /* Remove extra columns for Agricultural Soils. */
-        if (domain_code == 'gas') {
-
-            $('#gas__charts_content table td:last-child').remove();
-            $('#gas__charts_content table th:last-child').remove();
-            $('#gas__charts_content table th:first-child').css('width', '135px');
-
-            /* Add an empty row. */
-            var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="2">&nbsp;</td></tr>';
-            $('#gas__charts_content table tr:nth-child(2)').before(html);
-
-            /* Add titles for the 'second' table. */
-            html = '';
-            html += '<tr>';
-            html += '<th>' + translate.item + '</th>';
-            html += '<th>' + translate.emissions + '</th>';
-            html += '</tr>';
-            $('#gas__charts_content table tr:nth-child(3)').before(html);
-
-        } else if (domain_code == 'gt') {
+        //if (domain_code == 'gas') {
+        //
+        //    $('#gas__charts_content table td:last-child').remove();
+        //    $('#gas__charts_content table th:last-child').remove();
+        //    $('#gas__charts_content table th:first-child').css('width', '135px');
+        //
+        //    /* Add an empty row. */
+        //    var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="2">&nbsp;</td></tr>';
+        //    $('#gas__charts_content table tr:nth-child(2)').before(html);
+        //
+        //    /* Add titles for the 'second' table. */
+        //    html = '';
+        //    html += '<tr>';
+        //    html += '<th>' + translate.item + '</th>';
+        //    html += '<th>' + translate.emissions + '</th>';
+        //    html += '</tr>';
+        //    $('#gas__charts_content table tr:nth-child(3)').before(html);
+        //
+        //} else
+        if (domain_code == 'gt') {
             $('#gt__charts_content table thead tr th:last-child').remove();
             $('#gt__charts_content table tbody tr td:last-child').remove();
         } else {
@@ -456,13 +477,18 @@ define(['jquery',
         $('#1755_container').css('margin-left', '16px');
         $('#5057_container').css('margin-left', '16px');
         $('#5061_container').css('margin-left', '32px');
-        $('#5062_container').css('margin-left', '32px');
+        $('#6734_container').css('margin-left', '32px');
+        $('#6735_container').css('margin-left', '32px');
+        $('#6722_container').css('margin-left', '32px');
         $('#5064_container').css('margin-left', '32px');
         $('#6759_container').css('margin-left', '32px');
         $('#5061_container').css('font-style', 'italic');
         $('#5062_container').css('font-style', 'italic');
         $('#5064_container').css('font-style', 'italic');
         $('#6759_container').css('font-style', 'italic');
+        $('#6734_container').css('font-style', 'italic');
+        $('#673d_container').css('font-style', 'italic');
+        $('#6722_container').css('font-style', 'italic');
 
         /* Populate charts table. */
         this.populate_charts_table(td_ids);
@@ -1419,12 +1445,7 @@ define(['jquery',
         var _this = this;
         var sql = {};
         var db_domain_code = domain_code;
-
-        var query = "SELECT Year, GUNFValue, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
-                    "WHERE AreaCode = '" + country + "' " +
-                    "AND GUNFCode = '" + item + "' " +
-                    "AND Year <= 2012 ";
-
+        var query;
 
         switch (datasource) {
             case 'emissions':
@@ -1464,8 +1485,6 @@ define(['jquery',
         }
         sql['query'] = query;
 
-
-
         var data = {};
         data.datasource = 'faostat';
         data.thousandSeparator = ',';
@@ -1483,15 +1502,6 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
-
-                //if (item == '946' && domain_code == 'ge') {
-                //    console.debug(datasource + ', ' + series.name);
-                //    console.debug(sql.query);
-                //    console.debug(series.chart.renderTo);
-                //    console.debug(json);
-                //    console.debug();
-                //}
-
                 _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
             }
         });
@@ -1511,46 +1521,6 @@ define(['jquery',
             tmp.push(value);
             data.push(tmp);
         }
-
-        //if (item == '946' && domain_code == 'ge') {
-        //    console.debug(series.name);
-        //    console.debug(db_data);
-        //    console.debug();
-        //}
-
-        //switch (series.name) {
-        //    case translate.faostat:
-        //        for (var i = 0; i < db_data.length ; i ++) {
-        //            var tmp = [];
-        //            var year = parseInt(db_data[i][0]);
-        //            tmp.push(year);
-        //            var value = parseFloat(db_data[i][2]);
-        //            if (isNaN(value))
-        //                value = null;
-        //            tmp.push(value);
-        //            data.push(tmp);
-        //        }
-        //        break;
-        //    case translate.nc:
-        //        for (var i = 0; i < db_data.length ; i ++) {
-        //            var tmp = [];
-        //            var year = parseInt(db_data[i][0]);
-        //            tmp.push(year);
-        //            var value = parseFloat(db_data[i][1]);
-        //            if (isNaN(value))
-        //                value = null;
-        //            tmp.push(value);
-        //            data.push(tmp);
-        //        }
-        //        break;
-        //}
-
-        //if (item == '946' && domain_code == 'ge' && datasource == 'emissions') {
-        //    console.debug(datasource);
-        //    console.debug(data);
-        //    console.debug(series.chart.renderTo);
-        //    console.debug();
-        //}
 
         if (data.length > 0) {
 

@@ -98,7 +98,9 @@
     },
     "gas": {
         "items_blacklist": [],
-        "elements": [],
+        "elements": ["7231", "5111"],
+        "custom_items": ["5056", "5061", "6722", "5064", "6734", "6735", "5057"],
+        "custom_items_labels": ["direct_soil_emissions", "gy", "gu", "ga", "gv", "pasture_paddock_maure", "indirect_emissions"],
         "totals": [
             {
                 "item": {
@@ -107,62 +109,6 @@
                 },
                 "element_codes": ["7231"],
                 "gunf_code": "4.D"
-            },
-            {
-                "item": {
-                    "code": "5056",
-                    "label": "direct_soil_emissions"
-                },
-                "element_codes": ["7235"],
-                "gunf_code": "4.D.1"
-            },
-            {
-                "item": {
-                    "code": "5061",
-                    "label": "gy"
-                },
-                "element_codes": ["7231"],
-                "gunf_code": "4.D.1.1"
-            },
-            {
-                "item": {
-                    "code": "5062",
-                    "label": "gu"
-                },
-                "element_codes": ["7231"],
-                "gunf_code": "4.D.1.2"
-            },
-            {
-                "item": {
-                    "code": "5064",
-                    "label": "ga"
-                },
-                "element_codes": ["7231"],
-                "gunf_code": "4.D.1.4"
-            },
-            {
-                "item": {
-                    "code": "6759",
-                    "label": "gv"
-                },
-                "element_codes": ["7231"],
-                "gunf_code": "4.D.1.5"
-            },
-            {
-                "item": {
-                    "code": "1755",
-                    "label": "pasture_paddock_maure"
-                },
-                "element_codes": ["7235"],
-                "gunf_code": "4.D.2"
-            },
-            {
-                "item": {
-                    "code": "5057",
-                    "label": "indirect_emissions"
-                },
-                "element_codes": ["7237"],
-                "gunf_code": "4.D.3"
             }
         ]
     },
