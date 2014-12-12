@@ -1073,10 +1073,19 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.table_selector_click = function(domain_code) {
+
+        /* Clear tables. */
+        $('#' + domain_code + '_faostat_right_table tbody tr td div').html('');
+        $('#' + domain_code + '_nc_right_table tbody tr td div').html('');
+        $('#' + domain_code + '_difference_right_table tbody tr td div').html('');
+        $('#' + domain_code + '_norm_difference_right_table tbody tr td div').html('');
+
+        /* Populate tables. */
         this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, $('#' + domain_code + '_table_selector').val());
         this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, $('#' + domain_code + '_table_selector').val());
         this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, $('#' + domain_code + '_table_selector').val());
         this.populate_tables(this.CONFIG.country_code, 'norm_difference', domain_code, $('#' + domain_code + '_table_selector').val());
+
     };
 
     GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code, emissions_or_activity) {
