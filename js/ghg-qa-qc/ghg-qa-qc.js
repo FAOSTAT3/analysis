@@ -1409,7 +1409,8 @@ define(['jquery',
 
         var query = "SELECT Year, GUNFValue, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                     "WHERE AreaCode = '" + country + "' " +
-                    "AND GUNFCode = '" + item + "' ";
+                    "AND GUNFCode = '" + item + "' " +
+                    "AND Year <= 2012 ";
 
 
         switch (datasource) {
@@ -1418,12 +1419,14 @@ define(['jquery',
                     case translate.faostat:
                         query = "SELECT Year, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                                 "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' ";
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
                         break;
                     case translate.nc:
                         query = "SELECT Year, GUNFValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                                 "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' ";
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
                         break;
                 }
                 query += "AND TableType = 'emissions' ";
@@ -1433,12 +1436,14 @@ define(['jquery',
                     case translate.faostat:
                         query = "SELECT Year, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                                 "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' ";
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
                         break;
                     case translate.nc:
                         query = "SELECT Year, GUNFValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                                 "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' ";
+                                "AND GUNFCode = '" + item + "' " +
+                                "AND Year <= 2012 ";
                         break;
                 }
                 query += "AND TableType = 'activity' ";
