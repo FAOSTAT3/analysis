@@ -232,7 +232,7 @@ define(['jquery',
             html += '<tr>';
             html += '<th>' + translate.item + '</th>';
             html += '<th>' + translate.emissions + '</th>';
-            html += '<th>Activity</th>';
+            html += '<th>' + translate.emissions_activity + '</th>';
             html += '</tr>';
             $('#gas__charts_content table tr:nth-child(3)').before(html);
 
@@ -1173,6 +1173,43 @@ define(['jquery',
                         } catch (e) {
 
                         }
+                    }
+                }
+
+                /* Remove 'Code' column. */
+                if (domain_code != 'gt' && domain_code != 'gas') {
+                    $('#' + domain_code + '_faostat_left_table thead tr th:first-child').css('display', 'none');
+                    $('#' + domain_code + '_faostat_left_table tbody tr td:first-child').css('display', 'none');
+                    $('#' + domain_code + '_nc_left_table thead tr th:first-child').css('display', 'none');
+                    $('#' + domain_code + '_nc_left_table tbody tr td:first-child').css('display', 'none');
+                    $('#' + domain_code + '_difference_left_table thead tr th:first-child').css('display', 'none');
+                    $('#' + domain_code + '_difference_left_table tbody tr td:first-child').css('display', 'none');
+                    $('#' + domain_code + '_norm_difference_left_table thead tr th:first-child').css('display', 'none');
+                    $('#' + domain_code + '_norm_difference_left_table tbody tr td:first-child').css('display', 'none');
+
+
+                }
+
+                /* Hid first row. */
+                if (domain_code == 'ge' || domain_code == 'gm' || domain_code == 'gb') {
+                    if (emissions_or_activity == 'activity') {
+                        $('#' + domain_code + '_faostat_left_table tbody tr:first-child').css('display', 'none');
+                        $('#' + domain_code + '_faostat_right_table tbody tr:first-child').css('display', 'none');
+                        $('#' + domain_code + '_nc_left_table tbody tr:first-child').css('display', 'none');
+                        $('#' + domain_code + '_nc_right_table tbody tr:first-child').css('display', 'none');
+                        $('#' + domain_code + '_difference_left_table tbody tr:first-child').css('display', 'none');
+                        $('#' + domain_code + '_difference_right_table tbody tr:first-child').css('display', 'none');
+                        $('#' + domain_code + '_norm_difference_left_table tbody tr:first-child').css('display', 'none');
+                        $('#' + domain_code + '_norm_difference_right_table tbody tr:first-child').css('display', 'none');
+                    } else {
+                        //$('#' + domain_code + '_faostat_left_table tbody tr:first-child').css('display', 'block');
+                        //$('#' + domain_code + '_faostat_right_table tbody tr:first-child').css('display', 'block');
+                        //$('#' + domain_code + '_nc_left_table tbody tr:first-child').css('display', 'block');
+                        //$('#' + domain_code + '_nc_right_table tbody tr:first-child').css('display', 'block');
+                        //$('#' + domain_code + '_difference_left_table tbody tr:first-child').css('display', 'block');
+                        //$('#' + domain_code + '_difference_right_table tbody tr:first-child').css('display', 'block');
+                        //$('#' + domain_code + '_norm_difference_left_table tbody tr:first-child').css('display', 'block');
+                        //$('#' + domain_code + '_norm_difference_right_table tbody tr:first-child').css('display', 'block');
                     }
                 }
 
