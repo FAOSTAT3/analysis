@@ -1,10 +1,11 @@
-define(['jquery',
-        'require',
+define([
+    //'jquery',
+    //    'require',
         'mustache',
         'text!tiled-analysis/js/tiles-manager/html/templates.html',
         'text!tiled-analysis/js/tiles-manager/config/tiles_configuration.json',
         'i18n!tiled-analysis/js/tiles-manager/nls/translate',
-        'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
+        'bootstrap'], function (Mustache, templates, tiles_configuration, translate) {
 
     'use strict';
 
@@ -131,7 +132,24 @@ define(['jquery',
         if (tiles_configuration[tile_code]['require'] != null) {
             $('#tiles_container').empty();
             require([tiles_configuration[tile_code]['require']], function (module) {
-                module.init({'lang': _this.CONFIG.lang});
+                console.log(module);
+                try {
+                    module.init({'lang': _this.CONFIG.lang});
+                }catch (e) {
+                    // TODO: remove it. This is done to handle geobricks_ui_distribution
+                    var m = new module()
+                    console.log(tiles_configuration[tile_code]["module_config"]);
+                    console.log(_this.CONFIG);
+                    var config = $.extend(true, {}, tiles_configuration[tile_code]["module_config"],
+                        {
+                         'placeholder': 'tiles_container',
+                         //'lang': _this.CONFIG.lang_iso2
+                         'lang': "EN"
+                        }
+                    );
+                    console.log(config);
+                    m.init(config);
+                }
             });
         } else {
             alert('This module has not been implemented yet.');

@@ -1,4 +1,5 @@
-define(['jquery',
+define([
+    //'jquery',
     'text!tiled-analysis/js/ghg-overview/html/ghg-overview-structure.html',
     'text!tiled-analysis/js/ghg-overview/config/ghg_overview.json',
     'chosen',
@@ -7,11 +8,12 @@ define(['jquery',
     'F3_GHG_TABLE',
     'FENIXChartsLibrary',
     'jshashtable'
-], function ($, template, resources_json) {
+], function (template, resources_json) {
 
     'use strict';
 
     function GHG_OVERVIEW() {
+        console.log($);
         this.CONFIG = {
             resources_json :  $.parseJSON(resources_json),
             placeholder: 'tiles_container',
@@ -92,6 +94,7 @@ define(['jquery',
     };
 
     GHG_OVERVIEW.prototype.loadLabels = function() {
+        console.log($.i18n);
 //        $("#fs_label_area").html($.i18n.prop('_area'));
         $("#fs_label_area").html($.i18n.prop('_select_a_country'));
         $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
