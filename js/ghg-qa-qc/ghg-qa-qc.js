@@ -221,6 +221,25 @@ define(['jquery',
 
             });
 
+        } else {
+
+            /* Add an empty row. */
+            var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
+            $('#gas__charts_content table tr:nth-child(2)').before(html);
+
+            /* Add titles for the 'second' table. */
+            html = '';
+            html += '<tr>';
+            html += '<th>' + translate.item + '</th>';
+            html += '<th>' + translate.emissions + '</th>';
+            html += '<th>Activity</th>';
+            html += '</tr>';
+            $('#gas__charts_content table tr:nth-child(3)').before(html);
+
+            /* Fix the title for the 'first' table. */
+            $('#gas__charts_content table tr:nth-child(1) th:last-child').remove();
+            $('#gas__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '2');
+
         }
 
     };
