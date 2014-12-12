@@ -1475,6 +1475,9 @@ define(['jquery',
         var db_domain_code = domain_code;
         var query;
 
+        if (domain_code == 'gr' && datasource == 'emissions')
+            item = '5060';
+
         switch (datasource) {
             case 'emissions':
                 switch (series.name) {
