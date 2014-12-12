@@ -1314,7 +1314,7 @@ define(['jquery',
             }
 
             var datasource = 'activity';
-            if (element_code == '7231')
+            if (element_code == '7231' || element_code == '72356')
                 datasource = 'emissions';
 
             /* FAOSTAT chart definition. */
@@ -1512,6 +1512,12 @@ define(['jquery',
                 break;
         }
         sql['query'] = query;
+
+        //if (domain_code == 'gm') {
+        //    console.debug(datasource);
+        //    console.debug(sql.query);
+        //    console.debug();
+        //}
 
         var data = {};
         data.datasource = 'faostat';
