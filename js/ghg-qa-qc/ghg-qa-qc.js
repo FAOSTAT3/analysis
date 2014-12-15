@@ -1083,16 +1083,27 @@ define(['jquery',
         /* Data type. */
         var e_or_a = $('#' + domain_code + '_table_selector').val();
 
-        //$.ajax({
-        //
-        //    type: 'GET',
-        //    url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/GE/2/1/E',
-        //
-        //    success: function (response) {
-        //
-        //    }
-        //
-        //});
+        if (e_or_a == 'activity') {
+            $.ajax({
+                type: 'GET',
+                url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/' + domain_code.toUpperCase() + '/2/1/' + this.CONFIG.lang,
+                success: function (response) {
+                    var json = response;
+                    if (typeof json == 'string')
+                        json = $.parseJSON(response);
+                    var mu = json[0][1];
+                    $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(translate.faostat + ' (' + mu + ')');
+                    $($('#' + domain_code + '_tables_content_nc h1')[0]).html(translate.nc + ' (' + mu + ')');
+                    $($('#' + domain_code + '_tables_content_difference h1')[0]).html(translate.difference + ' (' + mu + ')');
+                    $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(translate.norm_difference + ' (' + mu + ')');
+                }
+            });
+        } else {
+            $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(translate.faostat + ' ' + translate.co2eq);
+            $($('#' + domain_code + '_tables_content_nc h1')[0]).html(translate.nc + ' ' + translate.co2eq);
+            $($('#' + domain_code + '_tables_content_difference h1')[0]).html(translate.difference + ' ' + translate.co2eq);
+            $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(translate.norm_difference + ' ' + translate.co2eq);
+        }
 
         /* Populate tables. */
         this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, e_or_a);
@@ -1569,13 +1580,7 @@ define(['jquery',
                 break;
         }
         sql['query'] = query;
-
-        //if (domain_code == 'gm') {
-        //    console.debug(datasource);
-        //    console.debug(sql.query);
-        //    console.debug();
-        //}
-
+        
         var data = {};
         data.datasource = 'faostat';
         data.thousandSeparator = ',';
