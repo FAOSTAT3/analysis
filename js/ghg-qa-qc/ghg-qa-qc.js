@@ -1406,6 +1406,13 @@ define(['jquery',
                 enableMarker: false
             };
 
+            if (domain_code == 'ge' && item_code == '1048') {
+                //console.debug(faostat);
+                //console.debug(unfccc);
+                //console.debug(td_ids[i]);
+                //console.debug();
+            }
+
             /* Create chart. */
             series_definition.push(faostat);
             series_definition.push(unfccc);
@@ -1580,7 +1587,7 @@ define(['jquery',
                 break;
         }
         sql['query'] = query;
-        
+
         var data = {};
         data.datasource = 'faostat';
         data.thousandSeparator = ',';
@@ -1598,6 +1605,15 @@ define(['jquery',
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
+
+                if (domain_code == 'ge' && item == '1048' && (domain_code + '_' + item + '_' + element == 'ge_1048_7231')) {
+                    //console.debug(domain_code + '_' + item + '_' + element);
+                    //console.debug(json[0]);
+                    //if (json[0].length == 1)
+                    //    console.debug(sql.query);
+                    //console.debug();
+                }
+
                 _this.prepare_chart_data(series, json, datasource, domain_code, item, element);
             }
         });
@@ -1616,6 +1632,12 @@ define(['jquery',
                 value = null;
             tmp.push(value);
             data.push(tmp);
+        }
+
+        if (domain_code == 'ge' && item == '1048') {
+            //console.debug(series.chart.renderTo);
+            //console.debug(data);
+            //console.debug();
         }
 
         if (data.length > 0) {

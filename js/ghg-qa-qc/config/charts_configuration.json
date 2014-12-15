@@ -21,8 +21,8 @@
         "1755": "maroon",
         "5060": "orange",
         "1709": "blue",
-        "5067": "green",
-        "5066": "brown"
+        "6736": "green",
+        "6731": "brown"
     },
     "gunf_elements_map": {
         "ge": "72314",
@@ -55,7 +55,7 @@
             },
             {
                 "item": {
-                    "code": "1755",
+                    "code": "5059",
                     "label": "gm"
                 },
                 "element_codes": ["72356"],
@@ -79,7 +79,7 @@
             },
             {
                 "item": {
-                    "code": "5067",
+                    "code": "6736",
                     "label": "gh"
                 },
                 "element_codes": ["7231"],
@@ -87,7 +87,7 @@
             },
             {
                 "item": {
-                    "code": "5066",
+                    "code": "6731",
                     "label": "gb"
                 },
                 "element_codes": ["7231"],
