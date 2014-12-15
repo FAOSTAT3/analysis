@@ -145,7 +145,8 @@
         "labels": {
             "enabled": true,
             "rotation": -45
-        }
+        },
+        "tickInterval": 2
     },
     "yAxis": {
         "gridLineWidth": 1,
