@@ -1080,11 +1080,25 @@ define(['jquery',
         $('#' + domain_code + '_difference_right_table tbody tr td div').html('');
         $('#' + domain_code + '_norm_difference_right_table tbody tr td div').html('');
 
+        /* Data type. */
+        var e_or_a = $('#' + domain_code + '_table_selector').val();
+
+        //$.ajax({
+        //
+        //    type: 'GET',
+        //    url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/GE/2/1/E',
+        //
+        //    success: function (response) {
+        //
+        //    }
+        //
+        //});
+
         /* Populate tables. */
-        this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, $('#' + domain_code + '_table_selector').val());
-        this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, $('#' + domain_code + '_table_selector').val());
-        this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, $('#' + domain_code + '_table_selector').val());
-        this.populate_tables(this.CONFIG.country_code, 'norm_difference', domain_code, $('#' + domain_code + '_table_selector').val());
+        this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, e_or_a);
+        this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, e_or_a);
+        this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, e_or_a);
+        this.populate_tables(this.CONFIG.country_code, 'norm_difference', domain_code, e_or_a);
 
     };
 
@@ -1186,30 +1200,33 @@ define(['jquery',
                     $('#' + domain_code + '_difference_left_table tbody tr td:first-child').css('display', 'none');
                     $('#' + domain_code + '_norm_difference_left_table thead tr th:first-child').css('display', 'none');
                     $('#' + domain_code + '_norm_difference_left_table tbody tr td:first-child').css('display', 'none');
-
-
                 }
 
-                /* Hid first row. */
+                /* Remove the 1st row of activity data for GE, GM and GB. */
+                var display = 'none';
+                if (emissions_or_activity == 'activity' && ['ge', 'gm', 'gb'].indexOf(domain_code) > -1) {
+                    $('#' + domain_code + '_faostat_left_table').find('tbody tr:first-child').css('display', display);
+                    $('#' + domain_code + '_faostat_right_table').find('tbody tr:first-child').css('display', display);
+                    $('#' + domain_code + '_nc_left_table').find('tbody tr:first-child').css('display', display);
+                    $('#' + domain_code + '_nc_right_table').find('tbody tr:first-child').css('display', display);
+                    $('#' + domain_code + '_difference_left_table').find('tbody tr:first-child').css('display', display);
+                    $('#' + domain_code + '_difference_right_table').find('tbody tr:first-child').css('display', display);
+                    $('#' + domain_code + '_norm_difference_left_table').find('tbody tr:first-child').css('display', display);
+                    $('#' + domain_code + '_norm_difference_right_table').find('tbody tr:first-child').css('display', display);
+                }
+
+                /* Hide first row. */
                 if (domain_code == 'ge' || domain_code == 'gm' || domain_code == 'gb') {
-                    if (emissions_or_activity == 'activity') {
-                        $('#' + domain_code + '_faostat_left_table tbody tr:first-child').css('display', 'none');
-                        $('#' + domain_code + '_faostat_right_table tbody tr:first-child').css('display', 'none');
-                        $('#' + domain_code + '_nc_left_table tbody tr:first-child').css('display', 'none');
-                        $('#' + domain_code + '_nc_right_table tbody tr:first-child').css('display', 'none');
-                        $('#' + domain_code + '_difference_left_table tbody tr:first-child').css('display', 'none');
-                        $('#' + domain_code + '_difference_right_table tbody tr:first-child').css('display', 'none');
-                        $('#' + domain_code + '_norm_difference_left_table tbody tr:first-child').css('display', 'none');
-                        $('#' + domain_code + '_norm_difference_right_table tbody tr:first-child').css('display', 'none');
-                    } else {
-                        //$('#' + domain_code + '_faostat_left_table tbody tr:first-child').css('display', 'block');
-                        //$('#' + domain_code + '_faostat_right_table tbody tr:first-child').css('display', 'block');
-                        //$('#' + domain_code + '_nc_left_table tbody tr:first-child').css('display', 'block');
-                        //$('#' + domain_code + '_nc_right_table tbody tr:first-child').css('display', 'block');
-                        //$('#' + domain_code + '_difference_left_table tbody tr:first-child').css('display', 'block');
-                        //$('#' + domain_code + '_difference_right_table tbody tr:first-child').css('display', 'block');
-                        //$('#' + domain_code + '_norm_difference_left_table tbody tr:first-child').css('display', 'block');
-                        //$('#' + domain_code + '_norm_difference_right_table tbody tr:first-child').css('display', 'block');
+                    if (emissions_or_activity == 'emissions') {
+                        display = 'table-row';
+                        $('#' + domain_code + '_faostat_left_table').find('tbody tr:first-child').css('display', display);
+                        $('#' + domain_code + '_faostat_right_table').find('tbody tr:first-child').css('display', display);
+                        $('#' + domain_code + '_nc_left_table').find('tbody tr:first-child').css('display', display);
+                        $('#' + domain_code + '_nc_right_table').find('tbody tr:first-child').css('display', display);
+                        $('#' + domain_code + '_difference_left_table').find('tbody tr:first-child').css('display', display);
+                        $('#' + domain_code + '_difference_right_table').find('tbody tr:first-child').css('display', display);
+                        $('#' + domain_code + '_norm_difference_left_table').find('tbody tr:first-child').css('display', display);
+                        $('#' + domain_code + '_norm_difference_right_table').find('tbody tr:first-child').css('display', display);
                     }
                 }
 
