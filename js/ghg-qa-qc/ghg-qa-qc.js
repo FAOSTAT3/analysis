@@ -1244,6 +1244,12 @@ define(['jquery',
                     }
                 }
 
+                /* Disable activity data for GT. */
+                if (domain_code == 'gt') {
+                    $('#gt_table_selector option:last-child').attr('disabled', 'disabled');
+                    $('#gt_table_selector').trigger('chosen:updated');
+                }
+
             }
 
         });
@@ -1583,6 +1589,9 @@ define(['jquery',
                 break;
         }
         sql['query'] = query;
+
+        if (domain_code == 'gas' && item == '5061')
+            console.debug(sql.query);
 
         var data = {};
         data.datasource = 'faostat';
