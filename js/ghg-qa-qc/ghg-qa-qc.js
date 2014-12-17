@@ -523,30 +523,30 @@ define(['jquery',
             domain_code = 'gas';
 
         /* Populate tables. */
-        //this.load_table_template(domain_code + '_tables_content_faostat',
-        //                         translate.faostat + ' ' + translate.co2eq,
-        //                         1990, 2012,
-        //                         domain_code + '_faostat',
-        //                         'faostat',
-        //                         domain_code);
-        //this.load_table_template(domain_code + '_tables_content_nc',
-        //                         translate.nc + ' ' + translate.co2eq,
-        //                         1990, 2012,
-        //                         domain_code + '_nc',
-        //                         'nc',
-        //                         domain_code);
-        //this.load_table_template(domain_code + '_tables_content_difference',
-        //                         translate.difference,
-        //                         1990, 2012,
-        //                         domain_code + '_difference',
-        //                         'difference',
-        //                         domain_code);
-        //this.load_table_template(domain_code + '_tables_content_norm_difference',
-        //                         translate.norm_difference,
-        //                         1990, 2012,
-        //                         domain_code + '_norm_difference',
-        //                         'norm_difference',
-        //                         domain_code);
+        this.load_table_template(domain_code + '_tables_content_faostat',
+                                 translate.faostat + ' ' + translate.co2eq,
+                                 1990, 2012,
+                                 domain_code + '_faostat',
+                                 'faostat',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_nc',
+                                 translate.nc + ' ' + translate.co2eq,
+                                 1990, 2012,
+                                 domain_code + '_nc',
+                                 'nc',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_difference',
+                                 translate.difference,
+                                 1990, 2012,
+                                 domain_code + '_difference',
+                                 'difference',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_norm_difference',
+                                 translate.norm_difference,
+                                 1990, 2012,
+                                 domain_code + '_norm_difference',
+                                 'norm_difference',
+                                 domain_code);
 
         /* Load table's template */
         switch (domain_code) {
@@ -914,6 +914,7 @@ define(['jquery',
     GHG_QA_QC.prototype.load_table_template = function(render_id, label, start_year, end_year, id_prefix, datasource, domain_code) {
 
         /* This... */
+        $(document.getElementById(render_id)).empty();
         var _this = this;
 
         /* Get categories. */
@@ -1000,7 +1001,7 @@ define(['jquery',
                 $(document.getElementById(render_id)).html(render);
 
                 /* Populate table. */
-                _this.populate_tables(_this.CONFIG.country_code, datasource, domain_code);
+                //_this.populate_tables(_this.CONFIG.country_code, datasource, domain_code);
 
                 /* Enlarge first column for English language only. */
                 $('#' + domain_code + '_faostat_left_table thead tr th:nth-child(2)').css('width', '181px');
@@ -1082,30 +1083,30 @@ define(['jquery',
 
         var _this = this;
 
-        this.load_table_template(domain_code + '_tables_content_faostat',
-                                 translate.faostat + ' ' + translate.co2eq,
-                                 1990, 2012,
-                                 domain_code + '_faostat',
-                                 'faostat',
-                                 domain_code);
-        this.load_table_template(domain_code + '_tables_content_nc',
-                                 translate.nc + ' ' + translate.co2eq,
-                                 1990, 2012,
-                                 domain_code + '_nc',
-                                 'nc',
-                                 domain_code);
-        this.load_table_template(domain_code + '_tables_content_difference',
-                                 translate.difference,
-                                 1990, 2012,
-                                 domain_code + '_difference',
-                                 'difference',
-                                 domain_code);
-        this.load_table_template(domain_code + '_tables_content_norm_difference',
-                                 translate.norm_difference,
-                                 1990, 2012,
-                                 domain_code + '_norm_difference',
-                                 'norm_difference',
-                                 domain_code);
+        //this.load_table_template(domain_code + '_tables_content_faostat',
+        //                         translate.faostat + ' ' + translate.co2eq,
+        //                         1990, 2012,
+        //                         domain_code + '_faostat',
+        //                         'faostat',
+        //                         domain_code);
+        //this.load_table_template(domain_code + '_tables_content_nc',
+        //                         translate.nc + ' ' + translate.co2eq,
+        //                         1990, 2012,
+        //                         domain_code + '_nc',
+        //                         'nc',
+        //                         domain_code);
+        //this.load_table_template(domain_code + '_tables_content_difference',
+        //                         translate.difference,
+        //                         1990, 2012,
+        //                         domain_code + '_difference',
+        //                         'difference',
+        //                         domain_code);
+        //this.load_table_template(domain_code + '_tables_content_norm_difference',
+        //                         translate.norm_difference,
+        //                         1990, 2012,
+        //                         domain_code + '_norm_difference',
+        //                         'norm_difference',
+        //                         domain_code);
 
         /* Clear tables. */
         $('#' + domain_code + '_faostat_right_table tbody tr td div').html('');
@@ -1162,11 +1163,6 @@ define(['jquery',
                             $($('#' + domain_code + '_tables_content_nc h1')[0]).html(s);
                             $($('#' + domain_code + '_tables_content_difference h1')[0]).html(s);
                             $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(s);
-                        },
-                        error: function(a, b, v) {
-                            console.debug(a);
-                            console.debug(b);
-                            console.debug(c);
                         }
                     });
             //    }
