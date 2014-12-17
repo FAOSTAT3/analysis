@@ -264,6 +264,7 @@ define(['jquery',
             'table_selector_label': translate.table_selector_label,
             'emissions': translate.emissions,
             'activity_data': translate.emissions_activity,
+            'please_select': translate.please_select,
             'implied_emissions_factor': translate.emissions_factor,
             'table_selector_id': domain_code + '_table_selector',
             'table_selector_container': domain_code + '_table_selector_container'
@@ -517,30 +518,30 @@ define(['jquery',
             domain_code = 'gas';
 
         /* Populate tables. */
-        this.load_table_template(domain_code + '_tables_content_faostat',
-                                 translate.faostat + ' ' + translate.co2eq,
-                                 1990, 2012,
-                                 domain_code + '_faostat',
-                                 'faostat',
-                                 domain_code);
-        this.load_table_template(domain_code + '_tables_content_nc',
-                                 translate.nc + ' ' + translate.co2eq,
-                                 1990, 2012,
-                                 domain_code + '_nc',
-                                 'nc',
-                                 domain_code);
-        this.load_table_template(domain_code + '_tables_content_difference',
-                                 translate.difference,
-                                 1990, 2012,
-                                 domain_code + '_difference',
-                                 'difference',
-                                 domain_code);
-        this.load_table_template(domain_code + '_tables_content_norm_difference',
-                                 translate.norm_difference,
-                                 1990, 2012,
-                                 domain_code + '_norm_difference',
-                                 'norm_difference',
-                                 domain_code);
+        //this.load_table_template(domain_code + '_tables_content_faostat',
+        //                         translate.faostat + ' ' + translate.co2eq,
+        //                         1990, 2012,
+        //                         domain_code + '_faostat',
+        //                         'faostat',
+        //                         domain_code);
+        //this.load_table_template(domain_code + '_tables_content_nc',
+        //                         translate.nc + ' ' + translate.co2eq,
+        //                         1990, 2012,
+        //                         domain_code + '_nc',
+        //                         'nc',
+        //                         domain_code);
+        //this.load_table_template(domain_code + '_tables_content_difference',
+        //                         translate.difference,
+        //                         1990, 2012,
+        //                         domain_code + '_difference',
+        //                         'difference',
+        //                         domain_code);
+        //this.load_table_template(domain_code + '_tables_content_norm_difference',
+        //                         translate.norm_difference,
+        //                         1990, 2012,
+        //                         domain_code + '_norm_difference',
+        //                         'norm_difference',
+        //                         domain_code);
 
         /* Load table's template */
         switch (domain_code) {
@@ -1074,6 +1075,31 @@ define(['jquery',
 
     GHG_QA_QC.prototype.table_selector_click = function(domain_code) {
 
+        this.load_table_template(domain_code + '_tables_content_faostat',
+                                 translate.faostat + ' ' + translate.co2eq,
+                                 1990, 2012,
+                                 domain_code + '_faostat',
+                                 'faostat',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_nc',
+                                 translate.nc + ' ' + translate.co2eq,
+                                 1990, 2012,
+                                 domain_code + '_nc',
+                                 'nc',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_difference',
+                                 translate.difference,
+                                 1990, 2012,
+                                 domain_code + '_difference',
+                                 'difference',
+                                 domain_code);
+        this.load_table_template(domain_code + '_tables_content_norm_difference',
+                                 translate.norm_difference,
+                                 1990, 2012,
+                                 domain_code + '_norm_difference',
+                                 'norm_difference',
+                                 domain_code);
+
         /* Clear tables. */
         $('#' + domain_code + '_faostat_right_table tbody tr td div').html('');
         $('#' + domain_code + '_nc_right_table tbody tr td div').html('');
@@ -1590,9 +1616,6 @@ define(['jquery',
         }
         sql['query'] = query;
 
-        if (domain_code == 'gas' && item == '5061')
-            console.debug(sql.query);
-
         var data = {};
         data.datasource = 'faostat';
         data.thousandSeparator = ',';
@@ -1630,12 +1653,6 @@ define(['jquery',
                 value = null;
             tmp.push(value);
             data.push(tmp);
-        }
-
-        if (domain_code == 'ge' && item == '1048') {
-            //console.debug(series.chart.renderTo);
-            //console.debug(data);
-            //console.debug();
         }
 
         if (data.length > 0) {
