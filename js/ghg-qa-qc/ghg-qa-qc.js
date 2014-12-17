@@ -273,6 +273,11 @@ define(['jquery',
         var render = Mustache.render(template, view);
         $('#' + id).html(render);
 
+        if (domain_code == 'gt') {
+            $('#gt_table_selector option:last-child').attr('disabled', 'disabled');
+            $('#gt_table_selector').trigger('chosen:updated');
+        }
+
         /* Add table type selector. */
         $('#' + domain_code + '_table_selector').chosen();
         $('#' + domain_code + '_table_selector_chosen').css('width', '100%');
@@ -1075,6 +1080,8 @@ define(['jquery',
 
     GHG_QA_QC.prototype.table_selector_click = function(domain_code) {
 
+        var _this = this;
+
         this.load_table_template(domain_code + '_tables_content_faostat',
                                  translate.faostat + ' ' + translate.co2eq,
                                  1990, 2012,
@@ -1110,20 +1117,60 @@ define(['jquery',
         var e_or_a = $('#' + domain_code + '_table_selector').val();
 
         if (e_or_a == 'activity') {
-            $.ajax({
-                type: 'GET',
-                url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/' + domain_code.toUpperCase() + '/2/1/' + this.CONFIG.lang,
-                success: function (response) {
-                    var json = response;
-                    if (typeof json == 'string')
-                        json = $.parseJSON(response);
-                    var mu = json[0][1];
-                    $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(translate.faostat + ' (' + mu + ')');
-                    $($('#' + domain_code + '_tables_content_nc h1')[0]).html(translate.nc + ' (' + mu + ')');
-                    $($('#' + domain_code + '_tables_content_difference h1')[0]).html(translate.difference + ' (' + mu + ')');
-                    $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(translate.norm_difference + ' (' + mu + ')');
-                }
-            });
+            //$.ajax({
+            //    type: 'GET',
+            //    url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/' + domain_code.toUpperCase() + '/2/1/' + this.CONFIG.lang,
+            //    success: function (response) {
+            //        var json = response;
+            //        if (typeof json == 'string')
+            //            json = $.parseJSON(response);
+            //        var mu = json[0][1];
+            //        $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(translate.faostat + ' (' + mu + ')');
+            //        $($('#' + domain_code + '_tables_content_nc h1')[0]).html(translate.nc + ' (' + mu + ')');
+            //        $($('#' + domain_code + '_tables_content_difference h1')[0]).html(translate.difference + ' (' + mu + ')');
+            //        $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(translate.norm_difference + ' (' + mu + ')');
+
+                    var sql = {
+                        query: 'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
+                               'FROM Element E, DomainElement D ' +
+                               'WHERE D.DomainCode = \'' + domain_code + '\' ' +
+                               'AND D.ElementCode = E.ElementCode ' +
+                               'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
+                               'ORDER BY D.Order' + this.CONFIG.lang + ' '
+                    };
+                    var data = {};
+                    data.datasource = 'faostat';
+                    data.thousandSeparator = ',';
+                    data.decimalSeparator = '.';
+                    data.decimalNumbers = 2;
+                    data.json = JSON.stringify(sql);
+                    data.cssFilename = '';
+                    data.nowrap = false;
+                    data.valuesIndex = 0;
+
+                    $.ajax({
+                        'type': 'POST',
+                        'url': _this.CONFIG.url_data,
+                        'data': data,
+                        success: function (response) {
+                            var json = response;
+                            if (typeof json == 'string')
+                                json = $.parseJSON(response);
+                            //console.debug(json);
+                            var s = translate.faostat + ' (' + json[0][0] + ' [' + json[0][1] + '])';
+                            $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(s);
+                            $($('#' + domain_code + '_tables_content_nc h1')[0]).html(s);
+                            $($('#' + domain_code + '_tables_content_difference h1')[0]).html(s);
+                            $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(s);
+                        },
+                        error: function(a, b, v) {
+                            console.debug(a);
+                            console.debug(b);
+                            console.debug(c);
+                        }
+                    });
+            //    }
+            //});
         } else {
             $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(translate.faostat + ' ' + translate.co2eq);
             $($('#' + domain_code + '_tables_content_nc h1')[0]).html(translate.nc + ' ' + translate.co2eq);
@@ -1651,7 +1698,10 @@ define(['jquery',
             var value = parseFloat(db_data[i][1]);
             if (isNaN(value))
                 value = null;
-            tmp.push(value);
+            if (value > -1)
+                tmp.push(value);
+            else
+                tmp.push(null);
             data.push(tmp);
         }
 
