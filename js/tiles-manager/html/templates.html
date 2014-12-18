@@ -2,17 +2,17 @@
     <ol class='breadcrumb' id='analysis_breadcrumb'>
         <!--<li><a href='{{url_analysis_home}}'>{{analysis_label}}</a></li>-->
     </ol>
-    <div>
-        <div class='container-fluid' id='tiles_container'>
+
+        <div class='faos-analysis-container' id='tiles_container'>
 
         </div>
-    </div>
+
     <br>
 </template>
 
 <template id='tile_single_row_structure'>
     <div class='row'>
-        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+        <div class='col-xs-12'>
             <img src='{{tile_img_src_1}}' id='{{tile_1_id}}' class='tile_img'>
         </div>
     </div>
@@ -31,22 +31,54 @@
     <br>
 </template>
 
+
+
 <template id='main_tile_structure'>
-    <div class='container-tile'>
-        <div class='ghg-main-tile'>
-            <div class='ghg-holder-content' id='{{tile_id}}' style='cursor: pointer;'>
-                <img src='{{tile_img}}' style='height: 106px; width: 103px;'>
-                <h2 style='text-transform: uppercase;'>
+
+        <div class='faos-analysis-card ghg-main-tile' id='{{tile_id}}'>
+
+
+            <div class='faos-analysis-card-top'>
+                <img src='{{tile_img}}' class='faos-analysis-tile-img'>
+            </div>
+
+            <div class='faos-analysis-card-bottom'>
+                <h2>
                     {{tile_title}}
                 </h2>
                 <p class='ghg-text'>
                     {{tile_description}}
                 </p>
-                <p style='text-transform: uppercase;'>
+                <p>
                     {{tile_button}}
                 </p>
             </div>
+
         </div>
+
+</template>
+
+<template id='module_tile_structure'>
+
+    <div class='faos-analysis-module' id='{{tile_id}}'>
+
+
+        <div class='faos-analysis-module-left'>
+            <img src='{{tile_img}}' class='faos-analysis-tile-img'>
+        </div>
+
+        <div class='faos-analysis-module-right'>
+            <h2>
+                {{tile_title}}
+            </h2>
+            <p class='ghg-text'>
+                {{tile_description}}
+            </p>
+            <p>
+                {{tile_button}}
+            </p>
+        </div>
+
     </div>
-    <br>
+
 </template>

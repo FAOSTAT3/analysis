@@ -2,9 +2,10 @@
     "main": {
         "type": "section",
         "tiles": [
-            "ghg"
+            "standardModule","ghg"
         ]
     },
+
     "ghg": {
         "id": "ghg",
         "type": "section",
@@ -20,10 +21,25 @@
         "tile_description": "ghg_description",
         "tile_button": "ghg_button"
     },
+    "standardModule": {
+        "id": "standard-module",
+        "type": "section",
+        "img": "/main_ghg.jpg",
+        "label_code": "ghg",
+        "tiles": [
+            "ghg_overview",
+            "ghg_quality",
+            "ghg_indicators",
+            "ghg_data"
+        ],
+        "tile_title": "statf_title",
+        "tile_description": "statf_description",
+        "tile_button": "statf_button"
+    },
     "ghg_overview": {
         "id": "ghg_overview",
         "type": "module",
-        "img": "/overview.jpg",
+        "img": "overview.jpg",
         "label_code": "ghg_overview",
         "tiles": [],
         "tile_title": "ghg_overview",
@@ -63,17 +79,14 @@
         "module_config": {
             "url_geoserver_wms": "http://fenix.fao.org/demo/geoserver",
 
-            "#COMMENT" : "SEARCH",
             "url_d3s_metadata_resource": "http://exldvsdmxreg1.ext.fao.org:7788/v2/msd/resources/uid/{{UID}}",
             "url_d3s_resources_find": "http://exldvsdmxreg1.ext.fao.org:7788/v2/msd/resources/find",
             "#url_d3s_metadata_resource": "http://fenix.fao.org/v2/msd/resources/uid/{{UID}}",
             "#url_d3s_resources_find": "http://fenix.fao.org/v2/msd/resources/find",
             "url_d3s_resources_find_order_by_date_parameters": "order=meContent.seCoverage.coverageTime.from:desc&logic=StandardFilter",
 
-            "#COMMENT" : "SPATIAL_QUERIES",
             "url_spatialquery_db_spatial": "//fenix.fao.org/demo/geo/ghg/distribution/db/spatial/",
 
-            "#COMMENT" : "STATS",
             "url_stats_raster_spatial_query": "//168.202.28.214:5020/stats/raster/spatial_query",
             "url_stats_rasters_spatial_query": "//168.202.28.214:5020/stats/rasters/spatial_query",
             "url_stats_rasters_lat_lon": "//168.202.28.214:5020/stats/rasters/{{LAYERS}}/lat/{{LAT}}/lon/{{LON}}",
@@ -83,11 +96,9 @@
             "url_stats_raster_histogram": "//168.202.28.214:5020/stats/raster/{{LAYERS}}/hist",
             "url_stats_scatter_analysis": "//168.202.28.214:5020/stats/rasters/scatter_analysis",
 
-            "#COMMENT" : "DISTRIBUTION",
             "url_distribution_rasters_spatial_query": "//fenix.fao.org/demo/geo/ghg/distribution/rasters/spatial_query",
             "url_distribution_download_raster": "//168.202.39.41:5020/distribution/download/raster/{{LAYERS}}",
 
-            "#COMMENT" : "CSS2SLD - POST",
             "url_css2sld": "//fenixapps2.fao.org/geoservices/CSS2SLD"
         }
     }

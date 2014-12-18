@@ -53,7 +53,10 @@ define({
         'ghg_quality_button': 'Go to the QA-QC and Verification module.',
         'ghg_indicators_button': 'Go to the Indicators module.',
         'ghg_data_button': 'Go to the Georeferenced Data module.',
-        'analysis': 'Analysis'
+        'analysis': 'Analysis',
+        'statf_title': 'Statistical Functions'
+        ,'statf_description': 'Description'
+        ,'statf_button': 'Go to Statistical Functions Group'
     },
     'F' : true,
     'S' : true

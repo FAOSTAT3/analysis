@@ -1,11 +1,11 @@
 define([
-    //'jquery',
-    //    'require',
+    'jquery',
+        'require',
         'mustache',
-        'text!tiled-analysis/js/tiles-manager/html/templates.html',
-        'text!tiled-analysis/js/tiles-manager/config/tiles_configuration.json',
-        'i18n!tiled-analysis/js/tiles-manager/nls/translate',
-        'bootstrap'], function (Mustache, templates, tiles_configuration, translate) {
+        'text!../tiles-manager/html/templates.html',
+        'text!../tiles-manager/config/tiles_configuration.json',
+        'i18n!../tiles-manager/nls/translate',
+        'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
 
     'use strict';
 
@@ -15,7 +15,7 @@ define([
             lang: 'E',
             base_url: null,
             url_analysis_home: null,
-            url_images: 'http://fenixapps2.fao.org/faostat-ghg/modules/tiled-analysis/images/',
+            url_images: 'images/',
             breadcrumb_buffer: []
         };
 
@@ -55,8 +55,8 @@ define([
         var _this = this;
 
         /* Add listener to the tab. */
+        try {
         if (tiles_configuration[tile_code].label_code != null) {
-
             /* Update the breadcrumb buffer. */
             this.add_to_breadcrumb_buffer(tile_code, translate[tiles_configuration[tile_code].label_code]);
             this.update_breadcrumb();
@@ -65,6 +65,9 @@ define([
             $('#' + tile_code + '_breadcrumb').click(function () {
                 _this.show_tiles(tile_code);
             });
+
+        }
+        } catch(e) {
 
         }
 
@@ -138,8 +141,6 @@ define([
                 }catch (e) {
                     // TODO: remove it. This is done to handle geobricks_ui_distribution
                     var m = new module()
-                    console.log(tiles_configuration[tile_code]["module_config"]);
-                    console.log(_this.CONFIG);
                     var config = $.extend(true, {}, tiles_configuration[tile_code]["module_config"],
                         {
                          'placeholder': 'tiles_container',
@@ -147,7 +148,6 @@ define([
                          'lang': "EN"
                         }
                     );
-                    console.log(config);
                     m.init(config);
                 }
             });
@@ -177,7 +177,27 @@ define([
                 tile_description: translate[child_1.tile_description],
                 tile_button: translate[child_1.tile_button]
             };
-            var template = $(templates).filter('#main_tile_structure').html();
+            var template = null;
+//            console.log()
+//            console.debug(tiles_configuration[tiles_configuration[tile_code].tiles[0]]['type']);
+//            console.debug(tile_code);
+//            if (tiles_configuration[tile_code].tiles[0]['type'] == null) {
+//                template = $(templates).filter('#main_tile_structure').html();
+//            } else {
+            switch (tiles_configuration[tiles_configuration[tile_code].tiles[0]]['type']) {
+                case 'section':
+                    console.log('#main_tile_structure');
+                    template = $(templates).filter('#main_tile_structure').html();
+                    break;
+                case 'module':
+                    console.log('#module_tile_structure');
+                    template = $(templates).filter('#module_tile_structure').html();
+                    view.tile_img = this.CONFIG.url_images + tiles_configuration[tiles_configuration[tile_code].tiles[0]]['img'];
+                    break;
+
+            }
+//            }
+//            var template = $(templates).filter('#main_tile_structure').html();
             var render = Mustache.render(template, view);
             $('#tiles_container').append(render);
         }
