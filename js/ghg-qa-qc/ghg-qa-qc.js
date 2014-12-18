@@ -1241,7 +1241,7 @@ define(['jquery',
                     var value = null;
                     if (json[i][value_idx] != null && json[i][value_idx] != 'undefined') {
                         value = parseFloat(json[i][value_idx]);
-                        if (value > -1) {
+                        if (value != -1) {
                             value = value.toFixed(2);
                             var color = '#666';
                             switch (datasource) {
@@ -1694,7 +1694,7 @@ define(['jquery',
             var value = parseFloat(db_data[i][1]);
             if (isNaN(value))
                 value = null;
-            if (value > -1)
+            if (value != -1)
                 tmp.push(value);
             else
                 tmp.push(null);
