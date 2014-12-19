@@ -1029,8 +1029,10 @@ define(['jquery',
                 var render = Mustache.render(template, view);
 
                 /* Render the HTML. */
+                //console.debug(render_id);
                 $(document.getElementById(render_id)).empty();
                 $(document.getElementById(render_id)).html(render);
+                $(document.getElementById(render_id)).hide();
 
                 /* Populate table. */
                 //_this.populate_tables(_this.CONFIG.country_code, datasource, domain_code);
@@ -1212,6 +1214,12 @@ define(['jquery',
         }
 
         /* Populate tables. */
+        // TODO: Quickfix to show/hide tables
+        if (e_or_a == 'null')
+            $("#"+ domain_code +"_tables_content").show().children().hide();
+        else
+            $("#"+ domain_code +"_tables_content").show().children().show();
+
         this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, e_or_a, "GValue");
         this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, e_or_a, "GUNFValue");
         this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, e_or_a, "PerDiff");
@@ -1219,6 +1227,8 @@ define(['jquery',
 
     };
 
+
+    // gas_tables_content
     GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code, emissions_or_activity, column_value) {
 
         if (emissions_or_activity == null)
