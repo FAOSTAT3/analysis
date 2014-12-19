@@ -1,11 +1,11 @@
 define([
     'jquery',
-        'require',
-        'mustache',
-        'text!../tiles-manager/html/templates.html',
-        'text!../tiles-manager/config/tiles_configuration.json',
-        'i18n!../tiles-manager/nls/translate',
-        'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
+    'require',
+    'mustache',
+    'text!tiled-analysis/js/tiles-manager/html/templates.html',
+    'text!tiled-analysis/js/tiles-manager/config/tiles_configuration.json',
+    'i18n!tiled-analysis/js/tiles-manager/nls/translate',
+    'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
 
     'use strict';
 
@@ -56,17 +56,17 @@ define([
 
         /* Add listener to the tab. */
         try {
-        if (tiles_configuration[tile_code].label_code != null) {
-            /* Update the breadcrumb buffer. */
-            this.add_to_breadcrumb_buffer(tile_code, translate[tiles_configuration[tile_code].label_code]);
-            this.update_breadcrumb();
+            if (tiles_configuration[tile_code].label_code != null) {
+                /* Update the breadcrumb buffer. */
+                this.add_to_breadcrumb_buffer(tile_code, translate[tiles_configuration[tile_code].label_code]);
+                this.update_breadcrumb();
 
-            /* Add listener to the tile. */
-            $('#' + tile_code + '_breadcrumb').click(function () {
-                _this.show_tiles(tile_code);
-            });
+                /* Add listener to the tile. */
+                $('#' + tile_code + '_breadcrumb').click(function () {
+                    _this.show_tiles(tile_code);
+                });
 
-        }
+            }
         } catch(e) {
 
         }
@@ -143,9 +143,9 @@ define([
                     var m = new module()
                     var config = $.extend(true, {}, tiles_configuration[tile_code]["module_config"],
                         {
-                         'placeholder': 'tiles_container',
-                         //'lang': _this.CONFIG.lang_iso2
-                         'lang': "EN"
+                            'placeholder': 'tiles_container',
+                            //'lang': _this.CONFIG.lang_iso2
+                            'lang': "EN"
                         }
                     );
                     m.init(config);
