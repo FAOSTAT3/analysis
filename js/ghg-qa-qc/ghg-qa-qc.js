@@ -193,6 +193,8 @@ define(['jquery',
 
                 success: function (response) {
 
+                    console.debug(response);
+
                     /* Cast the measurement unit. */
                     var json = response;
                     if (typeof json == 'string')
@@ -222,6 +224,8 @@ define(['jquery',
             });
 
         } else {
+
+            console.debug("GAS!!!");
 
             /* Add an empty row. */
             var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
@@ -308,6 +312,8 @@ define(['jquery',
                 url: this.CONFIG.url_listboxes + this.CONFIG.datasource + '/' + domain_code + '/3/1/' + this.CONFIG.lang,
 
                 success: function (response) {
+
+                    //console.debug(response);
 
                     /* Cast response to JSON. */
                     var items = response;
@@ -642,6 +648,7 @@ define(['jquery',
     //};
 
     GHG_QA_QC.prototype.populate_agsoils_tables = function(country_code, datasource) {
+       // console.debug(country_code + " " + datasource);
         switch (datasource) {
             case 'faostat':
                 this.populate_agsoils_tables_faostat(country_code);
@@ -681,6 +688,7 @@ define(['jquery',
             url: this.CONFIG.url_data,
             data: data,
             success: function (response) {
+                //console.debug(response);
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
@@ -759,6 +767,9 @@ define(['jquery',
             url: this.CONFIG.url_data,
             data: data,
             success: function (response) {
+
+                //console.debug(response);
+
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
@@ -818,6 +829,9 @@ define(['jquery',
                 url: url_data,
                 data: data,
                 success: function (response) {
+
+                   // console.debug(response);
+
                     var json = response;
                     if (typeof json == 'string')
                         json = $.parseJSON(response);
@@ -919,11 +933,11 @@ define(['jquery',
 
         /* Get categories. */
         var sql = {
-            'query': 'SELECT UNFCCCCode, GItemNameE ' +
+            'query': 'SELECT UNFCCCCode, GUNFItemNameE ' +
                      'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
                      'AND tabletype = \'emissions\' ' +
                      'AND Year >= 1990 AND Year <= 2012 ' +
-                     'GROUP BY UNFCCCCode, GItemNameE'
+                     'GROUP BY UNFCCCCode, GUNFItemNameE'
         };
 
         var data = {};
@@ -943,6 +957,8 @@ define(['jquery',
             data: data,
 
             success: function (response) {
+
+                //console.debug(response);
 
                 /* Cast the response to JSON, if needed. */
                 var json = response;
@@ -1036,6 +1052,8 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.export_data = function(table_id) {
+
+        //console.debug(table_id);
 
         var data = [];
 
@@ -1154,6 +1172,9 @@ define(['jquery',
                         'url': _this.CONFIG.url_data,
                         'data': data,
                         success: function (response) {
+
+                            //console.debug(response);
+
                             var json = response;
                             if (typeof json == 'string')
                                 json = $.parseJSON(response);
@@ -1212,6 +1233,9 @@ define(['jquery',
             data: data,
 
             success: function (response) {
+
+                //console.debug(response);
+
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
@@ -1221,7 +1245,9 @@ define(['jquery',
                         if (json[i][6] != null) {
                             div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
                         } else {
-                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][3];
+                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][4];
+                            //div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][3];
+                            //console.debug(div_id)
                         }
                     } else {
                         try {
@@ -1522,6 +1548,7 @@ define(['jquery',
     };
 
     GHG_QA_QC.prototype.updateTables = function() {
+        //console.debug("GHG_QA_QC.prototype.updateTables");
         setTimeout(function() {
             $('#emissions_db_faostat_right_table tr > th > div').each(function() {
                 var k = $(this).attr('id');
