@@ -193,7 +193,7 @@ define(['jquery',
 
                 success: function (response) {
 
-                    console.debug(response);
+                   // console.debug(response);
 
                     /* Cast the measurement unit. */
                     var json = response;
@@ -225,7 +225,7 @@ define(['jquery',
 
         } else {
 
-            console.debug("GAS!!!");
+            //console.debug("GAS!!!");
 
             /* Add an empty row. */
             var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
@@ -400,6 +400,7 @@ define(['jquery',
 
     GHG_QA_QC.prototype.process_charts_table_configuration_standard = function(domain_code, config, items) {
 
+
         var links = [];
 
         /* Add items listed as totals. */
@@ -467,9 +468,13 @@ define(['jquery',
             'emissions_factor': translate.emissions_factor,
             'items': mustache_items
         };
+
+        // added quick fix for "GAS" domain charts
+        //console.debug(domain_code);
         var template = $(templates).filter('#charts_structure').html();
         var render = Mustache.render(template, view);
         $('#' + domain_code + '__charts_content').html(render);
+
 
         /* Separate totals from the rest of the table. */
         if (domain_code != 'gt')
@@ -498,7 +503,18 @@ define(['jquery',
         if (domain_code == 'gt') {
             $('#gt__charts_content table thead tr th:last-child').remove();
             $('#gt__charts_content table tbody tr td:last-child').remove();
-        } else {
+
+            //$('#gas__charts_content table thead tr th:last-child').remove();
+            //$('#gas__charts_content table tbody tr td:last-child').remove();
+        }
+        //else if (domain_code == 'gas') {
+        //        $('#gas__charts_content table.table.table-bordered.table-condensed tbody tr th:nth-child(3)').remove();
+        //        $('#gas__charts_content table.table.table-bordered.table-condensed tbody tr td:nth-child(3)').remove();
+        //
+        //
+        //    $('#gas__charts_content table.table.table-bordered.table-condensed tbody tr td:nth-child(2)')
+        //}
+        else {
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td:last-child').remove();
             $('#' + domain_code + '__charts_content table tr:nth-child(1) td').attr('colspan', 3);
         }
@@ -1209,7 +1225,7 @@ define(['jquery',
             emissions_or_activity = 'emissions';
 
         var sql = {
-            'query': "SELECT Year, GItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff, UNFCCCCode " +
+            'query': "SELECT Year, GUNFItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff, UNFCCCCode " +
                      "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
                      "WHERE areacode = '" + this.CONFIG.country_code + "' " +
                      "AND tabletype = '" + emissions_or_activity + "' " +
