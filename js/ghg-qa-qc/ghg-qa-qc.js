@@ -1224,12 +1224,16 @@ define(['jquery',
         if (emissions_or_activity == null)
             emissions_or_activity = 'emissions';
 
-        var value_idx = 3;
-        var query = "" ;
-        if ( domain_code != 'gt' && domain_code != 'gas')
+        var value_idx = null;
+        var query = "";
+        if (domain_code != 'gt' && domain_code != 'gas') {
+            value_idx = 2;
             query += "SELECT Year, GItemNameE, " + column_value;
-        else
+        }
+        else {
+            value_idx = 3;
             query += "SELECT Year, GItemNameE, UNFCCCCode, " + column_value;
+        }
         query += " FROM UNFCCC_" + domain_code.toUpperCase() +
             " WHERE areacode = '" + this.CONFIG.country_code + "' " +
             "AND tabletype = '" + emissions_or_activity + "' " +
@@ -1268,13 +1272,11 @@ define(['jquery',
                 for (var i = 0 ; i < json.length ; i++) {
                     var div_id = null;
                     if (domain_code == 'gt' || domain_code == 'gas') {
-
                         div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][2];
                     } else {
                         try {
                             div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
                         } catch(e) {
-
                         }
                     }
 
