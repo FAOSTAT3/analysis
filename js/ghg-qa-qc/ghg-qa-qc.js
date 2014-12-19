@@ -1,22 +1,22 @@
 define(['jquery',
-        'mustache',
-        'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
-        'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
-        'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
-        'text!tiled-analysis/js/ghg-qa-qc/config/items_tab_map.json',
-        'text!tiled-analysis/js/ghg-qa-qc/config/charts_configuration.json',
-        'i18n!tiled-analysis/js/ghg-qa-qc/nls/translate',
-        'chosen',
-        'highcharts',
-        'highcharts_exporting',
-        'bootstrap'], function ($,
-                                Mustache,
-                                templates,
-                                selectors_configuration,
-                                chart_template,
-                                items_tab_map,
-                                charts_configuration,
-                                translate) {
+    'mustache',
+    'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
+    'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
+    'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
+    'text!tiled-analysis/js/ghg-qa-qc/config/items_tab_map.json',
+    'text!tiled-analysis/js/ghg-qa-qc/config/charts_configuration.json',
+    'i18n!tiled-analysis/js/ghg-qa-qc/nls/translate',
+    'chosen',
+    'highcharts',
+    'highcharts_exporting',
+    'bootstrap'], function ($,
+                            Mustache,
+                            templates,
+                            selectors_configuration,
+                            chart_template,
+                            items_tab_map,
+                            charts_configuration,
+                            translate) {
 
     'use strict';
 
@@ -31,8 +31,8 @@ define(['jquery',
             url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
             url_listboxes   :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/',
             default_colors  :   ['#379bcd', '#379bcd', '#76BE94', '#76BE94', '#744490', '#744490', '#744490',
-                                 '#E10079', '#E10079', '#2D1706', '#2D1706', '#F1E300', '#F1E300', '#F7AE3C',
-                                 '#F7AE3C', '#DF3328', '#DF3328']
+                '#E10079', '#E10079', '#2D1706', '#2D1706', '#F1E300', '#F1E300', '#F7AE3C',
+                '#F7AE3C', '#DF3328', '#DF3328']
         };
 
     }
@@ -169,11 +169,11 @@ define(['jquery',
             /* Fetch the appropriate measurement unit for the activity data. */
             var sql = {
                 query: 'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
-                       'FROM Element E, DomainElement D ' +
-                       'WHERE D.DomainCode = \'' + domain_code + '\' ' +
-                       'AND D.ElementCode = E.ElementCode ' +
-                       'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
-                       'ORDER BY D.Order' + this.CONFIG.lang + ' '
+                'FROM Element E, DomainElement D ' +
+                'WHERE D.DomainCode = \'' + domain_code + '\' ' +
+                'AND D.ElementCode = E.ElementCode ' +
+                'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
+                'ORDER BY D.Order' + this.CONFIG.lang + ' '
             };
             var data = {};
             data.datasource = 'faostat';
@@ -193,7 +193,7 @@ define(['jquery',
 
                 success: function (response) {
 
-                   // console.debug(response);
+                    // console.debug(response);
 
                     /* Cast the measurement unit. */
                     var json = response;
@@ -382,9 +382,9 @@ define(['jquery',
             var items = [];
             for (var i = 0 ; i < config.custom_items.length ; i++)
                 items.push([config.custom_items[i],
-                            translate[config.custom_items_labels[i]],
-                            'n.a',
-                            'n.a']);
+                    translate[config.custom_items_labels[i]],
+                    'n.a',
+                    'n.a']);
             for (var i = 0; i < config.totals.length; i++) {
                 var item = [];
                 item.push(config.totals[i].item.code);
@@ -406,9 +406,9 @@ define(['jquery',
         /* Add items listed as totals. */
         for (i = config.totals.length - 1; i >= 0 ; i--)
             items.splice(0, 0, [config.totals[i].item.code,
-                                translate[config.totals[i].item.label],
-                                'TOTAL',
-                                config.totals[i].gunf_code]);
+                translate[config.totals[i].item.label],
+                'TOTAL',
+                config.totals[i].gunf_code]);
 
         /* Prepare items for the template. */
         var mustache_items = [];
@@ -450,9 +450,9 @@ define(['jquery',
                     }
                 }
 
-                } catch(e) {
+            } catch(e) {
 
-                }
+            }
 
             /* Add to the items for templating. */
             if (add_to_template)
@@ -546,29 +546,29 @@ define(['jquery',
 
         /* Populate tables. */
         this.load_table_template(domain_code + '_tables_content_faostat',
-                                 translate.faostat + ' ' + translate.co2eq,
-                                 1990, 2012,
-                                 domain_code + '_faostat',
-                                 'faostat',
-                                 domain_code);
+            translate.faostat + ' ' + translate.co2eq,
+            1990, 2012,
+            domain_code + '_faostat',
+            'faostat',
+            domain_code);
         this.load_table_template(domain_code + '_tables_content_nc',
-                                 translate.nc + ' ' + translate.co2eq,
-                                 1990, 2012,
-                                 domain_code + '_nc',
-                                 'nc',
-                                 domain_code);
+            translate.nc + ' ' + translate.co2eq,
+            1990, 2012,
+            domain_code + '_nc',
+            'nc',
+            domain_code);
         this.load_table_template(domain_code + '_tables_content_difference',
-                                 translate.difference,
-                                 1990, 2012,
-                                 domain_code + '_difference',
-                                 'difference',
-                                 domain_code);
+            translate.difference,
+            1990, 2012,
+            domain_code + '_difference',
+            'difference',
+            domain_code);
         this.load_table_template(domain_code + '_tables_content_norm_difference',
-                                 translate.norm_difference,
-                                 1990, 2012,
-                                 domain_code + '_norm_difference',
-                                 'norm_difference',
-                                 domain_code);
+            translate.norm_difference,
+            1990, 2012,
+            domain_code + '_norm_difference',
+            'norm_difference',
+            domain_code);
 
         /* Load table's template */
         switch (domain_code) {
@@ -664,7 +664,7 @@ define(['jquery',
     //};
 
     GHG_QA_QC.prototype.populate_agsoils_tables = function(country_code, datasource) {
-       // console.debug(country_code + " " + datasource);
+        // console.debug(country_code + " " + datasource);
         switch (datasource) {
             case 'faostat':
                 this.populate_agsoils_tables_faostat(country_code);
@@ -818,17 +818,17 @@ define(['jquery',
         for (var z = 0 ; z < query_config.length ; z++) {
             var sql = {
                 'query': "SELECT A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode " +
-                         "FROM Data AS D, Area AS A, Element AS E, Item I " +
-                         "WHERE D.AreaCode = '" + country_code + "' " +
-                         "AND D.ElementCode IN (" + query_config[z].element + ") " +
-                         "AND D.ItemCode IN (" + query_config[z].item + ") " +
-                         "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
-                         "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
-                         "2010, 2011, 2012) " +
-                         "AND D.AreaCode = A.AreaCode " +
-                         "AND D.ElementListCode = E.ElementListCode " +
-                         "AND D.ItemCode = I.ItemCode " +
-                         "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
+                "FROM Data AS D, Area AS A, Element AS E, Item I " +
+                "WHERE D.AreaCode = '" + country_code + "' " +
+                "AND D.ElementCode IN (" + query_config[z].element + ") " +
+                "AND D.ItemCode IN (" + query_config[z].item + ") " +
+                "AND D.Year IN (1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, " +
+                "2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, " +
+                "2010, 2011, 2012) " +
+                "AND D.AreaCode = A.AreaCode " +
+                "AND D.ElementListCode = E.ElementListCode " +
+                "AND D.ItemCode = I.ItemCode " +
+                "GROUP BY A.AreaNameS, E.ElementListNameS, I.ItemNameS, I.ItemCode, D.Year, D.value, D.ElementCode"
             };
             var data = {};
             data.datasource = 'faostat';
@@ -846,7 +846,7 @@ define(['jquery',
                 data: data,
                 success: function (response) {
 
-                   // console.debug(response);
+                    // console.debug(response);
 
                     var json = response;
                     if (typeof json == 'string')
@@ -949,11 +949,11 @@ define(['jquery',
 
         /* Get categories. */
         var sql = {
-            'query': 'SELECT UNFCCCCode, GUNFItemNameE ' +
-                     'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
-                     'AND tabletype = \'emissions\' ' +
-                     'AND Year >= 1990 AND Year <= 2012 ' +
-                     'GROUP BY UNFCCCCode, GUNFItemNameE'
+            'query': 'SELECT UNFCCCCode, GItemNameE ' +
+            'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
+            'AND tabletype = \'emissions\' ' +
+            'AND Year >= 1990 AND Year <= 2012 ' +
+            'GROUP BY UNFCCCCode, GItemNameE'
         };
 
         var data = {};
@@ -1165,43 +1165,43 @@ define(['jquery',
             //        $($('#' + domain_code + '_tables_content_difference h1')[0]).html(translate.difference + ' (' + mu + ')');
             //        $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(translate.norm_difference + ' (' + mu + ')');
 
-                    var sql = {
-                        query: 'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
-                               'FROM Element E, DomainElement D ' +
-                               'WHERE D.DomainCode = \'' + domain_code + '\' ' +
-                               'AND D.ElementCode = E.ElementCode ' +
-                               'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
-                               'ORDER BY D.Order' + this.CONFIG.lang + ' '
-                    };
-                    var data = {};
-                    data.datasource = 'faostat';
-                    data.thousandSeparator = ',';
-                    data.decimalSeparator = '.';
-                    data.decimalNumbers = 2;
-                    data.json = JSON.stringify(sql);
-                    data.cssFilename = '';
-                    data.nowrap = false;
-                    data.valuesIndex = 0;
+            var sql = {
+                query: 'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
+                'FROM Element E, DomainElement D ' +
+                'WHERE D.DomainCode = \'' + domain_code + '\' ' +
+                'AND D.ElementCode = E.ElementCode ' +
+                'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
+                'ORDER BY D.Order' + this.CONFIG.lang + ' '
+            };
+            var data = {};
+            data.datasource = 'faostat';
+            data.thousandSeparator = ',';
+            data.decimalSeparator = '.';
+            data.decimalNumbers = 2;
+            data.json = JSON.stringify(sql);
+            data.cssFilename = '';
+            data.nowrap = false;
+            data.valuesIndex = 0;
 
-                    $.ajax({
-                        'type': 'POST',
-                        'url': _this.CONFIG.url_data,
-                        'data': data,
-                        success: function (response) {
+            $.ajax({
+                'type': 'POST',
+                'url': _this.CONFIG.url_data,
+                'data': data,
+                success: function (response) {
 
-                            //console.debug(response);
+                    //console.debug(response);
 
-                            var json = response;
-                            if (typeof json == 'string')
-                                json = $.parseJSON(response);
-                            //console.debug(json);
-                            var s = translate.faostat + ' (' + json[0][0] + ' [' + json[0][1] + '])';
-                            $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(s);
-                            $($('#' + domain_code + '_tables_content_nc h1')[0]).html(s);
-                            $($('#' + domain_code + '_tables_content_difference h1')[0]).html(s);
-                            $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(s);
-                        }
-                    });
+                    var json = response;
+                    if (typeof json == 'string')
+                        json = $.parseJSON(response);
+                    //console.debug(json);
+                    var s = translate.faostat + ' (' + json[0][0] + ' [' + json[0][1] + '])';
+                    $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(s);
+                    $($('#' + domain_code + '_tables_content_nc h1')[0]).html(s);
+                    $($('#' + domain_code + '_tables_content_difference h1')[0]).html(s);
+                    $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(s);
+                }
+            });
             //    }
             //});
         } else {
@@ -1212,25 +1212,32 @@ define(['jquery',
         }
 
         /* Populate tables. */
-        this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, e_or_a);
-        this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, e_or_a);
-        this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, e_or_a);
-        this.populate_tables(this.CONFIG.country_code, 'norm_difference', domain_code, e_or_a);
+        this.populate_tables(this.CONFIG.country_code, 'faostat', domain_code, e_or_a, "GValue");
+        this.populate_tables(this.CONFIG.country_code, 'nc', domain_code, e_or_a, "GUNFValue");
+        this.populate_tables(this.CONFIG.country_code, 'difference', domain_code, e_or_a, "PerDiff");
+        this.populate_tables(this.CONFIG.country_code, 'norm_difference', domain_code, e_or_a, "NormPerDiff");
 
     };
 
-    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code, emissions_or_activity) {
+    GHG_QA_QC.prototype.populate_tables = function(country_code, datasource, domain_code, emissions_or_activity, column_value) {
 
         if (emissions_or_activity == null)
             emissions_or_activity = 'emissions';
 
-        var sql = {
-            'query': "SELECT Year, GUNFItemNameE, GValue, GUNFValue, PerDiff, NormPerDiff, UNFCCCCode " +
-                     "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
-                     "WHERE areacode = '" + this.CONFIG.country_code + "' " +
-                     "AND tabletype = '" + emissions_or_activity + "' " +
-                     "AND Year >= 1990 AND Year <= 2012"
-        };
+        var value_idx = 3;
+        var query = "" ;
+        if ( domain_code != 'gt' && domain_code != 'gas')
+            query += "SELECT Year, GItemNameE, " + column_value;
+        else
+            query += "SELECT Year, GItemNameE, UNFCCCCode, " + column_value;
+        query += " FROM UNFCCC_" + domain_code.toUpperCase() +
+            " WHERE areacode = '" + this.CONFIG.country_code + "' " +
+            "AND tabletype = '" + emissions_or_activity + "' " +
+            "AND Year >= 1990 AND Year <= 2012";
+
+        var sql = { 'query' : query}
+
+        console.debug(sql);
 
         var data = {};
         data.datasource = 'faostat';
@@ -1250,6 +1257,9 @@ define(['jquery',
 
             success: function (response) {
 
+                // TODO: check if exists the column
+                // value_idx
+
                 //console.debug(response);
 
                 var json = response;
@@ -1258,13 +1268,8 @@ define(['jquery',
                 for (var i = 0 ; i < json.length ; i++) {
                     var div_id = null;
                     if (domain_code == 'gt' || domain_code == 'gas') {
-                        if (json[i][6] != null) {
-                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][6];
-                        } else {
-                            div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][4];
-                            //div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][3];
-                            //console.debug(div_id)
-                        }
+
+                        div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][2];
                     } else {
                         try {
                             div_id = domain_code + '_' + datasource + '_' + json[i][0] + '_' + json[i][1].replace(',', '_').replace(' ', '_');
@@ -1272,14 +1277,7 @@ define(['jquery',
 
                         }
                     }
-                    var value_idx = 2;
-                    switch (datasource) {
-                        case 'nc': value_idx = 3; break;
-                        case 'difference':
-                            value_idx = 4;
-                            break;
-                        case 'norm_difference': value_idx = 5; break;
-                    }
+
                     var value = null;
                     if (json[i][value_idx] != null && json[i][value_idx] != 'undefined') {
                         value = parseFloat(json[i][value_idx]);
@@ -1297,13 +1295,9 @@ define(['jquery',
                                     break;
                             }
                             value = '<span style="color: ' + color + ';">';
-                            if (datasource == 'nc' && json[i].length == 4) {
-                                value += '';
-                            } else {
-                                if (!isNaN(parseFloat(json[i][value_idx]))) {
-                                    value += parseFloat(json[i][value_idx]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                                    value += (datasource == 'difference' || datasource == 'norm_difference') ? '%' : '';
-                                }
+                            if (!isNaN(parseFloat(json[i][value_idx]))) {
+                                value += parseFloat(json[i][value_idx]).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                value += (datasource == 'difference' || datasource == 'norm_difference') ? '%' : '';
                             }
                             value += '</span>';
                             try {
@@ -1602,12 +1596,12 @@ define(['jquery',
                         for (var i = 0 ; i < series.length ; i++) {
                             var chart_series = this.series[i];
                             _this.plotSeries(chart_series,
-                                             series[i].datasource,
-                                             series[i].domain,
-                                             series[i].country,
-                                             series[i].item,
-                                             series[i].element,
-                                             series[i].gunf_code);
+                                series[i].datasource,
+                                series[i].domain,
+                                series[i].country,
+                                series[i].item,
+                                series[i].element,
+                                series[i].gunf_code);
                         }
                     }
                 },
@@ -1669,15 +1663,15 @@ define(['jquery',
                 switch (series.name) {
                     case translate.faostat:
                         query = "SELECT Year, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
-                                "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' " +
-                                "AND Year <= 2012 ";
+                        "WHERE AreaCode = '" + country + "' " +
+                        "AND GUNFCode = '" + item + "' " +
+                        "AND Year <= 2012 ";
                         break;
                     case translate.nc:
                         query = "SELECT Year, GUNFValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
-                                "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' " +
-                                "AND Year <= 2012 ";
+                        "WHERE AreaCode = '" + country + "' " +
+                        "AND GUNFCode = '" + item + "' " +
+                        "AND Year <= 2012 ";
                         break;
                 }
                 query += "AND TableType = 'emissions' ";
@@ -1686,15 +1680,15 @@ define(['jquery',
                 switch (series.name) {
                     case translate.faostat:
                         query = "SELECT Year, GValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
-                                "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' " +
-                                "AND Year <= 2012 ";
+                        "WHERE AreaCode = '" + country + "' " +
+                        "AND GUNFCode = '" + item + "' " +
+                        "AND Year <= 2012 ";
                         break;
                     case translate.nc:
                         query = "SELECT Year, GUNFValue FROM UNFCCC_" + domain_code.toUpperCase() + " " +
-                                "WHERE AreaCode = '" + country + "' " +
-                                "AND GUNFCode = '" + item + "' " +
-                                "AND Year <= 2012 ";
+                        "WHERE AreaCode = '" + country + "' " +
+                        "AND GUNFCode = '" + item + "' " +
+                        "AND Year <= 2012 ";
                         break;
                 }
                 query += "AND TableType = 'activity' ";
