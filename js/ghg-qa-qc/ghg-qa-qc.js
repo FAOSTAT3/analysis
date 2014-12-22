@@ -1,4 +1,5 @@
-define(['jquery',
+define([
+    //'jquery',
     'mustache',
     'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
     'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
@@ -9,7 +10,8 @@ define(['jquery',
     'chosen',
     'highcharts',
     'highcharts_exporting',
-    'bootstrap'], function ($,
+    'bootstrap'], function (
+                         //   $,
                             Mustache,
                             templates,
                             selectors_configuration,
@@ -291,6 +293,12 @@ define(['jquery',
 
         /* Read configuration. */
         this.read_charts_table_configuration(domain_code);
+
+        /* Fix for gas table selector to don't show activity data*/
+        if (domain_code == 'gas') {
+            $('#gas_table_selector option:last-child').attr('disabled', 'disabled');
+            $('#gas_table_selector').trigger('chosen:updated');
+        }
 
     };
 
@@ -1361,12 +1369,12 @@ define(['jquery',
                     }
                 }
 
-                /* Disable activity data for GT. */
+                /* Disable activity data for GT or GAS. */
+                console.debug(domain_code);
                 if (domain_code == 'gt') {
                     $('#gt_table_selector option:last-child').attr('disabled', 'disabled');
                     $('#gt_table_selector').trigger('chosen:updated');
                 }
-
             }
 
         });
