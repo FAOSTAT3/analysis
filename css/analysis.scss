@@ -374,3 +374,41 @@ body{
     color: #174C74;
   }
 }
+
+
+/* Quick fix for table Agric Soils */
+#gas__charts_content{
+  .innertbody{
+    tr{
+      &:nth-child(n+3){
+        th {
+          &:nth-child(3) {
+            display: none;
+          }
+        }
+        th {
+          &:nth-child(2) {
+            width:825px !important;
+          }
+        }
+        td{
+          &:nth-child(2){
+            width:825px !important;
+          }
+        }
+        td{
+          &:nth-child(3){
+            display: none;
+          }
+
+        }
+
+
+      }
+
+
+    }
+
+  }
+}
+

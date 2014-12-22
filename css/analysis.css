@@ -245,3 +245,13 @@ body {
 
 .col-xs-12.col-sm-4.col-md-4.col-lg-4 h1:hover {
   color: #174C74; }
+
+/* Quick fix for table Agric Soils */
+#gas__charts_content .innertbody tr:nth-child(n+3) th:nth-child(3) {
+  display: none; }
+#gas__charts_content .innertbody tr:nth-child(n+3) th:nth-child(2) {
+  width: 825px !important; }
+#gas__charts_content .innertbody tr:nth-child(n+3) td:nth-child(2) {
+  width: 825px !important; }
+#gas__charts_content .innertbody tr:nth-child(n+3) td:nth-child(3) {
+  display: none; }

@@ -1638,6 +1638,9 @@ define(['jquery',
             custom_p.chart.width = width;
         if (height != null)
             custom_p.chart.height = height;
+        // TODO: wuick fix for gas activity chart
+        if (chart_id.indexOf('gas_') > -1)
+            custom_p.chart.width = 835;
         if (chart_id.indexOf('_TOTAL_') > -1 && !(chart_id.indexOf('GT_HOME_') > -1))
             custom_p.chart.width = 835;
         p = $.extend(true, {}, p, custom_p);

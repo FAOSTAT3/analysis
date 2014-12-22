@@ -15,7 +15,7 @@ define([
             lang: 'E',
             base_url: null,
             url_analysis_home: null,
-            url_images: 'images/',
+            url_images: 'http://168.202.28.214:8080/tiled-analysis/js/tiles-manager/images/',
             breadcrumb_buffer: []
         };
 
@@ -192,7 +192,7 @@ define([
                 case 'module':
                     console.log('#module_tile_structure');
                     template = $(templates).filter('#module_tile_structure').html();
-                    view.tile_img = this.CONFIG.url_images + tiles_configuration[tiles_configuration[tile_code].tiles[0]]['img'];
+                    view.tile_img = this.CONFIG.url_images + "/" + this.CONFIG.lang + "/"+ tiles_configuration[tiles_configuration[tile_code].tiles[0]]['img'];
                     break;
 
             }
