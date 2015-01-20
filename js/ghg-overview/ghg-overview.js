@@ -13,9 +13,8 @@ define([
     'use strict';
 
     function GHG_OVERVIEW() {
-        console.log($);
         this.CONFIG = {
-            resources_json :  $.parseJSON(resources_json),
+            resources_json:  $.parseJSON(resources_json),
             placeholder: 'tiles_container',
             lang: 'E',
             prefix: 'http://168.202.28.214:8080/analysis/',
@@ -70,12 +69,16 @@ define([
         // Multilanguage
         this.loadLabels()
 
+        console.log("HERE")
+
         // Default View
         var url = this.CONFIG.prefix + this.CONFIG.baseurl_resources_ghg_overview;
         this.CONFIG.selected_areacodes = this.CONFIG.default_country;
         this.CONFIG.selected_from_year = this.CONFIG.default_from_year;
         this.CONFIG.selected_to_year = this.CONFIG.default_to_year;
         this.updateView()
+
+        console.log("HERE")
 
         // Populate DropDowns
         var url_country = this.CONFIG.baseurl + this.CONFIG.baseurl_countries + "/" + this.CONFIG.datasource + "/" + this.CONFIG.domaincode + "/" + this.CONFIG.lang
@@ -94,9 +97,11 @@ define([
     };
 
     GHG_OVERVIEW.prototype.loadLabels = function() {
-        console.log($.i18n);
+        console.log("loadLabels");
+        //console.log($.i18n);
 //        $("#fs_label_area").html($.i18n.prop('_area'));
         $("#fs_label_area").html($.i18n.prop('_select_a_country'));
+        console.log("loadLabel1");
         $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
         $("#fs_label_toyear").html($.i18n.prop('_toyear'));
         $("#fs_label_world").html($.i18n.prop('_world'));
@@ -117,6 +122,7 @@ define([
         $("#overview_chart_bc_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
 
         $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
+        console.log("loadLabels");
     }
 
     GHG_OVERVIEW.prototype.showHideTables = function() {

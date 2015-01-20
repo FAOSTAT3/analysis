@@ -1,11 +1,11 @@
 define([
-    'jquery',
+    //'jquery',
     'require',
     'mustache',
     'text!tiled-analysis/js/tiles-manager/html/templates.html',
     'text!tiled-analysis/js/tiles-manager/config/tiles_configuration.json',
     'i18n!tiled-analysis/js/tiles-manager/nls/translate',
-    'bootstrap'], function ($, require, Mustache, templates, tiles_configuration, translate) {
+    'bootstrap'], function (require, Mustache, templates, tiles_configuration, translate) {
 
     'use strict';
 
