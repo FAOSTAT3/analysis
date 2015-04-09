@@ -15,7 +15,7 @@ define([
             lang: 'E',
             base_url: null,
             url_analysis_home: null,
-            url_images: 'http://168.202.28.214:8080/tiled-analysis/js/tiles-manager/images/',
+            url_images: '/tiled-analysis/js/tiles-manager/images/',
             breadcrumb_buffer: []
         };
 
@@ -132,6 +132,7 @@ define([
 
     TILESMGR.prototype.show_module = function(tile_code) {
         var _this = this;
+        console.log(tile_code)
         if (tiles_configuration[tile_code]['require'] != null) {
             $('#tiles_container').empty();
             require([tiles_configuration[tile_code]['require']], function (module) {
@@ -169,9 +170,11 @@ define([
             var template = null;
             var render = null;
 
+            console.log(child_1.img);
+
             /* Render the template. */
             var view = {
-                tile_img: this.CONFIG.url_images + 'ghg-logo-tile.png',
+                tile_img: this.CONFIG.url_images + child_1.img,
                 tile_id: child_1.id,
                 tile_title: translate[child_1.tile_title],
                 tile_description: translate[child_1.tile_description],
@@ -192,7 +195,8 @@ define([
                 case 'module':
                     console.log('#module_tile_structure');
                     template = $(templates).filter('#module_tile_structure').html();
-                    view.tile_img = this.CONFIG.url_images + "/" + this.CONFIG.lang + "/"+ tiles_configuration[tiles_configuration[tile_code].tiles[0]]['img'];
+                    view.tile_img = this.CONFIG.url_images + "/" + this.CONFIG.lang + "/"+ tiles_configuration[tiles_configuration[tile_code].tiles[i]]['img'];
+                    console.log(tiles_configuration[tiles_configuration[tile_code].tiles[i]]['img']);
                     break;
 
             }

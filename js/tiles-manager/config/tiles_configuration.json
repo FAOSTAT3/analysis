@@ -9,7 +9,7 @@
     "ghg": {
         "id": "ghg",
         "type": "section",
-        "img": "/main_ghg.jpg",
+        "img": "/ico-ghg.svg",
         "label_code": "ghg",
         "tiles": [
             "ghg_overview",
@@ -24,7 +24,7 @@
     "standardModule": {
         "id": "standard-module",
         "type": "section",
-        "img": "/main_ghg.jpg",
+        "img": "/ico-stats.svg",
         "label_code": "ghg",
         "tiles": [
             "ghg_overview",
