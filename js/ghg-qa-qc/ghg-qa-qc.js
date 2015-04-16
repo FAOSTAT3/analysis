@@ -1303,15 +1303,15 @@ define([
                         value = parseFloat(json[i][value_idx]);
                         if (value != -1) {
                             value = value.toFixed(2);
-                            var color = '#666';
+                            var color = '';
                             switch (datasource) {
                                 case 'difference':
-                                    color = value >= 0 ? 'green' : 'red';
+                                    color = value >= 0 ? '#33cc66' : 'red';
                                     if (json[i].length == 4)
                                         value = null;
                                     break;
                                 case 'norm_difference':
-                                    color = value >= 0 ? 'green' : 'red';
+                                    color = value >= 0 ? '#33cc66' : 'red';
                                     break;
                             }
                             value = '<span style="color: ' + color + ';">';
@@ -1633,6 +1633,34 @@ define([
                 labels: {
                     formatter: function() {
                         return parseFloat(this.value).toFixed(0)
+                    }
+                }
+            },
+            exporting : {
+                enabled: true,
+                buttons: {
+                    contextButton: { //Modifica lo stile del bottone dell'esportazione (principalmente il simbolo al suo internp)
+                        enabled: true,// Attivazione Bottone esportazione
+                        //align: 'left',// Allineamento
+                        //onclick: function() { alert('this is a test - direct function') },// Funzione associata direttamente al pulsante
+                        //text: 'Premi qui',// Aggiunge il testo alla destra del bottone
+                        //symbol: 'triangle-down', //Tipi di simboli per il pulsante esporta (cirle, diamond, exportIcon, square, triangle, triangle-down)
+                        //symbolSize: 15, // Grandezza del simbolo
+                        //symbolX: 0,// X del simbolo rispetto alla sua posizione
+                        //symbolY: 21,// Y del simbolo rispetto alla sua posizione
+                        symbolStroke: '#666666', //	Colore stroke del simbolo
+                        symbolStrokeWidth: 1,//	Stroke del simbolo
+
+                        ///Fa l'override dei bottoni dell'esportazione, associando una funzione custom
+                        /*menuItems: [{
+                         text: 'Mentaltoy TEST',
+                         onclick: function() { alert('this is a test') }},
+                         {
+                         text: 'Mentaltoy TEST',
+                         onclick: function() { alert('this is a test') },
+                         separator: false
+                         }]*/
+                        /// Fine bottoni esportazione custom
                     }
                 }
             }

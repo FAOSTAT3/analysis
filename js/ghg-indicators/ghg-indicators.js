@@ -14,7 +14,7 @@ define(['jquery'], function ($) {
 
         /* Extend default configuration. */
         this.CONFIG = $.extend(true, {}, this.CONFIG, config);
-        $('#tiles_container').html('<center><img style="width: 800px; height: 240px;" src="http://fenixapps2.fao.org/faostat-ghg/modules/tiled-analysis/images/ghg_indicators.png"></center>');
+        $('#tiles_container').html('<h1>Indicators</h1><center><img style="width: 800px; height: 240px;" src="http://fenixapps2.fao.org/faostat-ghg/modules/tiled-analysis/images/ghg_indicators.png"></center>');
 
     };
 

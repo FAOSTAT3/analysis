@@ -1,15 +1,23 @@
 <template id='ghg_qa_qc_verification_structure'>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 id="fx_ghg_overview_title">QA-QC and Verification</H1>
+        </div>
+    </div>
+
     <ul class='nav nav-tabs' role='tablist'>
         <li class='active'>
             <a href='#ghg_verification' role='tab' data-toggle='tab'>
                 {{tab_verification_label}}
             </a>
         </li>
-        <!--<li>-->
-            <!--<a href='#ghg_qa_qc' role='tab' data-toggle='tab'>-->
-                <!--{{tab_qaqc_label}}-->
-            <!--</a>-->
-        <!--</li>-->
+
+        <li>
+            <a href='#ghg_qa_qc' role='tab' data-toggle='tab' class="disabled">
+                {{tab_qaqc_label}}
+            </a>
+        </li>
     </ul>
     <div class='tab-content'>
         <div class='tab-pane active' id='ghg_verification'>
@@ -439,7 +447,7 @@
         </div>
         <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8' style='padding-left: 0px; margin-left: -1px;'>
             <div style='display: inline-block; width: 100%; overflow-x: scroll;'>
-                <table class='table table-bordered table-condensed table-hover' id='{{right_ghg_table_id}}'>
+                <table class='table table-bordered table-condensed table-hover dataTable' id='{{right_ghg_table_id}}'>
                     <thead>
                         <tr>
                             <!--{{#years}}-->
@@ -620,7 +628,7 @@
         </div>
         <div class='col-xs-12 col-sm-9 col-md-9 col-lg-9' style='padding-left: 0; left: -18px;'>
             <div style='display: inline-block; width: 100%; overflow-x: scroll;'>
-                <table class='table table-bordered table-condensed table-hover' id='{{right_table_id}}'>
+                <table class='table table-bordered table-condensed table-hover dataTable' id='{{right_table_id}}'>
                     <thead>
                         <tr>
                             <!--{{#years}}-->
@@ -781,7 +789,7 @@
         </div>
         <div class='col-xs-12 col-sm-4 col-md-4 col-lg-4' style='padding-right: 0px;'>
             <div style='display: inline-block; width: 100%;'>
-                <table class='table table-bordered table-condensed table-hover' id='{{left_standard_table_id}}'>
+                <table class='table table-bordered table-condensed table-hover dataTable' id='{{left_standard_table_id}}'>
                     <thead class='coloured_header'>
                         <tr>
                             <th>
@@ -823,7 +831,7 @@
         </div>
         <div class='col-xs-12 col-sm-8 col-md-8 col-lg-8' style='padding-left: 0px; margin-left: -1px;'>
             <div style='display: inline-block; width: 100%; overflow-x: scroll;'>
-                <table class='table table-bordered table-condensed table-hover' id='{{right_standard_table_id}}'>
+                <table class='table table-bordered table-condensed table-hover dataTable' id='{{right_standard_table_id}}'>
                     <thead class='coloured_header'>
                         <tr>
                             <!--{{#years}}-->

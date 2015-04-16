@@ -135,9 +135,6 @@ h1 {
   h1 i {
     font-size: 18px !important; }
 
-.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
-  border: 1px solid #ddd !important; }
-
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
   border-bottom-width: 1px; }
 
@@ -160,7 +157,10 @@ h1 {
 
 #analysis_breadcrumb.breadcrumb {
   background-color: #FFFFFF;
-  margin-top: -5px; }
+  margin-top: -5px;
+  margin-bottom: 0px; }
+  #analysis_breadcrumb.breadcrumb li a {
+    color: #666666 !important; }
 
 .ghg_lvl {
   font-weight: bold; }
@@ -255,3 +255,37 @@ body {
   width: 825px !important; }
 #gas__charts_content .innertbody tr:nth-child(n+3) td:nth-child(3) {
   display: none; }
+
+.chosen-container-single .chosen-single {
+  background: transparent !important;
+  color: #666666 !important; }
+
+/* GHG fix 15 april 2015 */
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+  border-color: transparent; }
+
+.ghg-small-charts {
+  height: 250px; }
+
+#fs-overview-tables .dataTable {
+  text-align: center !important; }
+
+#gt_tables_content .dataTable {
+  border: 1px solid #e6e6e6 !important; }
+  #gt_tables_content .dataTable thead th .table_cell {
+    font-size: 12px !important; }
+  #gt_tables_content .dataTable td {
+    padding: 0 !important; }
+#gt_tables_content tr {
+  padding: 0 5px; }
+  #gt_tables_content tr:nth-child(odd) {
+    background-color: transparent; }
+  #gt_tables_content tr:nth-child(even) {
+    background-color: #f4f4f4; }
+#gt_tables_content tr:hover .form-control {
+  background-color: transparent;
+  color: white; }
+#gt_tables_content .form-control {
+  text-align: center !important;
+  background-color: transparent;
+  color: #666; }

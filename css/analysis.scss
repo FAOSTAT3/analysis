@@ -200,7 +200,7 @@ h1 {
 }
 
 .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
-  border: 1px solid #ddd !important;
+  //border: 1px solid #ddd !important;
 }
 
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
@@ -233,6 +233,13 @@ h1 {
 #analysis_breadcrumb.breadcrumb {
   background-color: #FFFFFF;
   margin-top: -5px;
+  margin-bottom: 0px;
+
+  li{
+    a{
+      color: #666666 !important;
+    }
+  }
 }
 
 .ghg_lvl {
@@ -411,4 +418,84 @@ body{
 
   }
 }
+
+
+
+.chosen-container-single .chosen-single{
+  background: transparent !important;
+  color: #666666 !important;
+}
+
+/* GHG fix 15 april 2015 */
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
+  border-color: transparent;
+}
+
+.ghg-small-charts{
+  height: 250px;
+}
+
+#fs-overview-tables{
+  .dataTable{
+
+
+    text-align: center !important;
+  }
+
+}
+
+
+#gt_tables_content{
+
+  .dataTable{
+
+    border: 1px solid #e6e6e6 !important;
+
+    thead th .table_cell{
+      font-size: 12px !important;
+    }
+
+    td{
+      padding: 0 !important;
+
+    }
+
+  }
+
+
+  tr{
+
+    padding: 0 5px;
+
+    &:nth-child(odd) {
+      background-color: transparent;
+    }
+
+    &:nth-child(even) {
+      background-color: #f4f4f4;
+    }
+
+  }
+
+  tr:hover{
+    .form-control{
+      background-color: transparent;
+      color: white;
+    }
+  }
+
+  .form-control{
+    text-align: center !important;
+    background-color: transparent;
+    color: #666;
+  }
+}
+
+.fx_world_table{
+
+
+
+}
+
+
 

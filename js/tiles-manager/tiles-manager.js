@@ -132,11 +132,9 @@ define([
 
     TILESMGR.prototype.show_module = function(tile_code) {
         var _this = this;
-        console.log(tile_code)
         if (tiles_configuration[tile_code]['require'] != null) {
             $('#tiles_container').empty();
             require([tiles_configuration[tile_code]['require']], function (module) {
-                console.log(module);
                 try {
                     module.init({'lang': _this.CONFIG.lang});
                 }catch (e) {
@@ -170,8 +168,6 @@ define([
             var template = null;
             var render = null;
 
-            console.log(child_1.img);
-
             /* Render the template. */
             var view = {
                 tile_img: this.CONFIG.url_images + child_1.img,
@@ -181,22 +177,17 @@ define([
                 tile_button: translate[child_1.tile_button]
             };
             var template = null;
-//            console.log()
-//            console.debug(tiles_configuration[tiles_configuration[tile_code].tiles[0]]['type']);
-//            console.debug(tile_code);
+
 //            if (tiles_configuration[tile_code].tiles[0]['type'] == null) {
 //                template = $(templates).filter('#main_tile_structure').html();
 //            } else {
             switch (tiles_configuration[tiles_configuration[tile_code].tiles[0]]['type']) {
                 case 'section':
-                    console.log('#main_tile_structure');
                     template = $(templates).filter('#main_tile_structure').html();
                     break;
                 case 'module':
-                    console.log('#module_tile_structure');
                     template = $(templates).filter('#module_tile_structure').html();
                     view.tile_img = this.CONFIG.url_images + "/" + this.CONFIG.lang + "/"+ tiles_configuration[tiles_configuration[tile_code].tiles[i]]['img'];
-                    console.log(tiles_configuration[tiles_configuration[tile_code].tiles[i]]['img']);
                     break;
 
             }
