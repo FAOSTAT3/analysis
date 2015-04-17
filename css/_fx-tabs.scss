@@ -1,6 +1,18 @@
-/* Afo Tabs component */
+/* Fenix Tabs component */
 
-.afo-tabs{
+.fx-tabs{
+
+  a:visited{
+    color: #666666 !important;
+  }
+
+
+  .nav-tabs>li>a{
+    @include fx-no-border;
+    color: #666666 !important;
+    background-color: transparent;
+  }
+
 
   .nav-tabs {
 
@@ -15,9 +27,13 @@
         padding: 0 10px;
 
         color: $fenix-text;
-        font-weight: 500;
+        //font-weight: 500;
         font-size: 12px;
         text-transform: uppercase;
+
+        &:visited{
+          color: $fenix-text !important;
+        }
 
         &:before {
           @include animate;
@@ -35,10 +51,14 @@
       }
 
 
+
+
       &.active {
 
         >a {
-          color: $afo-green-title;
+          color: $afo-green-title !important;
+          @include fx-no-border;
+          //font-weight: 500;
 
           &:before{
             @include animate;

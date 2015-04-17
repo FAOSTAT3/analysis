@@ -1,3 +1,18 @@
+/* GHG Anlysis */
+//
+
+
+@import 'fx-analysis-variables';
+@import 'fx-mixins';
+@import 'fx-tabs';
+
+
+
+.fx-analysis-holder{
+
+
+}
+
 .faos-analysis-container{
 //   margin: 0 -10px;
   margin: 0 20px;
@@ -47,7 +62,7 @@
   .faos-analysis-module-left{
     display: inline-block;
     float: left;
-    width: 15%;
+    width: 5%;
 
 
     .faos-analysis-tile-img{
@@ -201,6 +216,10 @@ h1 {
 
 .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
   //border: 1px solid #ddd !important;
+}
+
+.table-bordered{
+  @include fx-no-border;
 }
 
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
