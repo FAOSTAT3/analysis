@@ -498,7 +498,7 @@ define([
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
-        console.log(JSON.stringify(sql));
+        //console.log(JSON.stringify(sql));
         var _this = this;
         $.ajax({
             type : 'POST',
@@ -618,7 +618,7 @@ define([
         data.decimalSeparator = '.';
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
-        console.log(JSON.stringify(sql));
+        //console.log(JSON.stringify(sql));
         var table = new F3_GHG_TABLE();
         $.ajax({
             type : 'POST',
