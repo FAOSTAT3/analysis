@@ -39,10 +39,12 @@ define([
             I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
 
             // Default Values of the comboboxes
-            default_country: [49, 60, 138],
+            // default_country: [49, 60, 138],
+            default_country: [],
+
             //        default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
             default_from_year: [1990],
-            default_to_year: [2010],
+            default_to_year: [2012],
 
             // JSON resources
             //baseurl_resources_ghg_overview: '/resources/json/ghg_overview.json',
@@ -60,32 +62,24 @@ define([
         // get configuration changes
         this.CONFIG = $.extend(true, this.CONFIG, config);
 
-        console.log(this.CONFIG);
-        console.log(this.CONFIG.placeholder);
-
         // Load interface
         $('#' + this.CONFIG.placeholder).html(template);
 
         // Multilanguage
         this.loadLabels()
 
-        console.log("HERE")
-
         // Default View
         var url = this.CONFIG.prefix + this.CONFIG.baseurl_resources_ghg_overview;
         this.CONFIG.selected_areacodes = this.CONFIG.default_country;
         this.CONFIG.selected_from_year = this.CONFIG.default_from_year;
         this.CONFIG.selected_to_year = this.CONFIG.default_to_year;
-        this.updateView()
-
-        console.log("HERE")
 
         // Populate DropDowns
         var url_country = this.CONFIG.baseurl + this.CONFIG.baseurl_countries + "/" + this.CONFIG.datasource + "/" + this.CONFIG.domaincode + "/" + this.CONFIG.lang
         var url_years = this.CONFIG.baseurl + this.CONFIG.baseurl_years + "/" + this.CONFIG.datasource + "/" + this.CONFIG.domaincode + "/" + this.CONFIG.lang
         this.populateView(this.CONFIG.selector_country_list,url_country, this.CONFIG.default_country, "100%", true, {disable_search_threshold: 10});
-        this.populateViewYears(this.CONFIG.selector_from_year_list, 1990, 2010, this.CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
-        this.populateViewYears(this.CONFIG.selector_to_year_list, 1990, 2010, this.CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
+        this.populateViewYears(this.CONFIG.selector_from_year_list, 1990, 2012, this.CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
+        this.populateViewYears(this.CONFIG.selector_to_year_list, 1990, 2012, this.CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
 
         var _this = this;
         $('#fs-overview-tables-button').on('click', function() {
@@ -94,14 +88,15 @@ define([
         $('#fs-overview-tables-button-a').on('click', function() {
             _this.showHideTables()
         });
+
+        // load the view if there are areas selected
+        if (this.CONFIG.default_country.length > 0) {
+            this.updateView();
+        }
     };
 
     GHG_OVERVIEW.prototype.loadLabels = function() {
-        console.log("loadLabels");
-        //console.log($.i18n);
-//        $("#fs_label_area").html($.i18n.prop('_area'));
-        $("#fs_label_area").html($.i18n.prop('_select_a_country'));
-        console.log("loadLabel1");
+        $("#fs_label_area").html($.i18n.prop('_geographic_areas'));
         $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
         $("#fs_label_toyear").html($.i18n.prop('_toyear'));
         $("#fs_label_world").html($.i18n.prop('_world'));
@@ -122,7 +117,6 @@ define([
         $("#overview_chart_bc_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
 
         $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
-        console.log("loadLabels");
     }
 
     GHG_OVERVIEW.prototype.showHideTables = function() {
@@ -213,26 +207,33 @@ define([
             _this.updateView();
         });
 
-        console.log(chosen_parameters);
         $('#' + ddID).chosen(chosen_parameters);
     };
 
 
     GHG_OVERVIEW.prototype.updateView = function() {
-        var json = this.CONFIG.resources_json;
+        if (this.CONFIG.selected_areacodes != null) {
+            // show panel
+            $("#fx_overview_panel").show();
 
-        // update views
-        this.updateWorldBox(json)
-        this.updateContinentBox(json)
-        this.updateSubRegionBox(json)
-        this.updateCountryBox(json)
+            var json = this.CONFIG.resources_json;
 
-        this.updateTableWorld(json)
+            // update views
+            this.updateWorldBox(json)
+            this.updateContinentBox(json)
+            this.updateSubRegionBox(json)
+            this.updateCountryBox(json)
 
-        this.updateChartsByCountries(json);
+            this.updateTableWorld(json)
 
-        // this changes the div with the names of the countries
-        this.updateCountryListNames();
+            this.updateChartsByCountries(json);
+
+            // this changes the div with the names of the countries
+            this.updateCountryListNames();
+        }
+        else{
+            $("#fx_overview_panel").hide();
+        }
     }
 
     GHG_OVERVIEW.prototype.updateWorldBox = function(json) {
@@ -318,9 +319,7 @@ define([
                 _this.updateAreasBox(json, id, code, areanames)
                 _this.updateAreasTable(json, code, config)
             },
-            error: function (a, b, c) {
-                console.log(a + " " + b + " " + c);
-            }
+            error: function (a, b, c) {console.log(a + " " + b + " " + c);}
         });
     }
 
@@ -493,7 +492,6 @@ define([
     }
 
     GHG_OVERVIEW.prototype.createTitle = function(id, sql) {
-//        function createTitle(id, sql) {
         var data = {};
         data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
@@ -614,7 +612,6 @@ define([
     }
 
     GHG_OVERVIEW.prototype.createTable = function(sql, years, config) {
-        console.log("HERE");
         var data = {};
         data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
