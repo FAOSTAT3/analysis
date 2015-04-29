@@ -152,6 +152,17 @@ h1 {
   h1 i {
     font-size: 18px !important; }
 
+h2 {
+  font: 400 14px 'Roboto Condensed',sans-serif !important;
+  color: #379bce; }
+
+#fx_overview_panel h2 {
+  margin-bottom: 0; }
+
+.fs_overview_subtitle {
+  text-transform: uppercase;
+  font-size: 10px; }
+
 .table-bordered {
   border-top: none;
   border-right: none;

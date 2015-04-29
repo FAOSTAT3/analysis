@@ -150,6 +150,24 @@ h1 {
   color: #379bce;
 }
 
+h2 {
+  font: 400 14px 'Roboto Condensed',sans-serif !important;
+  color: #379bce;
+}
+
+#fx_overview_panel{
+
+  h2{ margin-bottom: 0;}
+
+}
+
+.fs_overview_subtitle{
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+
+
 .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
   //border: 1px solid #ddd !important;
 }
