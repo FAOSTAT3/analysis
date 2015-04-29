@@ -32,6 +32,7 @@ define([
             url_editor      :   'http://fenixapps.fao.org/repository/ghg-editor/',
             url_i18n        :   'http://fenixapps2.fao.org/ghg/ghg-editor/I18N/',
             url_listboxes   :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/',
+            placeholder_id: 'container',
             default_colors  :   ['#379bcd', '#379bcd', '#76BE94', '#76BE94', '#744490', '#744490', '#744490',
                 '#E10079', '#E10079', '#2D1706', '#2D1706', '#F1E300', '#F1E300', '#F7AE3C',
                 '#F7AE3C', '#DF3328', '#DF3328']
@@ -63,7 +64,7 @@ define([
         };
         var template = $(templates).filter('#ghg_qa_qc_verification_structure').html();
         var render = Mustache.render(template, view);
-        $('#tiles_container').html(render);
+        $('#' + this.CONFIG.placeholder_id).html(render);
 
         /* Initiate Chosen. */
         $('.chosen').chosen({
