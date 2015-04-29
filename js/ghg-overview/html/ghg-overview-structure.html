@@ -1,20 +1,20 @@
 <div class="row">
     <div class="col-xs-12">
-        <h1 id="fx_ghg_overview_title"></H1>
+        <h1 id="fx_ghg_overview_title"></h1>
     </div>
 </div>
 
 <div class="row">
     <div class="col-xs-6">
-        <div id="fs_label_area"></div>
+        <b><div id="fs_label_area"></div></b>
         <div id="fx_country_list"></div>
     </div>
     <div class="col-xs-3" >
-        <div id="fs_label_fromyear"></div>
+        <b><div id="fs_label_fromyear"></div></b>
         <div id="fx_from_year_list"></div>
     </div>
     <div class="col-xs-3">
-        <div id="fs_label_toyear"></div>
+        <b><div id="fs_label_toyear"></div></b>
         <div id="fx_to_year_list"></div>
     </div>
 </div>
@@ -23,111 +23,119 @@
     <div class="row">
         <div class="col-xs-6">
             <div id="fx_country_total">
-                <div class="overview_title" id="fs_label_country"></div>
-                <div class="overview_subtitle" id="fx_country_total_name"></div>
-                <span class="overview_value" id="fx_country_total_value"></span>
-                <span class="overview_mu">Gg CO2eq</span>
+                <h2 id="fs_label_country"></h2>
+                <div class="fs_overview_subtitle" id="fx_country_total_name"></div>
+                <b><span id="fx_country_total_value"></span></b>
+                <span class="overview_mu"><i>Gg CO2eq</i></span>
             </div>
-            <div id="fx_country_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <div id="fx_country_chart"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
 
         <div class="col-xs-6">
             <div id="fx_region_total">
-                <div class="overview_title" id="fs_label_region"></div>
-                <div class="overview_subtitle" id="fx_region_total_name"></div>
-                <span class="overview_value" id="fx_region_total_value"></span>
-                <span class="overview_mu">Gg CO2eq</span>
+                <h2 id="fs_label_region"></h2>
+                <div class="fs_overview_subtitle" id="fx_region_total_name"></div>
+                <b><span id="fx_region_total_value"></span></b>
+                <span class="overview_mu"><i>Gg CO2eq</i></span>
             </div>
-            <div  id="fx_region_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <div  id="fx_region_chart"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-6">
             <div id="fx_continent_total">
-                <div class="overview_title"  id="fs_label_continent"></div>
-                <div class="overview_subtitle" id="fx_continent_total_name"></div>
-                <span class="overview_value" id="fx_continent_total_value"></span>
-                <span class="overview_mu">Gg CO2eq</span>
+                <h2 id="fs_label_continent"></h2>
+                <div class="fs_overview_subtitle" id="fx_continent_total_name"></div>
+                <b><span id="fx_continent_total_value"></span></b>
+                <span class="overview_mu"><i>Gg CO2eq</i></span>
             </div>
-            <div id="fx_continent_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <div id="fx_continent_chart"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
         <div class="col-xs-6">
             <div id="fx_world_total">
-                <div id="fs_label_world" class="overview_title" >World</div>
-                <div class="overview_subtitle" id="fx_world_total_item"></div>
-                <span class="overview_value" id="fx_world_total_value"></span>
-                <!--<i><span id="fx_world_total_element"></span></i>-->
-                <span class="overview_mu"> Gg CO2eq</span>
+                <h2 id="fs_label_world"></h2>
+                <div class="fs_overview_subtitle" id="fx_world_total_item"></div>
+                <b><span id="fx_world_total_value"></span></b>
+                <span class="overview_mu"><i>Gg CO2eq</i></span>
             </div>
-            <div  id="fx_world_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <div  id="fx_world_chart"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="overview_chart_title" id="overview_chart_ag_total">Agriculture Total (Countries/Regions)</div>
-            <div id="fx_agriculture_total_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <h2 id="overview_chart_ag_total"></h2>
+            <div id="fx_agriculture_total_chart"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
     </div>
 
-    <!--<div class="row">-->
-        <!--<div class="col-xs-6">-->
-            <!--<div class="overview_chart_title">Agriculture Total (Countries/Regions)</div>-->
-            <!--<div style="margin-top: 10px; height: 350px;" id="fx_agriculture_total_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>-->
-        <!--</div>-->
-
-        <!--<div class="col-xs-6">-->
-            <!--<div class="overview_chart_title">Countries (SUM)</div>-->
-            <!--<div style="margin-top: 10px; height: 300px;" id="fx_second_chart"><i class='fa fa-refresh fa-spin fa-5x'></i></div>-->
-        <!--</div>-->
-    <!--</div>-->
 
     <div class="row">
+        <!--<div class="fs_column_4">-->
+            <!--<h2 id="overview_chart_ef_mm"></h2>-->
+            <!--<div  id="fx_chart_1" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>-->
+        <!--</div>-->
+        <!--<div class="fs_column_4">-->
+            <!--<h2 id="overview_chart_ag_rc"></h2>-->
+            <!--<div id="fx_chart_2" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>-->
+        <!--</div>-->
+        <!--<div class="fs_column_4">-->
+            <!--<h2 id="overview_chart_bc_bs"></h2>-->
+            <!--<div id="fx_chart_3" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>-->
+        <!--</div>-->
         <div class="fs_column_4">
-            <div class="overview_chart_title_small" id="overview_chart_ef_mm">Enteric Fermentation and Manure Management <br>Countries SUM</div>
-            <div  id="fx_second_chart" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <h2 id="overview_chart_ef"></h2>
+            <div id="fx_chart_0" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
         <div class="fs_column_4">
-            <div class="overview_chart_title_small" id="overview_chart_ag_rc">Agricultural Soils and Rice Cultivation <br>Countries SUM</div>
-            <div id="fx_third_chart" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <h2 id="overview_chart_mm"></h2>
+            <div id="fx_chart_1" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
         <div class="fs_column_4">
-            <div class="overview_chart_title_small" id="overview_chart_bc_bs">Burning Crop residues and Burning Savanna <br>Countries SUM</div>
-            <div id="fx_fourth_chart" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-5x'></i></div>
+            <h2 id="overview_chart_ag"></h2>
+            <div id="fx_chart_2" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
+        </div>
+        <div class="fs_column_4">
+            <h2 id="overview_chart_rc"></h2>
+            <div  id="fx_chart_3" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
+        </div>
+        <div class="fs_column_4">
+            <h2 id="overview_chart_bc"></h2>
+            <div id="fx_chart_4" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
+        </div>
+        <div class="fs_column_4">
+            <h2 id="overview_chart_bs"></h2>
+            <div id="fx_chart_5" class="ghg-small-charts"><i class='fa fa-refresh fa-spin fa-2x'></i></div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            <div>
-            <a id="fs-overview-tables-button-a">
-                <i class='fa fa-compress fa-border'></i>
-            </a>
-                <span class='overview_chart_title' id="fs-overview-tables-button"></span>
-            </div>
+            <a id="fs-overview-tables-button-a"><i class='fa fa-compress fa-border'></i></a>
+            <span id="fs-overview-tables-button"></span>
         </div>
     </div>
 
-    <div id="fs-overview-tables" >
+    <div id="fs-overview-tables" style="display:none">
         <div class="row">
             <div class="col-xs-12" id="fx_world_table">
-                <i class='fa fa-refresh fa-spin fa-5x'></i>
+                <i class='fa fa-refresh fa-spin fa-2x'></i>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12" id="fx_continent_table">
-                <i class='fa fa-refresh fa-spin fa-5x'></i>
+                <i class='fa fa-refresh fa-spin fa-2x'></i>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12" id="fx_region_table">
-                <i class='fa fa-refresh fa-spin fa-5x'></i>
+                <i class='fa fa-refresh fa-spin fa-2x'></i>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12" id="fx_country_table">
-                <i class='fa fa-refresh fa-spin fa-5x'></i>
+                <i class='fa fa-refresh fa-spin fa-2x'></i>
             </div>
         </div>
     </div>

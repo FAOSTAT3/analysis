@@ -109,12 +109,25 @@ define([
 
         $("#overview_chart_ag_total").html($.i18n.prop('_agriculture_total'));
         $("#overview_chart_ag_total").append(" (" + $.i18n.prop('_country_region') + ")");
-        $("#overview_chart_ef_mm").html($.i18n.prop('_enteric_fermentation') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_manure_management'));
-        $("#overview_chart_ef_mm").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_ag_rc").html($.i18n.prop('_agricultural_soils') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_rice_cultivation'));
-        $("#overview_chart_ag_rc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_bc_bs").html($.i18n.prop('_burning_crops_residues') + " " + $.i18n.prop('_and') + " " +  $.i18n.prop('_burning_savanna'));
-        $("#overview_chart_bc_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        //$("#overview_chart_ef_mm").html($.i18n.prop('_enteric_fermentation') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_manure_management'));
+        //$("#overview_chart_ef_mm").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        //$("#overview_chart_ag_rc").html($.i18n.prop('_agricultural_soils') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_rice_cultivation'));
+        //$("#overview_chart_ag_rc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        //$("#overview_chart_bc_bs").html($.i18n.prop('_burning_crops_residues') + " " + $.i18n.prop('_and') + " " +  $.i18n.prop('_burning_savanna'));
+        //$("#overview_chart_bc_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+
+        $("#overview_chart_ef").html($.i18n.prop('_enteric_fermentation'));
+        $("#overview_chart_ef").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_mm").html($.i18n.prop('_manure_management'));
+        $("#overview_chart_mm").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_ag").html($.i18n.prop('_agricultural_soils'));
+        $("#overview_chart_ag").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_rc").html($.i18n.prop('_rice_cultivation'));
+        $("#overview_chart_rc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_bc").html($.i18n.prop('_burning_crops_residues'));
+        $("#overview_chart_bc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_bs").html($.i18n.prop('_burning_savanna'));
+        $("#overview_chart_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
 
         $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
     }
@@ -210,7 +223,6 @@ define([
         $('#' + ddID).chosen(chosen_parameters);
     };
 
-
     GHG_OVERVIEW.prototype.updateView = function() {
         if (this.CONFIG.selected_areacodes != null) {
             // show panel
@@ -237,7 +249,7 @@ define([
     }
 
     GHG_OVERVIEW.prototype.updateWorldBox = function(json) {
-        var obj = this.getconfugirationObject()
+        var obj = this.getConfigurationObject()
 
         var arecode = "'5000'"
 
@@ -246,13 +258,6 @@ define([
         var total_obj = obj;
         total_obj.areacode = arecode
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-
-        // Create Pie
-//        var json_chart = json.world_chart;
-//        var chart_obj = obj;
-//        chart_obj.areacode = "'5100', '5200', '5300', '5400', '5500'"
-//        json_chart =  $.parseJSON(replaceValues(json_chart, chart_obj))
-
         var json_chart = json.byarea_chart;
         var chart_obj = obj;
         chart_obj.areacode = arecode
@@ -263,7 +268,7 @@ define([
     }
 
     GHG_OVERVIEW.prototype.updateContinentBox = function(json) {
-        var obj = this.getconfugirationObject()
+        var obj = this.getConfigurationObject()
 
         // Getting Area Codes
         var codes = this.getQueryAreaCodes()
@@ -324,7 +329,7 @@ define([
     }
 
     GHG_OVERVIEW.prototype.updateSubRegionBox = function(json) {
-        var obj = this.getconfugirationObject();
+        var obj = this.getConfigurationObject();
 
         // Getting Area Codes
         var codes = this.getQueryAreaCodes()
@@ -386,30 +391,74 @@ define([
     }
 
     GHG_OVERVIEW.prototype.updateChartsByCountries = function(json) {
-        var obj = this.getconfugirationObject();
+        var obj = this.getConfigurationObject();
         var areacodes = this.getQueryAreaCodes();
 
-        // Create Second Chart
+        // create charts
+        //var json_total = json.byitem_chart
+        //var total_obj = obj;
+        //total_obj.areacode = areacodes
+        //total_obj.itemcode = "'5058', '5059'"
+        //json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        //this.createChart("fx_chart_1", json_total.sql, 'timeserie')
+        //
+        //var json_total = json.byitem_chart
+        //var total_obj = obj;
+        //total_obj.areacode = areacodes
+        //total_obj.itemcode = "'1709', '5060'"
+        //json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        //this.createChart("fx_chart_2", json_total.sql, 'timeserie')
+        //
+        //var json_total = json.byitem_chart
+        //var total_obj = obj;
+        //total_obj.areacode = areacodes
+        //total_obj.itemcode = "'5066', '5067'"
+        //json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        //this.createChart("fx_chart_3", json_total.sql, 'timeserie')
+
+        // Create Charts by item
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
-        total_obj.itemcode = "'5058', '5059'"
+        total_obj.itemcode = "'5058'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_second_chart", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_0", json_total.sql, 'timeserie')
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
-        total_obj.itemcode = "'1709', '5060'"
+        total_obj.itemcode = "'5059'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_third_chart", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_1", json_total.sql, 'timeserie')
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
-        total_obj.itemcode = "'5066', '5067'"
+        total_obj.itemcode = "'1709'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_fourth_chart", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_2", json_total.sql, 'timeserie')
+
+        var json_total = json.byitem_chart
+        var total_obj = obj;
+        total_obj.areacode = areacodes
+        total_obj.itemcode = "'5060'"
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        this.createChart("fx_chart_3", json_total.sql, 'timeserie')
+
+        var json_total = json.byitem_chart
+        var total_obj = obj;
+        total_obj.areacode = areacodes
+        total_obj.itemcode = "'5066'"
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        this.createChart("fx_chart_4", json_total.sql, 'timeserie')
+
+        var json_total = json.byitem_chart
+        var total_obj = obj;
+        total_obj.areacode = areacodes
+        total_obj.itemcode = "'5067'"
+        json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
+        this.createChart("fx_chart_5", json_total.sql, 'timeserie')
+
     }
 
     /** TODO: not hardcoded **/
@@ -430,7 +479,6 @@ define([
 
     GHG_OVERVIEW.prototype.updateCountryBox = function(json) {
         var codes = this.getQueryAreaCodes()
-
         var id = "fx_country"
         var id_table = id + "_table"
         var config = {
@@ -453,12 +501,11 @@ define([
         this.updateAreasTable(json, codes, config)
     }
 
-
     GHG_OVERVIEW.prototype.updateAreasBox = function(json, id, areacode, areanames) {
         if ( areanames )
             $("#" + id + "_total_name").html(areanames)
 
-        var obj = this.getconfugirationObject();
+        var obj = this.getConfigurationObject();
 
         // Create Title
         var json_total = json.byarea_total;
@@ -477,10 +524,8 @@ define([
     }
 
     GHG_OVERVIEW.prototype.updateTimeserieAgricultureTotal = function(json, regions) {
-//        function updateTimeserieAgricultureTotal(json, regions) {
-        var obj = this.getconfugirationObject();
+        var obj = this.getConfigurationObject();
         var areacodes = this.getQueryAreaCodes();
-
         var areas_query = areacodes + ',' + regions;
 
         // Create Title
@@ -550,7 +595,6 @@ define([
             for ( var i = this.CONFIG.selected_from_year[0]+1; i <= this.CONFIG.selected_to_year[0]; i++) {
                 years.push(i)
             }
-
         }
         else{
             years.push(parseInt(this.CONFIG.selected_from_year))
@@ -558,7 +602,7 @@ define([
                 years.push(i)
             }
         }
-        var obj = this.getconfugirationObject();
+        var obj = this.getConfigurationObject();
 
         var json_total = json.world_table;
         // TODO: Modify the JSON with the right attributes
@@ -592,7 +636,6 @@ define([
             for ( var i = this.CONFIG.selected_from_year[0]+1; i <= this.CONFIG.selected_to_year[0]; i++) {
                 years.push(i)
             }
-
         }
         else{
             years.push(parseInt(this.CONFIG.selected_from_year))
@@ -600,7 +643,7 @@ define([
                 years.push(i)
             }
         }
-        var obj = this.getconfugirationObject();
+        var obj = this.getConfigurationObject();
 
         // Create Title
         var json_total = json.byarea_table;
@@ -634,7 +677,7 @@ define([
     }
 
     GHG_OVERVIEW.prototype.createTimeserieAgricultureTotal = function(json) {
-        var obj = this.getconfugirationObject();
+        var obj = this.getConfigurationObject();
         var codes = this.getQueryAreaCodes();
 
         /** TODO: **/
@@ -647,7 +690,7 @@ define([
         this.createChart(id + "_chart", json_obj.sql)
     }
 
-    GHG_OVERVIEW.prototype.getconfugirationObject = function() {
+    GHG_OVERVIEW.prototype.getConfigurationObject = function() {
         var obj = {
             lang : this.CONFIG.lang.toUpperCase(),
             elementcode: "'" + this.CONFIG.elementcode + "'",
@@ -696,13 +739,5 @@ define([
         }
     }
 
-//    return {
-//        init: init,
-//        showHideTables: showHideTables
-//    };
-//
-//})();
-
     return new GHG_OVERVIEW();
-
 });

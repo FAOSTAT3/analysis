@@ -91,7 +91,7 @@
         };
 
         function createHtmlTitle(id) {
-            $("#" + id).append("<div style='font-size:24px; font-weight: bold;'>" + CONFIG.title + "</div>");
+            $("#" + id).append("<h2>" + CONFIG.title + "</h2>");
         };
 
         function createHtmlTable(id, years) {
