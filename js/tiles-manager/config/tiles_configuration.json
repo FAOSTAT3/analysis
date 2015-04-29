@@ -15,7 +15,8 @@
             "ghg_overview",
             "ghg_quality",
             "ghg_indicators",
-            "ghg_data"
+            "ghg_spatial_download",
+            "ghg_spatial_browse"
         ],
         "tile_title": "ghg",
         "tile_description": "ghg_description",
@@ -29,8 +30,7 @@
         "tiles": [
             "ghg_overview",
             "ghg_quality",
-            "ghg_indicators",
-            "ghg_data"
+            "ghg_indicators"
         ],
         "tile_title": "statf_title",
         "tile_description": "statf_description",
@@ -67,8 +67,18 @@
         "tile_description": "ghg_indicators_description",
         "tile_button": "ghg_indicators_button"
     },
-    "ghg_data": {
-        "id": "ghg_data",
+    "ghg_spatial_download": {
+        "id": "ghg_spatial_download",
+        "type": "module",
+        "img": "/data.jpg",
+        "label_code": "ghg_data",
+        "require": "FAOSTAT-UI-ANALYSIS-GHG-SPATIAL-DOWNLOAD",
+        "tile_title": "ghg_data",
+        "tile_description": "ghg_quality_description",
+        "tile_button": "ghg_quality_button"
+    },
+    "ghg_spatial_browse": {
+        "id": "ghg_spatial_browse",
         "type": "module",
         "img": "/data.jpg",
         "label_code": "ghg_data",
@@ -77,18 +87,16 @@
         "tile_description": "ghg_data_description",
         "tile_button": "ghg_data_button",
         "module_config": {
-            "url_geoserver_wms": "http://fenix.fao.org/geoserver",
+            "url_geoserver_wms": "http://fenix.fao.org/demo/ghg/geoserver",
 
             "url_d3s_metadata_resource": "http://fenix.fao.org/d3s_dev/msd/resources/uid/{{UID}}",
             "url_d3s_resources_find": "http://fenix.fao.org/d3s_dev/msd/resources/find",
             "url_d3s_resources_find_order_by_date_parameters": "order=meContent.seCoverage.coverageTime.from:desc&logic=StandardFilter&dsd=true&full=true",
 
-            "url_spatialquery_db_spatial": "//168.202.28.214:7777/spatialquery/db/spatial/query/",
-            "url_spatialquery_db_spatial_bbox": "//168.202.28.214:7777/spatialquery/db/spatial/bbox/layer/country/adm0_code/{{CODES}}",
+            "url_spatialquery_db_spatial": "//fenix.fao.org/geo/fenix/spatialquery/db/spatial/query/",
+            "url_spatialquery_db_spatial_bbox": "//fenix.fao.org/geo/fenix/spatialquery/db/spatial/bbox/layer/country/adm0_code/{{CODES}}",
 
-
-
-            "url_distribution_raster_spatial_query": "//168.202.28.214:7777/distribution/raster/spatialquery",
+            "url_distribution_raster_spatial_query": "//fenix.fao.org/geo/fenix/distribution/raster/spatialquery",
 
             "url_css2sld": "//fenixapps2.fao.org/geoservices/CSS2SLD"
         }
