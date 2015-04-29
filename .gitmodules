@@ -1,0 +1,3 @@
+[submodule "submodules/fenix-ui-tiles-manager"]
+	path = submodules/fenix-ui-tiles-manager
+	url = https://github.com/FENIX-Platform/fenix-ui-tiles-manager.git
