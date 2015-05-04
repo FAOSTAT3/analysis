@@ -560,6 +560,7 @@ define([
     }
 
     GHG_OVERVIEW.prototype.createChart = function(id, sql, type) {
+        $('#' + id).show();
         var data = {};
         data.datasource = this.CONFIG.datasource;
         data.thousandSeparator = ',';
@@ -573,14 +574,24 @@ define([
             data : data,
             success : function(response) {
                 response = (typeof data == 'string')? $.parseJSON(response): response;
-                switch(type) {
-                    case "pie" :  F3_CHART.createPie({ renderTo : id, title: "title"}, response); break;
-                    case "timeserie" :
-                        // FIX for the chart engine
-                        var chart = []
-                        chart.push(response)
-                        F3_CHART.createTimeserie({ renderTo : id, title: "title"}, 'line', chart); break;
-                    default: F3_CHART.createPie({ renderTo : id, title: "title"}, response); break;
+                if (response.length > 0) {
+                    switch (type) {
+                        case "pie" :
+                            F3_CHART.createPie({renderTo: id, title: "title"}, response);
+                            break;
+                        case "timeserie" :
+                            // FIX for the chart engine
+                            var chart = []
+                            chart.push(response)
+                            F3_CHART.createTimeserie({renderTo: id, title: "title"}, 'line', chart);
+                            break;
+                        default:
+                            F3_CHART.createPie({renderTo: id, title: "title"}, response);
+                            break;
+                    }
+                }
+                else {
+                    $('#' + id).html($.i18n.prop('_no_data_to_display'));
                 }
 
             },
