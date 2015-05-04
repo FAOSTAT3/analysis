@@ -402,3 +402,7 @@ body {
     margin-bottom: 0; }
     .fs-geospatial-download-product-list .list-group-item:last-child {
       border: 0; }
+
+.fs-overview-title {
+  font-weight: bold;
+  margin-bottom: 5px; }

@@ -575,9 +575,12 @@ body{
     &:last-child{
       border: 0;
     }
-
   }
+}
 
+.fs-overview-title {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 
