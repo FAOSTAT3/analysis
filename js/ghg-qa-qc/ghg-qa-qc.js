@@ -1973,6 +1973,6 @@ define([
     //    }
     //};
 
-    return new GHG_QA_QC();
+    return GHG_QA_QC;
 
 });
