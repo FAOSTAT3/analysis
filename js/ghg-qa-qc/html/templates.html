@@ -1,47 +1,49 @@
 <template id='ghg_qa_qc_verification_structure'>
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 id="fx_ghg_overview_title">QA-QC and Verification</H1>
-        </div>
-    </div>
-
-    <ul class='nav nav-tabs' role='tablist'>
-        <li class='active'>
-            <a href='#ghg_verification' role='tab' data-toggle='tab'>
-                {{tab_verification_label}}
-            </a>
-        </li>
-
-        <li>
-            <a href='#ghg_qa_qc' role='tab' data-toggle='tab' class="disabled">
-                {{tab_qaqc_label}}
-            </a>
-        </li>
-    </ul>
-    <div class='tab-content'>
-        <div class='tab-pane active' id='ghg_verification'>
-            <div class='row' style='margin-top: 16px;'>
-                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                    <label for='ghg_verification_groups_list'>
-                        {{ghg_verification_areas_label}}
-                    </label>
-                    <select class='chosen' style='width: 100%;' id='ghg_verification_areas_list'></select>
-                </div>
-                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
-                    <label for='ghg_verification_groups_list'>
-                        {{ghg_verification_groups_label}}
-                    </label>
-                    <select class='chosen' style='width: 100%;' id='ghg_verification_groups_list'></select>
-                </div>
-            </div>
-            <div class='row' style='margin-top: 16px;'>
-                <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-                    <div id='ghg_verification_content'></div>
-                </div>
+    <div class='container-fluid'>
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 id="fx_ghg_overview_title">QA-QC and Verification</H1>
             </div>
         </div>
-        <div class='tab-pane' id='ghg_qa_qc'>
 
+        <ul class='nav nav-tabs' role='tablist'>
+            <li class='active'>
+                <a href='#ghg_verification' role='tab' data-toggle='tab'>
+                    {{tab_verification_label}}
+                </a>
+            </li>
+
+            <li>
+                <a href='#ghg_qa_qc' role='tab' data-toggle='tab' class="disabled">
+                    {{tab_qaqc_label}}
+                </a>
+            </li>
+        </ul>
+        <div class='tab-content'>
+            <div class='tab-pane active' id='ghg_verification'>
+                <div class='row' style='margin-top: 16px;'>
+                    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                        <label for='ghg_verification_groups_list'>
+                            {{ghg_verification_areas_label}}
+                        </label>
+                        <select class='chosen' style='width: 100%;' id='ghg_verification_areas_list'></select>
+                    </div>
+                    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                        <label for='ghg_verification_groups_list'>
+                            {{ghg_verification_groups_label}}
+                        </label>
+                        <select class='chosen' style='width: 100%;' id='ghg_verification_groups_list'></select>
+                    </div>
+                </div>
+                <div class='row' style='margin-top: 16px;'>
+                    <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                        <div id='ghg_verification_content'></div>
+                    </div>
+                </div>
+            </div>
+            <div class='tab-pane' id='ghg_qa_qc'>
+
+            </div>
         </div>
     </div>
 </template>
