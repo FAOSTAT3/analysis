@@ -739,5 +739,5 @@ define([
         }
     }
 
-    return new GHG_OVERVIEW();
+    return GHG_OVERVIEW;
 });
