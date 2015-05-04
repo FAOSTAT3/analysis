@@ -85,9 +85,9 @@
         function createHtmlTitle(id) {
             var exportID = CONFIG.prefix + "_export_data";
             var html =
-                "<div class='row'>" +
+                "<div class='row' style=''>" +
                     "<div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'><h1>" + CONFIG.title + "</h1></div>" +
-                    "<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'><h1 id="+ exportID +" style='text-align: right; cursor:pointer;'><i class='fa fa-download'></i>"+ $.i18n.prop('_export') +"</h1></div>" +
+                    "<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'><h1 id="+ exportID +" style='text-align: right; cursor:pointer;'><i class='fa fa-download'></i> "+ $.i18n.prop('_export') +"</h1></div>" +
                 "</div>";
             $("#" + id).append(html);
 
