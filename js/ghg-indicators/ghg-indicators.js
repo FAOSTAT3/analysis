@@ -18,6 +18,6 @@ define(['jquery'], function ($) {
 
     };
 
-    return new GHG_INDICATORS();
+    return GHG_INDICATORS;
 
 });
