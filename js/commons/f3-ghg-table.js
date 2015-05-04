@@ -23,9 +23,7 @@
 //            column_0: "World",
 //            column_1: "Grand Total"
 //        },
-
           decimal_values: 0,
-
           add_first_column: true
         };
 
@@ -50,21 +48,17 @@
             s += "<th>Code</th>"
             s += "<th>Sector</th>"
             years.forEach(function(y) {
-//                console.log( y);
                 s += "<th>"+ y+" </th>"
             });
             s += "</thead>"
 
-
             // Rows
             s += "<tbody>"
             for( var i=0; i < table.length; i++) {
-//                console.log( table[i].code);
                 s += "<tr>"
                 s += "<td>"+ table[i].unfccc_code +"</td>"
                 s += "<td>"+ table[i].label +"</td>"
                 years.forEach(function(y) {
-//                    console.log( y);
                     s += "<td id='" + CONFIG.prefix + "_"+ table[i].code +"_"+ y+"'></td>"
                 });
                 s += "</tr>"
@@ -76,10 +70,8 @@
             $("#" + id).append(s);
         }
 
-
         function init(config, years, json) {
             CONFIG = $.extend(true, CONFIG, config);
-
             if ( CONFIG.prefix == null )
                 CONFIG.prefix = CONFIG.placeholder;
 
@@ -91,7 +83,17 @@
         };
 
         function createHtmlTitle(id) {
-            $("#" + id).append("<h1>" + CONFIG.title + "</h1>");
+            var exportID = CONFIG.prefix + "_export_data";
+            var html =
+                "<div class='row'>" +
+                    "<div class='col-xs-12 col-sm-8 col-md-8 col-lg-8'><h1>" + CONFIG.title + "</h1></div>" +
+                    "<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'><h1 id="+ exportID +" style='text-align: right; cursor:pointer;'><i class='fa fa-download'></i>"+ $.i18n.prop('_export') +"</h1></div>" +
+                "</div>";
+            $("#" + id).append(html);
+
+            $('#' + exportID).on('click', function() {
+                exportTableToCSV($("#" + id), CONFIG.title.toLocaleLowerCase() + ' data.csv')
+            });
         };
 
         function createHtmlTable(id, years) {
@@ -152,9 +154,6 @@
             var s = ""
             // first column is gave
             var row = 0;
-
-
-
             var sumRow = 0.0
             var totalValuesRow = 0.0;
 
@@ -216,18 +215,13 @@
         }
 
         function addTotals(columnsValues, totalAvg) {
-//            console.log(columnsValues);
-//            console.log(totalAvg);
-
             // Add Yearly Totals
             var sum = 0.0
             for (var year in columnsValues) {
                 $("#" +  CONFIG.prefix + "_total_" + year).html(Number(columnsValues[year]).toFixed(CONFIG.decimal_values))
             }
-
             $("#" +  CONFIG.prefix + "_total_avg").html(Number(totalAvg).toFixed(CONFIG.decimal_values))
         }
-
 
         /**
          * The first column (or if add_first_column is enabled is the serie)
@@ -250,11 +244,77 @@
             return rows;
         }
 
+        function createExportButton(id) {
+            // add export button
+
+            // call exportTable on click
+
+        }
+
+        function exportTableToCSV($table, filename) {
+            var $headers = $table.find('tr:has(th)'),
+                $rows = $table.find('tr:has(td)')
+
+            // Temporary delimiter characters unlikely to be typed by keyboard
+            // This is to avoid accidentally splitting the actual contents
+                ,tmpColDelim = String.fromCharCode(11) // vertical tab character
+                ,tmpRowDelim = String.fromCharCode(0) // null character
+
+            // actual delimiter characters for CSV format
+                ,colDelim = '","'
+                ,rowDelim = '"\r\n"';
+
+            // Grab text from table into CSV formatted string
+            var csv = '"';
+            csv += formatRows($headers.map(grabRow));
+            csv += rowDelim;
+            csv += formatRows($rows.map(grabRow)) + '"';
+
+            // Data URI
+            //var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+
+            var a = document.createElement('a');
+           // a.href = 'data:text/csv;charset=utf-8,\n' + encodeURIComponent(csv);
+            a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+            a.target = '_blank';
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+
+            //------------------------------------------------------------
+            // Helper Functions
+            //------------------------------------------------------------
+            // Format the output so it has the appropriate delimiters
+            function formatRows(rows){
+                return rows.get().join(tmpRowDelim)
+                    .split(tmpRowDelim).join(rowDelim)
+                    .split(tmpColDelim).join(colDelim);
+            }
+            // Grab and format a row from the table
+            function grabRow(i,row){
+
+                var $row = $(row);
+                //for some reason $cols = $row.find('td') || $row.find('th') won't work...
+                var $cols = $row.find('td');
+                if(!$cols.length) $cols = $row.find('th');
+
+                return $cols.map(grabCol)
+                    .get().join(tmpColDelim);
+            }
+            // Grab and format a column from the table
+            function grabCol(j,col){
+                var $col = $(col),
+                    $text = $col.text();
+                return $text.replace('"', '""'); // escape double quotes
+            }
+        }
+
+
+
         return {
             init: init,
             initCountryProfile: initCountryProfile
         };
-
     };
 
 })();
