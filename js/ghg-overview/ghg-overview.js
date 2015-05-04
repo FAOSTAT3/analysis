@@ -104,7 +104,7 @@ define([
         $("#fs_label_region").html($.i18n.prop('_regions'));
         $("#fs_label_agriculture_total").html($.i18n.prop('_agriculture_total'));
         $("#fs_label_country").html($.i18n.prop('_countries'));
-        $("#fs-overview-tables-button").html($.i18n.prop('_show_hide_table_breakdown'));
+        $("#fs-overview-tables-button").append($.i18n.prop('_show_hide_table_breakdown'));
         $("#fx_world_total_item").html($.i18n.prop('_agriculture_total'));
 
         $("#overview_chart_ag_total").html($.i18n.prop('_agriculture_total'));
