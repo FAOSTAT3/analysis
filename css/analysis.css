@@ -65,6 +65,17 @@
 .fx-tabs li {
   margin: 12px 0; }
 
+.fs-section-title {
+  color: #174c74;
+  font: 400 18px "Roboto Condensed",sans-serif;
+  margin: 0; }
+
+.fs-frame-title {
+  font: 300 16px "Roboto Condensed",sans-serif !important;
+  color: #2471aa;
+  height: 26px;
+  border-bottom: 1px solid #cccccc; }
+
 .faos-analysis-container {
   margin: 0 20px; }
 
@@ -324,3 +335,70 @@ body {
   text-align: center !important;
   background-color: transparent;
   color: #666; }
+
+.faostat-analysis-card-top {
+  padding: 15px; }
+
+.faostat-analysis-holder {
+  background-color: #e5e5e5;
+  margin-top: -10px;
+  position: relative; }
+  .faostat-analysis-holder:after {
+    content: '';
+    background-color: #e5e5e5;
+    height: 1000px;
+    position: absolute;
+    width: 100%;
+    margin-left: -15px; }
+  .faostat-analysis-holder .obj-box .row {
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #e6e6e6; }
+    .faostat-analysis-holder .obj-box .row:last-child {
+      border: 0; }
+
+/* Fenix - Panel Component */
+.panel-group {
+  margin-bottom: 0px; }
+  .panel-group .panel {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    background-color: white;
+    border-bottom-width: 2px; }
+  .panel-group .panel-default {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; }
+  .panel-group .panel-heading {
+    background-color: transparent;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    padding: 10px; }
+    .panel-group .panel-heading a {
+      color: #666666;
+      font: 300 16px "Roboto Condensed", sans-serif; }
+      .panel-group .panel-heading a:hover {
+        text-decoration: none; }
+      .panel-group .panel-heading a:active {
+        text-decoration: none; }
+      .panel-group .panel-heading a:focus {
+        text-decoration: none; }
+  .panel-group .panel-body {
+    border-top-color: transparent !important; }
+    .panel-group .panel-body .btn span.fa {
+      margin-right: 10px; }
+
+.fs-geospatial-download-product-list {
+  background-color: #e5e5e5;
+  padding: 10px;
+  min-height: 400px;
+  margin-right: -15px; }
+  .fs-geospatial-download-product-list .list-group-item {
+    border: 0;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 0; }
+    .fs-geospatial-download-product-list .list-group-item:last-child {
+      border: 0; }
