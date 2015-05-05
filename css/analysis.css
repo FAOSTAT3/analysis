@@ -35,7 +35,7 @@
         position: absolute;
         width: 100%;
         height: 2px;
-        background-color: #399bcc;
+        background-color: #399BCC;
         left: 0;
         bottom: -2px;
         pointer-events: none;
@@ -43,7 +43,7 @@
         -webkit-transform: scaleX(0);
         transform: scaleX(0); }
     .fx-tabs .nav-tabs > li.active > a {
-      color: #399bcc !important;
+      color: #399BCC !important;
       border-top: none;
       border-right: none;
       border-bottom: none;
@@ -316,22 +316,70 @@ body {
 #fs-overview-tables .dataTable {
   text-align: center !important; }
 
-#gt_tables_content .dataTable {
+#gt_tables_content
+#gm_tables_content
+#ge_tables_content
+#gr_tables_content
+#gb_tables_content
+#gh_tables_content
+#gas_tables_content .dataTable {
   border: 1px solid #e6e6e6 !important; }
-  #gt_tables_content .dataTable thead th .table_cell {
+  #gt_tables_content
+  #gm_tables_content
+  #ge_tables_content
+  #gr_tables_content
+  #gb_tables_content
+  #gh_tables_content
+  #gas_tables_content .dataTable thead th .table_cell {
     font-size: 12px !important; }
-  #gt_tables_content .dataTable td {
+  #gt_tables_content
+  #gm_tables_content
+  #ge_tables_content
+  #gr_tables_content
+  #gb_tables_content
+  #gh_tables_content
+  #gas_tables_content .dataTable td {
     padding: 0 !important; }
-#gt_tables_content tr {
+#gt_tables_content
+#gm_tables_content
+#ge_tables_content
+#gr_tables_content
+#gb_tables_content
+#gh_tables_content
+#gas_tables_content tr {
   padding: 0 5px; }
-  #gt_tables_content tr:nth-child(odd) {
+  #gt_tables_content
+  #gm_tables_content
+  #ge_tables_content
+  #gr_tables_content
+  #gb_tables_content
+  #gh_tables_content
+  #gas_tables_content tr:nth-child(odd) {
     background-color: transparent; }
-  #gt_tables_content tr:nth-child(even) {
+  #gt_tables_content
+  #gm_tables_content
+  #ge_tables_content
+  #gr_tables_content
+  #gb_tables_content
+  #gh_tables_content
+  #gas_tables_content tr:nth-child(even) {
     background-color: #f4f4f4; }
-#gt_tables_content tr:hover .form-control {
+#gt_tables_content
+#gm_tables_content
+#ge_tables_content
+#gr_tables_content
+#gb_tables_content
+#gh_tables_content
+#gas_tables_content tr:hover .form-control {
   background-color: transparent;
   color: white; }
-#gt_tables_content .form-control {
+#gt_tables_content
+#gm_tables_content
+#ge_tables_content
+#gr_tables_content
+#gb_tables_content
+#gh_tables_content
+#gas_tables_content .form-control {
   text-align: center !important;
   background-color: transparent;
   color: #666; }
@@ -410,3 +458,5 @@ body {
 .fs-overview-title {
   font-weight: bold;
   margin-bottom: 5px; }
+
+/*# sourceMappingURL=analysis.css.map */
