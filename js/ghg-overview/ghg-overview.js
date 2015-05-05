@@ -422,42 +422,42 @@ define([
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5058'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_0", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_0", json_total.sql, 'timeserie', ['red'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5059'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_1", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_1", json_total.sql, 'timeserie', ['maroon'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'1709'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_2", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_2", json_total.sql, 'timeserie', ['blue'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5060'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_3", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_3", json_total.sql, 'timeserie', ['orange'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5066'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_4", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_4", json_total.sql, 'timeserie', ['brown'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5067'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_5", json_total.sql, 'timeserie')
+        this.createChart("fx_chart_5", json_total.sql, 'timeserie', ['green'])
 
     }
 
@@ -559,7 +559,7 @@ define([
         });
     }
 
-    GHG_OVERVIEW.prototype.createChart = function(id, sql, type) {
+    GHG_OVERVIEW.prototype.createChart = function(id, sql, type, colors) {
         $('#' + id).show();
         var data = {};
         data.datasource = this.CONFIG.datasource;
@@ -568,6 +568,10 @@ define([
         data.decimalNumbers = '2';
         data.json = JSON.stringify(sql);
         //console.log(JSON.stringify(sql));
+        var chartObj = {renderTo: id, title: "title"}
+        if (colors) {
+            chartObj.colors = colors
+        }
         $.ajax({
             type : 'POST',
             url : this.CONFIG.baseurl + this.CONFIG.baseurl_data,
@@ -577,16 +581,16 @@ define([
                 if (response.length > 0) {
                     switch (type) {
                         case "pie" :
-                            F3_CHART.createPie({renderTo: id, title: "title"}, response);
+                            F3_CHART.createPie(chartObj, response);
                             break;
                         case "timeserie" :
                             // FIX for the chart engine
                             var chart = []
                             chart.push(response)
-                            F3_CHART.createTimeserie({renderTo: id, title: "title"}, 'line', chart);
+                            F3_CHART.createTimeserie(chartObj, 'line', chart);
                             break;
                         default:
-                            F3_CHART.createPie({renderTo: id, title: "title"}, response);
+                            F3_CHART.createPie(chartObj, response);
                             break;
                     }
                 }
