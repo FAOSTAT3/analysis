@@ -35,7 +35,7 @@
         position: absolute;
         width: 100%;
         height: 2px;
-        background-color: #399BCC;
+        background-color: #399bcc;
         left: 0;
         bottom: -2px;
         pointer-events: none;
@@ -43,7 +43,7 @@
         -webkit-transform: scaleX(0);
         transform: scaleX(0); }
     .fx-tabs .nav-tabs > li.active > a {
-      color: #399BCC !important;
+      color: #399bcc !important;
       border-top: none;
       border-right: none;
       border-bottom: none;
@@ -459,4 +459,8 @@ body {
   font-weight: bold;
   margin-bottom: 5px; }
 
-/*# sourceMappingURL=analysis.css.map */
+.fs-overview-chart-pie {
+  height: 200px; }
+
+.fs-overview-chart-total {
+  height: 300px; }
