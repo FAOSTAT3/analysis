@@ -316,69 +316,69 @@ body {
 #fs-overview-tables .dataTable {
   text-align: center !important; }
 
-#gt_tables_content
-#gm_tables_content
-#ge_tables_content
-#gr_tables_content
-#gb_tables_content
-#gh_tables_content
+#gt_tables_content .dataTable,
+#gm_tables_content .dataTable,
+#ge_tables_content .dataTable,
+#gr_tables_content .dataTable,
+#gb_tables_content .dataTable,
+#gh_tables_content .dataTable,
 #gas_tables_content .dataTable {
   border: 1px solid #e6e6e6 !important; }
-  #gt_tables_content
-  #gm_tables_content
-  #ge_tables_content
-  #gr_tables_content
-  #gb_tables_content
-  #gh_tables_content
+  #gt_tables_content .dataTable thead th .table_cell,
+  #gm_tables_content .dataTable thead th .table_cell,
+  #ge_tables_content .dataTable thead th .table_cell,
+  #gr_tables_content .dataTable thead th .table_cell,
+  #gb_tables_content .dataTable thead th .table_cell,
+  #gh_tables_content .dataTable thead th .table_cell,
   #gas_tables_content .dataTable thead th .table_cell {
     font-size: 12px !important; }
-  #gt_tables_content
-  #gm_tables_content
-  #ge_tables_content
-  #gr_tables_content
-  #gb_tables_content
-  #gh_tables_content
+  #gt_tables_content .dataTable td,
+  #gm_tables_content .dataTable td,
+  #ge_tables_content .dataTable td,
+  #gr_tables_content .dataTable td,
+  #gb_tables_content .dataTable td,
+  #gh_tables_content .dataTable td,
   #gas_tables_content .dataTable td {
     padding: 0 !important; }
-#gt_tables_content
-#gm_tables_content
-#ge_tables_content
-#gr_tables_content
-#gb_tables_content
-#gh_tables_content
+#gt_tables_content tr,
+#gm_tables_content tr,
+#ge_tables_content tr,
+#gr_tables_content tr,
+#gb_tables_content tr,
+#gh_tables_content tr,
 #gas_tables_content tr {
   padding: 0 5px; }
-  #gt_tables_content
-  #gm_tables_content
-  #ge_tables_content
-  #gr_tables_content
-  #gb_tables_content
-  #gh_tables_content
+  #gt_tables_content tr:nth-child(odd),
+  #gm_tables_content tr:nth-child(odd),
+  #ge_tables_content tr:nth-child(odd),
+  #gr_tables_content tr:nth-child(odd),
+  #gb_tables_content tr:nth-child(odd),
+  #gh_tables_content tr:nth-child(odd),
   #gas_tables_content tr:nth-child(odd) {
     background-color: transparent; }
-  #gt_tables_content
-  #gm_tables_content
-  #ge_tables_content
-  #gr_tables_content
-  #gb_tables_content
-  #gh_tables_content
+  #gt_tables_content tr:nth-child(even),
+  #gm_tables_content tr:nth-child(even),
+  #ge_tables_content tr:nth-child(even),
+  #gr_tables_content tr:nth-child(even),
+  #gb_tables_content tr:nth-child(even),
+  #gh_tables_content tr:nth-child(even),
   #gas_tables_content tr:nth-child(even) {
     background-color: #f4f4f4; }
-#gt_tables_content
-#gm_tables_content
-#ge_tables_content
-#gr_tables_content
-#gb_tables_content
-#gh_tables_content
+#gt_tables_content tr:hover .form-control,
+#gm_tables_content tr:hover .form-control,
+#ge_tables_content tr:hover .form-control,
+#gr_tables_content tr:hover .form-control,
+#gb_tables_content tr:hover .form-control,
+#gh_tables_content tr:hover .form-control,
 #gas_tables_content tr:hover .form-control {
   background-color: transparent;
   color: white; }
-#gt_tables_content
-#gm_tables_content
-#ge_tables_content
-#gr_tables_content
-#gb_tables_content
-#gh_tables_content
+#gt_tables_content .form-control,
+#gm_tables_content .form-control,
+#ge_tables_content .form-control,
+#gr_tables_content .form-control,
+#gb_tables_content .form-control,
+#gh_tables_content .form-control,
 #gas_tables_content .form-control {
   text-align: center !important;
   background-color: transparent;
