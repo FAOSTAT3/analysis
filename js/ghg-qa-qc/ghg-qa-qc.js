@@ -289,7 +289,23 @@ define([
         $('#' + domain_code + '_table_selector').chosen();
         $('#' + domain_code + '_table_selector_chosen').css('width', '100%');
         $('#' + domain_code + '_table_selector').change(function() {
+
             _this.table_selector_click(domain_code);
+
+            /* Synchronize scrolling between tables. */
+            $('#' + domain_code + '_faostat_right_table_scroll').scroll(function() {
+                $(".scroller").scrollLeft($('#' + domain_code + '_faostat_right_table_scroll').scrollLeft());
+            });
+            $('#' + domain_code + '_nc_right_table_scroll').scroll(function() {
+                $(".scroller").scrollLeft($('#' + domain_code + '_nc_right_table_scroll').scrollLeft());
+            });
+            $('#' + domain_code + '_difference_right_table_scroll').scroll(function() {
+                $(".scroller").scrollLeft($('#' + domain_code + '_difference_right_table_scroll').scrollLeft());
+            });
+            $('#' + domain_code + '_norm_difference_right_table_scroll').scroll(function() {
+                $(".scroller").scrollLeft($('#' + domain_code + '_norm_difference_right_table_scroll').scrollLeft());
+            });
+
         });
 
         /* Read configuration. */
@@ -1260,8 +1276,6 @@ define([
 
         var sql = { 'query' : query}
 
-        console.debug(sql);
-
         var data = {};
         data.datasource = 'faostat';
         data.thousandSeparator = ',';
@@ -1650,7 +1664,7 @@ define([
                         //symbolX: 0,// X del simbolo rispetto alla sua posizione
                         //symbolY: 21,// Y del simbolo rispetto alla sua posizione
                         symbolStroke: '#666666', //	Colore stroke del simbolo
-                        symbolStrokeWidth: 1,//	Stroke del simbolo
+                        symbolStrokeWidth: 1//	Stroke del simbolo
 
                         ///Fa l'override dei bottoni dell'esportazione, associando una funzione custom
                         /*menuItems: [{
