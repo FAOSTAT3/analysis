@@ -1385,7 +1385,7 @@ define([
                 }
 
                 /* Disable activity data for GT or GAS. */
-                console.debug(domain_code);
+                //console.debug(domain_code);
                 if (domain_code == 'gt') {
                     $('#gt_table_selector option:last-child').attr('disabled', 'disabled');
                     $('#gt_table_selector').trigger('chosen:updated');
