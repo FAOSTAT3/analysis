@@ -1,7 +1,6 @@
 /* GHG Anlysis */
 //
 
-
 @import 'fx-analysis-variables';
 @import 'fx-mixins';
 @import 'fx-tabs';
@@ -425,12 +424,12 @@ body{
 }
 
 
-#gt_tables_content
-#gm_tables_content
-#ge_tables_content
-#gr_tables_content
-#gb_tables_content
-#gh_tables_content
+#gt_tables_content,
+#gm_tables_content,
+#ge_tables_content,
+#gr_tables_content,
+#gb_tables_content,
+#gh_tables_content,
 #gas_tables_content {
 
   .dataTable{
@@ -453,6 +452,7 @@ body{
 
     padding: 0 5px;
 
+
     &:nth-child(odd) {
       background-color: transparent;
     }
@@ -466,6 +466,7 @@ body{
   tr:hover{
     .form-control{
       background-color: transparent;
+
       color: white;
     }
   }
