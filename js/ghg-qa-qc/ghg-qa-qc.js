@@ -196,8 +196,6 @@ define([
 
                 success: function (response) {
 
-                    // console.debug(response);
-
                     /* Cast the measurement unit. */
                     var json = response;
                     if (typeof json == 'string')
@@ -227,8 +225,6 @@ define([
             });
 
         } else {
-
-            //console.debug("GAS!!!");
 
             /* Add an empty row. */
             var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
@@ -338,8 +334,6 @@ define([
 
                 success: function (response) {
 
-                    //console.debug(response);
-
                     /* Cast response to JSON. */
                     var items = response;
                     if (typeof items == 'string')
@@ -425,7 +419,6 @@ define([
 
     GHG_QA_QC.prototype.process_charts_table_configuration_standard = function(domain_code, config, items) {
 
-
         var links = [];
 
         /* Add items listed as totals. */
@@ -495,7 +488,6 @@ define([
         };
 
         // added quick fix for "GAS" domain charts
-        //console.debug(domain_code);
         var template = $(templates).filter('#charts_structure').html();
         var render = Mustache.render(template, view);
         $('#' + domain_code + '__charts_content').html(render);
@@ -689,7 +681,6 @@ define([
     //};
 
     GHG_QA_QC.prototype.populate_agsoils_tables = function(country_code, datasource) {
-        // console.debug(country_code + " " + datasource);
         switch (datasource) {
             case 'faostat':
                 this.populate_agsoils_tables_faostat(country_code);
@@ -729,7 +720,6 @@ define([
             url: this.CONFIG.url_data,
             data: data,
             success: function (response) {
-                //console.debug(response);
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
@@ -809,8 +799,6 @@ define([
             data: data,
             success: function (response) {
 
-                //console.debug(response);
-
                 var json = response;
                 if (typeof json == 'string')
                     json = $.parseJSON(response);
@@ -870,8 +858,6 @@ define([
                 url: url_data,
                 data: data,
                 success: function (response) {
-
-                    // console.debug(response);
 
                     var json = response;
                     if (typeof json == 'string')
@@ -973,12 +959,19 @@ define([
         var _this = this;
 
         /* Get categories. */
+        //var sql = {
+        //    'query': 'SELECT UNFCCCCode, GItemNameE ' +
+        //    'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
+        //    'AND tabletype = \'emissions\' ' +
+        //    'AND Year >= 1990 AND Year <= 2012 ' +
+        //    'GROUP BY UNFCCCCode, GItemNameE'
+        //};
         var sql = {
-            'query': 'SELECT UNFCCCCode, GItemNameE ' +
-            'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
-            'AND tabletype = \'emissions\' ' +
-            'AND Year >= 1990 AND Year <= 2012 ' +
-            'GROUP BY UNFCCCCode, GItemNameE'
+            'query': 'SELECT UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ' ' +
+                     'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
+                     'AND tabletype = \'emissions\' ' +
+                     'AND Year >= 1990 AND Year <= 2012 ' +
+                     'GROUP BY UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ''
         };
 
         var data = {};
@@ -998,8 +991,6 @@ define([
             data: data,
 
             success: function (response) {
-
-                //console.debug(response);
 
                 /* Cast the response to JSON, if needed. */
                 var json = response;
@@ -1054,7 +1045,6 @@ define([
                 var render = Mustache.render(template, view);
 
                 /* Render the HTML. */
-                //console.debug(render_id);
                 $(document.getElementById(render_id)).empty();
                 $(document.getElementById(render_id)).html(render);
                 $(document.getElementById(render_id)).hide();
@@ -1095,8 +1085,6 @@ define([
     };
 
     GHG_QA_QC.prototype.export_data = function(table_id) {
-
-        //console.debug(table_id);
 
         var data = [];
 
@@ -1216,17 +1204,14 @@ define([
                 'data': data,
                 success: function (response) {
 
-                    //console.debug(response);
-
                     var json = response;
                     if (typeof json == 'string')
                         json = $.parseJSON(response);
-                    //console.debug(json);
-                    var s = translate.faostat + ' (' + json[0][0] + ' [' + json[0][1] + '])';
-                    $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(s);
-                    $($('#' + domain_code + '_tables_content_nc h1')[0]).html(s);
-                    $($('#' + domain_code + '_tables_content_difference h1')[0]).html(s);
-                    $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(s);
+                    //var s = translate.faostat + ' (' + json[0][0] + ' [' + json[0][1] + '])';
+                    $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(translate.faostat + ' (' + json[0][0] + ' [' + json[0][1] + '])');
+                    $($('#' + domain_code + '_tables_content_nc h1')[0]).html(translate.nc + ' (' + json[0][0] + ' [' + json[0][1] + '])');
+                    $($('#' + domain_code + '_tables_content_difference h1')[0]).html(translate.difference + ' (' + json[0][0] + ' [' + json[0][1] + '])');
+                    $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(translate.norm_difference + ' (' + json[0][0] + ' [' + json[0][1] + '])');
                 }
             });
             //    }
@@ -1274,7 +1259,7 @@ define([
             "AND tabletype = '" + emissions_or_activity + "' " +
             "AND Year >= 1990 AND Year <= 2012";
 
-        var sql = { 'query' : query}
+        var sql = { 'query' : query};
 
         var data = {};
         data.datasource = 'faostat';
@@ -1296,8 +1281,6 @@ define([
 
                 // TODO: check if exists the column
                 // value_idx
-
-                //console.debug(response);
 
                 var json = response;
                 if (typeof json == 'string')
@@ -1385,7 +1368,6 @@ define([
                 }
 
                 /* Disable activity data for GT or GAS. */
-                //console.debug(domain_code);
                 if (domain_code == 'gt') {
                     $('#gt_table_selector option:last-child').attr('disabled', 'disabled');
                     $('#gt_table_selector').trigger('chosen:updated');
@@ -1593,7 +1575,6 @@ define([
     };
 
     GHG_QA_QC.prototype.updateTables = function() {
-        //console.debug("GHG_QA_QC.prototype.updateTables");
         setTimeout(function() {
             $('#emissions_db_faostat_right_table tr > th > div').each(function() {
                 var k = $(this).attr('id');
@@ -1652,7 +1633,7 @@ define([
                 }
             },
             exporting : {
-                enabled: true,
+                enabled: false,
                 buttons: {
                     contextButton: { //Modifica lo stile del bottone dell'esportazione (principalmente il simbolo al suo internp)
                         enabled: true,// Attivazione Bottone esportazione
