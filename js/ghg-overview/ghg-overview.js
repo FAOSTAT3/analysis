@@ -144,7 +144,7 @@ define([
             dataType    :   'json',
             success: function (response) {
                 $('#' + id).empty();
-                response = (typeof data == 'string')? $.parseJSON(response): response;
+                var response = (typeof response == 'string')? $.parseJSON(response): response;
 
                 var ddID = id + "_dd";
                 var html = '<select ';
