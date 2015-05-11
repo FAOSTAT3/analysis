@@ -959,20 +959,25 @@ define([
         var _this = this;
 
         /* Get categories. */
-        //var sql = {
-        //    'query': 'SELECT UNFCCCCode, GItemNameE ' +
-        //    'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
-        //    'AND tabletype = \'emissions\' ' +
-        //    'AND Year >= 1990 AND Year <= 2012 ' +
-        //    'GROUP BY UNFCCCCode, GItemNameE'
-        //};
-        var sql = {
-            'query': 'SELECT UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ' ' +
-                     'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
-                     'AND tabletype = \'emissions\' ' +
-                     'AND Year >= 1990 AND Year <= 2012 ' +
-                     'GROUP BY UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ''
-        };
+        var sql;
+        if (domain_code == 'gas') {
+            sql = {
+                'query':    'SELECT UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ' ' +
+                            'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
+                            'AND tabletype = \'emissions\' ' +
+                            'AND Year >= 1990 AND Year <= 2012 ' +
+                            'GROUP BY UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ''
+            };
+        } else {
+            sql = {
+                'query':    'SELECT UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ' ' +
+                            'FROM UNFCCC_' + domain_code.toUpperCase() + ' WHERE areacode = \'' + this.CONFIG.country_code + '\' ' +
+                            'AND tabletype = \'emissions\' ' +
+                            'AND Year >= 1990 AND Year <= 2012 ' +
+                            'AND GCode NOT IN (\'1755\') ' +
+                            'GROUP BY UNFCCCCode, GUNFItemName' + this.CONFIG.lang + ''
+            };
+        }
 
         var data = {};
         data.datasource = 'faostat';
@@ -1132,31 +1137,6 @@ define([
 
         var _this = this;
 
-        //this.load_table_template(domain_code + '_tables_content_faostat',
-        //                         translate.faostat + ' ' + translate.co2eq,
-        //                         1990, 2012,
-        //                         domain_code + '_faostat',
-        //                         'faostat',
-        //                         domain_code);
-        //this.load_table_template(domain_code + '_tables_content_nc',
-        //                         translate.nc + ' ' + translate.co2eq,
-        //                         1990, 2012,
-        //                         domain_code + '_nc',
-        //                         'nc',
-        //                         domain_code);
-        //this.load_table_template(domain_code + '_tables_content_difference',
-        //                         translate.difference,
-        //                         1990, 2012,
-        //                         domain_code + '_difference',
-        //                         'difference',
-        //                         domain_code);
-        //this.load_table_template(domain_code + '_tables_content_norm_difference',
-        //                         translate.norm_difference,
-        //                         1990, 2012,
-        //                         domain_code + '_norm_difference',
-        //                         'norm_difference',
-        //                         domain_code);
-
         /* Clear tables. */
         $('#' + domain_code + '_faostat_right_table tbody tr td div').html('');
         $('#' + domain_code + '_nc_right_table tbody tr td div').html('');
@@ -1167,27 +1147,16 @@ define([
         var e_or_a = $('#' + domain_code + '_table_selector').val();
 
         if (e_or_a == 'activity') {
-            //$.ajax({
-            //    type: 'GET',
-            //    url: 'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/faostat2/' + domain_code.toUpperCase() + '/2/1/' + this.CONFIG.lang,
-            //    success: function (response) {
-            //        var json = response;
-            //        if (typeof json == 'string')
-            //            json = $.parseJSON(response);
-            //        var mu = json[0][1];
-            //        $($('#' + domain_code + '_tables_content_faostat h1')[0]).html(translate.faostat + ' (' + mu + ')');
-            //        $($('#' + domain_code + '_tables_content_nc h1')[0]).html(translate.nc + ' (' + mu + ')');
-            //        $($('#' + domain_code + '_tables_content_difference h1')[0]).html(translate.difference + ' (' + mu + ')');
-            //        $($('#' + domain_code + '_tables_content_norm_difference h1')[0]).html(translate.norm_difference + ' (' + mu + ')');
 
             var sql = {
-                query: 'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
-                'FROM Element E, DomainElement D ' +
-                'WHERE D.DomainCode = \'' + domain_code + '\' ' +
-                'AND D.ElementCode = E.ElementCode ' +
-                'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
-                'ORDER BY D.Order' + this.CONFIG.lang + ' '
+                query:  'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
+                        'FROM Element E, DomainElement D ' +
+                        'WHERE D.DomainCode = \'' + domain_code + '\' ' +
+                        'AND D.ElementCode = E.ElementCode ' +
+                        'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
+                        'ORDER BY D.Order' + this.CONFIG.lang + ' '
             };
+
             var data = {};
             data.datasource = 'faostat';
             data.thousandSeparator = ',';
@@ -1248,16 +1217,16 @@ define([
         var query = "";
         if (domain_code != 'gt' && domain_code != 'gas') {
             value_idx = 2;
-            query += "SELECT Year, GItemNameE, " + column_value;
+            query += "SELECT Year, GItemNameE, " + column_value + " ";
         }
         else {
             value_idx = 3;
-            query += "SELECT Year, GItemNameE, UNFCCCCode, " + column_value;
+            query += "SELECT Year, GItemNameE, UNFCCCCode, " + column_value + " ";
         }
-        query += " FROM UNFCCC_" + domain_code.toUpperCase() +
-            " WHERE areacode = '" + this.CONFIG.country_code + "' " +
-            "AND tabletype = '" + emissions_or_activity + "' " +
-            "AND Year >= 1990 AND Year <= 2012";
+        query +=    "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
+                    "WHERE areacode = '" + this.CONFIG.country_code + "' " +
+                    "AND tabletype = '" + emissions_or_activity + "' " +
+                    "AND Year >= 1990 AND Year <= 2012 ";
 
         var sql = { 'query' : query};
 
