@@ -1,24 +1,20 @@
-define([
-    //'jquery',
-    'mustache',
-    'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
-    'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
-    'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
-    'text!tiled-analysis/js/ghg-qa-qc/config/items_tab_map.json',
-    'text!tiled-analysis/js/ghg-qa-qc/config/charts_configuration.json',
-    'i18n!tiled-analysis/js/ghg-qa-qc/nls/translate',
-    'chosen',
-    'highcharts',
-    'highcharts_exporting',
-    'bootstrap'], function (
-                         //   $,
-                            Mustache,
-                            templates,
-                            selectors_configuration,
-                            chart_template,
-                            items_tab_map,
-                            charts_configuration,
-                            translate) {
+define(['mustache',
+        'text!tiled-analysis/js/ghg-qa-qc/html/templates.html',
+        'text!tiled-analysis/js/ghg-qa-qc/config/selectors.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/ghg_verification_chart_template.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/items_tab_map.json',
+        'text!tiled-analysis/js/ghg-qa-qc/config/charts_configuration.json',
+        'i18n!tiled-analysis/js/ghg-qa-qc/nls/translate',
+        'chosen',
+        'highcharts',
+        'highcharts_exporting',
+        'bootstrap'], function (Mustache,
+                                templates,
+                                selectors_configuration,
+                                chart_template,
+                                items_tab_map,
+                                charts_configuration,
+                                translate) {
 
     'use strict';
 
@@ -34,8 +30,8 @@ define([
             url_listboxes   :   'http://faostat3.fao.org/wds/rest/procedures/usp_GetListBox/',
             placeholder_id: 'container',
             default_colors  :   ['#379bcd', '#379bcd', '#76BE94', '#76BE94', '#744490', '#744490', '#744490',
-                '#E10079', '#E10079', '#2D1706', '#2D1706', '#F1E300', '#F1E300', '#F7AE3C',
-                '#F7AE3C', '#DF3328', '#DF3328']
+                                 '#E10079', '#E10079', '#2D1706', '#2D1706', '#F1E300', '#F1E300', '#F7AE3C',
+                                 '#F7AE3C', '#DF3328', '#DF3328']
         };
 
     }
@@ -171,12 +167,12 @@ define([
 
             /* Fetch the appropriate measurement unit for the activity data. */
             var sql = {
-                query: 'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
-                'FROM Element E, DomainElement D ' +
-                'WHERE D.DomainCode = \'' + domain_code + '\' ' +
-                'AND D.ElementCode = E.ElementCode ' +
-                'GROUP BY E.ElementListNameE, E.UnitNameE, D.Order' + this.CONFIG.lang + ' ' +
-                'ORDER BY D.Order' + this.CONFIG.lang + ' '
+                query:  'SELECT E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ' ' +
+                        'FROM Element E, DomainElement D ' +
+                        'WHERE D.DomainCode = \'' + domain_code + '\' ' +
+                        'AND D.ElementCode = E.ElementCode ' +
+                        'GROUP BY E.ElementListName' + this.CONFIG.lang + ', E.UnitName' + this.CONFIG.lang + ', D.Order' + this.CONFIG.lang + ' ' +
+                        'ORDER BY D.Order' + this.CONFIG.lang + ' '
             };
             var data = {};
             data.datasource = 'faostat';
@@ -203,6 +199,17 @@ define([
                     var activity = json[0][0];
                     var mu = json[0][1];
 
+                    /* Repeat title after the first row. */
+                    //var html = '';
+                    //html += '<tr>';
+                    //html += '<th>' + translate.item + '</th>';
+                    //html += '<th>' + translate.emissions + '</th>';
+                    //html += '<th>' + activity + ' (' + mu + ')' + '</th>';
+                    //html += '</tr>';
+                    //$('#' + domain_code + '__charts_content tbody tr:first-child').after(html);
+                    //console.log('#' + domain_code + '__charts_content tbody tr:first-child');
+                    //console.log(html);
+
                     /* Add an empty row. */
                     var html = '<tr style="height: 64px;"><td style="border-left: 1px solid #FFFFFF; border-right: 1px solid #FFFFFF;" colspan="3">&nbsp;</td></tr>';
                     $('#' + domain_code + '__charts_content table tr:nth-child(2)').before(html);
@@ -220,6 +227,13 @@ define([
                     $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').remove();
                     $('#' + domain_code + '__charts_content table tr:nth-child(1) th:last-child').attr('colspan', '2');
 
+                },
+
+                error: function(a, b, c) {
+                    //console.log(a);
+                    //console.log(b);
+                    //console.log(c);
+                    //console.error(sql.query);
                 }
 
             });
@@ -903,53 +917,6 @@ define([
             });
         }
     };
-
-    //GHG_QA_QC.prototype.populate_tables_faostat = function(country_code, domain_code) {
-    //    var sql = {
-    //        'query': "SELECT Year, UNFCCCCode, GItemNameE, GValue, PerDiff, NormPerDiff " +
-    //                 "FROM UNFCCC_" + domain_code.toUpperCase() + " " +
-    //                 "WHERE areacode = '" + country_code + "' " +
-    //                 "AND tabletype = 'emissions' " +
-    //                 "AND Year >= 1990 AND Year <= 2012"
-    //    };
-    //    var data = {};
-    //    data.datasource = 'faostat';
-    //    data.thousandSeparator = ',';
-    //    data.decimalSeparator = '.';
-    //    data.decimalNumbers = 2;
-    //    data.json = JSON.stringify(sql);
-    //    data.cssFilename = '';
-    //    data.nowrap = false;
-    //    data.valuesIndex = 0;
-    //    var url_data = this.CONFIG.url_data;
-    //    $.ajax({
-    //        type    :   'POST',
-    //        url     :   url_data,
-    //        data    :   data,
-    //        success : function(response) {
-    //            var json = response;
-    //            if (typeof json == 'string')
-    //                json = $.parseJSON(response);
-    //            for (var i = 0 ; i < json.length ; i++) {
-    //                var item = json[i][3];
-    //                var y = json[i][4];
-    //                var v = json[i][5];
-    //                var crf = null;
-    //                switch (item) {
-    //                    case '1711': crf = '4';  break;
-    //                    case '5058': crf = '4A'; break;
-    //                    case '5059': crf = '4B'; break;
-    //                    case '5060': crf = '4C'; break;
-    //                    case '1709': crf = '4D'; break;
-    //                    case '5067': crf = '4E'; break;
-    //                    case '5066': crf = '4F'; break;
-    //                }
-    //                var value = parseFloat(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    //                $('#gt_faostat_' + crf + '_' + y).html(value);
-    //            }
-    //        }
-    //    });
-    //};
 
     /* Create the tables through Mustache templating. */
     GHG_QA_QC.prototype.load_table_template = function(render_id, label, start_year, end_year, id_prefix, datasource, domain_code) {
