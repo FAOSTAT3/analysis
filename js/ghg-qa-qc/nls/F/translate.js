@@ -35,7 +35,7 @@ define({
     'charts': 'Graphiques',
     'tables': 'Tables',
     'emissions': 'Emissions (Gg CO2eq)',
-    'emissions_activity': 'Emissions Activité',
+    'emissions_activity': 'Données d\'Activité',
     'emissions_factor': 'Implicite Facteur d\'émission (unités)',
     'data_not_available': 'Données Non Disponibles',
     'faostat': 'FAOSTAT',
