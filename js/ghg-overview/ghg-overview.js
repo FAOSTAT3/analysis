@@ -14,7 +14,7 @@ define([
 
     function GHG_OVERVIEW() {
         this.CONFIG = {
-            resources_json:  $.parseJSON(resources_json),
+            resources_json: $.parseJSON(resources_json),
             placeholder: 'tiles_container',
             lang: 'E',
             prefix: 'http://168.202.28.214:8080/analysis/',
@@ -53,9 +53,26 @@ define([
             selector_country_list: "fx_country_list",
             selector_from_year_list: "fx_from_year_list",
             selector_to_year_list: "fx_to_year_list",
-            decimal_values: 2
+            decimal_values: 2,
+
+            colors: {
+                itemcode: {
+                    5058: 'red',
+                    5059: 'maroon',
+                    1709: 'blue',
+                    5060: 'orange',
+                    5066: 'brown',
+                    5067: 'green'
+
+                }
+            },
+
+            alternative_colors: ['#1f678a','#92a8b7','#5eadd5','#6c79db','#a68122','#ffd569','#439966','#800432','#067dcc',
+                '#1f678a','#92a8b7','#5eadd5','#6c79db','#a68122','#ffd569','#439966','#800432','#067dcc'
+            ]
         };
     }
+
 
     GHG_OVERVIEW.prototype.init = function(config){
 
@@ -264,7 +281,7 @@ define([
         json_chart =  $.parseJSON(this.replaceValues(json_chart, chart_obj))
 
         this.createTitle("fx_world_total", json_total.sql)
-        this.createChart("fx_world_chart", json_chart.sql)
+        this.createChart("fx_world_chart", json_chart.sql, "pie")
     }
 
     GHG_OVERVIEW.prototype.updateContinentBox = function(json) {
@@ -520,7 +537,7 @@ define([
         json_chart =  $.parseJSON(this.replaceValues(json_chart, chart_obj))
 
         this.createTitle(id + "_total", json_total.sql)
-        this.createChart(id + "_chart", json_chart.sql)
+        this.createChart(id + "_chart", json_chart.sql, "pie")
     }
 
     GHG_OVERVIEW.prototype.updateTimeserieAgricultureTotal = function(json, regions) {
@@ -569,18 +586,26 @@ define([
         data.json = JSON.stringify(sql);
         //console.log(JSON.stringify(sql));
         var chartObj = {renderTo: id, title: "title"}
-        if (colors) {
-            chartObj.colors = colors
-        }
+        //if (colors) {
+        //    chartObj.colors = colors
+        //}
+        var _this = this;
         $.ajax({
             type : 'POST',
             url : this.CONFIG.baseurl + this.CONFIG.baseurl_data,
             data : data,
             success : function(response) {
-                response = (typeof data == 'string')? $.parseJSON(response): response;
+                var response = (typeof data == 'string')? $.parseJSON(response): response;
                 if (response.length > 0) {
+
+                    // get colors
+                    // TODO: dirty fix
+                    chartObj.colors = colors || null;
+
+
                     switch (type) {
                         case "pie" :
+                            chartObj.colors = colors || _this.getColorsPie(response) || null;
                             F3_CHART.createPie(chartObj, response);
                             break;
                         case "timeserie" :
@@ -588,9 +613,6 @@ define([
                             var chart = []
                             chart.push(response)
                             F3_CHART.createTimeserie(chartObj, 'line', chart);
-                            break;
-                        default:
-                            F3_CHART.createPie(chartObj, response);
                             break;
                     }
                 }
@@ -601,7 +623,22 @@ define([
             },
             error : function(err, b, c) {}
         });
-    }
+    };
+
+    GHG_OVERVIEW.prototype.getColorsPie = function(data) {
+        if (data[0].length > 4) {
+            var colors = []
+            for(var i=0; i< data.length; i++) {
+                if (this.CONFIG.colors.itemcode[data[i][4]])
+                    colors.push(this.CONFIG.colors.itemcode[data[i][4]]);
+                else
+                    colors.push(alternative_colors[i]);
+            }
+            return colors;
+        }
+        else
+            return null;
+    };
 
     GHG_OVERVIEW.prototype.updateTableWorld = function(json) {
         var years = []
@@ -702,7 +739,7 @@ define([
         json_obj = $.parseJSON(this.replaceValues(json_obj, total_obj))
 
         $('#' + id + "_title").html(json_obj.title[this.CONFIG.lang.toUpperCase()]);
-        this.createChart(id + "_chart", json_obj.sql)
+        this.createChart(id + "_chart", json_obj.sql, "pie")
     }
 
     GHG_OVERVIEW.prototype.getConfigurationObject = function() {
