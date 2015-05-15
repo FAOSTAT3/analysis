@@ -100,7 +100,7 @@ var F3_CHART = (function() {
                 enabled: false //Attiva o disattiva il link di HighCharts dalla chart
             },
             exporting: {
-                enabled: false
+                enabled: true
             },
             navigation: { //Modifica lo stile dei bottoni e spesso del solo bottone dell'esportazione (lo sfondo)
                 buttonOptions: {
@@ -394,7 +394,7 @@ var F3_CHART = (function() {
                 enabled: false //Attiva o disattiva il link di HighCharts dalla chart
             },
             exporting: {
-                enabled: false
+                enabled: true
             },
             navigation: { //Modifica lo stile dei bottoni e spesso del solo bottone dell'esportazione (lo sfondo)
                 buttonOptions: {

@@ -4,6 +4,7 @@ define([
     'text!tiled-analysis/js/ghg-overview/config/ghg_overview.json',
     'chosen',
     'highcharts',
+    'highcharts_exporting',
     'F3_CHART',
     'F3_GHG_TABLE',
     'FENIXChartsLibrary',
@@ -53,6 +54,7 @@ define([
             selector_country_list: "fx_country_list",
             selector_from_year_list: "fx_from_year_list",
             selector_to_year_list: "fx_to_year_list",
+            selector_domains: "fs_overview_domains",
             decimal_values: 2,
 
             colors: {
@@ -97,6 +99,7 @@ define([
         this.populateView(this.CONFIG.selector_country_list,url_country, this.CONFIG.default_country, "100%", true, {disable_search_threshold: 10});
         this.populateViewYears(this.CONFIG.selector_from_year_list, 1990, 2012, this.CONFIG.default_from_year, "100%", false, {disable_search_threshold: 10});
         this.populateViewYears(this.CONFIG.selector_to_year_list, 1990, 2012, this.CONFIG.default_to_year, "100%", false, {disable_search_threshold: 10});
+        this.populateDomainDropDown(this.CONFIG.selector_domains,  {disable_search_threshold: 10});
 
         var _this = this;
         $('#fs-overview-tables-button').on('click', function() {
@@ -116,6 +119,8 @@ define([
         $("#fs_label_area").html($.i18n.prop('_geographic_areas'));
         $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
         $("#fs_label_toyear").html($.i18n.prop('_toyear'));
+        $("#fs_label_domains").html($.i18n.prop('_domains'));
+
         $("#fs_label_world").html($.i18n.prop('_world'));
         $("#fs_label_continent").html($.i18n.prop('_continents'));
         $("#fs_label_region").html($.i18n.prop('_regions'));
@@ -147,11 +152,24 @@ define([
         $("#overview_chart_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
 
         $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
-    }
+
+        $("#fs_overview_note").html($.i18n.prop('_ghg_overview_note'));
+        $("#fs_overview_subnote").html($.i18n.prop('_ghg_overview_subnote'));
+    };
 
     GHG_OVERVIEW.prototype.showHideTables = function() {
         $('#fs-overview-tables').toggle();
-    }
+    };
+
+    GHG_OVERVIEW.prototype.populateDomainDropDown = function(id, chosen_parameters) {
+        //var html = '<option value="null">' + $.i18n.prop('_please_select') + '</option>';
+        var html = '<option>' + $.i18n.prop('_agriculture') +'</option>';
+        html += '<option disabled>'+ $.i18n.prop('_land_use') +'</option>';
+
+        // add html
+        $('#' + id).html(html);
+        $('#' + id).chosen(chosen_parameters);
+    };
 
     GHG_OVERVIEW.prototype.populateView = function(id, url, default_code, dropdown_width, multiselection, chosen_parameters) {
         var _this = this;
@@ -241,6 +259,9 @@ define([
     };
 
     GHG_OVERVIEW.prototype.updateView = function() {
+        // hide note panel
+        $('#fs_overview_note_panel').hide();
+
         if (this.CONFIG.selected_areacodes != null) {
             // show panel
             $("#fx_overview_panel").show();
