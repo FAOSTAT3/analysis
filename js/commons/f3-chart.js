@@ -320,7 +320,6 @@ var F3_CHART = (function() {
                 }
                 index++;
                 series.push(s);
-                console.log(index);
             });
 
             /** Create a Y-Axis for each measurement unit */
