@@ -1,5 +1,5 @@
 define([
-    //'jquery',
+    'jquery',
     'text!tiled-analysis/js/ghg-overview/html/ghg-overview-structure.html',
     'text!tiled-analysis/js/ghg-overview/config/ghg_overview.json',
     'chosen',
@@ -9,7 +9,7 @@ define([
     'F3_GHG_TABLE',
     'FENIXChartsLibrary',
     'jshashtable'
-], function (template, resources_json) {
+], function ($, template, resources_json) {
 
     'use strict';
 
