@@ -2,6 +2,7 @@ define([
     'jquery',
     'text!tiled-analysis/js/ghg-overview/html/ghg-overview-structure.html',
     'text!tiled-analysis/js/ghg-overview/config/ghg_overview.json',
+    'i18n!tiled-analysis/js/ghg-overview/nls/translate',
     'chosen',
     'highcharts',
     'highcharts_exporting',
@@ -9,7 +10,7 @@ define([
     'F3_GHG_TABLE',
     'FENIXChartsLibrary',
     'jshashtable'
-], function ($, template, resources_json) {
+], function ($, template, resources_json, i18n) {
 
     'use strict';
 
@@ -34,10 +35,6 @@ define([
             baseurl_data: '/wds/rest/table/json',
             baseurl_countries: '/wds/rest/procedures/countries',
             baseurl_years: '/wds/rest/procedures/years',
-
-            // Structures and Labels
-            //html_structure: 'http://168.202.28.214:8080/analysis/ghg-overview-structure.html',
-            I18N_URL: 'http://168.202.28.214:8080/faostat-gateway/static/faostat/I18N/',
 
             // Default Values of the comboboxes
             // default_country: [49, 60, 138],
@@ -116,45 +113,45 @@ define([
     };
 
     GHG_OVERVIEW.prototype.loadLabels = function() {
-        $("#fs_label_area").html($.i18n.prop('_geographic_areas'));
-        $("#fs_label_fromyear").html($.i18n.prop('_fromyear'));
-        $("#fs_label_toyear").html($.i18n.prop('_toyear'));
-        $("#fs_label_domains").html($.i18n.prop('_domains'));
+        $("#fs_label_area").html(i18n.country);
+        $("#fs_label_fromyear").html(i18n.fromyear);
+        $("#fs_label_toyear").html(i18n.toyear);
+        $("#fs_label_domains").html(i18n.sector);
 
-        $("#fs_label_world").html($.i18n.prop('_world'));
-        $("#fs_label_continent").html($.i18n.prop('_continents'));
-        $("#fs_label_region").html($.i18n.prop('_regions'));
-        $("#fs_label_agriculture_total").html($.i18n.prop('_agriculture_total'));
-        $("#fs_label_country").html($.i18n.prop('_countries'));
-        $("#fs-overview-tables-button").append($.i18n.prop('_show_hide_table_breakdown'));
-        $("#fx_world_total_item").html($.i18n.prop('_agriculture_total'));
+        $("#fs_label_world").html(i18n.world);
+        $("#fs_label_continent").html(i18n.continents);
+        $("#fs_label_region").html(i18n.regions);
+        $("#fs_label_agriculture_total").html(i18n.agriculture_total);
+        $("#fs_label_country").html(i18n.countries);
+        $("#fs-overview-tables-button").append(i18n.show_hide_table_breakdown);
+        $("#fx_world_total_item").html(i18n.agriculture_total);
 
-        $("#overview_chart_ag_total").html($.i18n.prop('_agriculture_total'));
-        $("#overview_chart_ag_total").append(" (" + $.i18n.prop('_country_region') + ")");
-        //$("#overview_chart_ef_mm").html($.i18n.prop('_enteric_fermentation') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_manure_management'));
-        //$("#overview_chart_ef_mm").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        //$("#overview_chart_ag_rc").html($.i18n.prop('_agricultural_soils') + " " + $.i18n.prop('_and') + " " + $.i18n.prop('_rice_cultivation'));
-        //$("#overview_chart_ag_rc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        //$("#overview_chart_bc_bs").html($.i18n.prop('_burning_crops_residues') + " " + $.i18n.prop('_and') + " " +  $.i18n.prop('_burning_savanna'));
-        //$("#overview_chart_bc_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_ag_total").html(i18n.agriculture_total);
+        $("#overview_chart_ag_total").append(" (" + i18n.country_region + ") ");
+        //$("#overview_chart_ef_mm").html(i18n.enteric_fermentation') + " " + i18n.and') + " " + i18n.manure_management);
+        //$("#overview_chart_ef_mm").append(" (" + i18n.sum_of_countries') + ")");
+        //$("#overview_chart_ag_rc").html(i18n.agricultural_soils') + " " + i18n.and') + " " + i18n.rice_cultivation);
+        //$("#overview_chart_ag_rc").append(" (" + i18n.sum_of_countries') + ")");
+        //$("#overview_chart_bc_bs").html(i18n.burning_crops_residues') + " " + i18n.and') + " " +  i18n.burning_savanna);
+        //$("#overview_chart_bc_bs").append(" (" + i18n.sum_of_countries') + ")");
 
-        $("#overview_chart_ef").html($.i18n.prop('_enteric_fermentation'));
-        $("#overview_chart_ef").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_mm").html($.i18n.prop('_manure_management'));
-        $("#overview_chart_mm").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_ag").html($.i18n.prop('_agricultural_soils'));
-        $("#overview_chart_ag").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_rc").html($.i18n.prop('_rice_cultivation'));
-        $("#overview_chart_rc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_bc").html($.i18n.prop('_burning_crops_residues'));
-        $("#overview_chart_bc").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
-        $("#overview_chart_bs").html($.i18n.prop('_burning_savanna'));
-        $("#overview_chart_bs").append(" (" + $.i18n.prop('_sum_of_countries') + ")");
+        $("#overview_chart_ef").html(i18n.enteric_fermentation);
+        $("#overview_chart_ef").append(" (" + i18n.sum_of_countries + ")");
+        $("#overview_chart_mm").html(i18n.manure_management);
+        $("#overview_chart_mm").append(" (" + i18n.sum_of_countries + ")");
+        $("#overview_chart_ag").html(i18n.agricultural_soils);
+        $("#overview_chart_ag").append(" (" + i18n.sum_of_countries + ")");
+        $("#overview_chart_rc").html(i18n.rice_cultivation);
+        $("#overview_chart_rc").append(" (" + i18n.sum_of_countries + ")");
+        $("#overview_chart_bc").html(i18n.burning_crops_residues);
+        $("#overview_chart_bc").append(" (" + i18n.sum_of_countries + ")");
+        $("#overview_chart_bs").html(i18n.burning_savanna);
+        $("#overview_chart_bs").append(" (" + i18n.sum_of_countries + ")");
 
-        $("#fx_ghg_overview_title").html($.i18n.prop('_ghg_overview_title'));
+        $("#fx_ghg_overview_title").html(i18n.ghg_overview_title);
 
-        $("#fs_overview_note").html($.i18n.prop('_ghg_overview_note'));
-        $("#fs_overview_subnote").html($.i18n.prop('_ghg_overview_subnote'));
+        $("#fs_overview_note").html(i18n.ghg_overview_note);
+        $("#fs_overview_subnote").html(i18n.ghg_overview_subnote);
     };
 
     GHG_OVERVIEW.prototype.showHideTables = function() {
@@ -162,9 +159,9 @@ define([
     };
 
     GHG_OVERVIEW.prototype.populateDomainDropDown = function(id, chosen_parameters) {
-        //var html = '<option value="null">' + $.i18n.prop('_please_select') + '</option>';
-        var html = '<option>' + $.i18n.prop('_agriculture') +'</option>';
-        html += '<option disabled>'+ $.i18n.prop('_land_use') +'</option>';
+        //var html = '<option value="null">' + i18n.please_select') + '</option>';
+        var html = '<option>' + i18n.agriculture +'</option>';
+        html += '<option disabled>'+ i18n.land_use +'</option>';
 
         // add html
         $('#' + id).html(html);
@@ -345,17 +342,17 @@ define([
                 var id_table = "fx_continent_table";
                 var config = {
                     placeholder : id_table,
-                    title: $.i18n.prop('_by_continent'),
+                    title: i18n.by_continent,
                     header: {
-                        column_0: $.i18n.prop('_region'),
-                        column_1: $.i18n.prop('_category')
+                        column_0: i18n.region,
+                        column_1: i18n.category,
                     },
                     content: {
                         column_0: ""
                     },
                     total: {
-                        column_0: $.i18n.prop('_total'),
-                        column_1:  $.i18n.prop('_agriculture_total')
+                        column_0: i18n.total,
+                        column_1:  i18n.agriculture_total,
                     },
                     add_first_column: true
                 }
@@ -408,15 +405,15 @@ define([
                     placeholder : id_table,
                     title: "By Region",
                     header: {
-                        column_0: $.i18n.prop('_region'),
-                        column_1: $.i18n.prop('_category')
+                        column_0: i18n.region,
+                        column_1: i18n.category,
                     },
                     content: {
                         column_0: ""
                     },
                     total: {
-                        column_0:$.i18n.prop('_total'),
-                        column_1: $.i18n.prop('_agriculture_total')
+                        column_0:i18n.total,
+                        column_1: i18n.agriculture_total,
                     },
                     add_first_column: true
                 }
@@ -521,17 +518,17 @@ define([
         var id_table = id + "_table"
         var config = {
             placeholder : id_table,
-            title: $.i18n.prop('_by_country'),
+            title: i18n.by_country,
             header: {
-                column_0: $.i18n.prop('_country'),
-                column_1: $.i18n.prop('_category')
+                column_0: i18n.country,
+                column_1: i18n.category,
             },
             content: {
                 column_0: ""
             },
             total: {
-                column_0:$.i18n.prop('_total'),
-                column_1: $.i18n.prop('_agriculture_total')
+                column_0:i18n.total,
+                column_1: i18n.agriculture_total,
             },
             add_first_column: true
         }
@@ -638,7 +635,7 @@ define([
                     }
                 }
                 else {
-                    $('#' + id).html($.i18n.prop('_no_data_to_display'));
+                    $('#' + id).html(i18n.no_data_to_display);
                 }
 
             },
@@ -685,17 +682,17 @@ define([
 
         var config = {
             placeholder : "fx_world_table",
-            title: $.i18n.prop('_world'),
+            title: i18n.world,
             header: {
                 column_0: "",
-                column_1: $.i18n.prop('_continent')
+                column_1: i18n.continent
             },
             content: {
-                column_0: $.i18n.prop('_world')
+                column_0: i18n.world
             },
             total: {
-                column_0: $.i18n.prop('_world'),
-                column_1: $.i18n.prop('_grand_total')
+                column_0: i18n.world,
+                column_1: i18n.grand_total
             },
             add_first_column: false
         }
