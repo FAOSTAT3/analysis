@@ -7,7 +7,7 @@ define({
     'regions': 'Regiones',
     'agriculture_total': 'Agriculture Total',
     'countries': 'Pays',
-    'sector': 'Sector',
+    'sector': 'Secteur',
     'show_hide_table_breakdown': 'Afficher/Masquer la table Ventilation',
     'country_region': 'Pays/R&eacute;gions',
     'enteric_fermentation': 'Fermentation ent&eacute;rique',
