@@ -1,9 +1,6 @@
 [submodule "submodules/fenix-ui-tiles-manager"]
 	path = submodules/fenix-ui-tiles-manager
 	url = https://github.com/FENIX-Platform/fenix-ui-tiles-manager.git
-[submodule "submodules/geobricks_ui_distribution"]
-	path = submodules/geobricks_ui_distribution
-	url = https://github.com/geobricks/geobricks_ui_distribution.git
 [submodule "submodules/faostat-ui-analysis-ghg-qaqc"]
 	path = submodules/faostat-ui-analysis-ghg-qaqc
 	url = https://github.com/FAOSTAT4/faostat-ui-analysis-ghg-qaqc.git
