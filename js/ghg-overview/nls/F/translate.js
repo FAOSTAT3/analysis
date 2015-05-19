@@ -26,9 +26,10 @@ define({
     'category': 'Cat&eacute;gorie',
     'no_data_to_display': 'No data to display',
     'grand_total':'Total',
-    'select_one_or_more_countries': 'Select One or More Countries',
+    'select_one_or_more_countries': 'Sélectionnez un ou plusieurs pays',
     'by_country': 'Par Pays',
     'continent': 'Continent',
     'region': 'R&eacute;gion',
-    'total': 'Total'
+    'total': 'Total',
+    'pie_mu': 'Gg CO2eq'
 });

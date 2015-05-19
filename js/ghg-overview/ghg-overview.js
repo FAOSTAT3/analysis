@@ -177,7 +177,7 @@ define([
                 var response = (typeof response == 'string')? $.parseJSON(response): response;
 
                 var ddID = id + "_dd";
-                var html = '<select ';
+                var html = '<select data-placeholder="'+ i18n.select_one_or_more_countries +'"';
                 html += (multiselection)? 'multiple': '';
                 html += ' id="'+ ddID+'" style="width:' + dropdown_width +'"  class="">';
                 for(var i=0; i < response.length; i++) {

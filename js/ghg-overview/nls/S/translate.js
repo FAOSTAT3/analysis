@@ -30,5 +30,6 @@ define({
     'by_country': 'Por País',
     'continent': 'Continente',
     'region': 'Región',
-    'total': 'Total'
+    'total': 'Total',
+    'pie_mu': 'Gg CO2eq'
 });
