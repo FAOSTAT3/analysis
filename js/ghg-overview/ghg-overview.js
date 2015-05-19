@@ -37,7 +37,6 @@ define([
             baseurl_years: '/wds/rest/procedures/years',
 
             // Default Values of the comboboxes
-            // default_country: [49, 60, 138],
             default_country: [],
 
             //        default_country : [23,44,48,49,56,60,89,95,138,157,166,169],
