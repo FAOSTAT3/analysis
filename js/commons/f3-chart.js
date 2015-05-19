@@ -30,17 +30,19 @@ var F3_CHART = (function() {
             for (var i = 0; i < data; i++)
                 categories.push(data[i][0]);
 
-            var series = [];
-            series[0] = {};
-            series[0].name = obj.title;
-            series[0].type = 'pie';
-            series[0].data = [];
+            var series = [],
+            serie = {};
+            serie.name = obj.serie.name;
+            serie.type = 'pie';
+            serie.data = [];
+            serie.showInLegend = true;
             for (var i = 0; i < data.length; i++) {
                 var tmp = [];
                 tmp[0] = data[i][0];
-                tmp[1] = parseFloat(data[i][1]);
-                series[0].data.push(tmp);
+                tmp[1] = parseFloat(parseFloat(data[i][1]).toFixed(2));
+                serie.data.push(tmp);
             }
+            series.push(serie);
         }
 
         var chart = {
@@ -71,7 +73,6 @@ var F3_CHART = (function() {
                         align: 'right', //Allineamento zoom orizzontale
                         //verticalAlign:'middle' //Allineamento zoom verticale
                         x: -10 //Posizione del pulsante rispetto all'allineamento (valori positivi > destra) e al PLOT
-
                     },
                     theme: {
                         fill: '#FFFFFF', //Colore di background pulsante reset zoom
@@ -92,7 +93,6 @@ var F3_CHART = (function() {
                             }
                         }
                     }
-
                 }
             },
             colors: colors,
@@ -154,7 +154,7 @@ var F3_CHART = (function() {
             },
             //END
             title: {
-                enabled: false,
+                enabled: true,
                 text: null,
                 x: -20 //center
             },
@@ -163,17 +163,9 @@ var F3_CHART = (function() {
                 x: -20
             },
             tooltip: {
-                valueSuffix: 'M',
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                borderWidth: 1,
-                shadow: false
+                shadow: true
             },
-            series: [
-                {
-                    showInLegend: true,
-                    data: series[0].data
-                }
-            ]
+            series: series
         }
 
         var c = new Highcharts.Chart(chart);
@@ -281,13 +273,16 @@ var F3_CHART = (function() {
                     mus.push(vectors[k].mus[0]);
             });
 
+
             var index = 0;
             $.each(vectors, function (k, v) {
 
                 var s = {};
                 s.name = k;
                 s.type = type;
-                s.yAxis = $.inArray(vectors[k].mus[0], mus);
+                s.yAxis = $.inArray(vectors[k].mus[0], mus)
+
+
 
                 // data should be the same length of the years
                 s.data = [];
@@ -332,11 +327,39 @@ var F3_CHART = (function() {
                 if (i > 0)
                     a.opposite = true;
                 a.labels = {};
-                a.labels.style = {};
+                a.labels.style = {
+                    color: '#666666',
+                    fontWeight: '300',
+                    fontSize: 11
+                };
                 a.labels.style.color = colors[i];
+                a.gridLineWidth =  1;
                 yAxis.push(a);
             }
         }
+
+        //    gridLineWidth: 1, // IMPORTANTE - Attiva le linee verticali
+        //    lineWidth: 1,
+        //    //tickWidth: 1,
+        //    lineColor: '#e0e0e0',
+        //    gridLineColor: '#eeeeee',
+        //    labels: {
+        //        style: {
+        //            color: '#666666',
+        //            fontWeight: '300',
+        //            fontSize: 11
+        //        }
+        //    },
+        //    title: {
+        //        enabled: true,
+        //        text: ''
+        //    },
+        //    plotLines: [
+        //        {
+        //            value: 0,
+        //            width: 1
+        //        }
+        //    ]
 
 
 
@@ -519,33 +542,31 @@ var F3_CHART = (function() {
                  zIndex: 2
                  }]*/
             },
-            yAxis: {
-                gridLineWidth: 1, // IMPORTANTE - Attiva le linee verticali
-                lineWidth: 1,
-                //tickWidth: 1,
-                lineColor: '#e0e0e0',
-                gridLineColor: '#eeeeee',
-                labels: {
-                    style: {
-                        color: '#666666',
-                        fontWeight: '300',
-                        fontSize: 11
-                    }
-//                    formatter: function () {
-//                        return this.value / 1000000 + ' B';
-//                    }
-                },
-                title: {
-                    enabled: false,
-                    text: 'null'
-                },
-                plotLines: [
-                    {
-                        value: 0,
-                        width: 1
-                    }
-                ]
-            },
+            yAxis: yAxis,
+            //{
+            //    gridLineWidth: 1, // IMPORTANTE - Attiva le linee verticali
+            //    lineWidth: 1,
+            //    //tickWidth: 1,
+            //    lineColor: '#e0e0e0',
+            //    gridLineColor: '#eeeeee',
+            //    labels: {
+            //        style: {
+            //            color: '#666666',
+            //            fontWeight: '300',
+            //            fontSize: 11
+            //        }
+            //    },
+            //    title: {
+            //        enabled: true,
+            //        text: ''
+            //    },
+            //    plotLines: [
+            //        {
+            //            value: 0,
+            //            width: 1
+            //        }
+            //    ]
+            //},
             tooltip: {
                 backgroundColor: 'rgba(255, 255, 255, 0.95)',
                 borderWidth: 1,

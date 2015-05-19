@@ -17,7 +17,7 @@ define({
     'rice_cultivation': 'Cultivo del arroz',
     'burning_crops_residues': 'Quemado de residuos agrícolas',
     'burning_savanna': 'Quemado de sabana',
-    'ghg_overview_title': 'Panorama de las emisiones de la agricultura',
+    'ghg_overview_title': 'Panorama de las emisiones',
     'ghg_overview_note': 'Seleccione el/los país(es) y los otros detalles correspondientes arriba. La herramienta mostrará una serie de',
     'ghg_overview_subnote': 'Para obtener más información, una guía del usuario está disponible aquí.',
     'agriculture': 'Agricultura',

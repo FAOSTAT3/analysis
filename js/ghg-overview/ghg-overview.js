@@ -56,13 +56,12 @@ define([
 
             colors: {
                 itemcode: {
-                    5058: 'red',
-                    5059: 'maroon',
-                    1709: 'blue',
-                    5060: 'orange',
-                    5066: 'brown',
-                    5067: 'green'
-
+                    5058: '#9B2335',
+                    5059: '#E15D44',
+                    1709: '#5B5EA6',
+                    5060: '#EFC050',
+                    5066: '#DD4124',
+                    5067: '#C3447A'
                 }
             },
 
@@ -457,42 +456,42 @@ define([
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5058'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_0", json_total.sql, 'timeserie', ['red'])
+        this.createChart("fx_chart_0", json_total.sql, 'timeserie', ['#9B2335'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5059'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_1", json_total.sql, 'timeserie', ['maroon'])
+        this.createChart("fx_chart_1", json_total.sql, 'timeserie', ['#E15D44'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'1709'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_2", json_total.sql, 'timeserie', ['blue'])
+        this.createChart("fx_chart_2", json_total.sql, 'timeserie', ['#5B5EA6'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5060'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_3", json_total.sql, 'timeserie', ['orange'])
+        this.createChart("fx_chart_3", json_total.sql, 'timeserie', ['#EFC050'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5066'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_4", json_total.sql, 'timeserie', ['brown'])
+        this.createChart("fx_chart_4", json_total.sql, 'timeserie', ['#DD4124'])
 
         var json_total = json.byitem_chart
         var total_obj = obj;
         total_obj.areacode = areacodes
         total_obj.itemcode = "'5067'"
         json_total = $.parseJSON(this.replaceValues(json_total, total_obj))
-        this.createChart("fx_chart_5", json_total.sql, 'timeserie', ['green'])
+        this.createChart("fx_chart_5", json_total.sql, 'timeserie', ['#C3447A'])
 
     }
 
@@ -623,6 +622,8 @@ define([
 
                     switch (type) {
                         case "pie" :
+                            chartObj.serie = {};
+                            chartObj.serie.name = i18n.pie_mu;
                             chartObj.colors = colors || _this.getColorsPie(response) || null;
                             F3_CHART.createPie(chartObj, response);
                             break;
