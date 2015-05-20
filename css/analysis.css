@@ -462,6 +462,11 @@ body {
   .instructions i {
     margin-right: 3px; }
 
+.instructions-here {
+  font: normal normal 400 16px/normal "Roboto Condensed", sans-serif !important;
+  text-decoration: underline;
+  cursor: pointer; }
+
 .user-manual-link {
   margin-top: 0;
   position: relative;
