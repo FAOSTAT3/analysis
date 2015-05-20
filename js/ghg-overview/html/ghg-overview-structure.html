@@ -1,33 +1,45 @@
 <div class='container-fluid'>
     <div class="row">
-        <div class="col-xs-12">
+        <!--<div class="col-xs-12">-->
+            <!--<h1 id="fx_ghg_overview_title"><span class="instructions pull-right" id="user_guide_top">-->
+                    <!--<i class="fa fa-file-pdf-o"></i>User instruction guide-->
+            <!--</span></h1>-->
+        <!--</div>-->
+
+        <div class="col-xs-8">
             <h1 id="fx_ghg_overview_title"></h1>
         </div>
-    </div>
 
+        <div class="col-xs-4">
+            <h3 class='instructions pull-right' id='user_guide_top'>
+                <i class="fa fa-file-pdf-o"></i>User instruction guide
+            </h3>
+        </div>
+    </div>
+    <!--<br>-->
     <div class="row">
         <div class="col-xs-5">
-            <div class="fs-overview-title" id="fs_label_area"></div>
+            <h4 id="fs_label_area"></h4>
             <div id="fx_country_list"></div>
         </div>
         <div class="col-xs-2" >
-            <div class="fs-overview-title" id="fs_label_fromyear"></div>
+            <h4 id="fs_label_fromyear"></h4>
             <div id="fx_from_year_list"></div>
         </div>
         <div class="col-xs-2">
-            <div class="fs-overview-title" id="fs_label_toyear"></div>
+            <h4 id="fs_label_toyear"></h4>
             <div id="fx_to_year_list"></div>
         </div>
         <div class="col-xs-3">
-            <div class="fs-overview-title" id="fs_label_domains"></div>
+            <h4 id="fs_label_domains"></h4>
             <select id="fs_overview_domains" style="width:100%;"></select>
         </div>
     </div>
-
-    <div class="row" id="fs_overview_note_panel" style="padding-top:40px;">
+    <hr>
+    <div class="row" id="fs_overview_note_panel">
         <div class="col-xs-12">
-            <h4 id="fs_overview_note"></h4>
-            <h4 id="fs_overview_subnote"></h4>
+            <h3 class="text-center" id="fs_overview_note"></h3>
+            <h3 id="fs_overview_subnote"></h3>
         </div>
     </div>
 </div>

@@ -119,11 +119,6 @@
     color: #777777;
 }
 
-.chosen-single {
-    height: 34px !important;
-    line-height: 34px !important;
-}
-
 .ghg-tab {
     border-bottom: 1px solid #eee;
     background-color: transparent !important;
@@ -400,12 +395,6 @@ body{
 }
 
 
-
-.chosen-container-single .chosen-single{
-  background: transparent !important;
-  color: #666666 !important;
-}
-
 /* GHG fix 15 april 2015 */
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
   border-color: transparent;
@@ -635,6 +624,20 @@ body{
   height: 350px;
 }
 
+
+.instructions {
+  text-decoration: underline;
+  cursor: pointer;
+  i {
+    margin-right: 3px;
+  }
+}
+
+.user-manual-link {
+  margin-top: 0;
+  position: relative;
+  top: 18px;
+}
 
 
 

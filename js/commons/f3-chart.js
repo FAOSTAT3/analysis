@@ -307,7 +307,7 @@ var F3_CHART = (function() {
                             enabled: true, // Attiva o disattiva il marker quando si passa sopra la chart
                             symbol: 'circle',
                             fillColor: '#FFFFFF',
-                            lineColor: '#3ca7da',
+                            //lineColor: '#3ca7da',
                             radius: 3,
                             lineWidth: 2
                         }

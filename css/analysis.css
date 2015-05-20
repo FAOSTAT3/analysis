@@ -35,7 +35,7 @@
         position: absolute;
         width: 100%;
         height: 2px;
-        background-color: #399bcc;
+        background-color: #399BCC;
         left: 0;
         bottom: -2px;
         pointer-events: none;
@@ -43,7 +43,7 @@
         -webkit-transform: scaleX(0);
         transform: scaleX(0); }
     .fx-tabs .nav-tabs > li.active > a {
-      color: #399bcc !important;
+      color: #399BCC !important;
       border-top: none;
       border-right: none;
       border-bottom: none;
@@ -135,10 +135,6 @@
 .ghg_editor_title {
   padding: 4px;
   color: #777777; }
-
-.chosen-single {
-  height: 34px !important;
-  line-height: 34px !important; }
 
 .ghg-tab {
   border-bottom: 1px solid #eee;
@@ -303,10 +299,6 @@ body {
 #gas__charts_content .innertbody tr:nth-child(n+3) td:nth-child(3) {
   display: none; }
 
-.chosen-container-single .chosen-single {
-  background: transparent !important;
-  color: #666666 !important; }
-
 /* GHG fix 15 april 2015 */
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
   border-color: transparent; }
@@ -463,3 +455,16 @@ body {
 
 .fs-overview-chart-total {
   height: 350px; }
+
+.instructions {
+  text-decoration: underline;
+  cursor: pointer; }
+  .instructions i {
+    margin-right: 3px; }
+
+.user-manual-link {
+  margin-top: 0;
+  position: relative;
+  top: 18px; }
+
+/*# sourceMappingURL=analysis.css.map */

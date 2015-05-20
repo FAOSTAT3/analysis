@@ -146,10 +146,10 @@ define([
         $("#overview_chart_bs").html(i18n.burning_savanna);
         $("#overview_chart_bs").append(" (" + i18n.sum_of_countries + ")");
 
-        $("#fx_ghg_overview_title").html(i18n.ghg_overview_title);
+        $("#fx_ghg_overview_title").prepend(i18n.ghg_overview_title);
 
         $("#fs_overview_note").html(i18n.ghg_overview_note);
-        $("#fs_overview_subnote").html(i18n.ghg_overview_subnote);
+       // $("#fs_overview_subnote").html(i18n.ghg_overview_subnote);
     };
 
     GHG_OVERVIEW.prototype.showHideTables = function() {

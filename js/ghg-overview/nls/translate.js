@@ -19,7 +19,7 @@ define({
         'burning_crops_residues': 'Burning  Crops Residues',
         'burning_savanna': 'Burning  Savanna',
         'ghg_overview_title': 'Regional overview of the emissions',
-        'ghg_overview_note': 'Start by selecting the country(ies) and other relevant details above. The tool will return a series of results in graphical and tabular format. When selecting two or more countries, the information will be presented as a sum.',
+        'ghg_overview_note': 'Start by selecting the country(ies) and other relevant details above. <br> The tool will return a series of results in graphical and tabular format. <br>When selecting two or more countries, the information will be presented as a sum.<br>For more information, a user instruction guide is available here.',
         'ghg_overview_subnote': 'For more information, a user instruction guide is available here.',
         'agriculture': 'Agriculture',
         'land_use': 'Land Use',
